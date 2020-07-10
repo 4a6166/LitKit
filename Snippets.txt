@@ -1,0 +1,107 @@
+#region constructor and readonly allowing access to ThisAddIn
+        public RENAMEtoCLASSname(Application _app)
+        {
+            this._app = _app;
+        }
+
+        // ADD: using Application = Microsoft.Office.Interop.Word.Application; 
+        private readonly Microsoft.Office.Interop.Word.Application _app;
+#endregion
+
+
+/// <summary>
+/// Transforms the custom XML in a Word doc with a namespace NAMESPACE into an XDocument that can be queried
+/// </summary>
+/// <returns>XDocument of the custom XML with namespace NAMESPACE</returns>
+private XDocument xDoc()
+{
+    var parts = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace);
+    if (parts.Count != 1) { throw new Exception("More or less than one 'NAMESPACE' XML parts returned"); }
+    string Part1ToXML = parts[1].XML;
+
+    // Transforms the CustomXML doc to an XDoc so it can be manipulated using XML.Linq
+    XDocument xDoc = XDocument.Parse(Part1ToXML);
+    return xDoc;
+}
+
+
+
+#region Needed to add a control pane
+        public void AddExhibitControl(object window)
+        {
+            
+            ExhibitCtrl = new ExhibitCtrl();
+            ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitCtrl, "LitKit Exhibits", window);
+        }
+        public ExhibitCtrl ExhibitCtrl;
+        public Microsoft.Office.Tools.CustomTaskPane ExhibitTaskPane;
+        // Need to call Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
+        // Need to call Globals.ThisAddIn.ExhibitCtrl.LoadExhibits();
+        #endregion
+
+public void LoadListBox()
+{
+
+    IExhibitRepository repository = ExhibitRepositoryFactory.GetRepository("XML", Globals.ThisAddIn.Application);
+
+    IEnumerable<Exhibit> exhibits = repository.GetExhibits();
+    listBox1.DataSource = exhibits;
+}
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var ex = (Exhibit)listBox1.SelectedItem;
+            var cc = Globals.ThisAddIn.Application.Selection.ContentControls.Add(Microsoft.Office.Interop.Word.WdContentControlType.wdContentControlRichText);
+
+            
+
+            cc.Range.Text = "Exhibit 1, (PINCITE) " +ex.Description;
+            cc.LockContents = false;
+
+            // Adds an additional cc covering PINCITE in orde to allow user to enter a pincite that is not kept with the exhibit information elsewhere
+            Globals.ThisAddIn.Application.Selection.SetRange(cc.Range.Start + 12,cc.Range.Start+20);
+            
+            var pincite = Globals.ThisAddIn.Application.Selection.ContentControls.Add(Microsoft.Office.Interop.Word.WdContentControlType.wdContentControlRichText);
+            pincite.SetPlaceholderText(null);
+            pincite.Appearance = Microsoft.Office.Interop.Word.WdContentControlAppearance.wdContentControlBoundingBox;
+
+            cc.LockContents = true;
+        }
+
+
+public void LoadDataGrid()
+{
+
+    IExhibitRepository repository = ExhibitRepositoryFactory.GetRepository("XML", Globals.ThisAddIn.Application);
+
+    IEnumerable<Exhibit> exhibits = repository.GetExhibits();
+
+    dataGridView1.DataSource = exhibits;
+    var iDColumn = dataGridView1.Columns[0];
+    var descColumn = dataGridView1.Columns[1];
+    iDColumn.Visible = false;
+    descColumn.Width = 200;
+    dataGridView1.ReadOnly = true;
+    dataGridView1.RowHeadersVisible = false;
+}
+
+****************Include in each form function***********
+********************************************************
+
+Globals.ThisAddIn.ReturnFocus();
+
+********************************************************
+********************************************************
+
+private void NewControlButton_Click(object sender, EventArgs e)
+        {
+            ctrlForm exhibitCtrl = new ctrlForm(); //replace ctrlForm with whatever UserControl to be loaded
+			
+            Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CTPanes[_app.ActiveWindow];
+            ActivePane.Control.Controls.Clear();
+			
+            ActivePane.Control.Controls.Add(exhibitCtrl);
+
+
+            ActivePane.Visible = true;
+        }
