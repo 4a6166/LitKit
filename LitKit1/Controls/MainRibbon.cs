@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using LitKit1.Controls;
@@ -14,20 +15,21 @@ using Microsoft.Office.Tools.Ribbon;
 using Services;  //Remember to add the reference so this using statement can be picked up
 using Services.Exhibit;
 using Services.RedactionTool;
+using Ribbon = Ribbon_0._0._1;
 
 
 namespace LitKit1
 {
     public partial class MainRibbon
     {
-        public Microsoft.Office.Interop.Word.Application _app => Globals.ThisAddIn.Application; //This is necessary for passing ThisAddIn.Application to the Services project
+        public Microsoft.Office.Interop.Word.Application _app; //This is necessary for passing ThisAddIn.Application to the Services project
         public CustomXMLParts XMLParts => Globals.ThisAddIn.Application.ActiveDocument.CustomXMLParts;
 
         // Set designer properties of tab: ContorlID Type: Custom, Position: AfterOfficeId TabHome
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             /// may have to export to XML to add an image to the shrunken button groups. More here: https://stackoverflow.com/questions/45805664/how-to-set-icon-for-resized-buttom-group-in-excel-ribbon and https://docs.microsoft.com/en-us/windows/win32/windowsribbon/windowsribbon-templates
-
+            _app = Globals.ThisAddIn.Application;
         }
 
         #region Insert Symbols Button Click
@@ -206,30 +208,63 @@ namespace LitKit1
         private void markRedact_Click(object sender, RibbonControlEventArgs e)
         {
             /// consider RelationshipsHideTable ImageMSO
-            throw new NotImplementedException();
+            _app.UndoRecord.StartCustomRecord("Mark Redaction");
+            Ribbon.Redactions.MarkRedaction(_app);
+            _app.UndoRecord.EndCustomRecord();
         }
 
         private void unmarkRedact_Click(object sender, RibbonControlEventArgs e)
         {
-            throw new NotImplementedException();
+            _app.UndoRecord.StartCustomRecord("Mark Redaction");
+            Ribbon.Redactions.UnmarkRedactions(_app);
+            _app.UndoRecord.EndCustomRecord();
         }
 
-        private void button5_Click(object sender, RibbonControlEventArgs e)
+        private void btnClearAllRedactions_Click(object sender, RibbonControlEventArgs e)
         {
-            throw new NotImplementedException();
+            Selection selection = null;
+            ContentControls contentControls = null;
+            ContentControl contentControl = null;
+
+            for (int k = 1; k <= 10; k++) // loops k times just to ensure it ran on all content controls
+            {
+                contentControls = Globals.ThisAddIn.Application.ActiveDocument.ContentControls;
+                if (contentControls.Count > 0)
+                {
+                    for (int i = 1; i <= contentControls.Count; i++)
+                    {
+                        contentControl = contentControls[i];
+                        if (contentControl.Title == "Redaction")
+                        {
+                            contentControl.Range.Font.ColorIndex = WdColorIndex.wdAuto;
+                            contentControl.Range.HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                            contentControl.Delete(false);
+                        }
+                        if (contentControl != null) Marshal.ReleaseComObject(contentControl);
+                    }
+                }
+            }
+
+            Ribbon.Redactions.UnmarkRedactionsFooter(_app);
+            Ribbon.Redactions.UnmakrRedactionsEndNote(_app);
+            Ribbon.Redactions.UnmarkRedactionImageFloatAll(_app);
 
         }
 
         private void redactedPDF_Click(object sender, RibbonControlEventArgs e)
         {
-            throw new NotImplementedException();
+            Ribbon.Redactions.SaveRedactedPDF(_app);
+            Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
 
         }
 
         private void unredactedPDF_Click(object sender, RibbonControlEventArgs e)
         {
+            ///////// Services.RedactionTool.Redactions lead-in
             frmPopup frm = new frmPopup();
+            frm.ControlBox = false;
             ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker();
+
             Redactions redactions = new Redactions(_app);
 
             frm.Controls.Add(confidentialMarker);
@@ -237,8 +272,16 @@ namespace LitKit1
 
             frm.ShowDialog();
 
-            redactions.SaveUnRedactedPDF();
+            if (Redactions.cancel)
+            {
 
+            }
+            else
+            {
+                redactions.SaveUnRedactedPDF();
+
+                Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
+            }
 
         }
 

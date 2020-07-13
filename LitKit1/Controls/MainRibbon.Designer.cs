@@ -35,11 +35,6 @@
         private void InitializeComponent()
         {
             Microsoft.Office.Tools.Ribbon.RibbonGroup grpShortcuts;
-            this.MainTab = this.Factory.CreateRibbonTab();
-            this.grpExhibitTool = this.Factory.CreateRibbonGroup();
-            this.grpAnsRes = this.Factory.CreateRibbonGroup();
-            this.RedactionsGroup = this.Factory.CreateRibbonGroup();
-            this.group1 = this.Factory.CreateRibbonGroup();
             this.ClipboardButton = this.Factory.CreateRibbonButton();
             this.btnKeepWithNext = this.Factory.CreateRibbonButton();
             this.CustomerSupport = this.Factory.CreateRibbonButton();
@@ -55,19 +50,24 @@
             this.btnNBHyphen = this.Factory.CreateRibbonButton();
             this.btnNDash = this.Factory.CreateRibbonButton();
             this.btnMDash = this.Factory.CreateRibbonButton();
+            this.MainTab = this.Factory.CreateRibbonTab();
+            this.grpExhibitTool = this.Factory.CreateRibbonGroup();
             this.ExhibitTestButton = this.Factory.CreateRibbonButton();
             this.btnPinCite = this.Factory.CreateRibbonButton();
             this.btnRemovePinCite = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
+            this.grpAnsRes = this.Factory.CreateRibbonGroup();
             this.splitbtnResposeTool = this.Factory.CreateRibbonSplitButton();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button4 = this.Factory.CreateRibbonButton();
+            this.RedactionsGroup = this.Factory.CreateRibbonGroup();
             this.markRedact = this.Factory.CreateRibbonButton();
             this.unmarkRedact = this.Factory.CreateRibbonButton();
-            this.button5 = this.Factory.CreateRibbonButton();
+            this.btnClearAllRedactions = this.Factory.CreateRibbonButton();
             this.menu2 = this.Factory.CreateRibbonMenu();
             this.redactedPDF = this.Factory.CreateRibbonButton();
             this.unredactedPDF = this.Factory.CreateRibbonButton();
+            this.group1 = this.Factory.CreateRibbonGroup();
             this.ExhibitChangeControl = this.Factory.CreateRibbonButton();
             grpShortcuts = this.Factory.CreateRibbonGroup();
             grpShortcuts.SuspendLayout();
@@ -87,47 +87,6 @@
             grpShortcuts.Items.Add(this.menu1);
             grpShortcuts.Label = "Shortcuts";
             grpShortcuts.Name = "grpShortcuts";
-            // 
-            // MainTab
-            // 
-            this.MainTab.Groups.Add(grpShortcuts);
-            this.MainTab.Groups.Add(this.grpExhibitTool);
-            this.MainTab.Groups.Add(this.grpAnsRes);
-            this.MainTab.Groups.Add(this.RedactionsGroup);
-            this.MainTab.Groups.Add(this.group1);
-            this.MainTab.Label = "LitKit";
-            this.MainTab.Name = "MainTab";
-            this.MainTab.Position = this.Factory.RibbonPosition.AfterOfficeId("TabHome");
-            // 
-            // grpExhibitTool
-            // 
-            this.grpExhibitTool.Items.Add(this.ExhibitTestButton);
-            this.grpExhibitTool.Items.Add(this.btnPinCite);
-            this.grpExhibitTool.Items.Add(this.btnRemovePinCite);
-            this.grpExhibitTool.Items.Add(this.button2);
-            this.grpExhibitTool.Label = "Exhibits";
-            this.grpExhibitTool.Name = "grpExhibitTool";
-            // 
-            // grpAnsRes
-            // 
-            this.grpAnsRes.Items.Add(this.splitbtnResposeTool);
-            this.grpAnsRes.Label = "Responses";
-            this.grpAnsRes.Name = "grpAnsRes";
-            // 
-            // RedactionsGroup
-            // 
-            this.RedactionsGroup.Items.Add(this.markRedact);
-            this.RedactionsGroup.Items.Add(this.unmarkRedact);
-            this.RedactionsGroup.Items.Add(this.button5);
-            this.RedactionsGroup.Items.Add(this.menu2);
-            this.RedactionsGroup.Label = "Redactions";
-            this.RedactionsGroup.Name = "RedactionsGroup";
-            // 
-            // group1
-            // 
-            this.group1.Items.Add(this.ExhibitChangeControl);
-            this.group1.Label = "Test Buttons";
-            this.group1.Name = "group1";
             // 
             // ClipboardButton
             // 
@@ -259,6 +218,26 @@
             this.btnMDash.SuperTip = "Inserts an M-Dash: —";
             this.btnMDash.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.insertMDash_Click);
             // 
+            // MainTab
+            // 
+            this.MainTab.Groups.Add(grpShortcuts);
+            this.MainTab.Groups.Add(this.grpExhibitTool);
+            this.MainTab.Groups.Add(this.grpAnsRes);
+            this.MainTab.Groups.Add(this.RedactionsGroup);
+            this.MainTab.Groups.Add(this.group1);
+            this.MainTab.Label = "LitKit";
+            this.MainTab.Name = "MainTab";
+            this.MainTab.Position = this.Factory.RibbonPosition.AfterOfficeId("TabHome");
+            // 
+            // grpExhibitTool
+            // 
+            this.grpExhibitTool.Items.Add(this.ExhibitTestButton);
+            this.grpExhibitTool.Items.Add(this.btnPinCite);
+            this.grpExhibitTool.Items.Add(this.btnRemovePinCite);
+            this.grpExhibitTool.Items.Add(this.button2);
+            this.grpExhibitTool.Label = "Exhibits";
+            this.grpExhibitTool.Name = "grpExhibitTool";
+            // 
             // ExhibitTestButton
             // 
             this.ExhibitTestButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -297,6 +276,12 @@
     " table will not be updated when Exhibits are moved, edited, or deleted.";
             this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button2_Click);
             // 
+            // grpAnsRes
+            // 
+            this.grpAnsRes.Items.Add(this.splitbtnResposeTool);
+            this.grpAnsRes.Label = "Responses";
+            this.grpAnsRes.Name = "grpAnsRes";
+            // 
             // splitbtnResposeTool
             // 
             this.splitbtnResposeTool.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -324,6 +309,15 @@
             this.button4.ShowImage = true;
             this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
             // 
+            // RedactionsGroup
+            // 
+            this.RedactionsGroup.Items.Add(this.markRedact);
+            this.RedactionsGroup.Items.Add(this.unmarkRedact);
+            this.RedactionsGroup.Items.Add(this.btnClearAllRedactions);
+            this.RedactionsGroup.Items.Add(this.menu2);
+            this.RedactionsGroup.Label = "Redactions";
+            this.RedactionsGroup.Name = "RedactionsGroup";
+            // 
             // markRedact
             // 
             this.markRedact.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -341,13 +335,13 @@
             this.unmarkRedact.ShowImage = true;
             this.unmarkRedact.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.unmarkRedact_Click);
             // 
-            // button5
+            // btnClearAllRedactions
             // 
-            this.button5.Label = "Clear All Redactions";
-            this.button5.Name = "button5";
-            this.button5.OfficeImageId = "ClearFormats";
-            this.button5.ShowImage = true;
-            this.button5.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button5_Click);
+            this.btnClearAllRedactions.Label = "Clear All Redactions";
+            this.btnClearAllRedactions.Name = "btnClearAllRedactions";
+            this.btnClearAllRedactions.OfficeImageId = "ClearFormats";
+            this.btnClearAllRedactions.ShowImage = true;
+            this.btnClearAllRedactions.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnClearAllRedactions_Click);
             // 
             // menu2
             // 
@@ -376,6 +370,12 @@
             this.unredactedPDF.OfficeImageId = "Grammar";
             this.unredactedPDF.ShowImage = true;
             this.unredactedPDF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.unredactedPDF_Click);
+            // 
+            // group1
+            // 
+            this.group1.Items.Add(this.ExhibitChangeControl);
+            this.group1.Label = "Test Buttons";
+            this.group1.Name = "group1";
             // 
             // ExhibitChangeControl
             // 
@@ -437,7 +437,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup RedactionsGroup;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton markRedact;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton unmarkRedact;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button5;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnClearAllRedactions;
         internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu2;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton redactedPDF;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton unredactedPDF;

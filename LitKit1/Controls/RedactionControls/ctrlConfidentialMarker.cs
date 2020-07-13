@@ -78,6 +78,8 @@ namespace LitKit1.Controls.RedactionControls
 
         private void OtherLabel_Click(object sender, EventArgs e)
         {
+            ConfidentialityLabel_other = OtherLabel_txt.Text;
+
             Redactions.ConfidentialityLabel = ConfidentialityLabel_other;
             this.FindForm().Close();
         }
@@ -96,6 +98,7 @@ namespace LitKit1.Controls.RedactionControls
         private void Cancel_Click(object sender, EventArgs e)
         {
             Redactions.ConfidentialityLabel = null;
+            Redactions.cancel = true;
             this.FindForm().Close();
         }
 
