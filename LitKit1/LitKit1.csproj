@@ -156,11 +156,23 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Controls\AnsResControls\ctrlAnsResCustomize.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AnsResControls\ctrlAnsResCustomize.Designer.cs">
+      <DependentUpon>ctrlAnsResCustomize.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AnsResControls\ctrlAnsResMain.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\AnsResControls\ctrlAnsResMain.Designer.cs">
       <DependentUpon>ctrlAnsResMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AnsResControls\ctrlAnsResView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AnsResControls\ctrlAnsResView.Designer.cs">
+      <DependentUpon>ctrlAnsResView.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.cs">
       <SubType>UserControl</SubType>
@@ -231,8 +243,14 @@
     <Compile Include="Controls\MainRibbon.Designer.cs">
       <DependentUpon>MainRibbon.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResCustomize.resx">
+      <DependentUpon>ctrlAnsResCustomize.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResMain.resx">
       <DependentUpon>ctrlAnsResMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResView.resx">
+      <DependentUpon>ctrlAnsResView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitFormat.resx">
       <DependentUpon>ctrlExhibitFormat.cs</DependentUpon>

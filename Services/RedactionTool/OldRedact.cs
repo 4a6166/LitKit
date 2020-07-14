@@ -122,7 +122,6 @@ namespace Ribbon_0._0._1
             {
                 var redaction = _app.Selection.ShapeRange;
 
-                var type = MsoAutoShapeType.msoShapeRectangle;
                 var left = redaction[1].Left;
                 var top = redaction[1].Top;
                 var width = redaction[1].Width;
@@ -195,8 +194,6 @@ namespace Ribbon_0._0._1
 
             if (_app.Selection.ShapeRange.Count > 0)
             {
-                var toastTitle = "";
-                var toastSub = "";
 
                 for (int shape = 1; shape <= _app.Selection.ShapeRange.Count; shape++)
                 {
@@ -214,13 +211,9 @@ namespace Ribbon_0._0._1
                         redaction.PictureFormat.ColorType = MsoPictureColorType.msoPictureGrayscale;
                         redaction.PictureFormat.Brightness = 0.23f;
 
-                        toastTitle = "Selection marked for Redaction";
-                        toastSub = "Note: Charts, Diagrams, and SmartArt cannot be marked for redaction.";
                     }
                     else
                     {
-                        toastTitle = "Selection Error";
-                        toastSub = "Note: Charts, Diagrams, and SmartArt cannot be marked for redaction.";
                     }
 
                 }
@@ -408,7 +401,6 @@ namespace Ribbon_0._0._1
                             header.TextFrame.TextRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
                         }
 
-                        Word.Selection selection = null;
                         Word.ContentControls contentControls = null;
                         Word.ContentControl contentControl = null;
 

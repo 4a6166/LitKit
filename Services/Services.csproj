@@ -93,9 +93,15 @@
     <Compile Include="RedactionTool\OldRedact.cs" />
     <Compile Include="RedactionTool\RedactionText.cs" />
     <Compile Include="RedactionTool\Redactions.cs" />
+    <Compile Include="RibbonButtons\BlockQuotes.cs" />
+    <Compile Include="RibbonButtons\InsertNBS.cs" />
+    <Compile Include="RibbonButtons\LatinExpressions.cs" />
+    <Compile Include="RibbonButtons\OxfordComma.cs" />
+    <Compile Include="RibbonButtons\SmartQuotesAndApostrophes.cs" />
+    <Compile Include="RibbonButtons\SpaceBetweenSentences.cs" />
     <Compile Include="SaveFile.cs" />
     <Compile Include="BaseService.cs" />
-    <Compile Include="Transcript.cs" />
+    <Compile Include="RibbonButtons\Transcript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

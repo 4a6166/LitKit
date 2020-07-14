@@ -48,11 +48,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(12, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(250, 13);
+            this.label1.Size = new System.Drawing.Size(232, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Paste the text from the Transcript you wish to insert.";
+            this.label1.Text = "Insert Transcript Text to Paste As In-Text Quote";
             // 
             // btnInsert
             // 
@@ -95,8 +95,8 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox txtTranscriptText;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnCancel;
+        public System.Windows.Forms.Label label1;
     }
 }

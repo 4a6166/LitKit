@@ -82,7 +82,6 @@ namespace Services.RedactionTool
             {
                 var doc = CloneDocument(_app.ActiveDocument);
                 {
-                    Selection selection = null;
                     ContentControls contentControls = null;
                     Word.ContentControl contentControl = null;
                     

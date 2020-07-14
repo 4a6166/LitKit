@@ -16,7 +16,8 @@ using Services;  //Remember to add the reference so this using statement can be 
 using Services.Exhibit;
 using Services.RedactionTool;
 using Ribbon = Ribbon_0._0._1;
-
+using Services.RibbonButtons;
+using LitKit1.Controls.AnsResControls;
 
 namespace LitKit1
 {
@@ -30,6 +31,7 @@ namespace LitKit1
         {
             /// may have to export to XML to add an image to the shrunken button groups. More here: https://stackoverflow.com/questions/45805664/how-to-set-icon-for-resized-buttom-group-in-excel-ribbon and https://docs.microsoft.com/en-us/windows/win32/windowsribbon/windowsribbon-templates
             _app = Globals.ThisAddIn.Application;
+
         }
 
         #region Insert Symbols Button Click
@@ -144,7 +146,17 @@ namespace LitKit1
 
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
-            MessageBox.Show("Functionality Coming Soon");
+            ctrlAnsResView AnsResCtrl = new ctrlAnsResView();
+            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
+            ActivePane.Control.Controls.Clear();
+            //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
+
+            ActivePane.Control.Controls.Add(AnsResCtrl);
+            //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
+            AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+            
+            ActivePane.Visible = true;
+            //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
         }
 
         private void btnPinCite_Click(object sender, RibbonControlEventArgs e)
@@ -189,19 +201,13 @@ namespace LitKit1
         }
 
 
-       
-
-
-
-        private void button3_Click(object sender, RibbonControlEventArgs e)
-        {
-            throw new NotImplementedException();
-
-        }
+      
 
         private void button4_Click(object sender, RibbonControlEventArgs e)
         {
-            throw new NotImplementedException();
+            ctrlAnsResView view = new ctrlAnsResView();
+            EventArgs eventArgs = new EventArgs();
+            view.button1_Click(sender, eventArgs);
 
         }
 
@@ -222,7 +228,6 @@ namespace LitKit1
 
         private void btnClearAllRedactions_Click(object sender, RibbonControlEventArgs e)
         {
-            Selection selection = null;
             ContentControls contentControls = null;
             ContentControl contentControl = null;
 
@@ -288,13 +293,71 @@ namespace LitKit1
         private void btnBlockTranscript_Click(object sender, RibbonControlEventArgs e)
         {
             frmTranscript form = new frmTranscript(InLineOrBlock.Block);
+            form.Text = "Insert Block Quote";
+            form.label1.Text = "Insert Transcript Text to Paste as Block Quote";
             form.Show();
         }
 
         private void btnInLineTranscript_Click(object sender, RibbonControlEventArgs e)
         {
             frmTranscript form = new frmTranscript(InLineOrBlock.InLine);
+            form.Text = "Insert In-Text Quote";
+            form.label1.Text = "Insert Transcript Text to Paste As In-Text Quote";
             form.Show();
+        }
+
+        private void btnShowHide_Click_1(object sender, RibbonControlEventArgs e)
+        {
+            if (_app.ActiveWindow.View.ShowAll)
+            {
+                btnShowHide.Checked = false;
+                _app.ActiveWindow.View.ShowAll = false;
+            }
+            else
+            {
+                btnShowHide.Checked = true;
+                _app.ActiveWindow.View.ShowAll = true;
+            }
+        }
+
+        private void btnLatin_Click(object sender, RibbonControlEventArgs e)
+        {
+            LatinExpressions.Italicize(_app);
+        }
+
+        private void btnInsertNBS_Click(object sender, RibbonControlEventArgs e)
+        {
+            InsertNBS.Insert(_app);
+        }
+
+        private void btnSmrtQuotes_Click(object sender, RibbonControlEventArgs e)
+        {
+            SmartQuotesAndApostrophes.SetSmartQuotes(_app);
+        }
+
+        private void btnDoubleSpace_Click(object sender, RibbonControlEventArgs e)
+        {
+            SpaceBetweenSentences.AddSpace(_app);
+        }
+
+        private void btnSingleSpace_Click(object sender, RibbonControlEventArgs e)
+        {
+            SpaceBetweenSentences.RemoveSpace(_app);
+        }
+
+        private void btnBlockQuotes_Click(object sender, RibbonControlEventArgs e)
+        {
+            BlockQuotes.FindQuotesToBlock(_app);
+        }
+
+        private void btnOxfordComma_Click(object sender, RibbonControlEventArgs e)
+        {
+            OxfordComma.AddOxfordComma(_app);
+        }
+
+        private void btnRemoveOxfordComma_Click(object sender, RibbonControlEventArgs e)
+        {
+            OxfordComma.RemoveOxfordComma(_app);
         }
     }
 }

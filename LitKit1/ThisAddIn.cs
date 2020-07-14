@@ -30,59 +30,7 @@ namespace LitKit1
             app.NewDocument += new ApplicationEvents4_NewDocumentEventHandler(Application_NewDocument);
             app.DocumentBeforeClose += new ApplicationEvents4_DocumentBeforeCloseEventHandler(Application_DocumentClose);
 
-            //app.WindowSelectionChange += new ApplicationEvents4_WindowSelectionChangeEventHandler(ShowPinCiteButton);
         }
-
-        //#region PINCITE Context Menu
-
-        //public CommandBarButton PinCiteButton;
-        //public bool PinCiteButtonOn;
-        //public void AddPinCiteButton()
-        //{
-        //    PinCiteButton = (CommandBarButton)this.Application.CommandBars["Text"].Controls.Add(MsoControlType.msoControlButton, missing, missing, missing, true);
-        //    PinCiteButtonOn = true;
-
-        //    PinCiteButton.BeginGroup = true;
-        //    PinCiteButton.Caption = "Add PINCITE to the first selected Exhibit";
-        //    PinCiteButton.DescriptionText = "Add PINCITE dec text";
-        //    PinCiteButton.Visible = false;
-        //    PinCiteButton.TooltipText = "Add PINCITE tool tip text";
-
-        //    PinCiteButton.Click += AddPinCiteBtn_Click;
-        //}
-
-        //public void removePinCiteButton(CommandBarButton pinCiteButton)
-        //{
-        //    if (PinCiteButtonOn)
-        //    {
-        //        pinCiteButton.Delete();
-        //        PinCiteButtonOn = false;
-        //    }
-        //}
-
-        //public void ShowPinCiteButton(Selection sel)
-        //{
-        //    PinCiteButton.Visible = false;
-
-        //    var sel2 = Application.Selection;
-        //    if (sel2.ContentControls.Count > 0)
-        //    {
-        //        var cc = sel2.ContentControls[1];
-        //        if (cc.Tag.Contains("Exhibit"))
-        //        {
-        //            try { PinCiteButton.Visible = true; }
-        //            catch { }
-        //        }
-        //    }
-        //}
-
-
-        //private void AddPinCiteBtn_Click(CommandBarButton Ctrl, ref bool CancelDefault)
-        //{
-        //    System.Windows.Forms.MessageBox.Show("Functionality Coming Soon.");
-        //}
-        //#endregion
-
 
 
         private void AddTaskPanes(Word.Document doc)
@@ -91,8 +39,6 @@ namespace LitKit1
             AddExhibitControlMain(doc.ActiveWindow);
             AddAnsResControlMain(doc.ActiveWindow);
 
-            //removePinCiteButton(PinCiteButton);
-            //AddPinCiteButton();
         }
 
         public void AddExhibitControlMain(object window)
@@ -117,7 +63,7 @@ namespace LitKit1
             AnsResMain = new ctrlAnsResMain();
             AnsResTaskPane = this.CustomTaskPanes.Add(AnsResMain, "LitKit Answers and Responses Tool", window);
             AnsResMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            AnsResTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
+            AnsResTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionLeft;
             AnsResTaskPane.Width = 350;
 
             AnsResPanes.Add(window, AnsResTaskPane);
