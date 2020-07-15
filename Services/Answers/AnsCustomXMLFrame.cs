@@ -18,8 +18,15 @@ namespace Services.Answers
                     new XElement(rootName, "")
                 );
 
+            xDocument.Element(rootName).Add(new XElement("Parties",
+                    new XElement("Responding", "TBD Responding"),
+                    new XElement("Propounding", "TBD Propounding"),
+                    new XElement("RespondSingular", "True"),
+                    new XElement("PropoudSingular", "True")
+                    ));
+
             ///TODO: add the text for each of the preset answers ////////////////////////////////////////////////////////////////////
-            
+
             // Singular Objections
             {
                 xDocument.Element(rootName).Add(new XElement("Answer",

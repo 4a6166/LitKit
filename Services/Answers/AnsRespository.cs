@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
 
@@ -43,7 +44,7 @@ namespace Services.Answers
         static XNamespace name = NameSpace;
         static XName rootName = name + "Answers";
 
-
+        
 
 
         public void AddAnswer(string Name, string Text, bool Singular)
@@ -62,8 +63,11 @@ namespace Services.Answers
             customXmlDoc.AddNode(AnsNode, "Singular", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newAnswer.Singular.ToString());
         }
 
-        public void DeleteAnswer(string id)
+        public OperationResult DeleteAnswer(string id)
         {
+            bool success = false;
+            string deleteText = string.Empty;
+
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
 
             CustomXMLNodes AnsNodes = customXmlDoc.SelectNodes("//Answer");
@@ -72,8 +76,13 @@ namespace Services.Answers
                 if (ans.SelectSingleNode("ID").Text == id)
                 {
                     ans.Delete();
+                    success = true;
+                    deleteText = "Answer at node " + id + " deleted.";
                 }
+                else deleteText = "Answer at node " + id + " not found in CustomXML DB.";
             }
+
+            return new OperationResult(success, deleteText);
 
         }
 
@@ -91,17 +100,25 @@ namespace Services.Answers
                     nodesList.Add(ans);
                 }
             }
-            Answer answer = new Answer(nodesList.First().SelectSingleNode("ID").Text);
+            Answer answer = new Answer(nodesList.First().SelectSingleNode("ID").Text, _app);
             answer.Name = nodesList.First().SelectSingleNode("Name").Text;
             answer.Text = nodesList.First().SelectSingleNode("Text").Text;
             if (nodesList.First().SelectSingleNode("Singular").Text == "True")
             {
                 answer.Singular = true;
-                //TODO: double check that bool.ToString() results in "True" or "False"
             }
             else answer.Singular = false;
 
             return answer;
+        }
+
+        public string GetParties(Application _app, PartiesNodes node)
+        {
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNode partiesNode = customXmlDoc.SelectSingleNode("//Parties");
+            
+            return partiesNode.SelectSingleNode("//" + node.ToString()).Text;
+
         }
 
         public IEnumerable<Answer> GetAnswers()
@@ -115,7 +132,7 @@ namespace Services.Answers
             foreach (CustomXMLNode element in ansNodes)
             {
                 string ID = element.SelectSingleNode("ID").Text;
-                Answer answer = new Answer(ID);
+                Answer answer = new Answer(ID, _app);
                 answer.Name = element.SelectSingleNode("Name").Text;
                 answer.Text = element.SelectSingleNode("Text").Text;
                 if (element.SelectSingleNode("Singular").Text == "True")

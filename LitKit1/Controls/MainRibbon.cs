@@ -122,12 +122,16 @@ namespace LitKit1
             frmToast toast = new frmToast(_app.ActiveWindow);
             toast.OpenToast("Test Exhibits Added", "Remove before production.",1000);
         }
+        
 
         private void ExhibitChangeControl_Click(object sender, RibbonControlEventArgs e)
         {
             _app.UndoRecord.StartCustomRecord("FootNote Finder");
 
             AnsRespository respository = new AnsRespository(_app);
+
+            var a = respository.GetParties(_app, PartiesNodes.Responding);
+            MessageBox.Show(a);
 
             _app.UndoRecord.EndCustomRecord();
         }

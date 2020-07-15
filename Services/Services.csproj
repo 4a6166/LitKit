@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Answers\AnsCustomXMLFrame.cs" />
+    <Compile Include="Answers\AnsEnums.cs" />
     <Compile Include="Answers\AnsRespository.cs" />
     <Compile Include="Answers\Answer.cs" />
     <Compile Include="Delegates.cs" />
@@ -90,6 +91,10 @@
     <Compile Include="Exhibit\ExhibitsReference.cs" />
     <Compile Include="Exhibit\IExhibitRepository.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TimeDateExtensions.cs" />
+    <Compile Include="Extensions\XMLDocumentExtensions.cs" />
+    <Compile Include="OperationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedactionTool\IRedaction.cs" />
     <Compile Include="RedactionTool\OldRedact.cs" />
@@ -106,10 +111,12 @@
     <Compile Include="RibbonButtons\Transcript.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Answers\Answers_language.json" />
     <None Include="Answers\XMLSchema1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="App.config" />
+    <None Include="Courts_cfg.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
