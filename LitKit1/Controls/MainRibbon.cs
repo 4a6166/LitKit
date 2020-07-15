@@ -18,6 +18,7 @@ using Services.RedactionTool;
 using Ribbon = Ribbon_0._0._1;
 using Services.RibbonButtons;
 using LitKit1.Controls.AnsResControls;
+using Services.Answers;
 
 namespace LitKit1
 {
@@ -126,8 +127,7 @@ namespace LitKit1
         {
             _app.UndoRecord.StartCustomRecord("FootNote Finder");
 
-            TestClass testClass = new TestClass();
-            testClass.FootNoteFinder(_app.Selection);
+            AnsRespository respository = new AnsRespository(_app);
 
             _app.UndoRecord.EndCustomRecord();
         }
@@ -157,6 +157,8 @@ namespace LitKit1
             
             ActivePane.Visible = true;
             //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
+
+            
         }
 
         private void btnPinCite_Click(object sender, RibbonControlEventArgs e)
