@@ -47,8 +47,18 @@ namespace Ribbon_0._0._1
                         redaction.Tag = "R-" + redaction.ID;
                         redaction.Color = Word.WdColor.wdColorDarkRed;
 
+                        for(var i = 1; i<= redaction.Range.ContentControls.Count; i++)
+                        {
+                            redaction.Range.ContentControls[i].LockContents = false;
+                        }
+
                         redaction.Range.HighlightColorIndex = Word.WdColorIndex.wdBlack;
                         redaction.Range.Font.ColorIndex = Word.WdColorIndex.wdWhite;
+
+                        for (var i = 1; i <= redaction.Range.ContentControls.Count; i++)
+                        {
+                            redaction.Range.ContentControls[i].LockContents = true;
+                        }
                     }
 
 
@@ -80,8 +90,17 @@ namespace Ribbon_0._0._1
 
                     if (contentControl.Title == "Redaction")
                     {
+                        for (var i = 1; i <= contentControl.Range.ContentControls.Count; i++)
+                        {
+                            contentControl.Range.ContentControls[i].LockContents = false;
+                        }
                         contentControl.Range.Font.ColorIndex = Word.WdColorIndex.wdAuto;
                         contentControl.Range.HighlightColorIndex = Word.WdColorIndex.wdNoHighlight;
+
+                        for (var i = 1; i <= contentControl.Range.ContentControls.Count; i++)
+                        {
+                            contentControl.Range.ContentControls[i].LockContents = true;
+                        }
                         contentControl.Delete(false);
                     }
                     if (contentControl != null) Marshal.ReleaseComObject(contentControl);
@@ -89,13 +108,23 @@ namespace Ribbon_0._0._1
                 else
                 {
                     // removes marks for all redactions within a selection
-                    for (int i = 1; i <= contentControls.Count;)
+                    for (int i = 1; i <= contentControls.Count; i++)
                     {
                         contentControl = contentControls[i];
                         if (contentControl.Title == "Redaction")
                         {
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = false;
+                            }
+
                             contentControl.Range.Font.ColorIndex = Word.WdColorIndex.wdAuto;
                             contentControl.Range.HighlightColorIndex = Word.WdColorIndex.wdNoHighlight;
+
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = true;
+                            }
                             contentControl.Delete(false);
                         }
                         if (contentControl != null) Marshal.ReleaseComObject(contentControl);
@@ -452,103 +481,17 @@ namespace Ribbon_0._0._1
 
                     if (contentControl.Title == "Redaction")
                     {
-                        //var ccString = contentControl.Range.Text.ToString();
+                        for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                        {
+                            contentControl.Range.ContentControls[j].LockContents = false;
+                        }
 
-                        #region Characters to be replaced in redaction Times New Roman
-                        //ccString = ccString.
-                        //    Replace("A", "||||").
-                        //    Replace("B", "|||").
-                        //    Replace("C", "|||").
-                        //    Replace("D", "||||").
-                        //    Replace("E", "|||").
-                        //    Replace("F", "|||").
-                        //    Replace("G", "||||").
-                        //    Replace("H", "||||").
-                        //    Replace("I", "||").
-                        //    Replace("J", "||").
-                        //    Replace("K", "||||").
-                        //    Replace("L", "|||").
-                        //    Replace("M", "||||").
-                        //    Replace("N", "|||").
-                        //    Replace("O", "||||").
-                        //    Replace("P", "|||").
-                        //    Replace("Q", "|||").
-                        //    Replace("R", "||||").
-                        //    Replace("S", "|||").
-                        //    Replace("T", "|||").
-                        //    Replace("U", "|||").
-                        //    Replace("V", "|||").
-                        //    Replace("W", "|||||").
-                        //    Replace("X", "||||").
-                        //    Replace("Y", "||||").
-                        //    Replace("Z", "|||").
-
-                        //    Replace("a", "||").
-                        //    Replace("b", "|||").
-                        //    Replace("c", "||").
-                        //    Replace("d", "|||").
-                        //    Replace("e", "||").
-                        //    Replace("f", "|").
-                        //    Replace("g", "||").
-                        //    Replace("h", "||").
-                        //    Replace("i", "|").
-                        //    Replace("j", "|").
-                        //    Replace("k", "|||").
-                        //    Replace("l", "|").
-                        //    Replace("m", "||||").
-                        //    Replace("n", "|||").
-                        //    Replace("o", "|||").
-                        //    Replace("p", "|||").
-                        //    Replace("q", "|||").
-                        //    Replace("r", "||").
-                        //    Replace("s", "||").
-                        //    Replace("t", "|").
-                        //    Replace("u", "||").
-                        //    Replace("v", "||").
-                        //    Replace("w", "||||").
-                        //    Replace("x", "||").
-                        //    Replace("y", "|||").
-                        //    Replace("z", "||").
-
-                        //    Replace("0", "|||").
-                        //    Replace("1", "||").
-                        //    Replace("2", "|||").
-                        //    Replace("3", "||").
-                        //    Replace("4", "|||").
-                        //    Replace("5", "|||").
-                        //    Replace("6", "|||").
-                        //    Replace("7", "|||").
-                        //    Replace("8", "|||").
-                        //    Replace("9", "|||").
-
-                        //    Replace(".", "|").
-                        //    Replace("%", "||||").
-                        //    Replace(",", "|").
-                        //    Replace("$", "|||").
-                        //    Replace("?", "||").
-                        //    Replace(";", "|").
-                        //    Replace("'", "|").
-                        //    Replace("Quote", "||"). //Placeholder
-                        //    Replace("TM", "|||||"). //Placeholder
-                        //    Replace("Pilcrow", "|||"). //Placeholder
-                        //    Replace("Copyright", "||||"). //Placeholder
-                        //    Replace("Section", "|||"). //Placeholder
-                        //    Replace("-", "||").
-                        //    Replace("N-Dash", "|||"). //Placeholder
-                        //    Replace("M-Dash", "||||||"). //Placeholder
-                        //    Replace("(", "||").
-                        //    Replace(")", "||");
-                        //;
-                        #endregion
-
-                        //contentControl.Range.Text = ccString;
-                        //contentControl.Range.Font.ColorIndex = iWord.WdColorIndex.wdBlack;
-                        //contentControl.Range.HighlightColorIndex = iWord.WdColorIndex.wdBlack;
                         contentControl.Range.Font.Fill.Transparency = 1;
                         for (var shape = 1; shape <= contentControl.Range.InlineShapes.Count; shape++)
                         {
                             contentControl.Range.InlineShapes[shape].PictureFormat.Brightness = 0f;
                         }
+
                     }
 
                     if (contentControl != null) Marshal.ReleaseComObject(contentControl);
@@ -582,7 +525,13 @@ namespace Ribbon_0._0._1
 
                         if (contentControl.Title == "Redaction")
                         {
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = false;
+                            }
+
                             contentControl.Range.Font.Fill.Transparency = 1;
+
                         }
 
                         if (contentControl != null) Marshal.ReleaseComObject(contentControl);
@@ -617,7 +566,13 @@ namespace Ribbon_0._0._1
 
                         if (contentControl.Title == "Redaction")
                         {
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = false;
+                            }
+
                             contentControl.Range.Font.Fill.Transparency = 1;
+
                         }
 
                         if (contentControl != null) Marshal.ReleaseComObject(contentControl);
@@ -652,8 +607,19 @@ namespace Ribbon_0._0._1
 
                         if (contentControl.Title == "Redaction")
                         {
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = false;
+                            }
+
                             contentControl.Range.Font.ColorIndex = Word.WdColorIndex.wdAuto;
                             contentControl.Range.HighlightColorIndex = Word.WdColorIndex.wdNoHighlight;
+
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = true;
+                            }
+
                             contentControl.Delete(false);
                         }
 
@@ -689,8 +655,19 @@ namespace Ribbon_0._0._1
 
                         if (contentControl.Title == "Redaction")
                         {
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = false;
+                            }
+
                             contentControl.Range.Font.ColorIndex = Word.WdColorIndex.wdAuto;
                             contentControl.Range.HighlightColorIndex = Word.WdColorIndex.wdNoHighlight;
+
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = true;
+                            }
+
                             contentControl.Delete(false);
                         }
 

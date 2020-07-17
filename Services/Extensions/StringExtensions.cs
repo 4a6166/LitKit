@@ -1,8 +1,11 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Drawing;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Services.Extensions
@@ -68,5 +71,34 @@ namespace Services.Extensions
                 toStream.Write(bytes, 0, dataRead);
         }
 
+        /// <summary>
+        /// Returns null if string is null or whitespace. Use with ? operator.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string IsNullOrWhiteSpace(this string str)
+        {
+            if (String.IsNullOrWhiteSpace(str))
+            {
+                return null;
+            }
+            else return str;
+        }
+
+        /// <summary>
+        /// Returns null if string is null or empty. Use with ? operator.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string IsNullOrEmpty(this string str)
+        {
+            if (String.IsNullOrEmpty(str))
+            {
+                return null;
+            }
+            else return str;
+        }
+
+        
     }
 }

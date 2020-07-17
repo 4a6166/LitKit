@@ -129,17 +129,34 @@ namespace Services.RibbonButtons
 
         public string RemoveNumbers(string Quote)
         {
-            var chars = Quote.ToCharArray().ToList();
-            var firstLetter = chars.Where(c => Char.IsWhiteSpace(c) || Char.IsLetter(c)).FirstOrDefault();
-
-            int indexFirstLetter = chars.IndexOf(firstLetter);
-
-            string quote = string.Empty;
-            for (int i = indexFirstLetter; i<=chars.Count-1; i++)
+            try
             {
-                quote += chars[i];
+                var chars = Quote.ToCharArray().ToList();
+                var firstLetter = chars.Where(c => Char.IsLetter(c)).FirstOrDefault();
+
+                int indexFirstLetter = chars.IndexOf(firstLetter);
+
+                string quote = string.Empty;
+                for (int i = indexFirstLetter; i <= chars.Count - 1; i++)
+                {
+                    quote += chars[i];
+                }
+                return quote;
             }
-            return quote;
+            catch
+            {
+                var chars = Quote.ToCharArray().ToList();
+                var firstLetter = chars.Where(c => Char.IsWhiteSpace(c) || Char.IsLetter(c)).FirstOrDefault();
+
+                int indexFirstLetter = chars.IndexOf(firstLetter);
+
+                string quote = string.Empty;
+                for (int i = indexFirstLetter; i <= chars.Count - 1; i++)
+                {
+                    quote += chars[i];
+                }
+                return quote;
+            }
         }
     }
     
