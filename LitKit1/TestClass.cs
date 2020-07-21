@@ -15,10 +15,7 @@ namespace LitKit1
 {
     public class TestClass
     {
-        public TestClass()
-        {
 
-        }
 
         static readonly Word.Application _app = Globals.ThisAddIn.Application;
         public IExhibitRepository repository = ExhibitRepositoryFactory.GetRepository("XML", _app);

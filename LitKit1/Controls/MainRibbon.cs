@@ -18,6 +18,7 @@ using Services.RedactionTool;
 using Ribbon = Ribbon_0._0._1;
 using Services.RibbonButtons;
 using LitKit1.Controls.AnsResControls;
+using Services.Answers;
 
 namespace LitKit1
 {
@@ -84,7 +85,7 @@ namespace LitKit1
             _app.ShowClipboard();
         }
 
-        private void ExhibitTestButton_Click(object sender, RibbonControlEventArgs e)
+        private void ExhibitTool_Click(object sender, RibbonControlEventArgs e)
         {
             AddExhibts();
 
@@ -121,13 +122,16 @@ namespace LitKit1
             frmToast toast = new frmToast(_app.ActiveWindow);
             toast.OpenToast("Test Exhibits Added", "Remove before production.",1000);
         }
+        
 
-        private void ExhibitChangeControl_Click(object sender, RibbonControlEventArgs e)
+        private void Test_Button_Click(object sender, RibbonControlEventArgs e)
         {
-            _app.UndoRecord.StartCustomRecord("FootNote Finder");
+            _app.UndoRecord.StartCustomRecord("Test Button Stuff");
 
-            TestClass testClass = new TestClass();
-            testClass.FootNoteFinder(_app.Selection);
+            AnsRespository respository = new AnsRespository(_app);
+
+            var a = respository.GetParties(_app, PartiesNodes.Responding);
+            MessageBox.Show(a);
 
             _app.UndoRecord.EndCustomRecord();
         }
@@ -157,6 +161,8 @@ namespace LitKit1
             
             ActivePane.Visible = true;
             //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
+
+            
         }
 
         private void btnPinCite_Click(object sender, RibbonControlEventArgs e)
@@ -181,7 +187,7 @@ namespace LitKit1
             _app.UndoRecord.EndCustomRecord();
         }
 
-        private void button2_Click(object sender, RibbonControlEventArgs e)
+        private void IndexOfExhibits_Click(object sender, RibbonControlEventArgs e)
         {
             try
             {
@@ -358,6 +364,11 @@ namespace LitKit1
         private void btnRemoveOxfordComma_Click(object sender, RibbonControlEventArgs e)
         {
             OxfordComma.RemoveOxfordComma(_app);
+        }
+
+        private void ExhibitChangeControl_Click(object sender, RibbonControlEventArgs e)
+        {
+
         }
     }
 }
