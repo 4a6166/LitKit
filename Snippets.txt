@@ -105,3 +105,4 @@ private void NewControlButton_Click(object sender, EventArgs e)
 
             ActivePane.Visible = true;
         }
+
