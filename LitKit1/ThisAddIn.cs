@@ -44,7 +44,7 @@ namespace LitKit1
         public void AddExhibitControlMain(object window)
         {
             ExhibitMain = new ctrlExhibitMain();
-            ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Exhibits Tool", window);
+            ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Exhibit Tool", window);
             ExhibitMain.Dock = System.Windows.Forms.DockStyle.Fill;
             ExhibitTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
             ExhibitTaskPane.Width = 350;
@@ -61,7 +61,7 @@ namespace LitKit1
         public void AddAnsResControlMain(object window)
         {
             AnsResMain = new ctrlAnsResMain();
-            AnsResTaskPane = this.CustomTaskPanes.Add(AnsResMain, "LitKit Answers and Responses Tool", window);
+            AnsResTaskPane = this.CustomTaskPanes.Add(AnsResMain, "LitKit Answers and Response Tool", window);
             AnsResMain.Dock = System.Windows.Forms.DockStyle.Fill;
             AnsResTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionLeft;
             AnsResTaskPane.Width = 350;

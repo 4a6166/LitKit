@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using Microsoft.Office.Core;
@@ -29,10 +32,12 @@ namespace Services.Answers
         void FrameCustomXMLDoc()
         {
 
-            string docString = /*@"<?xml version="+quotes+"1.0" + quotes + " encoding=" + quotes + "UTF - 8" + quotes + " standalone =" + quotes + "yes" + quotes + " ?>" +*/
-                AnsCustomXMLFrame.FrameCustomXMLDoc(rootName);
-
-            _app.ActiveDocument.CustomXMLParts.Add(docString);
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            String Root = Directory.GetCurrentDirectory();
+            string path = Root + @"\Answers\item1.xml";
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(path);
+            _app.ActiveDocument.CustomXMLParts.Add(xmlDocument.OuterXml);
 
         }
         #endregion

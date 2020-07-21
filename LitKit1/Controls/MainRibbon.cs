@@ -85,7 +85,7 @@ namespace LitKit1
             _app.ShowClipboard();
         }
 
-        private void ExhibitTestButton_Click(object sender, RibbonControlEventArgs e)
+        private void ExhibitTool_Click(object sender, RibbonControlEventArgs e)
         {
             AddExhibts();
 
@@ -124,9 +124,9 @@ namespace LitKit1
         }
         
 
-        private void ExhibitChangeControl_Click(object sender, RibbonControlEventArgs e)
+        private void Test_Button_Click(object sender, RibbonControlEventArgs e)
         {
-            _app.UndoRecord.StartCustomRecord("FootNote Finder");
+            _app.UndoRecord.StartCustomRecord("Test Button Stuff");
 
             AnsRespository respository = new AnsRespository(_app);
 
@@ -187,7 +187,7 @@ namespace LitKit1
             _app.UndoRecord.EndCustomRecord();
         }
 
-        private void button2_Click(object sender, RibbonControlEventArgs e)
+        private void IndexOfExhibits_Click(object sender, RibbonControlEventArgs e)
         {
             try
             {
@@ -364,6 +364,11 @@ namespace LitKit1
         private void btnRemoveOxfordComma_Click(object sender, RibbonControlEventArgs e)
         {
             OxfordComma.RemoveOxfordComma(_app);
+        }
+
+        private void ExhibitChangeControl_Click(object sender, RibbonControlEventArgs e)
+        {
+
         }
     }
 }

@@ -78,7 +78,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Answers\AnsCustomXMLFrame.cs" />
     <Compile Include="Answers\AnsEnums.cs" />
     <Compile Include="Answers\AnsRespository.cs" />
     <Compile Include="Answers\Answer.cs" />
@@ -111,7 +110,6 @@
     <Compile Include="RibbonButtons\Transcript.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Answers\Answers_language.json" />
     <None Include="Answers\XMLSchema1.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -124,6 +122,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Answers\item1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Exhibit\TestXMLFile.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
