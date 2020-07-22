@@ -1,56 +1,48 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 
-namespace CodeTester
+namespace Services.Response
 {
-    class Program
+    public class ResponseStandardRepository
     {
         static XmlNodeList nodesResponse = LoadStandardLanguage().SelectNodes("//Response");
 
-        static void Main(string[] args)
+        public string GetTexts()
         {
+            string result = string.Empty;
             string respondingParty = "The Associated Defenda Companies";
             string respondingPlural = "Plural";
             string propoundingParty = "Mr. Litigious";
 
-            //Console.WriteLine(GetTextOptions(respondingParty, respondingPlural, propoundingParty, "Interrogatory"));
+            result += GetTextOptions(respondingParty, respondingPlural, propoundingParty, "Complaint");
+            result += (Environment.NewLine + Environment.NewLine + "===========================================================================" +Environment.NewLine);
 
-            foreach (var resp in GetResponsesByDocType("Interrogatory"))
-            {
-                string t = resp.ChildNodes.Item(ResponseChild["Name"]).InnerText;
-                Console.WriteLine(t);
-            }
+            result += GetTextOptions(respondingParty, respondingPlural, propoundingParty, "Admission");
+            result += (Environment.NewLine + Environment.NewLine + "===========================================================================" + Environment.NewLine);
 
-        }
+            result += GetTextOptions(respondingParty, respondingPlural, propoundingParty, "Production");
+            result += (Environment.NewLine + Environment.NewLine + "===========================================================================" + Environment.NewLine);
 
-        static List<XmlNode> GetResponsesByDocType (string docType)
-        {
-            List<XmlNode> list = new List<XmlNode>();
-
-            foreach (XmlNode response in nodesResponse)
-            {
-                if (response.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(DocType[docType]).InnerText == "True")
-                {
-                    list.Add(response);
-                }
-            }
-
-            return list;
+            result += GetTextOptions(respondingParty, respondingPlural, propoundingParty, "Interrogatory");
+            return result;
         }
 
         static string GetTextOptions(string respondingParty, string respondingPlural, string propoundingParty, string docType)
         {
             int n = 0;
             string resultText = string.Empty;
+            string texta = string.Empty;
             foreach (XmlNode response in nodesResponse)
             {
                 if (response.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(DocType[docType]).InnerText == "True")
                 {
-                    resultText+=Environment.NewLine+"ID: " + response.ChildNodes.Item(ResponseChild["ID"]).InnerText +Environment.NewLine;
-                    resultText+="Name: " + response.ChildNodes.Item(ResponseChild["Name"]).InnerText + Environment.NewLine;
+                    resultText += Environment.NewLine + "ID: " + response.ChildNodes.Item(ResponseChild["ID"]).InnerText + Environment.NewLine;
+                    resultText += "Name: " + response.ChildNodes.Item(ResponseChild["Name"]).InnerText + Environment.NewLine;
 
                     string verb1 = response.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes.Item(0).ChildNodes.Item(SingPlur[respondingPlural]).InnerText;
 
@@ -78,13 +70,14 @@ namespace CodeTester
                         filledText = filledText.Replace("[verb3]", verb3);
 
 
-                        resultText += $"Text Option {i}: " + filledText +Environment.NewLine;
+                        resultText += $"Text Option {i}: " + filledText + Environment.NewLine;
                         i++;
                     }
                     n++;
                 }
             }
-            return $"Number of Responses linked to {docType}: " + n.ToString() + resultText;
+            texta += ($"Number of Responses linked to {docType}: " + n.ToString());
+            return texta + resultText;
         }
 
         static Dictionary<string, int> ResponseChild = new Dictionary<string, int>()
@@ -161,5 +154,3 @@ namespace CodeTester
 
     }
 }
-
-

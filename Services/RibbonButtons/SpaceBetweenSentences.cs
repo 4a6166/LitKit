@@ -15,26 +15,25 @@ namespace Services.RibbonButtons
     {
         public static void AddSpace(Word.Application _app)
         {
-
             _app.Application.System.Cursor = WdCursorType.wdCursorWait;
 
 
-            //for (int i=1; i<= _app.ActiveDocument.Sentences.Count; i++)
+            //for (int i = 1; i <= _app.ActiveDocument.Sentences.Count; i++)
             //{
-            //    _app.ActiveDocument.Sentences[i].Select();
-            //    var rng = _app.Selection;
-            //    //rng.Find.Execute(FindText: ". ", ReplaceWith: ".  ", Replace: WdReplace.wdReplaceAll);
-            //    //rng.Find.Execute(FindText: ".   ", ReplaceWith: ".  ", Replace: WdReplace.wdReplaceAll);
-            //    if (rng.Text.Substring(rng.Text.Length - 3) != ".  ")
+            //    var sentence = _app.ActiveDocument.Sentences[i];
+            //    if (sentence.Text.Contains('.'))
             //    {
-            //        rng.Text = rng.Text + " ";
+            //        sentence.Text = sentence.Text + " ";
+            //    }
+            //    if (sentence.Text.Contains(".   "))
+            //    {
+            //        sentence.Text = sentence.Text.Substring(0, sentence.Text.Length - 1);
             //    }
             //}
 
 
             _app.ActiveDocument.Select();
             var rng = _app.Selection.Range;
-
             rng.Find.Execute(FindText: ". ", ReplaceWith: ".  ", Replace: WdReplace.wdReplaceAll);
             rng.Find.Execute(FindText: ".   ", ReplaceWith: ".  ", Replace: WdReplace.wdReplaceAll);
 

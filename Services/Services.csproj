@@ -78,9 +78,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Answers\AnsEnums.cs" />
-    <Compile Include="Answers\AnsRespository.cs" />
-    <Compile Include="Answers\Answer.cs" />
+    <Compile Include="Response\ResponseEnums.cs" />
+    <Compile Include="Response\ResponseRespository.cs" />
+    <Compile Include="Response\Response.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="Exhibit\ExhibitEnums.cs" />
     <Compile Include="Exhibit\ExhibitHelper.cs" />
@@ -99,6 +99,7 @@
     <Compile Include="RedactionTool\OldRedact.cs" />
     <Compile Include="RedactionTool\RedactionText.cs" />
     <Compile Include="RedactionTool\Redactions.cs" />
+    <Compile Include="Response\ResponseStandardRepository.cs" />
     <Compile Include="RibbonButtons\BlockQuotes.cs" />
     <Compile Include="RibbonButtons\InsertNBS.cs" />
     <Compile Include="RibbonButtons\LatinExpressions.cs" />
@@ -110,9 +111,6 @@
     <Compile Include="RibbonButtons\Transcript.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Answers\XMLSchema1.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="App.config" />
     <None Include="Courts_cfg.json" />
     <None Include="packages.config" />
@@ -122,7 +120,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Answers\item1.xml">
+    <Content Include="Response\ResponseFrame.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Response\ResponseStandardLanguage.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Exhibit\TestXMLFile.xml" />

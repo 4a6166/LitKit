@@ -18,7 +18,7 @@ using Services.RedactionTool;
 using Ribbon = Ribbon_0._0._1;
 using Services.RibbonButtons;
 using LitKit1.Controls.AnsResControls;
-using Services.Answers;
+using Services.Response;
 
 namespace LitKit1
 {
@@ -128,10 +128,12 @@ namespace LitKit1
         {
             _app.UndoRecord.StartCustomRecord("Test Button Stuff");
 
-            AnsRespository respository = new AnsRespository(_app);
+            ResponseRespository repository = new ResponseRespository(_app);
 
-            var a = respository.GetParties(_app, PartiesNodes.Responding);
-            MessageBox.Show(a);
+            repository.AddCustomResponse("Test Add", false, true, false, false, "Test display text");
+
+            ResponseStandardRepository repoStandard = new ResponseStandardRepository();
+            _app.Selection.TypeText(repoStandard.GetTexts());
 
             _app.UndoRecord.EndCustomRecord();
         }
