@@ -10,8 +10,8 @@ namespace Services.Response
     public enum DocPropsNode
     {
         Responding,
-        Propounding,
         RespondingPlural,
+        Propounding,
         DocType
     }
 

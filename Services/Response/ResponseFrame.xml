@@ -4,9 +4,8 @@
     <Responding>TBD</Responding>
     <RespondingPlural>False</RespondingPlural>
     <Propounding>TBD</Propounding>
-    <DocType>AnswerToComplaint</DocType>
+    <DocType>Answer a Complaint</DocType>
   </Document>
-
   <Response xmlns="">
     <ID>1</ID>
     <Name>Objection: Cumulative</Name>

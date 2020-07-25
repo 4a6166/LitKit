@@ -128,12 +128,13 @@ namespace LitKit1
         {
             _app.UndoRecord.StartCustomRecord("Test Button Stuff");
 
-            ResponseRespository repository = new ResponseRespository(_app);
+            ResponseRepository repository = new ResponseRepository(_app);
 
-            repository.AddCustomResponse("Test Add", false, true, false, false, "Test display text");
+            //repository.AddCustomResponse("Test Add", false, true, false, false, "Test display text");
+            repository.GetDocProps(_app, DocPropsNode.Propounding);
 
             ResponseStandardRepository repoStandard = new ResponseStandardRepository();
-            _app.Selection.TypeText(repoStandard.GetTexts());
+            //_app.Selection.TypeText(repoStandard.GetAllTexts());
 
             _app.UndoRecord.EndCustomRecord();
         }

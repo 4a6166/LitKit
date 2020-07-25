@@ -13,25 +13,14 @@ namespace Services.Response
 {
     public class Response
     {
-        public Response(string Name, List<bool> DocTypes, string DisplayText)
+        public Response(string ID, string Name, List<bool> DocTypes, string DisplayText)
         {
-            this.ID = Guid.NewGuid().ToString();
-
+            this.ID = ID;
             this.Name = Name;
             this.DocTypes = DocTypes;
             this.DisplayText = DisplayText;
         }
 
-        public Response(string ID, Word.Application _app)
-        {
-
-            var response = new ResponseRespository(_app).GetResponse(ID);
-            this.ID = ID;
-            this.Name = response.Name;
-            this.DisplayText = response.DisplayText;
-            this.DocTypes = response.DocTypes;
-
-        }
 
         public string ID { get; private set; }
         public string Name { get; set; }

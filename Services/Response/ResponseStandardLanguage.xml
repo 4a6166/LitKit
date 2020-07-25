@@ -5,7 +5,7 @@
 		<Name>Objection: Cumulative</Name>
 		<DocType>
 			<Complaint>False</Complaint>
-			<Admission>False</Admission>
+			<Admission>True</Admission>
 			<Production>True</Production>
 			<Interrogatory>True</Interrogatory>
 		</DocType>
@@ -25,7 +25,7 @@
 		<Name>Objection: Equally Available</Name>
 		<DocType>
 			<Complaint>False</Complaint>
-			<Admission>False</Admission>
+			<Admission>True</Admission>
 			<Production>True</Production>
 			<Interrogatory>True</Interrogatory>
 		</DocType>
@@ -45,7 +45,7 @@
 		<Name>Objection: Overbroad</Name>
 		<DocType>
 			<Complaint>False</Complaint>
-			<Admission>False</Admission>
+			<Admission>True</Admission>
 			<Production>True</Production>
 			<Interrogatory>True</Interrogatory>
 		</DocType>
@@ -65,7 +65,7 @@
 		<Name>Objection: Premature Contention</Name>
 		<DocType>
 			<Complaint>False</Complaint>
-			<Admission>False</Admission>
+			<Admission>True</Admission>
 			<Production>True</Production>
 			<Interrogatory>True</Interrogatory>
 		</DocType>
@@ -85,7 +85,7 @@
 		<Name>Objection: Premature Expert</Name>
 		<DocType>
 			<Complaint>False</Complaint>
-			<Admission>False</Admission>
+			<Admission>True</Admission>
 			<Production>True</Production>
 			<Interrogatory>True</Interrogatory>
 		</DocType>
@@ -105,7 +105,7 @@
 		<Name>Objection: Privilege</Name>
 		<DocType>
 			<Complaint>False</Complaint>
-			<Admission>False</Admission>
+			<Admission>True</Admission>
 			<Production>True</Production>
 			<Interrogatory>True</Interrogatory>
 		</DocType>
@@ -125,13 +125,13 @@
 		<Name>Objection: Proportionality</Name>
 		<DocType>
 			<Complaint>False</Complaint>
-			<Admission>False</Admission>
+			<Admission>True</Admission>
 			<Production>True</Production>
 			<Interrogatory>True</Interrogatory>
 		</DocType>
 		<Text>
 			<Primary>[Responding] [verb1] to this [Request/Interrogatory] to the extent it seeks [documents that are/information that is] not relevant to any party&#8217;s claim or defense, nor proportional to the needs of the case.</Primary>
-			<Alt1>[Responding] [verb1] to [Request/Interrogatory] No. [X] to the extent it seeks [documents that are/information that is] that is not relevant to any party&#8217;s claim or defense, nor proportional to the needs of the case.</Alt1>
+			<Alt1>[Responding] [verb1] to [Request/Interrogatory] No. [X] to the extent it seeks [documents that are/information that is] not relevant to any party&#8217;s claim or defense, nor proportional to the needs of the case.</Alt1>
 		</Text>
 		<Verbs>
 			<Verb1>
@@ -165,7 +165,7 @@
 		<Name>Objection: Repetitive</Name>
 		<DocType>
 			<Complaint>False</Complaint>
-			<Admission>False</Admission>
+			<Admission>True</Admission>
 			<Production>True</Production>
 			<Interrogatory>True</Interrogatory>
 		</DocType>
@@ -231,7 +231,6 @@
 		</DocType>
 		<Text>
 			<Primary>Subject to and without waiving the foregoing objections, [Responding] [verb1] that they will search and produce any responsive, non-privileged documents in its possession, custody, or control.</Primary>
-      <!--<Alt1>Subject to the foregoing objections, [Responding] [verb1] that they will search and produce any responsive, non-privileged documents in its possession, custody, or control.</Alt1> -->
 		</Text>
 		<Verbs>
 			<Verb1>
@@ -295,7 +294,7 @@
 		</DocType>
 		<Text>
 			<Primary>[Responding] [verb1] the remainder of the allegations contained in [Paragraph/Request] No. [X].</Primary>
-			<Alt1>[Responding] [verb1] the remainder of the allegations contained in this Paragraph.</Alt1>
+			<Alt1>[Responding] [verb1] the remainder of the allegations contained in this [Paragraph/Request].</Alt1>
 			<Alt2>The remaining allegations in [Paragraph/Request] No. [X] are denied.</Alt2>
 		</Text>
 		<Verbs>

@@ -13,33 +13,18 @@ using Microsoft.Office.Interop.Word;
 
 namespace Services.Response
 {
-    public class ResponseRespository
+    public class ResponseRepository
     {
         //***********NO FACTORY OR INTERFACE YET -> plan is to refactor to improve performance following user testing.
-        public ResponseRespository(Application _app)
+        public ResponseRepository(Application _app)
         {
             this._app = _app;
-
-            ResponseStandardLanguage = LoadStandardLanguage();
 
             if (_app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace).Count == 0)
             {
                 FrameCustomXMLDoc();
             }
 
-        }
-
-        #region builds initial custom XML doc if it doens't exist and loads standard Response language
-        XmlDocument ResponseStandardLanguage;
-        XmlDocument LoadStandardLanguage()
-        {
-            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-            String Root = Directory.GetCurrentDirectory();
-            string path = Root + @"\Response\ResponseStandardLanguage.xml";
-
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(path);
-            return xmlDocument;
         }
 
         
@@ -54,7 +39,7 @@ namespace Services.Response
 
             _app.ActiveDocument.CustomXMLParts.Add(xmlDocument.OuterXml);
         }
-        #endregion
+
 
         private readonly Application _app;
         static string NameSpace = "Prelimine Litkit Response Tool";
@@ -68,7 +53,7 @@ namespace Services.Response
                 Complaint, Admission, Production, Interrogatory
             };
 
-            Response newResponse = new Response(Name, DocTypes, DisplayText);
+            Response newResponse = new Response(Guid.NewGuid().ToString(), Name, DocTypes, DisplayText);
 
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNode ResponsesNode = customXmlDoc.DocumentElement;
@@ -116,44 +101,65 @@ namespace Services.Response
 
         public Response GetResponse(string id)
         {
+            Response response = null;
+
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
 
-            List<CustomXMLNode> nodesList = new List<CustomXMLNode>();
             CustomXMLNodes ResponseNodes = customXmlDoc.SelectNodes("//Response");
-            foreach (CustomXMLNode Response in ResponseNodes)
+
+            foreach (CustomXMLNode resp in ResponseNodes)
             {
-                if (Response.SelectSingleNode("ID").Text == id)
+                if (resp.SelectSingleNode("ID").Text == id)
                 {
-                    nodesList.Add(Response);
+                    string Name = resp.SelectSingleNode("Name").Text;
+
+                    bool c = bool.Parse(resp.SelectSingleNode("DocType").SelectSingleNode("Complaint").Text);
+                    bool a = bool.Parse(resp.SelectSingleNode("DocType").SelectSingleNode("Admission").Text);
+                    bool p = bool.Parse(resp.SelectSingleNode("DocType").SelectSingleNode("Production").Text);
+                    bool i = bool.Parse(resp.SelectSingleNode("DocType").SelectSingleNode("Interrogatory").Text);
+
+                    List<bool> docTypes = new List<bool>
+                        {
+                            c, a, p, i
+                        };
+
+                    string DisplayText = resp.SelectSingleNode("DisplayText").Text;
+
+                    response = new Response(id, Name, docTypes, DisplayText);
                 }
             }
-            Response response = new Response(nodesList.First().SelectSingleNode("ID").Text, _app);
-            response.Name = nodesList.First().SelectSingleNode("Name").Text;
-            response.DisplayText = nodesList.First().SelectSingleNode("DisplayText").Text;
-
-            List<bool> docTypes = new List<bool>
-            {
-                bool.Parse(nodesList.First().SelectSingleNode("DocTypes").SelectSingleNode("Complaint").Text),
-                bool.Parse(nodesList.First().SelectSingleNode("DocTypes").SelectSingleNode("Admission").Text),
-                bool.Parse(nodesList.First().SelectSingleNode("DocTypes").SelectSingleNode("Production").Text),
-                bool.Parse(nodesList.First().SelectSingleNode("DocTypes").SelectSingleNode("Interrogatory").Text),
-
-            };
-            response.DocTypes = docTypes;
-
             return response;
         }
-        
+
         public string GetDocProps(Application _app, DocPropsNode node)
         {
+            int i = (int)node+1;
+
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
-            CustomXMLNode PropsNode = customXmlDoc.SelectSingleNode("//Document");
-            
-            return PropsNode.SelectSingleNode("//" + node.ToString()).Text;
+            CustomXMLNode ResponsesNode = customXmlDoc.DocumentElement;
+            //CustomXMLNode PropsNode = ResponsesNode.SelectSingleNode("//Document");
+            //return PropsNode.SelectSingleNode("//" + node.ToString()).Text;
+
+            CustomXMLNode PropsNode = ResponsesNode.ChildNodes[1];
+            return PropsNode.ChildNodes[i].Text;
+
+        }
+
+        public void UpdateDocProps(Application _app, string responding, string respondingPlural, string propounding, string docType)
+        {
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNode ResponsesNode = customXmlDoc.DocumentElement;
+            CustomXMLNode PropsNode = ResponsesNode.ChildNodes[1];
+
+            PropsNode.ChildNodes[1].Text = responding;
+            PropsNode.ChildNodes[2].Text = respondingPlural;
+            PropsNode.ChildNodes[3].Text = propounding;
+            PropsNode.ChildNodes[4].Text = docType;
+
         }
 
         
-        public IEnumerable<Response> GetAnswers()
+        public IEnumerable<Response> GetResponses()
         {
             List<Response> responses = new List<Response>();
 
@@ -163,7 +169,7 @@ namespace Services.Response
             foreach (CustomXMLNode element in ResponseNodes)
             {
                 string ID = element.SelectSingleNode("ID").Text;
-                Response response = new Response(ID, _app);
+                Response response = GetResponse(ID);
                
                 responses.Add(response);
             }

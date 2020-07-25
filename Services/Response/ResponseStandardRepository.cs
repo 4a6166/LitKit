@@ -10,75 +10,46 @@ namespace Services.Response
 {
     public class ResponseStandardRepository
     {
+
         static XmlNodeList nodesResponse = LoadStandardLanguage().SelectNodes("//Response");
 
-        public string GetTexts()
-        {
-            string result = string.Empty;
-            string respondingParty = "The Associated Defenda Companies";
-            string respondingPlural = "Plural";
-            string propoundingParty = "Mr. Litigious";
+        #region test code
+        //public string GetAllTexts()
+        //{
+        //    string result = string.Empty;
+        //    string respondingParty = "The Associated Defenda Companies";
+        //    string respondingPlural = "Plural";
+        //    string propoundingParty = "Mr. Litigious";
 
-            result += GetTextOptions(respondingParty, respondingPlural, propoundingParty, "Complaint");
-            result += (Environment.NewLine + Environment.NewLine + "===========================================================================" +Environment.NewLine);
+        //    result += "Complaint" + Environment.NewLine;
+        //    foreach (var t in GetTextByDocType("Complaint", respondingParty, respondingPlural, propoundingParty))
+        //    { result += t + Environment.NewLine; }
+        //    result += (Environment.NewLine + Environment.NewLine + "===========================================================================" +Environment.NewLine);
 
-            result += GetTextOptions(respondingParty, respondingPlural, propoundingParty, "Admission");
-            result += (Environment.NewLine + Environment.NewLine + "===========================================================================" + Environment.NewLine);
+        //    result += "Admission" + Environment.NewLine;
+        //    foreach (var t in GetTextByDocType("Admission", respondingParty, respondingPlural, propoundingParty))
+        //    { result += t + Environment.NewLine; }
+        //    result += (Environment.NewLine + Environment.NewLine + "===========================================================================" + Environment.NewLine);
 
-            result += GetTextOptions(respondingParty, respondingPlural, propoundingParty, "Production");
-            result += (Environment.NewLine + Environment.NewLine + "===========================================================================" + Environment.NewLine);
+        //    result += "Production" + Environment.NewLine;
+        //    foreach (var t in GetTextByDocType("Production", respondingParty, respondingPlural, propoundingParty))
+        //    { result += t + Environment.NewLine; }
+        //    result += (Environment.NewLine + Environment.NewLine + "===========================================================================" + Environment.NewLine);
 
-            result += GetTextOptions(respondingParty, respondingPlural, propoundingParty, "Interrogatory");
-            return result;
-        }
+        //    result += "Interrogatory" + Environment.NewLine;
+        //    foreach (var t in GetTextByDocType("Interrogatory", respondingParty, respondingPlural, propoundingParty))
+        //    { result += t + Environment.NewLine; }
+        //    result += (Environment.NewLine + Environment.NewLine + "===========================================================================" + Environment.NewLine);
 
-        static string GetTextOptions(string respondingParty, string respondingPlural, string propoundingParty, string docType)
-        {
-            int n = 0;
-            string resultText = string.Empty;
-            string texta = string.Empty;
-            foreach (XmlNode response in nodesResponse)
-            {
-                if (response.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(DocType[docType]).InnerText == "True")
-                {
-                    resultText += Environment.NewLine + "ID: " + response.ChildNodes.Item(ResponseChild["ID"]).InnerText + Environment.NewLine;
-                    resultText += "Name: " + response.ChildNodes.Item(ResponseChild["Name"]).InnerText + Environment.NewLine;
-
-                    string verb1 = response.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes.Item(0).ChildNodes.Item(SingPlur[respondingPlural]).InnerText;
-
-                    string verb2 = string.Empty;
-                    string verb3 = string.Empty;
-                    if (response.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes.Count > 1)
-                    {
-                        verb2 = response.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes.Item(1).ChildNodes.Item(SingPlur[respondingPlural]).InnerText;
-                        verb3 = response.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes.Item(2).ChildNodes.Item(SingPlur[respondingPlural]).InnerText;
-                    }
-
-                    int i = 1;
-                    foreach (XmlNode text in response.ChildNodes.Item(ResponseChild["Text"]).ChildNodes)
-                    {
-                        string filledText = text.InnerText;
-                        filledText = filledText.Replace("[Responding]", respondingParty);
-                        filledText = filledText.Replace("[Propounding]", propoundingParty);
-                        filledText = filledText.Replace("[Paragraph/Request]", paraRequest(docType));
-                        filledText = filledText.Replace("[Request/Interrogatory]", RequestInterrog(docType));
-                        filledText = filledText.Replace("[documents/information]", DocsInfo1(docType));
-                        filledText = filledText.Replace("[documents that are/information that is]", DocsInfo(docType));
-
-                        filledText = filledText.Replace("[verb1]", verb1);
-                        filledText = filledText.Replace("[verb2]", verb2);
-                        filledText = filledText.Replace("[verb3]", verb3);
+        //    result += GetTextByID("2", 0);
+        //    result += GetTextByID("2", 0, respondingParty, respondingPlural, propoundingParty, "Complaint");
 
 
-                        resultText += $"Text Option {i}: " + filledText + Environment.NewLine;
-                        i++;
-                    }
-                    n++;
-                }
-            }
-            texta += ($"Number of Responses linked to {docType}: " + n.ToString());
-            return texta + resultText;
-        }
+        //    return result;
+        //}
+        #endregion
+
+
 
         static Dictionary<string, int> ResponseChild = new Dictionary<string, int>()
         {
@@ -97,10 +68,10 @@ namespace Services.Response
             { "Interrogatory",3 }
         };
 
-        static Dictionary<string, int> SingPlur = new Dictionary<string, int>()
+        static Dictionary<string, int> Plural = new Dictionary<string, int>()
         {
-            {"Singular", 0 },
-            {"Plural", 1 }
+            {"False", 0 },
+            {"True", 1 }
         };
 
         static string RequestInterrog(string docType)
@@ -114,7 +85,7 @@ namespace Services.Response
 
         static string DocsInfo(string docType)
         {
-            if (docType == "Interrogatory")
+            if (docType == "Interrogatory" || docType == "Admission")
             {
                 return "information that is";
             }
@@ -123,23 +94,21 @@ namespace Services.Response
 
         static string DocsInfo1(string docType)
         {
-            if (docType == "Interrogatory")
+            if (docType == "Interrogatory" || docType == "Admission")
             {
                 return "information";
             }
             else return "documents";
         }
 
-
         static string paraRequest(string docType)
         {
-            if (docType == "Admitted")
+            if (docType == "Admission")
             {
                 return "Request";
             }
             else return "Paragraph";
         }
-
 
         static XmlDocument LoadStandardLanguage()
         {
@@ -152,5 +121,372 @@ namespace Services.Response
             return xmlDocument;
         }
 
+        public static List<ResponseStandard> GetResponses(string docType)
+        {
+            List<ResponseStandard> result = new List<ResponseStandard>();
+
+            foreach (XmlNode respNode in nodesResponse)
+            {
+                if (respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(DocType[docType]).InnerText == "True")
+                {
+                    string ID = respNode.ChildNodes.Item(ResponseChild["ID"]).InnerText;
+                    string Name = respNode.ChildNodes.Item(ResponseChild["Name"]).InnerText;
+                    List<bool> dt = new List<bool>
+                    {
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(0).InnerText),
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(1).InnerText),
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(2).InnerText),
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(3).InnerText),
+                    };
+                    List<string> Texts = new List<string>();
+                    for(var i = 0; i<= respNode.ChildNodes.Item(ResponseChild["Text"]).ChildNodes.Count-1; i++)
+                    {
+                        Texts.Add(respNode.ChildNodes.Item(ResponseChild["Text"]).ChildNodes[i].InnerText);
+                    }
+
+                    string[,] verbs = new string[,]
+                    {
+                        { respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[0]?.ChildNodes[0].InnerText , respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[0]?.ChildNodes[1].InnerText },
+                        { respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[1]?.ChildNodes[0].InnerText , respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[1]?.ChildNodes[1].InnerText },
+                        { respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[2]?.ChildNodes[0].InnerText , respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[2]?.ChildNodes[1].InnerText },
+                    };
+
+                    result.Add(new ResponseStandard(ID, Name, dt, Texts, verbs));
+                }
+            }
+            return result;
+        }
+        
+
+        public static ResponseStandard GetResponseByName(string Name = "Generic Response")
+        {
+            ResponseStandard response = null;
+
+            foreach (XmlNode respNode in nodesResponse)
+            {
+                if (respNode.ChildNodes.Item(ResponseChild["Name"]).InnerText == Name)
+                {
+                    string ID = respNode.ChildNodes.Item(ResponseChild["ID"]).InnerText;
+                    List<bool> dt = new List<bool>
+                    {
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(0).InnerText),
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(1).InnerText),
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(2).InnerText),
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(3).InnerText),
+                    };
+                    List<string> Texts = new List<string>();
+                    for (var i = 0; i <= respNode.ChildNodes.Item(ResponseChild["Text"]).ChildNodes.Count - 1; i++)
+                    {
+                        Texts.Add(respNode.ChildNodes.Item(ResponseChild["Text"]).ChildNodes[i].InnerText);
+                    }
+
+                    string[,] verbs = new string[,]
+                    {
+                        { respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[0]?.ChildNodes[0].InnerText , respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[0]?.ChildNodes[1].InnerText },
+                        { respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[1]?.ChildNodes[0].InnerText , respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[1]?.ChildNodes[1].InnerText },
+                        { respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[2]?.ChildNodes[0].InnerText , respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[2]?.ChildNodes[1].InnerText },
+                    };
+
+                    response = new ResponseStandard(ID, Name, dt, Texts, verbs);
+                }
+            }
+
+            return response;
+        }
+
+        public static ResponseStandard GetResponseByID(string ID = "20")
+        {
+            ResponseStandard response = null;
+
+            foreach (XmlNode respNode in nodesResponse)
+            {
+                if (respNode.ChildNodes.Item(ResponseChild["ID"]).InnerText == ID)
+                {
+                    string Name = respNode.ChildNodes.Item(ResponseChild["Name"]).InnerText;
+                    List<bool> dt = new List<bool>
+                    {
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(0).InnerText),
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(1).InnerText),
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(2).InnerText),
+                        bool.Parse(respNode.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(3).InnerText),
+                    };
+                    List<string> Texts = new List<string>();
+                    for (var i = 0; i <= respNode.ChildNodes.Item(ResponseChild["Text"]).ChildNodes.Count - 1; i++)
+                    {
+                        Texts.Add(respNode.ChildNodes.Item(ResponseChild["Text"]).ChildNodes[i].InnerText);
+                    }
+
+                    string[,] verbs = new string[,]
+                    {
+                        { respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[0]?.ChildNodes[0].InnerText , respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[0]?.ChildNodes[1].InnerText },
+                        { respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[1]?.ChildNodes[0].InnerText , respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[1]?.ChildNodes[1].InnerText },
+                        { respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[2]?.ChildNodes[0].InnerText , respNode.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes[2]?.ChildNodes[1].InnerText },
+                    };
+
+                    response = new ResponseStandard(ID, Name, dt, Texts, verbs);
+                }
+            }
+
+            return response;
+        }
+
+
+        public static ResponseStandard FillStrings(ResponseStandard response, string respondingParty, string respondingPlural, string propoundingParty, string docType)
+        {
+            for (var i = 0; i <= response.Texts.Count; i++)
+            {
+                response.Texts[i] = response.Texts[i].Replace("[Responding]", respondingParty);
+                response.Texts[i] = response.Texts[i].Replace("[Propounding]", propoundingParty);
+                response.Texts[i] = response.Texts[i].Replace("[Paragraph/Request]", paraRequest(docType));
+                response.Texts[i] = response.Texts[i].Replace("[Request/Interrogatory]", RequestInterrog(docType));
+                response.Texts[i] = response.Texts[i].Replace("[documents/information]", DocsInfo1(docType));
+                response.Texts[i] = response.Texts[i].Replace("[documents that are/information that is]", DocsInfo(docType));
+
+                response.Texts[i] = response.Texts[i].Replace("[verb1]", response.Verbs[0, Plural[respondingPlural]]);
+                response.Texts[i] = response.Texts[i].Replace("[verb2]", response.Verbs[1, Plural[respondingPlural]]);
+                response.Texts[i] = response.Texts[i].Replace("[verb3]", response.Verbs[2, Plural[respondingPlural]]);
+
+            }
+
+            return response;
+        }
+
+        public static string FillString(string id, string text, string respondingParty, string respondingPlural, string propoundingParty, string docType)
+        {
+            ResponseStandard response = GetResponseByID(id);
+
+            string result = string.Empty;
+            if(response != null)
+            {
+                result = text.Replace("[Responding]", respondingParty);
+                result = result.Replace("[Propounding]", propoundingParty);
+                result = result.Replace("[Paragraph/Request]", paraRequest(docType));
+                result = result.Replace("[Request/Interrogatory]", RequestInterrog(docType));
+                result = result.Replace("[documents/information]", DocsInfo1(docType));
+                result = result.Replace("[documents that are/information that is]", DocsInfo(docType));
+
+                result = result.Replace("[verb1]", response.Verbs[0, Plural[respondingPlural]]);
+                result = result.Replace("[verb2]", response.Verbs[1, Plural[respondingPlural]]);
+                result = result.Replace("[verb3]", response.Verbs[2, Plural[respondingPlural]]);
+            }
+
+            return result;
+        }
+
+
+
+        //public string GetTextByID(string ID, int TextOption)
+        //{
+        //    string result = string.Empty;
+        //    foreach (XmlNode response in nodesResponse)
+        //    {
+        //        if (response.ChildNodes.Item(ResponseChild["ID"]).InnerText == ID)
+        //        {
+        //            result = response.ChildNodes.Item(ResponseChild["Text"]).ChildNodes.Item(TextOption).InnerText;
+        //        }
+        //    }
+        //    return result;
+        //}
+
+        //public string GetTextByID(string ID, int TextOption, string respondingParty, string respondingPlural, string propoundingParty, string docType)
+        //{
+        //    string result = string.Empty;
+
+        //    foreach (XmlNode response in nodesResponse)
+        //    {
+        //        if (response.ChildNodes.Item(ResponseChild["ID"]).InnerText == ID)
+        //        {
+        //            result = response.ChildNodes.Item(ResponseChild["Text"]).ChildNodes.Item(TextOption).InnerText;
+
+        //            List<string> verbs = new List<string>();
+        //            for(var i =0; i<= response.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes.Count-1; i++ )
+        //            {
+        //                verbs.Add(response.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes.Item(i).ChildNodes.Item(SingPlur[respondingPlural]).InnerText);
+        //            }
+
+        //            result = result.Replace("[Responding]", respondingParty);
+        //            result = result.Replace("[Propounding]", propoundingParty);
+        //            result = result.Replace("[Paragraph/Request]", paraRequest(docType));
+        //            result = result.Replace("[Request/Interrogatory]", RequestInterrog(docType));
+        //            result = result.Replace("[documents/information]", DocsInfo1(docType));
+        //            result = result.Replace("[documents that are/information that is]", DocsInfo(docType));
+
+        //            result = result.Replace("[verb1]", verbs[0]);
+        //            if (verbs.Count > 1)
+        //            {
+        //                result = result.Replace("[verb2]", verbs[1]);
+        //            }
+        //            if (verbs.Count > 2)
+        //            {
+        //                result = result.Replace("[verb3]", verbs[2]);
+        //            }
+
+
+        //        }
+        //    }
+        //    return result;
+        //}
+
+        //public static List<string> GetTextsByID(string docType, string ID, string respondingParty = "[Responding]", string respondingPlural = null, string propoundingParty="[Propounding]")
+        //{
+        //    List<string> result = new List<string>();
+
+        //    foreach (XmlNode response in nodesResponse)
+        //    {
+        //        if (response.ChildNodes.Item(ResponseChild["ID"]).InnerText == ID)
+        //        {
+        //            foreach (XmlNode node in response.ChildNodes.Item(ResponseChild["Text"]).ChildNodes)
+        //            {
+        //                string innerText = node.InnerText;
+
+        //                if (respondingPlural != null)
+        //                {
+        //                    List<string> verbs = new List<string>();
+        //                    for (var i = 0; i <= response.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes.Count - 1; i++)
+        //                    {
+        //                        try
+        //                        {
+        //                            verbs.Add(response.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes.Item(i).ChildNodes.Item(SingPlur[respondingPlural]).InnerText);
+        //                        }
+        //                        catch { }
+        //                    }
+
+        //                    innerText = innerText.Replace("[Responding]", respondingParty);
+        //                    innerText = innerText.Replace("[Propounding]", propoundingParty);
+        //                    innerText = innerText.Replace("[Paragraph/Request]", paraRequest(docType));
+        //                    innerText = innerText.Replace("[Request/Interrogatory]", RequestInterrog(docType));
+        //                    innerText = innerText.Replace("[documents/information]", DocsInfo1(docType));
+        //                    innerText = innerText.Replace("[documents that are/information that is]", DocsInfo(docType));
+
+        //                    if (verbs.Count > 0)
+        //                    {
+        //                        innerText = innerText.Replace("[verb1]", verbs[0]);
+        //                    }
+        //                    if (verbs.Count > 1)
+        //                    {
+        //                        innerText = innerText.Replace("[verb2]", verbs[1]);
+        //                    }
+        //                    if (verbs.Count > 2)
+        //                    {
+        //                        innerText = innerText.Replace("[verb3]", verbs[2]);
+        //                    }
+        //                }
+
+        //                result.Add(node.InnerText);
+        //            }
+
+        //        }
+        //    }
+        //    return result;
+        //}
+
+        //public static List<string> GetNameByDocType(string docType)
+        //{
+        //    List<string> result = new List<string>();
+
+        //    foreach (XmlNode response in nodesResponse)
+        //    {
+        //        if (response.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(DocType[docType]).InnerText == "True")
+        //        {
+        //            foreach (XmlNode text in response.ChildNodes.Item(ResponseChild["Name"]).ChildNodes)
+        //            {
+        //                result.Add(text.InnerText);
+        //            }
+        //        }
+        //    }
+
+
+        //    return result;
+        //}
+
+        //public static string GetIDByName(string Name)
+        //{
+        //    string result = string.Empty;
+
+        //    foreach (XmlNode response in nodesResponse)
+        //    {
+        //        if (response.ChildNodes.Item(ResponseChild["Name"]).InnerText == Name)
+        //        {
+        //            result = response.ChildNodes.Item(ResponseChild["ID"]).InnerText;
+        //        }
+        //    }
+        //    return result;
+        //}
+
+        //public static List<string> GetTextByDocType(string docType)
+        //{
+        //    List<string> result = new List<string>();
+
+        //    foreach (XmlNode response in nodesResponse)
+        //    {
+        //        if (response.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(DocType[docType]).InnerText == "True")
+        //        {
+        //            foreach (XmlNode text in response.ChildNodes.Item(ResponseChild["Text"]).ChildNodes)
+        //            {
+        //                result.Add(text.InnerText);
+        //            }
+        //        }
+        //    }
+        //    return result;
+        //}
+
+        //public static List<string> GetNamesByDocType(string docType)
+        //{
+        //    List<string> result = new List<string>();
+
+        //    foreach (XmlNode response in nodesResponse)
+        //    {
+        //        if (response.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(DocType[docType]).InnerText == "True")
+        //        {
+        //            result.Add(response.ChildNodes.Item(ResponseChild["Name"]).InnerText);
+        //        }
+        //    }
+        //    return result;
+        //}
+
+
+        //public static List<string> GetTextByDocType(string docType, string respondingParty, string respondingPlural, string propoundingParty)
+        //{
+        //    List<string> result = new List<string>();
+
+        //    foreach (XmlNode response in nodesResponse)
+        //    {
+        //        if (response.ChildNodes.Item(ResponseChild["DocType"]).ChildNodes.Item(DocType[docType]).InnerText == "True")
+        //        {
+        //            List<string> verbs = new List<string>();
+        //            for (var i = 0; i <= response.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes.Count-1; i++)
+        //            {
+        //                verbs.Add(response.ChildNodes.Item(ResponseChild["Verbs"]).ChildNodes.Item(i).ChildNodes.Item(SingPlur[respondingPlural]).InnerText);
+        //            }
+
+        //            foreach (XmlNode text in response.ChildNodes.Item(ResponseChild["Text"]).ChildNodes)
+        //            {
+        //                result.Add(text.InnerText);
+
+        //                for(var i = 0; i<= result.Count-1; i++)
+        //                {
+        //                    result[i] = result[i].Replace("[Responding]", respondingParty);
+        //                    result[i] = result[i].Replace("[Propounding]", propoundingParty);
+        //                    result[i] = result[i].Replace("[Paragraph/Request]", paraRequest(docType));
+        //                    result[i] = result[i].Replace("[Request/Interrogatory]", RequestInterrog(docType));
+        //                    result[i] = result[i].Replace("[documents/information]", DocsInfo1(docType));
+        //                    result[i] = result[i].Replace("[documents that are/information that is]", DocsInfo(docType));
+
+        //                    result[i] = result[i].Replace("[verb1]", verbs[0]);
+        //                    if (verbs.Count > 1)
+        //                    {
+        //                        result[i] = result[i].Replace("[verb2]", verbs[1]);
+        //                    }
+        //                    if (verbs.Count > 2)
+        //                    {
+        //                        result[i] = result[i].Replace("[verb3]", verbs[2]);
+        //                    }
+
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return result;
+        //}
     }
 }

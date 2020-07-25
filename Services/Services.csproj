@@ -79,7 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Response\ResponseEnums.cs" />
-    <Compile Include="Response\ResponseRespository.cs" />
+    <Compile Include="Response\ResponseRepository.cs" />
     <Compile Include="Response\Response.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="Exhibit\ExhibitEnums.cs" />
@@ -99,6 +99,7 @@
     <Compile Include="RedactionTool\OldRedact.cs" />
     <Compile Include="RedactionTool\RedactionText.cs" />
     <Compile Include="RedactionTool\Redactions.cs" />
+    <Compile Include="Response\ResponseStandard.cs" />
     <Compile Include="Response\ResponseStandardRepository.cs" />
     <Compile Include="RibbonButtons\BlockQuotes.cs" />
     <Compile Include="RibbonButtons\InsertNBS.cs" />
@@ -123,9 +124,9 @@
     <Content Include="Response\ResponseFrame.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Response\ResponseStandardLanguage.xml">
+    <EmbeddedResource Include="Response\ResponseStandardLanguage.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
     <Content Include="Exhibit\TestXMLFile.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
