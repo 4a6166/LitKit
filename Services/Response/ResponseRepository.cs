@@ -63,9 +63,9 @@ namespace Services.Response
             CustomXMLNode ResponseNode = ResponseNodes[ResponseNodes.Count];
             customXmlDoc.AddNode(ResponseNode, "ID", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newResponse.ID);
             customXmlDoc.AddNode(ResponseNode, "Name", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newResponse.Name);
-            customXmlDoc.AddNode(ResponseNode, "DocTypes", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, "");
+            customXmlDoc.AddNode(ResponseNode, "DocType", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, "");
 
-            CustomXMLNode DocTypesNode = ResponseNode.SelectSingleNode("//DocTypes");
+            CustomXMLNode DocTypesNode = ResponseNode.SelectSingleNode("DocType");
             customXmlDoc.AddNode(DocTypesNode, "Complaint", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, Complaint.ToString());
             customXmlDoc.AddNode(DocTypesNode, "Admission", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, Admission.ToString());
             customXmlDoc.AddNode(DocTypesNode, "Production", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, Production.ToString());

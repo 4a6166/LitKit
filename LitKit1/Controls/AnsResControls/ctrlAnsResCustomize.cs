@@ -26,23 +26,9 @@ namespace LitKit1.Controls.AnsResControls
             this.respondingPlural = respondingPlural;
             this.propoundingParty = propoundingParty;
 
-            LoadComboBox1(response, respondingParty, respondingPlural, propoundingParty);
-        }
-
-
-        public ctrlAnsResCustomize()
-        {
-            InitializeComponent();
-            _app = Globals.ThisAddIn.Application;
-            repository = new ResponseRepository(_app);
-
-            activeResponse = null;
-            this.docType = null;
-            this.respondingParty = "[Responding]";
-            this.respondingPlural = "Singular";
-            this.propoundingParty = "[Propounding]";
-
-            LoadComboBox1(activeResponse, respondingParty, respondingPlural, propoundingParty);
+            LoadComboBox1(activeResponse, docType);
+            LoadResponseStandardTexts();
+            LoadDocText(activeResponse);
         }
 
         private void EnBoldenX() //TODO: fix: not making the [X] bold, but not essential
@@ -104,25 +90,25 @@ namespace LitKit1.Controls.AnsResControls
                 bool i = false;
                 switch (docType)
                 {
-                    case "Complaint":
+                    case "Answer a Complaint":
                         c = true;
                         a = false;
                         p = false;
                         i = false;
                         break;
-                    case "Admission":
+                    case "Respond to Requests for Admission":
                         c = false;
                         a = false;
                         p = true;
                         i = false;
                         break;
-                    case "Production":
+                    case "Respond to Requests for Production of Documents":
                         c = false;
                         a = false;
                         p = true;
                         i = false;
                         break;
-                    case "Interrogatory":
+                    case "Respond to Interrogatories":
                         c = false;
                         a = false;
                         p = false;
@@ -132,7 +118,6 @@ namespace LitKit1.Controls.AnsResControls
                         throw new Exception("docType incorrect");
                 }
 
-                ResponseRepository repository = new ResponseRepository(_app);
                 repository.AddCustomResponse(name, c, a, p, i, textBox1.Text);
 
             }
@@ -154,38 +139,22 @@ namespace LitKit1.Controls.AnsResControls
             //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
         }
 
-        private void LoadCustomLanguage(Word.Application _app)
-        {
-
-        }
         private List<Response> LoadResponsesByDocType(string docType)
         {
-            List<bool> types = new List<bool>();
+            int docTypeNode = 0;
             switch (docType)
             {
-                case "Complaint":
-                    types.Add(true);
-                    types.Add(false);
-                    types.Add(false);
-                    types.Add(false);
+                case "Answer a Complaint":
+                    docTypeNode = 0;
                     break;
-                case "Admission":
-                    types.Add(false);
-                    types.Add(true);
-                    types.Add(false);
-                    types.Add(false);
+                case "Respond to Requests for Admission":
+                    docTypeNode = 1;
                     break;
-                case "Production":
-                    types.Add(false);
-                    types.Add(false);
-                    types.Add(true);
-                    types.Add(false);
+                case "Respond to Requests for Production of Documents":
+                    docTypeNode = 2;
                     break;
-                case "Interrogatory":
-                    types.Add(false);
-                    types.Add(false);
-                    types.Add(false);
-                    types.Add(true);
+                case "Respond to Interrogatories":
+                    docTypeNode = 3;
                     break;
                 default:
                     throw new Exception("docType incorrect");
@@ -194,54 +163,82 @@ namespace LitKit1.Controls.AnsResControls
             List<Response> responses = new List<Response>();
 
             ResponseRepository repository = new ResponseRepository(_app);
-            foreach (Response res in repository.GetResponses().Where(n => n.DocTypes == types))
+            foreach (Response res in repository.GetResponses().Where(n => n.DocTypes[docTypeNode]))
             {
-                responses.Add(res);
+                    responses.Add(res);
             }
             return responses;
         }
-        private void LoadResponseStandardTexts(string name, string respondingParty, string respondingPlural, string propoundingParty)
+        private void LoadResponseStandardTexts()
         {
-            //listBox1.Items.Clear();
-            //if (comboBox1.Text == "Add new response...")
-            //{
-            //    button1.Text = "Add";
+            listBox1.Items.Clear();
+            if (comboBox1.SelectedItem == "Add new response...")
+            {
+                button1.Text = "Add";
+                textBox1.Clear();
+            }
+            else
+            {
+                button1.Text = "Save Changes";
+                Response response = comboBox1.SelectedItem as Response;
+                if (Int32.TryParse(response.ID, out int result))
+                {
+                    ResponseStandard responseStandard = ResponseStandardRepository.GetResponseByID(response.ID);
 
-            //}
-            //else
-            //{
-            //    ResponseStandardRepository repository = new ResponseStandardRepository();
-            //    ResponseStandard response = repository.GetResponseByName(comboBox1.Text);
-            //    response = repository.FillStrings(response, respondingParty, respondingPlural, propoundingParty, docType);
-
-            //    var texts = response.Texts;
-            //    foreach (string text in texts)
-            //    {
-            //        listBox1.Items.Add(text);
-            //    }
-            //}
+                    foreach (string text in responseStandard.Texts)
+                    {
+                        string t = ResponseStandardRepository.FillString(response.ID, text, respondingParty, respondingPlural, propoundingParty, docType);
+                        listBox1.Items.Add(t);
+                    }
+                }
+            }
 
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadResponseStandardTexts(comboBox1.Text, respondingParty, respondingPlural, propoundingParty);
-
+            LoadResponseStandardTexts();
+            var response = comboBox1.SelectedItem as Response;
+            string text = string.Empty;
+            try
+            {
+                text = ResponseStandardRepository.FillString(response.ID, response.DisplayText, respondingParty, respondingPlural, propoundingParty, docType);
+            }
+            catch { }
+            textBox1.Text = text;
         }
 
-        private void LoadComboBox1(Response response, string respondingParty, string respondingPlural, string propoundingParty)
+        private void LoadComboBox1(Response response, string docType)
         {
-            comboBox1.Text = response.Name;
+            List<Response> responses = new List<Response>();
+            foreach (Response res in LoadResponsesByDocType(docType))
+            {
+                comboBox1.Items.Add(res);
+                responses.Add(res);
+            }
+            comboBox1.DisplayMember = "Name";
 
-            //foreach (Response res in LoadResponsesByDocType(docType))
-            //{
-            //    comboBox1.Items.Add(res);
-            //}
+            var newRes = comboBox1.Items.Add("Add new response...");
 
-            //LoadResponseStandardTexts(ResponseName, respondingParty, respondingPlural, propoundingParty);
+            if (response == null)
+            {
+                comboBox1.SelectedItem = "Add new response...";
+            }
+            else
+            {
+                var selectedResponse = responses.Where(n => n.ID == response.ID).FirstOrDefault();
+                comboBox1.SelectedItem = selectedResponse;
+            }
+        }
 
-            //comboBox1.Items.Add("Add new response...");
-
+        private void LoadDocText(Response response)
+        {
+            string text = string.Empty;
+            if (response != null)
+            {
+                text = ResponseStandardRepository.FillString(response.ID, response.DisplayText, respondingParty, respondingPlural, propoundingParty, docType);
+            }
+            textBox1.Text = text;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Responses xmlns="Prelimine Litkit Response Tool">
   <Document>
-    <Responding>TBD</Responding>
+    <Responding>[Enter the Responding Party or Parties]</Responding>
     <RespondingPlural>False</RespondingPlural>
-    <Propounding>TBD</Propounding>
+    <Propounding>[Enter the Propounding Party or Parties]</Propounding>
     <DocType>Answer a Complaint</DocType>
   </Document>
   <Response xmlns="">

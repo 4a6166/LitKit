@@ -71,35 +71,33 @@ namespace LitKit1.Controls.AnsResControls
         private void LoadListBoxItems()
         {
             listBox1.Items.Clear();
+            int type = 0;
+            switch (comboBox1.Text)
+            {
+                case "Answer a Complaint":
+                    type = 0;
+                    break;
+                case "Respond to Requests for Admission":
+                    type = 1;
+                    break;
+                case "Respond to Requests for Production of Documents":
+                    type = 2;
+                    break;
+                case "Respond to Interrogatories":
+                    type = 3;
+                    break;
+                default:
+                    throw new Exception("DocType incorrect");
+            }
+
             foreach (var t in responses)
             {
-                int type = 0;
-
-                switch (comboBox1.Text)
-                {
-                    case "Answer a Complaint":
-                        type = 0;
-                        break;
-                    case "Respond to Requests for Admission":
-                        type = 1;
-                        break;
-                    case "Respond to Requests for Production of Documents":
-                        type = 2;
-                        break;
-                    case "Respond to Interrogatories":
-                        type = 3;
-                        break;
-                    default:
-                        throw new Exception("DocType incorrect");
-                }
-
                 if (t.DocTypes[type])
                 {
                     var item = listBox1.Items.Add(t);
                 }
-                listBox1.DisplayMember = "Name";
-
             }
+            listBox1.DisplayMember = "Name";
         }
 
 
@@ -184,6 +182,42 @@ namespace LitKit1.Controls.AnsResControls
             repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
         }
 
+        private void toolTipPropoundingParty_Popup(object sender, PopupEventArgs e)
+        {
 
+        }
+
+        private void comboBox1_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(comboBox1, "Select the type of response you will be drafting");
+        }
+
+        private void textBox1_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(textBox1, "Enter the Responding Party or Parties as you would like them to appear in the document");
+        }
+
+        private void textBox2_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(textBox2, "Enter the Propounding Party as you would like it to appear in the document");
+
+        }
+
+        private void button1_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(button1, "Select to customize the language that is inserted when a Response option is double clicked or to add a new Response option for the selected Response type.");
+
+        }
+
+        private void listBox1_MouseHover(object sender, EventArgs e)
+        {
+            string text = "the selected";
+            if (listBox1.SelectedItem != null)
+            {
+                Response response = listBox1.SelectedItem as Response;
+                text = "\""+response.Name +"\"";
+            }
+            toolTip.SetToolTip(listBox1, $"Insert language for the {text} Response option into the document");
+        }
     }
 }

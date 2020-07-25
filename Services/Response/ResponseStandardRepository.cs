@@ -255,7 +255,7 @@ namespace Services.Response
         {
             ResponseStandard response = GetResponseByID(id);
 
-            string result = string.Empty;
+            string result = text;
             if(response != null)
             {
                 result = text.Replace("[Responding]", respondingParty);

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ctrlAnsResView));
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,10 +38,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.toolTipPropoundingParty = new System.Windows.Forms.ToolTip(this.components);
-            this.toolTipRespondingParty = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.button1 = new System.Windows.Forms.Button();
-            this.toolTipCustomize = new System.Windows.Forms.ToolTip(this.components);
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
@@ -57,6 +54,7 @@
             this.comboBox1.TabIndex = 0;
             this.comboBox1.Text = "Complaint";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBox1.MouseHover += new System.EventHandler(this.comboBox1_MouseHover);
             // 
             // label1
             // 
@@ -95,6 +93,7 @@
             this.textBox1.TabIndex = 4;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
+            this.textBox1.MouseHover += new System.EventHandler(this.textBox1_MouseHover);
             // 
             // textBox2
             // 
@@ -106,6 +105,7 @@
             this.textBox2.TabIndex = 5;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             this.textBox2.Leave += new System.EventHandler(this.textBox2_Leave);
+            this.textBox2.MouseHover += new System.EventHandler(this.textBox2_MouseHover);
             // 
             // label4
             // 
@@ -141,15 +141,10 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "(as you would like it to appear in the document)";
             // 
-            // toolTipPropoundingParty
+            // toolTip
             // 
-            this.toolTipPropoundingParty.Tag = "Add the name of the party or parties propounding the discovery requests, as you w" +
-    "ould like them to appear in the discovery response (for example \"Mr. Smith\", \"Re" +
-    "spondent\", or \"Defendants\").";
-            // 
-            // toolTipRespondingParty
-            // 
-            this.toolTipRespondingParty.Tag = resources.GetString("toolTipRespondingParty.Tag");
+            this.toolTip.Tag = "";
+            this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTipPropoundingParty_Popup);
             // 
             // button1
             // 
@@ -162,11 +157,7 @@
             this.button1.Text = "Customize Objections and Responses";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // toolTipCustomize
-            // 
-            this.toolTipCustomize.Tag = "Users may add, edit, or delete responses. All edits stay with the document and do" +
-    " not affect preset options for other documents using LitKit\'s Response Tool.";
+            this.button1.MouseHover += new System.EventHandler(this.button1_MouseHover);
             // 
             // listBox1
             // 
@@ -178,6 +169,7 @@
             this.listBox1.Size = new System.Drawing.Size(298, 355);
             this.listBox1.TabIndex = 13;
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.listBox1.MouseHover += new System.EventHandler(this.listBox1_MouseHover);
             // 
             // ctrlAnsResView
             // 
@@ -213,10 +205,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ToolTip toolTipPropoundingParty;
-        private System.Windows.Forms.ToolTip toolTipRespondingParty;
+        private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ToolTip toolTipCustomize;
         private System.Windows.Forms.ListBox listBox1;
     }
 }
