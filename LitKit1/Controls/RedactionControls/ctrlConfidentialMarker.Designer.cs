@@ -55,6 +55,7 @@
             this.NoLabel.TabIndex = 49;
             this.NoLabel.Text = "No Confidentiality Notation";
             this.NoLabel.UseVisualStyleBackColor = true;
+            this.NoLabel.Click += new System.EventHandler(this.NoLabel_Click);
             // 
             // ProtectiveOrder
             // 
@@ -65,6 +66,7 @@
             this.ProtectiveOrder.TabIndex = 48;
             this.ProtectiveOrder.Text = "Contains Information Subject to Protective Order";
             this.ProtectiveOrder.UseVisualStyleBackColor = true;
+            this.ProtectiveOrder.Click += new System.EventHandler(this.ProtectiveOrder_Click);
             // 
             // HealthInfo
             // 
@@ -75,6 +77,7 @@
             this.HealthInfo.TabIndex = 47;
             this.HealthInfo.Text = "Contains Protected Health Information";
             this.HealthInfo.UseVisualStyleBackColor = true;
+            this.HealthInfo.Click += new System.EventHandler(this.ProtectedInformation_Click);
             // 
             // PersonalInfo
             // 
@@ -85,6 +88,7 @@
             this.PersonalInfo.TabIndex = 46;
             this.PersonalInfo.Text = "Contains Personal Information";
             this.PersonalInfo.UseVisualStyleBackColor = true;
+            this.PersonalInfo.Click += new System.EventHandler(this.PersonalInfo_Click);
             // 
             // ProtectedInformation
             // 
@@ -95,6 +99,7 @@
             this.ProtectedInformation.TabIndex = 45;
             this.ProtectedInformation.Text = "Protected Information";
             this.ProtectedInformation.UseVisualStyleBackColor = true;
+            this.ProtectedInformation.Click += new System.EventHandler(this.ProtectedInformation_Click);
             // 
             // InCamera
             // 
@@ -105,6 +110,7 @@
             this.InCamera.TabIndex = 44;
             this.InCamera.Text = "In Camera Review";
             this.InCamera.UseVisualStyleBackColor = true;
+            this.InCamera.Click += new System.EventHandler(this.InCamera_Click);
             // 
             // FiledUnderSeal
             // 
@@ -115,6 +121,7 @@
             this.FiledUnderSeal.TabIndex = 43;
             this.FiledUnderSeal.Text = "Filed Under Seal";
             this.FiledUnderSeal.UseVisualStyleBackColor = true;
+            this.FiledUnderSeal.Click += new System.EventHandler(this.FiledUnderSeal_Click);
             // 
             // AttorneysEyes
             // 
@@ -125,6 +132,7 @@
             this.AttorneysEyes.TabIndex = 42;
             this.AttorneysEyes.Text = "Attorneys\' Eyes Only";
             this.AttorneysEyes.UseVisualStyleBackColor = true;
+            this.AttorneysEyes.Click += new System.EventHandler(this.AttorneysEyes_Click);
             // 
             // HighlyConfidential
             // 
@@ -135,6 +143,7 @@
             this.HighlyConfidential.TabIndex = 41;
             this.HighlyConfidential.Text = "Highly Confidential";
             this.HighlyConfidential.UseVisualStyleBackColor = true;
+            this.HighlyConfidential.Click += new System.EventHandler(this.HighlyConfidential_Click);
             // 
             // Confidential
             // 
@@ -155,6 +164,7 @@
             this.Cancel.TabIndex = 39;
             this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
+            this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // label_Notation
             // 
@@ -190,6 +200,7 @@
             this.OtherLabel.TabIndex = 36;
             this.OtherLabel.Text = "Use Custom Notation";
             this.OtherLabel.UseVisualStyleBackColor = true;
+            this.OtherLabel.Click += new System.EventHandler(this.OtherLabel_Click);
             // 
             // label_Other
             // 
@@ -210,8 +221,9 @@
             this.OtherLabel_txt.Name = "OtherLabel_txt";
             this.OtherLabel_txt.Size = new System.Drawing.Size(551, 23);
             this.OtherLabel_txt.TabIndex = 34;
+            this.OtherLabel_txt.Click += new System.EventHandler(this.OtherLabel_txt_TextChanged);
             // 
-            // frmConfidentialMarker
+            // ctrlConfidentialMarker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -231,8 +243,9 @@
             this.Controls.Add(this.OtherLabel);
             this.Controls.Add(this.label_Other);
             this.Controls.Add(this.OtherLabel_txt);
-            this.Name = "frmConfidentialMarker";
+            this.Name = "ctrlConfidentialMarker";
             this.Size = new System.Drawing.Size(761, 487);
+            this.Click += new System.EventHandler(this.ProtectiveOrder_Click);
             this.ResumeLayout(false);
             this.PerformLayout();
 

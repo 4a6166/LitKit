@@ -1,3 +1,14 @@
+Smart Quotes and Dumb Quotes in XML
+To show	In HTML, SGML, or XML use	Displays on your system as
+Left Double Quotation Mark	&#8220;	“
+Right Double Quotation Mark	&#8221;	”
+Left Single Quotation Mark	&#8216;	‘
+Right Single Quotation Mark (including English possessives and contractions)	&#8217;	’
+
+============================================================================================================================================================================================================
+
+
+
 #region constructor and readonly allowing access to ThisAddIn
         public RENAMEtoCLASSname(Application _app)
         {
@@ -105,3 +116,4 @@ private void NewControlButton_Click(object sender, EventArgs e)
 
             ActivePane.Visible = true;
         }
+

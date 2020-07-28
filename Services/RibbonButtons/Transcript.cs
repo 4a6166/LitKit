@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Word = Microsoft.Office.Interop.Word;
 
-namespace Services
+namespace Services.RibbonButtons
 {
     public class Transcript
     {
@@ -91,7 +91,28 @@ namespace Services
                             strng1.StartsWith("Mrs.") ||
                             strng1.StartsWith("Ms.") ||
                             strng1.StartsWith("Dr.") ||
-                            strng1.StartsWith("Court Reporter")
+                            strng1.StartsWith("Court Reporter.") ||
+
+                            strng1.StartsWith("MR.") ||
+                            strng1.StartsWith("MRS.") ||
+                            strng1.StartsWith("MS.") ||
+                            strng1.StartsWith("DR.") ||
+                            strng1.StartsWith("COURT REPORTER.") ||
+
+                            strng1.StartsWith("Q:") ||
+                            strng1.StartsWith("A:") ||
+                            strng1.StartsWith("Mr:") ||
+                            strng1.StartsWith("Mrs:") ||
+                            strng1.StartsWith("Ms:") ||
+                            strng1.StartsWith("Dr:") ||
+                            strng1.StartsWith("Court Reporter:") ||
+
+                            strng1.StartsWith("MR:") ||
+                            strng1.StartsWith("MRS:") ||
+                            strng1.StartsWith("MS:") ||
+                            strng1.StartsWith("DR:") ||
+                            strng1.StartsWith("COURT REPORTER:")
+
                             )
                         {
                             quote += (Environment.NewLine + strng1 + " ");
@@ -108,17 +129,34 @@ namespace Services
 
         public string RemoveNumbers(string Quote)
         {
-            var chars = Quote.ToCharArray().ToList();
-            var firstLetter = chars.Where(c => Char.IsLetter(c)).FirstOrDefault();
-
-            int indexFirstLetter = chars.IndexOf(firstLetter);
-
-            string quote = string.Empty;
-            for (int i = indexFirstLetter; i<=chars.Count-1; i++)
+            try
             {
-                quote += chars[i];
+                var chars = Quote.ToCharArray().ToList();
+                var firstLetter = chars.Where(c => Char.IsLetter(c)).FirstOrDefault();
+
+                int indexFirstLetter = chars.IndexOf(firstLetter);
+
+                string quote = string.Empty;
+                for (int i = indexFirstLetter; i <= chars.Count - 1; i++)
+                {
+                    quote += chars[i];
+                }
+                return quote;
             }
-            return quote;
+            catch
+            {
+                var chars = Quote.ToCharArray().ToList();
+                var firstLetter = chars.Where(c => Char.IsWhiteSpace(c) || Char.IsLetter(c)).FirstOrDefault();
+
+                int indexFirstLetter = chars.IndexOf(firstLetter);
+
+                string quote = string.Empty;
+                for (int i = indexFirstLetter; i <= chars.Count - 1; i++)
+                {
+                    quote += chars[i];
+                }
+                return quote;
+            }
         }
     }
     

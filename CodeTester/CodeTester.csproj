@@ -5,4 +5,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Services\Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="ctrlAnsResView.resx">
+      <DependentUpon>ctrlAnsResView.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

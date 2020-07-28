@@ -53,7 +53,7 @@ namespace Services.RedactionTool
 
             fileToRedact.TrackRevisions = false;
 
-            fileToRedact.Fields.Unlink();
+            //fileToRedact.Fields.Unlink();
 
             return fileToRedact;
         }
@@ -72,6 +72,7 @@ namespace Services.RedactionTool
         }
 
         public static string ConfidentialityLabel = null;
+        public static bool cancel = false;
 
         public void SaveUnRedactedPDF()
         {
@@ -80,7 +81,34 @@ namespace Services.RedactionTool
             if (saveFile.Path != null && saveFile.FileAvailable)
             {
                 var doc = CloneDocument(_app.ActiveDocument);
-                UnMarkRedactions();
+                {
+                    ContentControls contentControls = null;
+                    Word.ContentControl contentControl = null;
+                    
+
+                    for (int k = 1; k <= 10; k++) // loops k times just to ensure it ran on all content controls
+                    {
+                        contentControls = doc.ContentControls;
+                        if (contentControls.Count > 0)
+                        {
+                            for (int i = 1; i <= contentControls.Count; i++)
+                            {
+                                contentControl = contentControls[i];
+                                if (contentControl.Title == "Redaction")
+                                {
+                                    contentControl.Range.Font.ColorIndex = WdColorIndex.wdAuto;
+                                    contentControl.Range.HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                                    contentControl.Delete(false);
+                                }
+                                if (contentControl != null) Marshal.ReleaseComObject(contentControl);
+                            }
+                        }
+                    }
+
+                    Ribbon_0._0._1.Redactions.UnmarkRedactionsFooter(_app);
+                    Ribbon_0._0._1.Redactions.UnmakrRedactionsEndNote(_app);
+                    Ribbon_0._0._1.Redactions.UnmarkRedactionImageFloatAll(_app);
+                }
                 saveFile.FileMarking = ConfidentialityLabel;
 
                 // makes the file marking the same font as the document or Times New Roman

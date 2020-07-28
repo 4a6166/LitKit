@@ -21,6 +21,68 @@ namespace Services.Extensions
             where TKey : IComparable<TKey> =>
                 sequence.Aggregate((T)null, (best, cur) =>
                    best == null || criterion(cur).CompareTo(criterion(best)) < 0 ? cur : best);
+
+        public static bool Has<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (((int)(object)type & (int)(object)value) == (int)(object)value);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public static bool Is<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (int)(object)type == (int)(object)value;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public static T Add<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (T)(object)(((int)(object)type | (int)(object)value));
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        "Could not append value from enumerated type '{0}'.",
+                        typeof(T).Name
+                        ), ex);
+            }
+        }
+        public static T Remove<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (T)(object)(((int)(object)type & ~(int)(object)value));
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        "Could not remove value from enumerated type '{0}'.",
+                        typeof(T).Name
+                        ), ex);
+            }
+        }
+
+        /// <summary>Validate that T is an actual Enum</summary>
+        /// <param name="type">Enum type</param>
+        private static void ValidateEnum(Type type)
+        {
+            if (!type.IsSubclassOf(typeof(Enum)))
+                throw new InvalidCastException($"Cannot cast {(object)type.FullName} to System.Enum");
+        }
+
     }
 
 
