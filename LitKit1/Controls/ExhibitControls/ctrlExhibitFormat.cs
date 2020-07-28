@@ -57,6 +57,11 @@ namespace LitKit1.Controls.ExhibitControls
             parentheses = repository.GetFormatting(FormatNodes.Parentheses);
             idCite = repository.GetFormatting(FormatNodes.IdCite);
 
+            cbDescBatesFormat.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFirstOnly.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbIntroMark.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbNumbering.DropDownStyle = ComboBoxStyle.DropDownList;
+
         }
 
         public string GetExampleTextFromDescBatesText(string text) //TODO: break this type of code into another group? example text updates

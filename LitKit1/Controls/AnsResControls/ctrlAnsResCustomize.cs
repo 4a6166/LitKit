@@ -83,60 +83,36 @@ namespace LitKit1.Controls.AnsResControls
         {
             if (comboBox1.Text == "Add new response...")
             {
-                string name = $"Custom Response {comboBox1.Items.Count + 1}";
-                bool c = false;
-                bool a = false;
-                bool p = false;
-                bool i = false;
-                switch (docType)
-                {
-                    case "Answer a Complaint":
-                        c = true;
-                        a = false;
-                        p = false;
-                        i = false;
-                        break;
-                    case "Respond to Requests for Admission":
-                        c = false;
-                        a = false;
-                        p = true;
-                        i = false;
-                        break;
-                    case "Respond to Requests for Production of Documents":
-                        c = false;
-                        a = false;
-                        p = true;
-                        i = false;
-                        break;
-                    case "Respond to Interrogatories":
-                        c = false;
-                        a = false;
-                        p = false;
-                        i = true;
-                        break;
-                    default:
-                        throw new Exception("docType incorrect");
-                }
+                ctrlAnsResNewName newName = new ctrlAnsResNewName(repository, textBox1.Text, docType);
+                frmPopup frm = new frmPopup();
+                frm.Controls.Add(newName);
+                newName.Dock = DockStyle.Fill;
+                frm.Height = 154;
+                frm.Width = 460;
 
-                repository.AddCustomResponse(name, c, a, p, i, textBox1.Text);
+                frm.StartPosition = FormStartPosition.CenterParent;
+
+                frm.ShowDialog();
 
             }
             else
             {
                 Response resp = (Response)comboBox1.SelectedItem;
                 repository.UpdateResponse(resp.ID, resp.Name, textBox1.Text);
+
+                ctrlAnsResView AnsResCtrl = new ctrlAnsResView();
+                Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
+                ActivePane.Control.Controls.Clear();
+                //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
+
+                ActivePane.Control.Controls.Add(AnsResCtrl);
+                //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
+                AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                ActivePane.Visible = true;
+                //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
             }
-            ctrlAnsResView AnsResCtrl = new ctrlAnsResView();
-            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
-            ActivePane.Control.Controls.Clear();
-            //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
 
-            ActivePane.Control.Controls.Add(AnsResCtrl);
-            //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
-            AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-
-            ActivePane.Visible = true;
-            //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
         }
 
         private List<Response> LoadResponsesByDocType(string docType)
@@ -162,7 +138,6 @@ namespace LitKit1.Controls.AnsResControls
 
             List<Response> responses = new List<Response>();
 
-            ResponseRepository repository = new ResponseRepository(_app);
             foreach (Response res in repository.GetResponses().Where(n => n.DocTypes[docTypeNode]))
             {
                     responses.Add(res);
@@ -200,16 +175,30 @@ namespace LitKit1.Controls.AnsResControls
             LoadResponseStandardTexts();
             var response = comboBox1.SelectedItem as Response;
             string text = string.Empty;
-            try
             {
-                text = ResponseStandardRepository.FillString(response.ID, response.DisplayText, respondingParty, respondingPlural, propoundingParty, docType);
+                if (response != null)
+                {
+                    text = ResponseStandardRepository.FillString(response.ID, response.DisplayText, respondingParty, respondingPlural, propoundingParty, docType);
+                }
+
+                if (comboBox1.Text == "Add new response...")
+                {
+                    listBox1.Visible = false;
+                    label2.Visible = false;
+                }
+                else
+                {
+                    listBox1.Visible = true;
+                    label2.Visible = true;
+                }
             }
-            catch { }
             textBox1.Text = text;
         }
 
         private void LoadComboBox1(Response response, string docType)
         {
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+
             List<Response> responses = new List<Response>();
             foreach (Response res in LoadResponsesByDocType(docType))
             {
@@ -254,6 +243,11 @@ namespace LitKit1.Controls.AnsResControls
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBox7_TextChanged(object sender, EventArgs e)
         {
 
         }

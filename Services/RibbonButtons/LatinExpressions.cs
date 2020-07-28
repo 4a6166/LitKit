@@ -32,6 +32,23 @@ namespace Services.RibbonButtons
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
         }
 
+        public static void UnItalicize(Word.Application _app)
+        {
+            _app.Application.System.Cursor = WdCursorType.wdCursorWait;
+
+            _app.ActiveDocument.Select();
+            var rng = _app.Selection.Range;
+            foreach (string expression in Expressions)
+            {
+                rng.Find.Replacement.Font.Italic = 0;
+
+                rng.Find.Execute(FindText: expression, ReplaceWith: expression, Replace: WdReplace.wdReplaceAll);
+            }
+
+            _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
+        }
+
+
         public static List<string> Expressions = new List<string>()
         {
             "Res ipsa",

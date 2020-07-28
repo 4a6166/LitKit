@@ -60,10 +60,6 @@ namespace Ribbon_0._0._1
                             redaction.Range.ContentControls[i].LockContents = true;
                         }
                     }
-
-
-
-
                 }
             }
             catch
@@ -254,8 +250,9 @@ namespace Ribbon_0._0._1
             }
         }
 
-        public static void ApplyRedactionImageFloat(Word.Application _app)
+        public static bool ApplyRedactionImageFloat(Word.Application _app)
         {
+            bool successful = true;
             var ShapesFloat = _app.ActiveDocument.Shapes;
             for (int shape = 1; shape <= ShapesFloat.Count; shape++)
             {
@@ -263,9 +260,14 @@ namespace Ribbon_0._0._1
                 if (redaction.Title.StartsWith("R-pic") && redaction.HasChart == MsoTriState.msoFalse)
                 {
                     redaction.PictureFormat.Brightness = 0f;
-                }
 
+                    if (redaction.PictureFormat.Brightness != 0f)
+                    {
+                        successful = false;
+                    }
+                }
             }
+            return successful;
         }
 
         public static void UnmarkRedactionImageFloat(Word.Application _app)
@@ -334,19 +336,22 @@ namespace Ribbon_0._0._1
                 }
                 if (fileAvailable)
                 {
-
+                    bool successful = true;
 
                     var doc = CloneDocument(_app.ActiveDocument);
-                    ApplyRedactions(_app);
-                    ApplyRedactionsFooter(_app);
-                    ApplyRedactionsEndNote(_app);
-                    ApplyRedactionImageFloat(_app);
-                    //ApplyRedactionsChart(_app);
+                    successful = ApplyRedactions(_app);
+                    successful = ApplyRedactionsFooter(_app);
+                    successful = ApplyRedactionsEndNote(_app);
+                    successful = ApplyRedactionImageFloat(_app);
+                    //successful = ApplyRedactionsChart(_app);
 
-                    _app.ActiveDocument.ExportAsFixedFormat(saveFileDialog1.FileName, Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true, IncludeDocProps: false, KeepIRM: false, DocStructureTags: false, BitmapMissingFonts: true, UseISO19005_1: false);
+                    if (successful)
+                    {
+                        _app.ActiveDocument.ExportAsFixedFormat(saveFileDialog1.FileName, Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true, IncludeDocProps: false, KeepIRM: false, DocStructureTags: false, BitmapMissingFonts: true, UseISO19005_1: false);
+                    }
+                    else { MessageBox.Show("There was an error redacting your document.", "Error Redacting Document", MessageBoxButtons.OK, MessageBoxIcon.Error); }
 
                     doc.Close(WdSaveOptions.wdDoNotSaveChanges);
-
                     //MessageBox.Show(
                     //    text: $"Redacted PDF exported to {saveFileDialog1.FileName}",
                     //    caption: "Export Complete",
@@ -463,13 +468,14 @@ namespace Ribbon_0._0._1
 
 
         #region Methods without Ribbon Access (nested methods)
-        public static void ApplyRedactions(Word.Application _app)
+        public static bool ApplyRedactions(Word.Application _app)
         {
+            bool successful = true;
             Word.Document doc = null;
             Word.ContentControls contentControls = null;
             Word.ContentControl contentControl = null;
 
-            string controlsList = string.Empty;
+            //string controlsList = string.Empty;
 
             try
             {
@@ -492,6 +498,11 @@ namespace Ribbon_0._0._1
                             contentControl.Range.InlineShapes[shape].PictureFormat.Brightness = 0f;
                         }
 
+                        if(contentControl.Range.Font.Fill.Transparency != 1)
+                        {
+                            successful = false;
+                        }
+
                     }
 
                     if (contentControl != null) Marshal.ReleaseComObject(contentControl);
@@ -503,11 +514,12 @@ namespace Ribbon_0._0._1
                 if (contentControls != null) Marshal.ReleaseComObject(contentControls);
                 if (doc != null) Marshal.ReleaseComObject(doc);
             }
-
+            return successful;
         }
 
-        public static void ApplyRedactionsFooter(Word.Application _app)
+        public static bool ApplyRedactionsFooter(Word.Application _app)
         {
+            bool successful = true;
             Word.Document doc = null;
             Word.ContentControls contentControls = null;
             Word.ContentControl contentControl = null;
@@ -532,6 +544,10 @@ namespace Ribbon_0._0._1
 
                             contentControl.Range.Font.Fill.Transparency = 1;
 
+                            if (contentControl.Range.Font.Fill.Transparency != 1)
+                            {
+                                successful = false;
+                            }
                         }
 
                         if (contentControl != null) Marshal.ReleaseComObject(contentControl);
@@ -544,11 +560,12 @@ namespace Ribbon_0._0._1
                 if (contentControls != null) Marshal.ReleaseComObject(contentControls);
                 if (doc != null) Marshal.ReleaseComObject(doc);
             }
-
+            return successful;
         }
 
-        public static void ApplyRedactionsEndNote(Word.Application _app)
+        public static bool ApplyRedactionsEndNote(Word.Application _app)
         {
+            bool successful = true;
             Word.Document doc = null;
             Word.ContentControls contentControls = null;
             Word.ContentControl contentControl = null;
@@ -573,6 +590,10 @@ namespace Ribbon_0._0._1
 
                             contentControl.Range.Font.Fill.Transparency = 1;
 
+                            if (contentControl.Range.Font.Fill.Transparency != 1)
+                            {
+                                successful = false;
+                            }
                         }
 
                         if (contentControl != null) Marshal.ReleaseComObject(contentControl);
@@ -585,7 +606,7 @@ namespace Ribbon_0._0._1
                 if (contentControls != null) Marshal.ReleaseComObject(contentControls);
                 if (doc != null) Marshal.ReleaseComObject(doc);
             }
-
+            return successful;
         }
 
         public static void UnmarkRedactionsFooter(Word.Application _app)

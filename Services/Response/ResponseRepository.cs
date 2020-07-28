@@ -137,8 +137,6 @@ namespace Services.Response
 
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNode ResponsesNode = customXmlDoc.DocumentElement;
-            //CustomXMLNode PropsNode = ResponsesNode.SelectSingleNode("//Document");
-            //return PropsNode.SelectSingleNode("//" + node.ToString()).Text;
 
             CustomXMLNode PropsNode = ResponsesNode.ChildNodes[1];
             return PropsNode.ChildNodes[i].Text;

@@ -48,16 +48,18 @@
             this.btnNDash = this.Factory.CreateRibbonButton();
             this.btnMDash = this.Factory.CreateRibbonButton();
             this.btnSmrtQuotes = this.Factory.CreateRibbonButton();
-            this.btnBlockQuotes = this.Factory.CreateRibbonButton();
             this.btnInsertNBS = this.Factory.CreateRibbonButton();
+            this.btnKeepWithNext = this.Factory.CreateRibbonButton();
+            this.menu5 = this.Factory.CreateRibbonMenu();
             this.btnLatin = this.Factory.CreateRibbonButton();
+            this.button1 = this.Factory.CreateRibbonButton();
             this.menu3 = this.Factory.CreateRibbonMenu();
             this.btnSingleSpace = this.Factory.CreateRibbonButton();
             this.btnDoubleSpace = this.Factory.CreateRibbonButton();
             this.menu4 = this.Factory.CreateRibbonMenu();
             this.btnAddOxfordComma = this.Factory.CreateRibbonButton();
             this.btnRemoveOxfordComma = this.Factory.CreateRibbonButton();
-            this.btnKeepWithNext = this.Factory.CreateRibbonButton();
+            this.btnBlockQuotes = this.Factory.CreateRibbonButton();
             this.btnShowHide = this.Factory.CreateRibbonToggleButton();
             this.ClipboardButton = this.Factory.CreateRibbonButton();
             this.MainTab = this.Factory.CreateRibbonTab();
@@ -92,14 +94,14 @@
             // 
             grpShortcuts.Items.Add(this.menuTranscript);
             grpShortcuts.Items.Add(this.menu1);
-            grpShortcuts.Items.Add(this.btnSmrtQuotes);
-            grpShortcuts.Items.Add(this.btnBlockQuotes);
-            grpShortcuts.Items.Add(this.btnInsertNBS);
-            grpShortcuts.Items.Add(this.btnLatin);
-            grpShortcuts.Items.Add(this.menu3);
+            grpShortcuts.Items.Add(this.menu5);
             grpShortcuts.Items.Add(this.menu4);
-            grpShortcuts.Items.Add(this.btnKeepWithNext);
+            grpShortcuts.Items.Add(this.menu3);
+            grpShortcuts.Items.Add(this.btnSmrtQuotes);
+            grpShortcuts.Items.Add(this.btnInsertNBS);
+            grpShortcuts.Items.Add(this.btnBlockQuotes);
             grpShortcuts.Items.Add(this.btnShowHide);
+            grpShortcuts.Items.Add(this.btnKeepWithNext);
             grpShortcuts.Items.Add(this.ClipboardButton);
             grpShortcuts.Label = "Shortcuts";
             grpShortcuts.Name = "grpShortcuts";
@@ -221,13 +223,6 @@
             this.btnSmrtQuotes.SuperTip = "Replaces dumb quotes with smart quotes in the document";
             this.btnSmrtQuotes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSmrtQuotes_Click);
             // 
-            // btnBlockQuotes
-            // 
-            this.btnBlockQuotes.Label = "Block Quotes";
-            this.btnBlockQuotes.Name = "btnBlockQuotes";
-            this.btnBlockQuotes.Visible = false;
-            this.btnBlockQuotes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnBlockQuotes_Click);
-            // 
             // btnInsertNBS
             // 
             this.btnInsertNBS.Label = "Insert NBS";
@@ -236,12 +231,37 @@
     "No.";
             this.btnInsertNBS.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnInsertNBS_Click);
             // 
+            // btnKeepWithNext
+            // 
+            this.btnKeepWithNext.Label = "Keep With Next";
+            this.btnKeepWithNext.Name = "btnKeepWithNext";
+            this.btnKeepWithNext.OfficeImageId = "StylesStyleSeparator";
+            this.btnKeepWithNext.ShowImage = true;
+            this.btnKeepWithNext.SuperTip = "Applies \"keep with next\" formatting to the selected paragraph";
+            this.btnKeepWithNext.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnKeepWithNext_Click);
+            // 
+            // menu5
+            // 
+            this.menu5.Items.Add(this.btnLatin);
+            this.menu5.Items.Add(this.button1);
+            this.menu5.Label = "Latin Words";
+            this.menu5.Name = "menu5";
+            // 
             // btnLatin
             // 
             this.btnLatin.Label = "Italicize Latin";
             this.btnLatin.Name = "btnLatin";
+            this.btnLatin.ShowImage = true;
             this.btnLatin.SuperTip = "Italicizes Latin words and phrases commonly used in the legal world";
             this.btnLatin.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnLatin_Click);
+            // 
+            // button1
+            // 
+            this.button1.Label = "Un-italicize Latin";
+            this.button1.Name = "button1";
+            this.button1.ShowImage = true;
+            this.button1.SuperTip = "Removes italics from Latin words and phrases commonly used in the legal world";
+            this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click_1);
             // 
             // menu3
             // 
@@ -287,14 +307,12 @@
             this.btnRemoveOxfordComma.ShowImage = true;
             this.btnRemoveOxfordComma.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnRemoveOxfordComma_Click);
             // 
-            // btnKeepWithNext
+            // btnBlockQuotes
             // 
-            this.btnKeepWithNext.Label = "Keep With Next";
-            this.btnKeepWithNext.Name = "btnKeepWithNext";
-            this.btnKeepWithNext.OfficeImageId = "StylesStyleSeparator";
-            this.btnKeepWithNext.ShowImage = true;
-            this.btnKeepWithNext.SuperTip = "Applies \"keep with next\" formatting to the selected paragraph";
-            this.btnKeepWithNext.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnKeepWithNext_Click);
+            this.btnBlockQuotes.Label = "Block Quotes";
+            this.btnBlockQuotes.Name = "btnBlockQuotes";
+            this.btnBlockQuotes.Visible = false;
+            this.btnBlockQuotes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnBlockQuotes_Click);
             // 
             // btnShowHide
             // 
@@ -483,11 +501,13 @@
             // ExhibitChangeControl
             // 
             this.ExhibitChangeControl.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.ExhibitChangeControl.Enabled = false;
             this.ExhibitChangeControl.Image = global::LitKit1.Properties.Resources.Group;
             this.ExhibitChangeControl.Label = "TestClass Button";
             this.ExhibitChangeControl.Name = "ExhibitChangeControl";
             this.ExhibitChangeControl.OfficeImageId = "TipWizardHelp";
             this.ExhibitChangeControl.ShowImage = true;
+            this.ExhibitChangeControl.Visible = false;
             this.ExhibitChangeControl.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Test_Button_Click);
             // 
             // MainRibbon
@@ -558,6 +578,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnSingleSpace;
         internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu4;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnRemoveOxfordComma;
+        internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu5;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
     }
 
     partial class ThisRibbonCollection

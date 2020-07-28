@@ -15,10 +15,11 @@ namespace LitKit1.Controls.AnsResControls
             repository = new ResponseRepository(_app);
             responses = repository.GetResponses();
             loadCurrentDocProperties(_app);
+
             loadComboBoxItems();
+
             LoadListBoxItems();
 
-            UpdateViewVars();
         }
 
 
@@ -33,24 +34,20 @@ namespace LitKit1.Controls.AnsResControls
 
         private void loadCurrentDocProperties(Word.Application _app)
         {
+            UpdateViewVars();
+            comboBox1.Text = docType;
+            textBox1.Text = respondingParty;
+            textBox2.Text = propoundingParty;
+            checkBox1.Checked = bool.Parse(respondingPlural);
 
-            comboBox1.Text = repository.GetDocProps(_app, DocPropsNode.DocType);
-            textBox1.Text = repository.GetDocProps(_app, DocPropsNode.Responding);
-            textBox2.Text = repository.GetDocProps(_app, DocPropsNode.Propounding);
-            if (repository.GetDocProps(_app, DocPropsNode.RespondingPlural) == "True")
-            {
-                checkBox1.Checked = true;
-            }
-            else checkBox1.Checked = false;
-            
         }
 
         private void UpdateViewVars()
         {
-            docType = comboBox1.Text;
-            respondingParty = textBox1.Text;
-            respondingPlural = checkBox1.Checked.ToString();
-            propoundingParty = textBox2.Text;
+            docType = repository.GetDocProps(_app, DocPropsNode.DocType);
+            respondingParty = repository.GetDocProps(_app, DocPropsNode.Responding);
+            respondingPlural = repository.GetDocProps(_app, DocPropsNode.RespondingPlural).ToString();
+            propoundingParty = repository.GetDocProps(_app, DocPropsNode.Propounding);
         }
 
         private void loadComboBoxItems()
@@ -65,6 +62,9 @@ namespace LitKit1.Controls.AnsResControls
             comboBox1.Items.Add(admission);
             comboBox1.Items.Add(production);
             comboBox1.Items.Add(interrogatory);
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            comboBox1.SelectedItem = docType;
 
         }
 

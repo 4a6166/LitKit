@@ -168,6 +168,12 @@
     <Compile Include="Controls\AnsResControls\ctrlAnsResMain.Designer.cs">
       <DependentUpon>ctrlAnsResMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AnsResControls\ctrlAnsResNewName.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AnsResControls\ctrlAnsResNewName.Designer.cs">
+      <DependentUpon>ctrlAnsResNewName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AnsResControls\ctrlAnsResView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -249,6 +255,9 @@
     <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResMain.resx">
       <DependentUpon>ctrlAnsResMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResNewName.resx">
+      <DependentUpon>ctrlAnsResNewName.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResView.resx">
       <DependentUpon>ctrlAnsResView.cs</DependentUpon>
     </EmbeddedResource>
@@ -270,6 +279,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ExhibitControls\UITests.resx">
       <DependentUpon>UITests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\frmPopup.resx">
+      <DependentUpon>frmPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\frmToast.resx">
       <DependentUpon>frmToast.cs</DependentUpon>

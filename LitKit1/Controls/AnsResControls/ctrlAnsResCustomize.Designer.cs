@@ -39,7 +39,17 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox5 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox6 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox7 = new System.Windows.Forms.RichTextBox();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -56,9 +66,9 @@
             this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(133, 48);
+            this.comboBox1.Location = new System.Drawing.Point(123, 48);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(168, 21);
+            this.comboBox1.Size = new System.Drawing.Size(178, 21);
             this.comboBox1.TabIndex = 2;
             this.comboBox1.Text = "Complaint";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
@@ -120,9 +130,9 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Italic);
-            this.label2.Location = new System.Drawing.Point(17, 293);
+            this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(281, 29);
+            this.label2.Size = new System.Drawing.Size(289, 35);
             this.label2.TabIndex = 12;
             this.label2.Text = "Consider modifying the response language with one of these options:";
             // 
@@ -132,42 +142,156 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.listBox1);
-            this.panel1.Location = new System.Drawing.Point(12, 322);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Location = new System.Drawing.Point(12, 258);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(289, 268);
+            this.panel1.Size = new System.Drawing.Size(289, 246);
             this.panel1.TabIndex = 14;
             // 
             // listBox1
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBox1.BackColor = System.Drawing.SystemColors.Window;
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(0, 0);
+            this.listBox1.Location = new System.Drawing.Point(0, 37);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(289, 268);
+            this.listBox1.Size = new System.Drawing.Size(289, 186);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // richTextBox1
             // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBox1.BackColor = System.Drawing.SystemColors.Window;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 599);
+            this.richTextBox1.Location = new System.Drawing.Point(12, 4);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.richTextBox1.Size = new System.Drawing.Size(317, 39);
+            this.richTextBox1.Size = new System.Drawing.Size(289, 29);
             this.richTextBox1.TabIndex = 15;
-            this.richTextBox1.Text = "To reference the preceeding paragraph, type [X] including brackets in place of th" +
-    "e paragraph number in custom langauge.";
+            this.richTextBox1.Text = "Use the below keys (including brackets) to utilize dynamic response entry:";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.tableLayoutPanel1);
+            this.panel2.Controls.Add(this.richTextBox1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 510);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(317, 128);
+            this.panel2.TabIndex = 16;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.85813F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.14187F));
+            this.tableLayoutPanel1.Controls.Add(this.richTextBox7, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.richTextBox6, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.richTextBox5, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.richTextBox4, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.richTextBox3, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.richTextBox2, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 39);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(289, 73);
+            this.tableLayoutPanel1.TabIndex = 16;
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox2.Location = new System.Drawing.Point(201, 3);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.ReadOnly = true;
+            this.richTextBox2.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox2.Size = new System.Drawing.Size(85, 18);
+            this.richTextBox2.TabIndex = 17;
+            this.richTextBox2.Text = "[X]";
+            // 
+            // richTextBox3
+            // 
+            this.richTextBox3.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox3.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.ReadOnly = true;
+            this.richTextBox3.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox3.Size = new System.Drawing.Size(192, 18);
+            this.richTextBox3.TabIndex = 18;
+            this.richTextBox3.Text = "Preceding Paragraph Number";
+            // 
+            // richTextBox4
+            // 
+            this.richTextBox4.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox4.Location = new System.Drawing.Point(3, 27);
+            this.richTextBox4.Name = "richTextBox4";
+            this.richTextBox4.ReadOnly = true;
+            this.richTextBox4.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox4.Size = new System.Drawing.Size(192, 18);
+            this.richTextBox4.TabIndex = 19;
+            this.richTextBox4.Text = "Responding Party or Parties";
+            // 
+            // richTextBox5
+            // 
+            this.richTextBox5.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox5.Location = new System.Drawing.Point(201, 27);
+            this.richTextBox5.Name = "richTextBox5";
+            this.richTextBox5.ReadOnly = true;
+            this.richTextBox5.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox5.Size = new System.Drawing.Size(85, 18);
+            this.richTextBox5.TabIndex = 20;
+            this.richTextBox5.Text = "[Responding]";
+            // 
+            // richTextBox6
+            // 
+            this.richTextBox6.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox6.Location = new System.Drawing.Point(201, 51);
+            this.richTextBox6.Name = "richTextBox6";
+            this.richTextBox6.ReadOnly = true;
+            this.richTextBox6.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox6.Size = new System.Drawing.Size(85, 19);
+            this.richTextBox6.TabIndex = 21;
+            this.richTextBox6.Text = "[Propounding]";
+            // 
+            // richTextBox7
+            // 
+            this.richTextBox7.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox7.Location = new System.Drawing.Point(3, 51);
+            this.richTextBox7.Name = "richTextBox7";
+            this.richTextBox7.ReadOnly = true;
+            this.richTextBox7.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox7.Size = new System.Drawing.Size(192, 19);
+            this.richTextBox7.TabIndex = 22;
+            this.richTextBox7.Text = "Propounding Party or Parties";
+            this.richTextBox7.TextChanged += new System.EventHandler(this.richTextBox7_TextChanged);
             // 
             // ctrlAnsResCustomize
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label11);
@@ -180,6 +304,8 @@
             this.Name = "ctrlAnsResCustomize";
             this.Size = new System.Drawing.Size(317, 638);
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,5 +323,13 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.RichTextBox richTextBox7;
+        private System.Windows.Forms.RichTextBox richTextBox6;
+        private System.Windows.Forms.RichTextBox richTextBox5;
+        private System.Windows.Forms.RichTextBox richTextBox4;
+        private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.RichTextBox richTextBox2;
     }
 }

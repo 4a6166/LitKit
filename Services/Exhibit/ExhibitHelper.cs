@@ -746,7 +746,7 @@ namespace Services.Exhibit
                     if (FirstOnly != "In no citations" & DescBatesFormat.StartsWith("(") & cc.Range.Text.Contains('('))
                     {
                         var ccTextSplit = cc.Range.Text.Split('(');
-                        pinCiteRange.SetRange(cc.Range.Start + ccTextSplit[0].Length+ccTextSplit[1].Length+1, cc.Range.Start + ccTextSplit[0].Length+ccTextSplit[1].Length+1);
+                        pinCiteRange.SetRange(cc.Range.Start + ccTextSplit[0].Length+ccTextSplit[1].Length, cc.Range.Start + ccTextSplit[0].Length+ccTextSplit[1].Length);
                     }
                     else
                     {
@@ -769,6 +769,7 @@ namespace Services.Exhibit
         }
         public void ReAddPincite(Word.Selection sel, string PinCiteText)
         {
+            string pinCiteText = PinCiteText;
             repository = ExhibitRepositoryFactory.GetRepository("XML", sel.Application);
             var cc = GetCCForPINCITE(sel);
 
@@ -785,6 +786,7 @@ namespace Services.Exhibit
                 {
                     var ccTextSplit = cc.Range.Text.Split('(');
                     pinCiteRange.SetRange(cc.Range.Start + ccTextSplit[0].Length - 1, cc.Range.Start + ccTextSplit[0].Length - 1);
+                    
                 }
 
                 else
@@ -807,6 +809,8 @@ namespace Services.Exhibit
 
                     pinCiteRange.SetRange(cc.Range.End - 1, cc.Range.End-1);
                 }
+
+                pinCiteText = pinCiteText.Trim();
             }
 
             var pinCiteCC = sel.ContentControls.Add(WdContentControlType.wdContentControlRichText, pinCiteRange);
@@ -815,7 +819,7 @@ namespace Services.Exhibit
             {
                 pinCiteCC.Range.Text = string.Empty;
             }
-            else pinCiteCC.Range.Text = PinCiteText;
+            else pinCiteCC.Range.Text = pinCiteText;
             pinCiteCC.Tag = "PINCITE:" + cc.Tag;
             pinCiteCC.Range.Italic = 0;
 

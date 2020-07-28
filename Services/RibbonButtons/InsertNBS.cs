@@ -34,6 +34,7 @@ namespace Services.RibbonButtons
         {
             "Dr. ",
             "Mr. ",
+            "Ms. ",
             "Mrs. ",
             "Prof. ",
             "$ ",

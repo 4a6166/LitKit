@@ -87,7 +87,7 @@ namespace LitKit1
 
         private void ExhibitTool_Click(object sender, RibbonControlEventArgs e)
         {
-            AddExhibts();
+            //AddExhibtsForTest();
 
             ctrlExhibitView exhibitCtrl = new ctrlExhibitView();
             Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
@@ -104,7 +104,7 @@ namespace LitKit1
 
         }
 
-        private void AddExhibts()
+        private void AddExhibtsForTest()
         {
             ExhibitHelper helper = new ExhibitHelper();
             IExhibitRepository repository = ExhibitRepositoryFactory.GetRepository("XML", _app);
@@ -276,6 +276,7 @@ namespace LitKit1
         {
             ///////// Services.RedactionTool.Redactions lead-in
             frmPopup frm = new frmPopup();
+            frm.Text = "Create Unredacted PDF";
             frm.ControlBox = false;
             ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker();
 
@@ -372,6 +373,11 @@ namespace LitKit1
         private void ExhibitChangeControl_Click(object sender, RibbonControlEventArgs e)
         {
 
+        }
+
+        private void button1_Click_1(object sender, RibbonControlEventArgs e)
+        {
+            LatinExpressions.UnItalicize(_app);
         }
     }
 }
