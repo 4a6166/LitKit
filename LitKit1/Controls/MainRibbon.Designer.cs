@@ -47,20 +47,20 @@
             this.btnNBHyphen = this.Factory.CreateRibbonButton();
             this.btnNDash = this.Factory.CreateRibbonButton();
             this.btnMDash = this.Factory.CreateRibbonButton();
-            this.btnSmrtQuotes = this.Factory.CreateRibbonButton();
-            this.btnInsertNBS = this.Factory.CreateRibbonButton();
-            this.btnKeepWithNext = this.Factory.CreateRibbonButton();
             this.menu5 = this.Factory.CreateRibbonMenu();
             this.btnLatin = this.Factory.CreateRibbonButton();
             this.button1 = this.Factory.CreateRibbonButton();
-            this.menu3 = this.Factory.CreateRibbonMenu();
-            this.btnSingleSpace = this.Factory.CreateRibbonButton();
-            this.btnDoubleSpace = this.Factory.CreateRibbonButton();
             this.menu4 = this.Factory.CreateRibbonMenu();
             this.btnAddOxfordComma = this.Factory.CreateRibbonButton();
             this.btnRemoveOxfordComma = this.Factory.CreateRibbonButton();
+            this.menu3 = this.Factory.CreateRibbonMenu();
+            this.btnSingleSpace = this.Factory.CreateRibbonButton();
+            this.btnDoubleSpace = this.Factory.CreateRibbonButton();
+            this.btnSmrtQuotes = this.Factory.CreateRibbonButton();
+            this.btnInsertNBS = this.Factory.CreateRibbonButton();
             this.btnBlockQuotes = this.Factory.CreateRibbonButton();
             this.btnShowHide = this.Factory.CreateRibbonToggleButton();
+            this.btnKeepWithNext = this.Factory.CreateRibbonButton();
             this.ClipboardButton = this.Factory.CreateRibbonButton();
             this.MainTab = this.Factory.CreateRibbonTab();
             this.RedactionsGroup = this.Factory.CreateRibbonGroup();
@@ -216,30 +216,6 @@
             this.btnMDash.SuperTip = "Inserts an M-Dash: —";
             this.btnMDash.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.insertMDash_Click);
             // 
-            // btnSmrtQuotes
-            // 
-            this.btnSmrtQuotes.Label = "Smart Quotes";
-            this.btnSmrtQuotes.Name = "btnSmrtQuotes";
-            this.btnSmrtQuotes.SuperTip = "Replaces dumb quotes with smart quotes in the document";
-            this.btnSmrtQuotes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSmrtQuotes_Click);
-            // 
-            // btnInsertNBS
-            // 
-            this.btnInsertNBS.Label = "Insert NBS";
-            this.btnInsertNBS.Name = "btnInsertNBS";
-            this.btnInsertNBS.SuperTip = "Inserts Non-Breaking Spaces after after Dr., Mr., Mrs., Ms., Prof., $, §, ¶, and " +
-    "No.";
-            this.btnInsertNBS.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnInsertNBS_Click);
-            // 
-            // btnKeepWithNext
-            // 
-            this.btnKeepWithNext.Label = "Keep With Next";
-            this.btnKeepWithNext.Name = "btnKeepWithNext";
-            this.btnKeepWithNext.OfficeImageId = "StylesStyleSeparator";
-            this.btnKeepWithNext.ShowImage = true;
-            this.btnKeepWithNext.SuperTip = "Applies \"keep with next\" formatting to the selected paragraph";
-            this.btnKeepWithNext.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnKeepWithNext_Click);
-            // 
             // menu5
             // 
             this.menu5.Items.Add(this.btnLatin);
@@ -263,28 +239,6 @@
             this.button1.SuperTip = "Removes italics from Latin words and phrases commonly used in the legal world";
             this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click_1);
             // 
-            // menu3
-            // 
-            this.menu3.Items.Add(this.btnSingleSpace);
-            this.menu3.Items.Add(this.btnDoubleSpace);
-            this.menu3.Label = "Sentence Spacing";
-            this.menu3.Name = "menu3";
-            this.menu3.SuperTip = "Adds or removes a double space following the sentences";
-            // 
-            // btnSingleSpace
-            // 
-            this.btnSingleSpace.Label = "Single Space Between Sentences";
-            this.btnSingleSpace.Name = "btnSingleSpace";
-            this.btnSingleSpace.ShowImage = true;
-            this.btnSingleSpace.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSingleSpace_Click);
-            // 
-            // btnDoubleSpace
-            // 
-            this.btnDoubleSpace.Label = "Double Space Between Sentences";
-            this.btnDoubleSpace.Name = "btnDoubleSpace";
-            this.btnDoubleSpace.ShowImage = true;
-            this.btnDoubleSpace.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDoubleSpace_Click);
-            // 
             // menu4
             // 
             this.menu4.Items.Add(this.btnAddOxfordComma);
@@ -307,6 +261,41 @@
             this.btnRemoveOxfordComma.ShowImage = true;
             this.btnRemoveOxfordComma.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnRemoveOxfordComma_Click);
             // 
+            // menu3
+            // 
+            this.menu3.Items.Add(this.btnSingleSpace);
+            this.menu3.Items.Add(this.btnDoubleSpace);
+            this.menu3.Label = "Sentence Spacing";
+            this.menu3.Name = "menu3";
+            this.menu3.SuperTip = "Adds or removes a double space following the sentences";
+            // 
+            // btnSingleSpace
+            // 
+            this.btnSingleSpace.Label = "Single Space Between Sentences";
+            this.btnSingleSpace.Name = "btnSingleSpace";
+            this.btnSingleSpace.ShowImage = true;
+            this.btnSingleSpace.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSingleSpace_Click);
+            // 
+            // btnDoubleSpace
+            // 
+            this.btnDoubleSpace.Label = "Double Space Between Sentences";
+            this.btnDoubleSpace.Name = "btnDoubleSpace";
+            this.btnDoubleSpace.ShowImage = true;
+            this.btnDoubleSpace.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDoubleSpace_Click);
+            // 
+            // btnSmrtQuotes
+            // 
+            this.btnSmrtQuotes.Label = "Smart Quotes";
+            this.btnSmrtQuotes.Name = "btnSmrtQuotes";
+            this.btnSmrtQuotes.SuperTip = "Replaces dumb quotes with smart quotes in the document";
+            this.btnSmrtQuotes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSmrtQuotes_Click);
+            // 
+            // btnInsertNBS
+            // 
+            this.btnInsertNBS.Label = "Insert NBS";
+            this.btnInsertNBS.Name = "btnInsertNBS";
+            this.btnInsertNBS.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnInsertNBS_Click);
+            // 
             // btnBlockQuotes
             // 
             this.btnBlockQuotes.Label = "Block Quotes";
@@ -322,6 +311,15 @@
             this.btnShowHide.ShowImage = true;
             this.btnShowHide.SuperTip = "Shows or hides formatting marks (non-printed characters) in the document";
             this.btnShowHide.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnShowHide_Click_1);
+            // 
+            // btnKeepWithNext
+            // 
+            this.btnKeepWithNext.Label = "Keep With Next";
+            this.btnKeepWithNext.Name = "btnKeepWithNext";
+            this.btnKeepWithNext.OfficeImageId = "StylesStyleSeparator";
+            this.btnKeepWithNext.ShowImage = true;
+            this.btnKeepWithNext.SuperTip = "Applies \"keep with next\" formatting to the selected paragraph";
+            this.btnKeepWithNext.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnKeepWithNext_Click);
             // 
             // ClipboardButton
             // 

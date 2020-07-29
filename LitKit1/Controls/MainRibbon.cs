@@ -33,6 +33,7 @@ namespace LitKit1
             /// may have to export to XML to add an image to the shrunken button groups. More here: https://stackoverflow.com/questions/45805664/how-to-set-icon-for-resized-buttom-group-in-excel-ribbon and https://docs.microsoft.com/en-us/windows/win32/windowsribbon/windowsribbon-templates
             _app = Globals.ThisAddIn.Application;
 
+            btnInsertNBS.SuperTip = NBSSuperTip();
         }
 
         #region Insert Symbols Button Click
@@ -79,6 +80,16 @@ namespace LitKit1
 
         #endregion
 
+        private string NBSSuperTip()
+        {
+            string result = "Inserts Non-Breaking Spaces after " + InsertNBS.Expressions.First();
+            for(var i = 1; i<=InsertNBS.Expressions.Count -2; i++)
+            {
+                result += ", " + InsertNBS.Expressions[i];
+            }
+            result += " and "+InsertNBS.Expressions.Last();
+            return result;
+        }
 
         private void ClipboardButton_Click(object sender, RibbonControlEventArgs e)
         {

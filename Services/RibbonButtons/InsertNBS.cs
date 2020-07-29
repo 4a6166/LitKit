@@ -23,8 +23,8 @@ namespace Services.RibbonButtons
             var rng = _app.Selection.Range;
             foreach (string expression in Expressions)
             {
-                string expr = expression.Substring(0, expression.Length - 1) + "\u00A0";
-                rng.Find.Execute(FindText: expression, ReplaceWith: expr, Replace: WdReplace.wdReplaceAll);
+                string expr = expression.Substring(0, expression.Length) + "\u00A0";
+                rng.Find.Execute(FindText: expression + " ", ReplaceWith: expr, Replace: WdReplace.wdReplaceAll);
             }
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
@@ -32,15 +32,16 @@ namespace Services.RibbonButtons
 
         public static List<string> Expressions = new List<string>()
         {
-            "Dr. ",
-            "Mr. ",
-            "Ms. ",
-            "Mrs. ",
-            "Prof. ",
-            "$ ",
-            "No. ",
-            "¶ ",
-            "§ "
+            "Dr.",
+            "Mr.",
+            "Ms.",
+            "Mrs.",
+            "Prof.",
+
+            "No.",
+            "$",
+            "¶",
+            "§"
 
         };
 
