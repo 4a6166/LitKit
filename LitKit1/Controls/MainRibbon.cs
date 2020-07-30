@@ -19,6 +19,7 @@ using Ribbon = Ribbon_0._0._1;
 using Services.RibbonButtons;
 using LitKit1.Controls.AnsResControls;
 using Services.Response;
+using Services.Licensing;
 
 namespace LitKit1
 {
@@ -34,7 +35,16 @@ namespace LitKit1
             _app = Globals.ThisAddIn.Application;
 
             btnInsertNBS.SuperTip = NBSSuperTip();
+
+            licenseIsValid = LicenseChecker.LicenseIsValid();
         }
+
+        private bool licenseIsValid;
+        private void ShowLicenseNotValidMessage()
+        {
+            MessageBox.Show("Your license for LitKit by Prelimine is not valid. Please contact your IT team for assistance.");
+        }
+
 
         #region Insert Symbols Button Click
 
@@ -93,26 +103,35 @@ namespace LitKit1
 
         private void ClipboardButton_Click(object sender, RibbonControlEventArgs e)
         {
-            _app.ShowClipboard();
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                _app.ShowClipboard();
+            }
         }
 
         private void ExhibitTool_Click(object sender, RibbonControlEventArgs e)
         {
-            //AddExhibtsForTest();
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                //AddExhibtsForTest();
 
-            ctrlExhibitView exhibitCtrl = new ctrlExhibitView();
-            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
-            ActivePane.Control.Controls.Clear();
-            //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
+                ctrlExhibitView exhibitCtrl = new ctrlExhibitView();
+                Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+                ActivePane.Control.Controls.Clear();
+                //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
 
-            ActivePane.Control.Controls.Add(exhibitCtrl);
-            //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
-            exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            exhibitCtrl.LoadListView();
+                ActivePane.Control.Controls.Add(exhibitCtrl);
+                //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
+                exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+                exhibitCtrl.LoadListView();
 
-            ActivePane.Visible = true;
-            //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
-
+                ActivePane.Visible = true;
+                //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
+            }
         }
 
         private void AddExhibtsForTest()
@@ -152,67 +171,90 @@ namespace LitKit1
 
         private void btnKeepWithNext_Click(object sender, RibbonControlEventArgs e)
         {
-            if (_app.Selection.Paragraphs.KeepWithNext == 0)
-            {
-                _app.Selection.Paragraphs.KeepWithNext = -1;
-            }
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
             else
             {
-                _app.Selection.Paragraphs.KeepWithNext = 0;
+                if (_app.Selection.Paragraphs.KeepWithNext == 0)
+                {
+                    _app.Selection.Paragraphs.KeepWithNext = -1;
+                }
+                else
+                {
+                    _app.Selection.Paragraphs.KeepWithNext = 0;
+                }
             }
         }
 
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
-            ctrlAnsResView AnsResCtrl = new ctrlAnsResView();
-            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
-            ActivePane.Control.Controls.Clear();
-            //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                ctrlAnsResView AnsResCtrl = new ctrlAnsResView();
+                Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
+                ActivePane.Control.Controls.Clear();
+                //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
 
-            ActivePane.Control.Controls.Add(AnsResCtrl);
-            //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
-            AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            
-            ActivePane.Visible = true;
-            //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
+                ActivePane.Control.Controls.Add(AnsResCtrl);
+                //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
+                AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
 
+                ActivePane.Visible = true;
+                //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
+            }
             
         }
 
         private void btnPinCite_Click(object sender, RibbonControlEventArgs e)
         {
-            _app.UndoRecord.StartCustomRecord("Add Pincite");
-
-            ExhibitHelper helper = new ExhibitHelper();
-            helper.AddPincite(_app.Selection);
-            Globals.ThisAddIn.ReturnFocus();
-
-            _app.UndoRecord.EndCustomRecord();
-
-        }
-
-        private void btnRemovePinCite_Click(object sender, RibbonControlEventArgs e)
-        {
-            _app.UndoRecord.StartCustomRecord("Remove Pincite");
-
-            ExhibitHelper helper = new ExhibitHelper();
-            helper.RemovePinCite(_app.Selection);
-
-            _app.UndoRecord.EndCustomRecord();
-        }
-
-        private void IndexOfExhibits_Click(object sender, RibbonControlEventArgs e)
-        {
-            try
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
             {
-                _app.UndoRecord.StartCustomRecord("Exhibit Index");
+                _app.UndoRecord.StartCustomRecord("Add Pincite");
 
-                new ExhibitHelper().InsertExhibitIndex(_app);
+                ExhibitHelper helper = new ExhibitHelper();
+                helper.AddPincite(_app.Selection);
                 Globals.ThisAddIn.ReturnFocus();
 
                 _app.UndoRecord.EndCustomRecord();
             }
-            catch { MessageBox.Show("Please select an editable range.");}
+        }
+
+        private void btnRemovePinCite_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                _app.UndoRecord.StartCustomRecord("Remove Pincite");
+
+                ExhibitHelper helper = new ExhibitHelper();
+                helper.RemovePinCite(_app.Selection);
+
+                _app.UndoRecord.EndCustomRecord();
+            }
+        }
+
+        private void IndexOfExhibits_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                try
+                {
+                    _app.UndoRecord.StartCustomRecord("Exhibit Index");
+
+                    new ExhibitHelper().InsertExhibitIndex(_app);
+                    Globals.ThisAddIn.ReturnFocus();
+
+                    _app.UndoRecord.EndCustomRecord();
+                }
+                catch { MessageBox.Show("Please select an editable range."); }
+            }
         }
 
         private void CustomerSupport_Click(object sender, RibbonControlEventArgs e)
@@ -221,22 +263,34 @@ namespace LitKit1
         }
 
 
-      
-
         private void button4_Click(object sender, RibbonControlEventArgs e)
         {
-            ctrlAnsResView view = new ctrlAnsResView();
-            EventArgs eventArgs = new EventArgs();
-            view.button1_Click(sender, eventArgs);
-
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                ctrlAnsResView view = new ctrlAnsResView();
+                EventArgs eventArgs = new EventArgs();
+                view.button1_Click(sender, eventArgs);
+            }
         }
 
         private void markRedact_Click(object sender, RibbonControlEventArgs e)
         {
-            /// consider RelationshipsHideTable ImageMSO
-            _app.UndoRecord.StartCustomRecord("Mark Redaction");
-            Ribbon.Redactions.MarkRedaction(_app);
-            _app.UndoRecord.EndCustomRecord();
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                if (!licenseIsValid)
+                { ShowLicenseNotValidMessage(); }
+                else
+                {
+                    /// consider RelationshipsHideTable ImageMSO
+                    _app.UndoRecord.StartCustomRecord("Mark Redaction");
+                    Ribbon.Redactions.MarkRedaction(_app);
+                    _app.UndoRecord.EndCustomRecord();
+                }
+            }
         }
 
         private void unmarkRedact_Click(object sender, RibbonControlEventArgs e)
@@ -278,53 +332,72 @@ namespace LitKit1
 
         private void redactedPDF_Click(object sender, RibbonControlEventArgs e)
         {
-            Ribbon.Redactions.SaveRedactedPDF(_app);
-            Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
-
-        }
-
-        private void unredactedPDF_Click(object sender, RibbonControlEventArgs e)
-        {
-            ///////// Services.RedactionTool.Redactions lead-in
-            frmPopup frm = new frmPopup();
-            frm.Text = "Create Unredacted PDF";
-            frm.ControlBox = false;
-            ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker();
-
-            Redactions redactions = new Redactions(_app);
-
-            frm.Controls.Add(confidentialMarker);
-            confidentialMarker.Visible = true;
-
-            frm.ShowDialog();
-
-            if (Redactions.cancel)
-            {
-
-            }
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
             else
             {
-                redactions.SaveUnRedactedPDF();
-
+                Ribbon.Redactions.SaveRedactedPDF(_app);
                 Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
             }
 
         }
 
+        private void unredactedPDF_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                ///////// Services.RedactionTool.Redactions lead-in
+                frmPopup frm = new frmPopup();
+                frm.Text = "Create Unredacted PDF";
+                frm.ControlBox = false;
+                ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker();
+
+                Redactions redactions = new Redactions(_app);
+
+                frm.Controls.Add(confidentialMarker);
+                confidentialMarker.Visible = true;
+
+                frm.ShowDialog();
+
+                if (Redactions.cancel)
+                {
+
+                }
+                else
+                {
+                    redactions.SaveUnRedactedPDF();
+
+                    Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
+                }
+            }
+        }
+
         private void btnBlockTranscript_Click(object sender, RibbonControlEventArgs e)
         {
-            frmTranscript form = new frmTranscript(InLineOrBlock.Block);
-            form.Text = "Insert Block Quote";
-            form.label1.Text = "Insert Transcript Text to Paste as Block Quote";
-            form.Show();
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                frmTranscript form = new frmTranscript(InLineOrBlock.Block);
+                form.Text = "Insert Block Quote";
+                form.label1.Text = "Insert Transcript Text to Paste as Block Quote";
+                form.Show();
+            }
         }
 
         private void btnInLineTranscript_Click(object sender, RibbonControlEventArgs e)
         {
-            frmTranscript form = new frmTranscript(InLineOrBlock.InLine);
-            form.Text = "Insert In-Text Quote";
-            form.label1.Text = "Insert Transcript Text to Paste As In-Text Quote";
-            form.Show();
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                frmTranscript form = new frmTranscript(InLineOrBlock.InLine);
+                form.Text = "Insert In-Text Quote";
+                form.label1.Text = "Insert Transcript Text to Paste As In-Text Quote";
+                form.Show();
+            }
         }
 
         private void btnShowHide_Click_1(object sender, RibbonControlEventArgs e)
@@ -343,42 +416,82 @@ namespace LitKit1
 
         private void btnLatin_Click(object sender, RibbonControlEventArgs e)
         {
-            LatinExpressions.Italicize(_app);
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                LatinExpressions.Italicize(_app);
+            }
         }
 
         private void btnInsertNBS_Click(object sender, RibbonControlEventArgs e)
         {
-            InsertNBS.Insert(_app);
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                InsertNBS.Insert(_app);
+            }
         }
 
         private void btnSmrtQuotes_Click(object sender, RibbonControlEventArgs e)
         {
-            SmartQuotesAndApostrophes.SetSmartQuotes(_app);
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                SmartQuotesAndApostrophes.SetSmartQuotes(_app);
+            }
         }
 
         private void btnDoubleSpace_Click(object sender, RibbonControlEventArgs e)
         {
-            SpaceBetweenSentences.AddSpace(_app);
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                SpaceBetweenSentences.AddSpace(_app);
+            }
         }
 
         private void btnSingleSpace_Click(object sender, RibbonControlEventArgs e)
         {
-            SpaceBetweenSentences.RemoveSpace(_app);
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                SpaceBetweenSentences.RemoveSpace(_app);
+            }
         }
 
         private void btnBlockQuotes_Click(object sender, RibbonControlEventArgs e)
         {
-            BlockQuotes.FindQuotesToBlock(_app);
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                BlockQuotes.FindQuotesToBlock(_app);
+            }
         }
 
         private void btnOxfordComma_Click(object sender, RibbonControlEventArgs e)
         {
-            OxfordComma.AddOxfordComma(_app);
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                OxfordComma.AddOxfordComma(_app);
+            }
         }
 
         private void btnRemoveOxfordComma_Click(object sender, RibbonControlEventArgs e)
         {
-            OxfordComma.RemoveOxfordComma(_app);
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                OxfordComma.RemoveOxfordComma(_app);
+            }
         }
 
         private void ExhibitChangeControl_Click(object sender, RibbonControlEventArgs e)
@@ -388,7 +501,12 @@ namespace LitKit1
 
         private void button1_Click_1(object sender, RibbonControlEventArgs e)
         {
-            LatinExpressions.UnItalicize(_app);
+            if (!licenseIsValid)
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                LatinExpressions.UnItalicize(_app);
+            }
         }
     }
 }

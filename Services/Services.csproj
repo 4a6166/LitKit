@@ -81,6 +81,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ValidationExtensions.cs" />
+    <Compile Include="Licensing\LicenseChecker.cs" />
     <Compile Include="Response\ResponseEnums.cs" />
     <Compile Include="Response\ResponseRepository.cs" />
     <Compile Include="Response\Response.cs" />

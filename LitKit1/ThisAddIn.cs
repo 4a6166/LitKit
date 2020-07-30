@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using Services;
 using Microsoft.Office.Core;
 using LitKit1.Controls.AnsResControls;
+using Services.Licensing;
 
 namespace LitKit1
 {
@@ -24,7 +25,7 @@ namespace LitKit1
 
             try { AddTaskPanes(Application.ActiveDocument); }
             catch { }
-            
+
             ApplicationEvents4_Event app = (ApplicationEvents4_Event)Application;
             app.DocumentOpen += new ApplicationEvents4_DocumentOpenEventHandler(Application_DocumentOpen);
             app.NewDocument += new ApplicationEvents4_NewDocumentEventHandler(Application_NewDocument);
