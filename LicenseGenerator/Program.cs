@@ -11,33 +11,40 @@ namespace LicenseGenerator
 {
     class Program
     {
+
         static void Main(string[] args)
         {
+            Console.WriteLine("Welcome to the Prelimine License Generator" + Environment.NewLine);
             Intro();
 
-
-
+            //Form1 form = new Form1();
+            //form.ShowDialog();
         }
 
         static string customer;
         static LicenseType licenseType;
         static DateTime expirationDate;
+        static string path = @"C:\Users\Jake\OneDrive\Desktop\LicenseTests";
 
 
         static void Intro()
         {
-            Console.WriteLine("Welcome to the Prelimine License Generator");
-            Console.WriteLine("Do you need a (N)ew set of keys, a new (L)icense, or license (V)alidation? (q to quit)");
+
+            Console.WriteLine("Do you need a new set of (K)eys, a new (L)icense, or license (V)alidation?");
+            Console.WriteLine($"Warning: this write to {path} and will overwrite files named license, publicKey, and privateKey. Press q to quit)");
             var line = Console.ReadLine().ToUpper().First();
 
-            if (line == 'N')
+            if (line == 'K')
             {
-                Console.WriteLine("Where should they be saved?");
-                string path = Console.ReadLine();
-                Crypto crypto = new Crypto();
-                crypto.GenerateKeys(path);
-                Console.WriteLine("New Keys saved");
-                Console.WriteLine();
+                Console.WriteLine("Confirm overwriting keys:");
+                char yesNo = Console.ReadLine().ToUpper().First() ;
+                if (yesNo == 'Y')
+                {
+                    Crypto crypto = new Crypto();
+                    crypto.GenerateKeys(path);
+                    Console.WriteLine("New Keys saved");
+                    Console.WriteLine();
+                }
             }
             else if (line == 'L')
             {
@@ -58,7 +65,7 @@ namespace LicenseGenerator
                 Crypto crypto = new Crypto();
                 try
                 {
-                    crypto.ValidateLicense(@"C:\Users\Jake\OneDrive\Desktop\LicenseTests\license.xml", @"C:\Users\Jake\OneDrive\Desktop\LicenseTests\publicKey.xml");
+                    crypto.ValidateLicense(path+@"\license.xml", path+@"\publicKey.xml");
                     Console.WriteLine("This license is valid");
                     Console.WriteLine();
                 }
@@ -73,6 +80,8 @@ namespace LicenseGenerator
                 Environment.Exit(0);
             }
 
+            Console.WriteLine();
+            Console.WriteLine();
             Intro();
         }
 
@@ -116,10 +125,8 @@ namespace LicenseGenerator
         static void GenerateLicense()
         {
 
-            string path = @"C:\Users\Jake\OneDrive\Desktop\LicenseTests";
-
             Crypto crypto = new Crypto();
-            crypto.CreateLicenses(path, customer, expirationDate, licenseType);
+            crypto.CreateLicense(path, customer, expirationDate, licenseType);
         }
     }
 }

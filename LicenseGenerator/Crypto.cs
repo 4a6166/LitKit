@@ -47,7 +47,7 @@ namespace LicenseGenerator
         //    return value;
         //}
 
-        public void CreateLicenses(string PrivateKeyPath, string Name, DateTime ExpirationDate, LicenseType LicenseType)
+        public void CreateLicense(string PrivateKeyPath, string Name, DateTime ExpirationDate, LicenseType LicenseType)
         {
             try
             {
