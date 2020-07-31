@@ -36,13 +36,17 @@ namespace LitKit1
 
             btnInsertNBS.SuperTip = NBSSuperTip();
 
-            licenseIsValid = LicenseChecker.LicenseIsValid();
+
+            //OpenFileDialog openLicense = new OpenFileDialog();
+            //openLicense.ShowDialog();
+            //string licPath = openLicense.FileName;
+            licenseIsValid = LicenseChecker.LicenseIsValid(@"C:\Prelimine\license.xml");
         }
 
         private bool licenseIsValid;
         private void ShowLicenseNotValidMessage()
         {
-            MessageBox.Show("Your license for LitKit by Prelimine is not valid. Please contact your IT team for assistance.");
+            MessageBox.Show("Your Prelimine LitKit License key is not valid. Please contact your IT administrator or Prelimine for a new license.") ;
         }
 
 

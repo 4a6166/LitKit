@@ -47,11 +47,11 @@ namespace LicenseGenerator
         //    return value;
         //}
 
-        public void CreateLicense(string PrivateKeyPath, string Name, DateTime ExpirationDate, LicenseType LicenseType)
+        public void CreateLicense(string MainPath, string Name, DateTime ExpirationDate, LicenseType LicenseType)
         {
             try
             {
-                var privateKey = File.ReadAllText(PrivateKeyPath + @"\privateKey.xml");
+                var privateKey = File.ReadAllText(MainPath + @"\privateKey.xml");
                 var id = Guid.NewGuid();
                 var generator = new Rhino.Licensing.LicenseGenerator(privateKey);
 
@@ -68,7 +68,7 @@ namespace LicenseGenerator
 
                 var license = generator.Generate(name, id, expirationDate, licenseType);
 
-                File.WriteAllText(@"C:\Users\Jake\OneDrive\Desktop\LicenseTests\license.xml", license);
+                File.WriteAllText(MainPath + @"\license.xml", license);
             }
             catch (Exception ex)
             {

@@ -343,6 +343,7 @@ namespace Ribbon_0._0._1
                     successful = ApplyRedactionsFooter(_app);
                     successful = ApplyRedactionsEndNote(_app);
                     successful = ApplyRedactionImageFloat(_app);
+                    successful = ApplyRedactionsSpecialTables(_app);
                     //successful = ApplyRedactionsChart(_app);
 
                     if (successful)
@@ -359,6 +360,66 @@ namespace Ribbon_0._0._1
                     //    );
                 }
             }
+        }
+
+        private static bool ApplyRedactionsSpecialTables(Word.Application app)
+        {
+            bool successful = true;
+            Word.Document doc = app.ActiveDocument;
+
+            foreach (TableOfContents toc in doc.TablesOfContents)
+            {
+                toc.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
+                {
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                    {
+                        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                    }
+                }
+            }
+
+            foreach (TableOfAuthorities toa in doc.TablesOfAuthorities)
+            {
+                toa.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
+                {
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                    {
+                        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                    }
+                }
+            }
+
+            foreach(TableOfFigures tof in doc.TablesOfFigures)
+            {
+                tof.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
+                {
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                    {
+                        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                    }
+                }
+            }
+
+            foreach(Index index in doc.Indexes)
+            {
+                index.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
+                {
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                    {
+                        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                    }
+                }
+            }
+
+            return successful;
         }
 
         public static string ConfidentialityLabel = null;

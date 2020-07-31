@@ -134,10 +134,53 @@ namespace LitKit1.Controls.AnsResControls
 
                 insertText = ResponseStandardRepository.FillString(listboxItem.ID, insertText, respondingParty, respondingPlural, propoundingParty, docType);
 
+
+                insertText = insertText.Replace("[X]", GetPrecedingParaNumber(_app.Selection));
+
                 _app.Selection.TypeText(insertText);
 
                 Globals.ThisAddIn.ReturnFocus();
             }
+        }
+
+        private string GetPrecedingParaNumber(Word.Selection selection)
+        {
+            try
+            {
+                string result = string.Empty;
+
+                var previousParagraph = _app.Selection.Paragraphs.First.Previous(1);
+                string prevText = previousParagraph.Range.Text.ToUpper();
+
+                string respLanguage = "RESPONSE TO REQUEST FOR ADMISSION NO. ";
+                int endLength;
+                if(prevText.Length < respLanguage.Length + 10)
+                { endLength = prevText.Length-1; } else { endLength = respLanguage.Length + 10; }
+
+                if (prevText.StartsWith(respLanguage))
+                {
+                    for (int i = respLanguage.Length; i <= endLength; i++)
+                    {
+                        if (char.IsDigit(prevText[i]))
+                        {
+                            result += prevText[i];
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i <= 5; i++)
+                    {
+                        if (char.IsDigit(prevText[i]))
+                        {
+                            result += prevText[i];
+                        }
+                    }
+                
+                }
+                return result;
+            }        
+            catch { return "[X]"; } 
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {

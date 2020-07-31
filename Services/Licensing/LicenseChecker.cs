@@ -12,12 +12,21 @@ namespace Services.Licensing
     public class LicenseChecker
     {
 
-        private static string PublicKeyPath = @"C:\Users\Jake\OneDrive\Desktop\LicenseTests\publicKey.xml";
-        private static string LicensePath = @"C:\Users\Jake\OneDrive\Desktop\LicenseTests\license.xml";
+        private static string PublicKeyPath;
+        private static string LicensePath;
 
-        public static bool LicenseIsValid()
+        public static bool LicenseIsValid(string licpath)
         {
+
+
             bool result = false;
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            String Root = Directory.GetCurrentDirectory();
+            PublicKeyPath = Root + @"\Licensing\publicKey.xml";
+            LicensePath = licpath;
+                //@"C:\Prelimine\license.xml";
+                // Root + @"\Licensing\license.xml";
+                //@"C:\Users\Jake\OneDrive\Desktop\LicenseTests\license.xml";
 
             try
             {
@@ -29,7 +38,6 @@ namespace Services.Licensing
             }
             catch
             {
-                System.Windows.Forms.MessageBox.Show("Your Prelimine LitKit License key is not valid. Please contact your IT administrator or Prelimine for a new license.");
             }
 
             return result;

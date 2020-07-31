@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace LicenseGenerator
         static string customer;
         static LicenseType licenseType;
         static DateTime expirationDate;
-        static string path = @"C:\Users\Jake\OneDrive\Desktop\LicenseTests";
+        static string path = @"C:\Prelimine LitKit Licenses\New";
 
 
         static void Intro()
@@ -36,7 +37,7 @@ namespace LicenseGenerator
 
             if (line == 'K')
             {
-                Console.WriteLine("Confirm overwriting keys:");
+                Console.WriteLine($"This will overwrite any keys in {path}. Continue (Y/N):");
                 char yesNo = Console.ReadLine().ToUpper().First() ;
                 if (yesNo == 'Y')
                 {
@@ -44,11 +45,12 @@ namespace LicenseGenerator
                     crypto.GenerateKeys(path);
                     Console.WriteLine("New Keys saved");
                     Console.WriteLine();
+                    Process.Start(path);
                 }
             }
             else if (line == 'L')
             {
-
+                Console.WriteLine($"This will overwrite any license file in {path}.");
                 Console.WriteLine("Customer: ");
                 customer = Console.ReadLine();
                 AskLicenseType();
@@ -56,6 +58,7 @@ namespace LicenseGenerator
                 {
                     GenerateLicense();
                     Console.WriteLine("The license has been generated.");
+                    Process.Start(path);
                 }
                 else Console.WriteLine("License was not generated.");
 
