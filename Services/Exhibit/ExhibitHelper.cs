@@ -195,7 +195,7 @@ namespace Services.Exhibit
             string secondParen = string.Empty;
             if (parentheses == "True") { firstParen = "("; secondParen = ")"; }
 
-            result = firstParen + intro + " " + ApplyNumFormat(Index, numbering) + descBates  + secondParen;
+            result = firstParen + intro + "\u00A0" + ApplyNumFormat(Index, numbering) + descBates  + secondParen;
 
             return result;
         }
@@ -222,7 +222,7 @@ namespace Services.Exhibit
             string secondParen = string.Empty;
             if (parentheses == "True") { firstParen = "("; secondParen = ")"; }
 
-            result = firstParen + intro + " " + ApplyNumFormat(Index, numbering) +  descBates  + secondParen;
+            result = firstParen + intro + "\u00A0" + ApplyNumFormat(Index, numbering) +  descBates  + secondParen;
 
             return result;
         }

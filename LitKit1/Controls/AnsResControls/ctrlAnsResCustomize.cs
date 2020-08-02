@@ -147,7 +147,7 @@ namespace LitKit1.Controls.AnsResControls
         private void LoadResponseStandardTexts()
         {
             listBox1.Items.Clear();
-            if ((string)comboBox1.SelectedItem == "Add new response...")
+            if (comboBox1.SelectedItem == "Add new response...")
             {
                 button1.Text = "Add";
                 textBox1.Clear();

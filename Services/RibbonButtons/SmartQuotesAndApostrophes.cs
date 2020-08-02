@@ -23,6 +23,7 @@ namespace Services.RibbonButtons
 
 
             rng.Find.Execute(FindText: "\"", ReplaceWith: "\"", Replace: WdReplace.wdReplaceAll);
+            rng.Find.Execute(FindText: "\'", ReplaceWith: "\'", Replace: WdReplace.wdReplaceAll);
 
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
