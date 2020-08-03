@@ -39,7 +39,9 @@ namespace Services
         public void CheckIfFileIsAvailable()
         {
             FileInfo file = new FileInfo(Path);
-            if (file.Exists)
+            if (!file.Exists)
+            { FileAvailable = true; }
+            else
             {
                 try
                 {

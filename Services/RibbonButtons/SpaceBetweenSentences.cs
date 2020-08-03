@@ -80,6 +80,8 @@ namespace Services.RibbonButtons
             "etc.",
 
             "St.",
+            "Ave.",
+            "Rd.",
             "D.C.",
             "U.S.",
             "U.S.A.",

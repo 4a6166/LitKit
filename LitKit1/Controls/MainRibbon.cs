@@ -133,7 +133,14 @@ namespace LitKit1
                 exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
                 exhibitCtrl.LoadListView();
 
-                ActivePane.Visible = true;
+                if (!ActivePane.Visible)
+                {
+                    ActivePane.Visible = true;
+                }
+                else
+                {
+                    ActivePane.Visible = false;
+                }
                 //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
             }
         }
@@ -205,7 +212,13 @@ namespace LitKit1
                 //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
                 AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
 
-                ActivePane.Visible = true;
+                if (!ActivePane.Visible)
+                {
+                    ActivePane.Visible = true;
+                }else
+                {
+                    ActivePane.Visible = false;
+                }
                 //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
             }
             

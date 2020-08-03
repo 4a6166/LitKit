@@ -29,6 +29,8 @@ namespace LitKit1.Controls.AnsResControls
             LoadComboBox1(activeResponse, docType);
             LoadResponseStandardTexts();
             LoadDocText(activeResponse);
+
+            label1.Text = "Customize Language: " +docType;
         }
 
         private void EnBoldenX() //TODO: fix: not making the [X] bold, but not essential
@@ -165,6 +167,8 @@ namespace LitKit1.Controls.AnsResControls
                         string t = ResponseStandardRepository.FillString(response.ID, text, respondingParty, respondingPlural, propoundingParty, docType);
                         listBox1.Items.Add(t);
                     }
+
+                    listBox1.HorizontalScrollbar = true;
                 }
             }
 

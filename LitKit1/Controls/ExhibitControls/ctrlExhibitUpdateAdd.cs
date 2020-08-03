@@ -16,10 +16,13 @@ namespace LitKit1.Controls.ExhibitControls
         public ctrlExhibitUpdateAdd()
         {
             InitializeComponent();
+            
             _app = Globals.ThisAddIn.Application;
         }
 
         readonly Microsoft.Office.Interop.Word.Application _app;
+
+        
         private void button1_Click(object sender, EventArgs e)
         {
             if (textBox1.Text == "Description of Exhibit" || textBox1.Text == "" || string.IsNullOrWhiteSpace(textBox1.Text))
@@ -141,6 +144,38 @@ namespace LitKit1.Controls.ExhibitControls
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                button1.PerformClick();
+            }
+        }
+
+        private void button3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                button3.PerformClick();
+            }
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                button1.PerformClick();
+            }
+        }
+
+        private void textBox3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                button1.PerformClick();
+            }
         }
     }
 }

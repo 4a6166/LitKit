@@ -475,7 +475,7 @@
             // 
             // button4
             // 
-            this.button4.Label = "Customize Answers and Responses";
+            this.button4.Label = "Customize Objections and Responses";
             this.button4.Name = "button4";
             this.button4.OfficeImageId = "OmsCustomizeLayout";
             this.button4.ShowImage = true;

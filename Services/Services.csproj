@@ -128,9 +128,9 @@
     <EmbeddedResource Include="Licensing\publicKey.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Content Include="Response\ResponseFrame.xml">
+    <EmbeddedResource Include="Response\ResponseFrame.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
     <EmbeddedResource Include="Response\ResponseStandardLanguage.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

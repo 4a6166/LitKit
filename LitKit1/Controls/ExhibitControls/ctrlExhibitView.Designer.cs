@@ -68,20 +68,21 @@
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(281, 426);
-            this.listView1.TabIndex = 6;
+            this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
+            this.listView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView1_KeyDown);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(15, 18);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(85, 13);
+            this.label3.Size = new System.Drawing.Size(57, 13);
             this.label3.TabIndex = 7;
-            this.label3.Text = "Exhibits ListView";
+            this.label3.Text = "Exhibit List";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // btnCiteToExhibit
@@ -92,7 +93,7 @@
             this.btnCiteToExhibit.Margin = new System.Windows.Forms.Padding(1, 3, 3, 3);
             this.btnCiteToExhibit.Name = "btnCiteToExhibit";
             this.btnCiteToExhibit.Size = new System.Drawing.Size(235, 35);
-            this.btnCiteToExhibit.TabIndex = 8;
+            this.btnCiteToExhibit.TabIndex = 2;
             this.btnCiteToExhibit.Text = "Cite to Selected Exhibit";
             this.btnCiteToExhibit.UseVisualStyleBackColor = true;
             this.btnCiteToExhibit.Click += new System.EventHandler(this.button2_Click);
@@ -104,7 +105,7 @@
             this.ExhibitFormatting.Location = new System.Drawing.Point(194, 399);
             this.ExhibitFormatting.Name = "ExhibitFormatting";
             this.ExhibitFormatting.Size = new System.Drawing.Size(84, 24);
-            this.ExhibitFormatting.TabIndex = 6;
+            this.ExhibitFormatting.TabIndex = 8;
             this.ExhibitFormatting.Text = "Formatting";
             this.ExhibitFormatting.UseVisualStyleBackColor = true;
             this.ExhibitFormatting.Click += new System.EventHandler(this.ExhibitFormatting_Click);
@@ -146,7 +147,7 @@
             this.RefreshNumbering.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
             this.RefreshNumbering.Name = "RefreshNumbering";
             this.RefreshNumbering.Size = new System.Drawing.Size(35, 35);
-            this.RefreshNumbering.TabIndex = 6;
+            this.RefreshNumbering.TabIndex = 3;
             this.RefreshNumbering.UseVisualStyleBackColor = true;
             this.RefreshNumbering.Click += new System.EventHandler(this.RefreshNumbering_Click);
             this.RefreshNumbering.MouseHover += new System.EventHandler(this.RefreshNumbering_MouseHover);
@@ -179,12 +180,14 @@
             // ReorderExhibitsList
             // 
             this.ReorderExhibitsList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ReorderExhibitsList.Enabled = false;
             this.ReorderExhibitsList.Location = new System.Drawing.Point(185, 10);
             this.ReorderExhibitsList.Name = "ReorderExhibitsList";
             this.ReorderExhibitsList.Size = new System.Drawing.Size(115, 23);
             this.ReorderExhibitsList.TabIndex = 13;
             this.ReorderExhibitsList.Text = "Reorder Exhibits List";
             this.ReorderExhibitsList.UseVisualStyleBackColor = true;
+            this.ReorderExhibitsList.Visible = false;
             this.ReorderExhibitsList.Click += new System.EventHandler(this.ReorderExhibitsList_Click);
             // 
             // toolTipAdd
@@ -214,7 +217,7 @@
             this.ClearReferencesToExhibit.Location = new System.Drawing.Point(254, 339);
             this.ClearReferencesToExhibit.Name = "ClearReferencesToExhibit";
             this.ClearReferencesToExhibit.Size = new System.Drawing.Size(24, 24);
-            this.ClearReferencesToExhibit.TabIndex = 16;
+            this.ClearReferencesToExhibit.TabIndex = 6;
             this.ClearReferencesToExhibit.Text = " ";
             this.ClearReferencesToExhibit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.ClearReferencesToExhibit.UseVisualStyleBackColor = true;
@@ -244,7 +247,7 @@
             this.NewExhibit.Location = new System.Drawing.Point(254, 279);
             this.NewExhibit.Name = "NewExhibit";
             this.NewExhibit.Size = new System.Drawing.Size(24, 24);
-            this.NewExhibit.TabIndex = 1;
+            this.NewExhibit.TabIndex = 4;
             this.NewExhibit.Text = " ";
             this.NewExhibit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.NewExhibit.UseVisualStyleBackColor = true;
@@ -259,7 +262,7 @@
             this.EditExhibit.Location = new System.Drawing.Point(254, 309);
             this.EditExhibit.Name = "EditExhibit";
             this.EditExhibit.Size = new System.Drawing.Size(24, 24);
-            this.EditExhibit.TabIndex = 2;
+            this.EditExhibit.TabIndex = 5;
             this.EditExhibit.Text = " ";
             this.EditExhibit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.EditExhibit.UseVisualStyleBackColor = true;

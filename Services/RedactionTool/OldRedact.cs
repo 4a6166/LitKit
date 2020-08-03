@@ -421,111 +421,240 @@ namespace Ribbon_0._0._1
 
             return successful;
         }
+        //private static bool MarkRedactionsSpecialTables(Word.Application app)
+        //{
+        //    bool successful = true;
+        //    Word.Document doc = app.ActiveDocument;
 
-        public static string ConfidentialityLabel = null;
-        public static void SaveUnredactedPDF(Word.Application _app)
+        //    foreach (TableOfContents toc in doc.TablesOfContents)
+        //    {
+        //        toc.Range.Select();
+        //        for (int i = 1; i <= app.Selection.Words.Count; i++)
+        //        {
+        //            var word = app.Selection.Words[i];
+        //            if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+        //            {
+        //                app.Selection.Words[i].Font.Color = WdColor.wdColorWhite;
+        //            }
+        //        }
+        //    }
+
+        //    foreach (TableOfAuthorities toa in doc.TablesOfAuthorities)
+        //    {
+        //        toa.Range.Select();
+        //        for (int i = 1; i <= app.Selection.Words.Count; i++)
+        //        {
+        //            var word = app.Selection.Words[i];
+        //            if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+        //            {
+        //                app.Selection.Words[i].Font.Color = WdColor.wdColorWhite;
+        //            }
+        //        }
+        //    }
+
+        //    foreach (TableOfFigures tof in doc.TablesOfFigures)
+        //    {
+        //        tof.Range.Select();
+        //        for (int i = 1; i <= app.Selection.Words.Count; i++)
+        //        {
+        //            var word = app.Selection.Words[i];
+        //            if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+        //            {
+        //                app.Selection.Words[i].Font.Color = WdColor.wdColorWhite;
+        //            }
+        //        }
+        //    }
+
+        //    foreach (Index index in doc.Indexes)
+        //    {
+        //        index.Range.Select();
+        //        for (int i = 1; i <= app.Selection.Words.Count; i++)
+        //        {
+        //            var word = app.Selection.Words[i];
+        //            if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+        //            {
+        //                app.Selection.Words[i].Font.Color = WdColor.wdColorWhite;
+        //            }
+        //        }
+        //    }
+
+        //    return successful;
+        //}
+        private static bool UnMarkRedactionsSpecialTables(Word.Application app)
         {
-            // Currently turns all text to Automatic Black font (unlikely that it will neeed to be in other color)
+            bool successful = true;
+            Word.Document doc = app.ActiveDocument;
 
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "PDF|*.pdf";
-            saveFileDialog1.Title = "Export Unredacted PDF";
-            saveFileDialog1.ShowDialog();
-
-            if (saveFileDialog1.FileName != "")
+            foreach (TableOfContents toc in doc.TablesOfContents)
             {
-                bool fileAvailable = true;
-                FileInfo file = new FileInfo(saveFileDialog1.FileName);
-                if (file.Exists == true)
+                toc.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
                 {
-                    try
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
                     {
-                        using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
-                        {
-                            stream.Close();
-                            fileAvailable = true;
-                        }
-                    }
-                    catch (IOException)
-                    {
-                        //the file is unavailable because it is:
-                        //still being written to
-                        //or being processed by another thread
-                        //or does not exist (has already been processed)
-                        fileAvailable = false;
-                        MessageBox.Show("File is open in another window or program. Please close the file and try again.");
-                    }
-                }
-
-                if (fileAvailable)
-                {
-                    // TODO: add link to confidentiality control
-
-                    if (ConfidentialityLabel == null)
-                    {
-
-                    }
-                    else
-                    {
-                        var doc = CloneDocument(_app.ActiveDocument);
-                        var headerfont = "Times New Roman";
-
-                        if (_app.ActiveDocument.Sections.First.Range.Font.Name != null)
-                        {
-                            headerfont = _app.ActiveDocument.Sections.First.Range.Font.Name;
-                        }
-
-                        /// Marks the header with "confidential," Updated to add a floating text box to the header rather than replace the header text
-                        foreach (Section section in _app.ActiveDocument.Sections)
-                        {
-                            var header = section.Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Shapes.AddTextbox(
-                                Microsoft.Office.Core.MsoTextOrientation.msoTextOrientationHorizontal,
-                                _app.ActiveDocument.PageSetup.PageWidth - 525,
-                                10,
-                                500,
-                                20);
-                            header.TextFrame.TextRange.Text = Redactions.ConfidentialityLabel.ToUpper();
-
-                            header.TextFrame.TextRange.Font.Name = headerfont;
-
-                            header.TextFrame.TextRange.Font.Size = 12;
-                            header.TextFrame.TextRange.Font.Bold = -1;
-
-                            header.Line.Visible = Microsoft.Office.Core.MsoTriState.msoFalse;
-                            header.TextFrame.TextRange.HighlightColorIndex = WdColorIndex.wdWhite;
-                            header.TextFrame.TextRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
-                        }
-
-                        Word.ContentControls contentControls = null;
-                        Word.ContentControl contentControl = null;
-
-
-                        contentControls = _app.ActiveDocument.ContentControls;
-                        for (int i = 1; i <= contentControls.Count; i++)
-                        {
-                            contentControl = contentControls[i];
-                            if (contentControl.Title == "Redaction")
-                            {
-                                contentControl.Range.Font.ColorIndex = Word.WdColorIndex.wdAuto;
-                                contentControl.Range.HighlightColorIndex = Word.WdColorIndex.wdNoHighlight;
-                                //contentControl.Delete(false);
-                            }
-                            if (contentControl != null) Marshal.ReleaseComObject(contentControl);
-                        }
-
-                        UnmarkRedactionsFooter(_app);
-                        UnmakrRedactionsEndNote(_app);
-                        UnmarkRedactionImageFloatAll(_app);
-
-                        _app.ActiveDocument.ExportAsFixedFormat(saveFileDialog1.FileName, Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true);
-
-                        doc.Close(WdSaveOptions.wdDoNotSaveChanges);
-
-
+                        word.HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                        app.Selection.Words[i].Font.Color = WdColor.wdColorBlack;
                     }
                 }
             }
+
+            foreach (TableOfAuthorities toa in doc.TablesOfAuthorities)
+            {
+                toa.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
+                {
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                    {
+                        word.HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                        app.Selection.Words[i].Font.Color = WdColor.wdColorBlack;
+                    }
+                }
+            }
+
+            foreach (TableOfFigures tof in doc.TablesOfFigures)
+            {
+                tof.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
+                {
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                    {
+                        word.HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                        app.Selection.Words[i].Font.Color = WdColor.wdColorBlack;
+                    }
+                }
+            }
+
+            foreach (Index index in doc.Indexes)
+            {
+                index.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
+                {
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                    {
+                        word.HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                        app.Selection.Words[i].Font.Color = WdColor.wdColorBlack;
+                    }
+                }
+            }
+
+            return successful;
         }
+
+
+        public static string ConfidentialityLabel = null;
+
+        /// <summary>
+        /// Not being used. Reference: RedactionTool.Redactions.SaveUnRedactedPDF()
+        /// </summary>
+        /// <param name="_app"></param>
+        //public static void SaveUnredactedPDF(Word.Application _app)
+        //{
+        //    // Currently turns all text to Automatic Black font (unlikely that it will neeed to be in other color)
+
+        //    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+        //    saveFileDialog1.Filter = "PDF|*.pdf";
+        //    saveFileDialog1.Title = "Export Unredacted PDF";
+        //    saveFileDialog1.ShowDialog();
+
+        //    if (saveFileDialog1.FileName != "")
+        //    {
+        //        bool fileAvailable = true;
+        //        FileInfo file = new FileInfo(saveFileDialog1.FileName);
+        //        if (file.Exists == true)
+        //        {
+        //            try
+        //            {
+        //                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+        //                {
+        //                    stream.Close();
+        //                    fileAvailable = true;
+        //                }
+        //            }
+        //            catch (IOException)
+        //            {
+        //                //the file is unavailable because it is:
+        //                //still being written to
+        //                //or being processed by another thread
+        //                //or does not exist (has already been processed)
+        //                fileAvailable = false;
+        //                MessageBox.Show("File is open in another window or program. Please close the file and try again.");
+        //            }
+        //        }
+
+        //        if (fileAvailable)
+        //        {
+        //            // TODO: add link to confidentiality control
+
+        //            if (ConfidentialityLabel == null)
+        //            {
+
+        //            }
+        //            else
+        //            {
+        //                var doc = CloneDocument(_app.ActiveDocument);
+        //                var headerfont = "Times New Roman";
+
+        //                if (_app.ActiveDocument.Sections.First.Range.Font.Name != null)
+        //                {
+        //                    headerfont = _app.ActiveDocument.Sections.First.Range.Font.Name;
+        //                }
+
+        //                /// Marks the header with "confidential," Updated to add a floating text box to the header rather than replace the header text
+        //                foreach (Section section in _app.ActiveDocument.Sections)
+        //                {
+        //                    var header = section.Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Shapes.AddTextbox(
+        //                        Microsoft.Office.Core.MsoTextOrientation.msoTextOrientationHorizontal,
+        //                        _app.ActiveDocument.PageSetup.PageWidth - 525,
+        //                        10,
+        //                        500,
+        //                        20);
+        //                    header.TextFrame.TextRange.Text = Redactions.ConfidentialityLabel.ToUpper();
+
+        //                    header.TextFrame.TextRange.Font.Name = headerfont;
+
+        //                    header.TextFrame.TextRange.Font.Size = 12;
+        //                    header.TextFrame.TextRange.Font.Bold = -1;
+
+        //                    header.Line.Visible = Microsoft.Office.Core.MsoTriState.msoFalse;
+        //                    header.TextFrame.TextRange.HighlightColorIndex = WdColorIndex.wdWhite;
+        //                    header.TextFrame.TextRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+        //                }
+
+        //                Word.ContentControls contentControls = null;
+        //                Word.ContentControl contentControl = null;
+
+
+        //                contentControls = _app.ActiveDocument.ContentControls;
+        //                for (int i = 1; i <= contentControls.Count; i++)
+        //                {
+        //                    contentControl = contentControls[i];
+        //                    if (contentControl.Title == "Redaction")
+        //                    {
+        //                        contentControl.Range.Font.ColorIndex = Word.WdColorIndex.wdAuto;
+        //                        contentControl.Range.HighlightColorIndex = Word.WdColorIndex.wdNoHighlight;
+        //                        //contentControl.Delete(false);
+        //                    }
+        //                    if (contentControl != null) Marshal.ReleaseComObject(contentControl);
+        //                }
+
+        //                UnmarkRedactionsFooter(_app);
+        //                UnmakrRedactionsEndNote(_app);
+        //                UnmarkRedactionImageFloatAll(_app);
+        //                UnMarkRedactionsSpecialTables(_app);
+
+        //                _app.ActiveDocument.ExportAsFixedFormat(saveFileDialog1.FileName, Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true);
+
+        //                doc.Close(WdSaveOptions.wdDoNotSaveChanges);
+
+
+        //            }
+        //        }
+        //    }
+        //}
 
 
         #region Methods without Ribbon Access (nested methods)

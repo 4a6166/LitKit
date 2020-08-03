@@ -93,10 +93,11 @@
             this.textBox3.Location = new System.Drawing.Point(19, 179);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(283, 20);
-            this.textBox3.TabIndex = 10;
+            this.textBox3.TabIndex = 2;
             this.textBox3.Text = "ABC0001234";
             this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             this.textBox3.Enter += new System.EventHandler(this.textBox3_Enter);
+            this.textBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyDown);
             this.textBox3.Leave += new System.EventHandler(this.textBox3_Leave);
             // 
             // textBox1
@@ -107,9 +108,10 @@
             this.textBox1.Location = new System.Drawing.Point(19, 119);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(283, 20);
-            this.textBox1.TabIndex = 9;
+            this.textBox1.TabIndex = 1;
             this.textBox1.Text = "Description of Exhibit";
             this.textBox1.Enter += new System.EventHandler(this.textBox1_Enter);
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
             // button1
@@ -118,10 +120,11 @@
             this.button1.Location = new System.Drawing.Point(189, 223);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(113, 40);
-            this.button1.TabIndex = 8;
+            this.button1.TabIndex = 3;
             this.button1.Text = "Update Exhibit";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.button1_KeyDown);
             // 
             // button3
             // 
@@ -130,10 +133,11 @@
             this.button3.MinimumSize = new System.Drawing.Size(101, 40);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(101, 40);
-            this.button3.TabIndex = 15;
+            this.button3.TabIndex = 4;
             this.button3.Text = "Return to\r\nExhibit List";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.button3_KeyDown);
             // 
             // ctrlExhibitUpdateAdd
             // 

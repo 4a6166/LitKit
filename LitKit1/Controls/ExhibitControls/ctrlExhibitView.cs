@@ -63,6 +63,12 @@ namespace LitKit1.Controls
             {
                 CreateListViewItems(listView1, ex);
             }
+
+            try
+            {
+                listView1.Items[0].Selected = true;
+            }
+            catch { }
         }
 
         private void CreateListViewItems(ListView lv, Exhibit exhibit)
@@ -192,6 +198,8 @@ namespace LitKit1.Controls
             ActivePane.Control.Controls.Clear();
             ActivePane.Control.Controls.Add(exhibitCtrl);
 
+
+
             exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
             exhibitCtrl.button1.Text = "Add to Exhibit List";
             exhibitCtrl.label3.Text = "New Exhibit Reference";
@@ -215,6 +223,8 @@ namespace LitKit1.Controls
 
                 ActivePane.Control.Controls.Add(exhibitCtrl);
                 //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
+
+
 
                 exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
                 exhibitCtrl.label3.Text = "Current Description: " +
@@ -285,8 +295,10 @@ namespace LitKit1.Controls
         private void ReorderExhibitsList_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Functionality Coming Soon");
+
             
         }
+
 
 
         private void button2_Click_1(object sender, EventArgs e)
@@ -452,6 +464,18 @@ namespace LitKit1.Controls
         private void btnCiteToExhibit_MouseHover(object sender, EventArgs e)
         {
             toolTipCiteExhibit.Show("Cites to the selected Exhibit at the selection location in the document.", btnCiteToExhibit);
+        }
+
+        private void listView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.Return)
+                {
+                    btnCiteToExhibit.PerformClick();
+                }
+            }
+            catch { }
         }
     }
     

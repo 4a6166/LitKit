@@ -62,7 +62,7 @@ namespace LitKit1
         public void AddAnsResControlMain(object window)
         {
             AnsResMain = new ctrlAnsResMain();
-            AnsResTaskPane = this.CustomTaskPanes.Add(AnsResMain, "LitKit Answers and Response Tool", window);
+            AnsResTaskPane = this.CustomTaskPanes.Add(AnsResMain, "LitKit Response Tool", window);
             AnsResMain.Dock = System.Windows.Forms.DockStyle.Fill;
             AnsResTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionLeft;
             AnsResTaskPane.Width = 350;

@@ -107,5 +107,18 @@ namespace LitKit1.Controls.RedactionControls
             Redactions.ConfidentialityLabel = FiledUnderSeal.Text;
             this.FindForm().Close();
         }
+
+        private void OtherLabel_txt_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OtherLabel_txt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                OtherLabel.PerformClick();
+            }
+        }
     }
 }
