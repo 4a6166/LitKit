@@ -587,7 +587,6 @@ namespace Ribbon_0._0._1
 
         //        if (fileAvailable)
         //        {
-        //            // TODO: add link to confidentiality control
 
         //            if (ConfidentialityLabel == null)
         //            {

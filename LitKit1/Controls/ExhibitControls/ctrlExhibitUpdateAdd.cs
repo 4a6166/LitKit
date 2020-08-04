@@ -48,7 +48,6 @@ namespace LitKit1.Controls.ExhibitControls
 
                 repository.AddExhibit(description, bates);
 
-                //TODO have a new exhibit entry add it the exhibit to the document at current selection
 
                 button3_Click(sender, e);
             }

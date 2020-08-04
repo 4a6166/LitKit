@@ -619,51 +619,6 @@ namespace Services.Exhibit
             }
         }
 
-        //public void InsertExhibitIndex(Word.Application _app)
-        //{
-
-        //    ////TODO: reformat entry to work as a table
-
-
-        //    List<ContentControl> exhibits = GetExhibitsInDocument(_app);
-        //    List<string> tags = new List<string>();
-        //    tags.Add("fill");
-
-        //    StringBuilder sb = new StringBuilder();
-
-        //    sb.Append("Exhibit ");
-        //    sb.Append("....." + "....."+ "....."+ "....."+ "....."+ "....."+ "....."+ "....."+ "....."+ "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + ".....");
-        //    sb.Append(" Page");
-        //    sb.Append("\r\n");
-
-        //    foreach (ContentControl cc in exhibits)
-        //    {
-        //        if (tags.Contains(cc.Tag))
-        //        {
-        //        }
-        //        else
-        //        {
-        //            _app.Selection.SetRange(cc.Range.Start, cc.Range.Start);
-                    
-        //            var curPage = _app.Selection.Information[WdInformation.wdActiveEndAdjustedPageNumber];
-
-        //            string dots = "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + "....." + ".....";
-
-
-        //            dots = dots.Substring(17);
-        //            sb.Append(cc.Range.Text.Substring(0,15) + " ");
-        //            sb.Append(dots);
-        //            sb.Append(" "+curPage);
-        //            sb.Append("\r\n");
-
-        //            tags.Add(cc.Tag);
-        //        }
-        //    }
-        //    _app.Selection.SetRange(_app.Selection.GoTo(WdGoToItem.wdGoToLine, WdGoToDirection.wdGoToLast).End+1, _app.Selection.GoTo(WdGoToItem.wdGoToLine, WdGoToDirection.wdGoToLast).End+1);
-        //    var indexCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-        //    indexCC.Tag = "Index of Exhibits";
-        //    indexCC.Range.Text=sb.ToString();  //indexCC.Range.Tables
-        //}
         public void InsertExhibitIndex(Word.Application _app)
         {
             List<ContentControl> exhibits = GetExhibitsInDocument(_app);

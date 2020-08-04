@@ -46,6 +46,11 @@ namespace Services.RibbonButtons
                 rng.Find.Execute(FindText: text + "  ", ReplaceWith: text + " ", Replace: WdReplace.wdReplaceAll);
             }
 
+            for (int i=1; i<=9; i++)
+            {
+                rng.Find.Execute(FindText: $"No.  {i}", ReplaceWith: $"No. {i}", Replace: WdReplace.wdReplaceAll);
+            }
+
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
 
         }
@@ -86,6 +91,7 @@ namespace Services.RibbonButtons
             "U.S.",
             "U.S.A.",
 
+
             "a.m.",
             "A.M.",
             "p.m.",
@@ -96,6 +102,81 @@ namespace Services.RibbonButtons
             "oz.",
             "in.",
             "ft.",
+
+            "E.D.",
+            "W.D.",
+            "M.D.",
+            "S.D.",
+            "N.D.",
+            "D.",
+            "Ala.",
+            "Ark.",
+            "Ariz.",
+            "Cal.",
+            "Colo.",
+            "Conn.",
+            "Del.",
+            "Fla.",
+            "Ga.",
+            "Haw.",
+            "Ill.",
+            "Ind.",
+            "Ky.",
+            "La.",
+            "Me.",
+            "Md.",
+            "Mass.",
+            "Mich.",
+            "Minn.",
+            "Miss.",
+            "Mo.",
+            "Neb.",
+            "Nev.",
+            "N.H.",
+            "N.J.",
+            "N.M.",
+            "N.Y.",
+            "N.C.",
+            "N.D.",
+            "Okla.",
+            "Or.",
+            "Pa.",
+            "R.I.",
+            "S.C.",
+            "Tenn.",
+            "Tex.",
+            "Va.",
+            "Wash.",
+            "Wisc.",
+            "Wyo.",
+
+            "Jan.",
+            "Feb.",
+            "Mar.",
+            "Apr.",
+            "Aug.",
+            "Sept.",
+            "Oct.",
+            "Nov.",
+            "Dec.",
+
+            "U.S.C.",
+            "C.F.R.",
+            "A.B.A.",
+            "Fed.",
+            "App.",
+            "Supp.",
+            "F.",
+            "Ex.",
+            "Exh.",
+            "Pl.",
+            "Def.",
+            "Defs.",
+            "Pls.",
+            "Br.",
+            "Resp.",
+            "Opp.",
+            "Mot.",
 
 
         };

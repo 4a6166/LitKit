@@ -238,7 +238,7 @@ namespace LitKit1.Controls.AnsResControls
         {
             if ((string)listBox1.SelectedItem == "Add new response...")
             {
-                MessageBox.Show("Add pop up to add new response"); //TODO
+                //MessageBox.Show("Add pop up to add new response"); 
             }
             if (listBox1.SelectedItem != null)
             {
