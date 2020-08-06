@@ -22,7 +22,7 @@ namespace LitKit1.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace LitKit1.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LitKit1.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace LitKit1.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace LitKit1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Group {
+        public static System.Drawing.Bitmap Group {
             get {
                 object obj = ResourceManager.GetObject("Group", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +73,7 @@ namespace LitKit1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_delete_64 {
+        public static System.Drawing.Bitmap icons8_delete_64 {
             get {
                 object obj = ResourceManager.GetObject("icons8-delete-64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +83,7 @@ namespace LitKit1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_erase_64 {
+        public static System.Drawing.Bitmap icons8_erase_64 {
             get {
                 object obj = ResourceManager.GetObject("icons8-erase-64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +93,7 @@ namespace LitKit1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_pencil_drawing_64 {
+        public static System.Drawing.Bitmap icons8_pencil_drawing_64 {
             get {
                 object obj = ResourceManager.GetObject("icons8-pencil-drawing-64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +103,7 @@ namespace LitKit1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_plus_math_60 {
+        public static System.Drawing.Bitmap icons8_plus_math_60 {
             get {
                 object obj = ResourceManager.GetObject("icons8-plus-math-60", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -113,10 +113,81 @@ namespace LitKit1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_refresh_64 {
+        public static System.Drawing.Bitmap icons8_refresh_64 {
             get {
                 object obj = ResourceManager.GetObject("icons8-refresh-64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;license id=&quot;27ee3c0e-def1-4a1b-b828-315782be33ba&quot; expiration=&quot;2020-09-02T19:24:01.9710635&quot; type=&quot;Trial&quot;&gt;
+        ///  &lt;name&gt;Test License&lt;/name&gt;
+        ///  &lt;Signature xmlns=&quot;http://www.w3.org/2000/09/xmldsig#&quot;&gt;
+        ///    &lt;SignedInfo&gt;
+        ///      &lt;CanonicalizationMethod Algorithm=&quot;http://www.w3.org/TR/2001/REC-xml-c14n-20010315&quot; /&gt;
+        ///      &lt;SignatureMethod Algorithm=&quot;http://www.w3.org/2001/04/xmldsig-more#rsa-sha256&quot; /&gt;
+        ///      &lt;Reference URI=&quot;&quot;&gt;
+        ///        &lt;Transforms&gt;
+        ///          &lt;Transform Algorith [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string license {
+            get {
+                return ResourceManager.GetString("license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;RSAKeyValue&gt;&lt;Modulus&gt;v17shViD7bFwTSpNjJcxEdQ2JGncp8F8TjBp7+2uZzzBRLDV2du2s2LTbTEHAJW5yr0UhWj4MhAsjsAMD3Vi9QhTV4vhgVIZchfiGeEL9M0lMLm2uWAio9hAWV2yM10JS5mqFZfiX4EM1ltAsBpqXOrk04mvQCmf7J8Z81l1UAU=&lt;/Modulus&gt;&lt;Exponent&gt;AQAB&lt;/Exponent&gt;&lt;/RSAKeyValue&gt;.
+        /// </summary>
+        public static string publicKey {
+            get {
+                return ResourceManager.GetString("publicKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+        ///&lt;Responses xmlns=&quot;Prelimine Litkit Response Tool&quot;&gt;
+        ///  &lt;Document&gt;
+        ///    &lt;Responding&gt;[Enter the Responding Party or Parties]&lt;/Responding&gt;
+        ///    &lt;RespondingPlural&gt;False&lt;/RespondingPlural&gt;
+        ///    &lt;Propounding&gt;[Enter the Propounding Party or Parties]&lt;/Propounding&gt;
+        ///    &lt;DocType&gt;Answer a Complaint&lt;/DocType&gt;
+        ///  &lt;/Document&gt;
+        ///  &lt;Response xmlns=&quot;&quot;&gt;
+        ///    &lt;ID&gt;1&lt;/ID&gt;
+        ///    &lt;Name&gt;Objection: Cumulative&lt;/Name&gt;
+        ///    &lt;DocType&gt;
+        ///      &lt;Complaint&gt;False&lt;/Complaint&gt;
+        ///      &lt;Adm [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ResponseFrame {
+            get {
+                return ResourceManager.GetString("ResponseFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+        ///&lt;Responses xmlns=&quot;Prelimine Litkit Response Tool Standard Language&quot;&gt;
+        ///  &lt;Response xmlns=&quot;&quot;&gt;
+        ///		&lt;ID&gt;1&lt;/ID&gt;
+        ///		&lt;Name&gt;Objection: Cumulative&lt;/Name&gt;
+        ///		&lt;DocType&gt;
+        ///			&lt;Complaint&gt;False&lt;/Complaint&gt;
+        ///			&lt;Admission&gt;True&lt;/Admission&gt;
+        ///			&lt;Production&gt;True&lt;/Production&gt;
+        ///			&lt;Interrogatory&gt;True&lt;/Interrogatory&gt;
+        ///		&lt;/DocType&gt;
+        ///		&lt;Text&gt;
+        ///			&lt;Primary&gt;[Responding] [verb1] to this [Request/Interrogatory] as cumulative of prior discovery requests.&lt;/Primary&gt;
+        ///			&lt;Alt1&gt;[Respo [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ResponseStandardLanguage {
+            get {
+                return ResourceManager.GetString("ResponseStandardLanguage", resourceCulture);
             }
         }
     }

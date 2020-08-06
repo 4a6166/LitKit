@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LitKit1", "LitKit1\LitKit1.csproj", "{79494501-7AE6-4250-9268-BB2A248DDD75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{968847CE-040C-40C9-9A8C-2A9495416FE1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C2E6F2C-11D4-4869-AC34-F1BD1B02B98E}"
 	ProjectSection(SolutionItems) = preProject
 		Snippets.txt = Snippets.txt
@@ -32,14 +30,6 @@ Global
 		{79494501-7AE6-4250-9268-BB2A248DDD75}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79494501-7AE6-4250-9268-BB2A248DDD75}.Release|x86.ActiveCfg = Release|x86
 		{79494501-7AE6-4250-9268-BB2A248DDD75}.Release|x86.Build.0 = Release|x86
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Debug|x86.Build.0 = Debug|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Release|x86.ActiveCfg = Release|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Release|x86.Build.0 = Release|Any CPU
 		{E5264638-E68D-4A02-9B9D-EBA437102BAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E5264638-E68D-4A02-9B9D-EBA437102BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5264638-E68D-4A02-9B9D-EBA437102BAB}.Debug|x86.ActiveCfg = Debug|Any CPU

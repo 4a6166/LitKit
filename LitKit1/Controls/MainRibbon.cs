@@ -20,6 +20,7 @@ using Services.RibbonButtons;
 using LitKit1.Controls.AnsResControls;
 using Services.Response;
 using Services.Licensing;
+using System.IO;
 
 namespace LitKit1
 {
@@ -36,11 +37,8 @@ namespace LitKit1
 
             btnInsertNBS.SuperTip = NBSSuperTip();
 
-
-            //OpenFileDialog openLicense = new OpenFileDialog();
-            //openLicense.ShowDialog();
-            //string licPath = openLicense.FileName;
-            licenseIsValid = LicenseChecker.LicenseIsValid(@"C:\Prelimine\license.xml");
+            licenseIsValid = LicenseChecker.LicenseIsValid();
+            //licenseIsValid = true;
         }
 
         private bool licenseIsValid;
@@ -524,6 +522,18 @@ namespace LitKit1
             {
                 LatinExpressions.UnItalicize(_app);
             }
+        }
+
+        private void group1_DialogLauncherClick(object sender, RibbonControlEventArgs e)
+        {
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            String Root = Directory.GetCurrentDirectory();
+            MessageBox.Show($"Installation Parth: {Root}");
+        }
+
+        private void ReportBug_Click(object sender, RibbonControlEventArgs e)
+        {
+            Process.Start("https://forms.gle/HkqXuHyjJhzcVjJE6");
         }
     }
 }

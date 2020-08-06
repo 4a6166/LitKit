@@ -33,7 +33,7 @@
     <PublishUrl>C:\Users\Jake\Google Drive %28jacob.field%40prelimine.com%29\repos\LitKit1_git\DeploymentFiles\LitKitInstallTest\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.7</ApplicationVersion>
+    <ApplicationVersion>1.0.0.12</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -323,7 +323,7 @@
       <DependentUpon>ctrlConfidentialMarker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -351,6 +351,39 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\Delegates.cs" />
+    <Compile Include="Services\Exhibit\Exhibit.cs" />
+    <Compile Include="Services\Exhibit\ExhibitEnums.cs" />
+    <Compile Include="Services\Exhibit\ExhibitHelper.cs" />
+    <Compile Include="Services\Exhibit\ExhibitRepository.cs" />
+    <Compile Include="Services\Exhibit\ExhibitRepositoryFactory.cs" />
+    <Compile Include="Services\Exhibit\ExhibitsReference.cs" />
+    <Compile Include="Services\Exhibit\IExhibitRepository.cs" />
+    <Compile Include="Services\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Services\Extensions\StringExtensions.cs" />
+    <Compile Include="Services\Extensions\TimeDateExtensions.cs" />
+    <Compile Include="Services\Extensions\XMLDocumentExtensions.cs" />
+    <Compile Include="Services\Licensing\LicenseChecker.cs" />
+    <Compile Include="Services\OperationResult.cs" />
+    <Compile Include="Services\RedactionTool\IRedaction.cs" />
+    <Compile Include="Services\RedactionTool\OldRedact.cs" />
+    <Compile Include="Services\RedactionTool\Redactions.cs" />
+    <Compile Include="Services\RedactionTool\RedactionText.cs" />
+    <Compile Include="Services\Response\Response.cs" />
+    <Compile Include="Services\Response\ResponseEnums.cs" />
+    <Compile Include="Services\Response\ResponseRepository.cs" />
+    <Compile Include="Services\Response\ResponseStandard.cs" />
+    <Compile Include="Services\Response\ResponseStandardRepository.cs" />
+    <Compile Include="Services\RibbonButtons\BlockQuotes.cs" />
+    <Compile Include="Services\RibbonButtons\InsertNBS.cs" />
+    <Compile Include="Services\RibbonButtons\LatinExpressions.cs" />
+    <Compile Include="Services\RibbonButtons\OxfordComma.cs" />
+    <Compile Include="Services\RibbonButtons\SmartQuotesAndApostrophes.cs" />
+    <Compile Include="Services\RibbonButtons\SpaceBetweenSentences.cs" />
+    <Compile Include="Services\RibbonButtons\Transcript.cs" />
+    <Compile Include="Services\SaveFile.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -361,12 +394,6 @@
       <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Services\Services.csproj">
-      <Project>{968847ce-040c-40c9-9a8c-2a9495416fe1}</Project>
-      <Name>Services</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-plus-math-60.png" />
@@ -385,6 +412,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Services\Licensing\license.xml" />
+    <Content Include="PilcrowLone1_B.ico" />
+    <Content Include="Services\Exhibit\TestXMLFile.xml" />
+    <Content Include="Services\Response\ResponseStandardLanguage.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Services\Response\ResponseFrame.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Services\Licensing\publicKey.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Services\Licensing\license.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -419,10 +463,13 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>LitKit1_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>PilcrowLone1_B.ico</ApplicationIcon>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
