@@ -33,7 +33,7 @@
     <PublishUrl>C:\Users\Jake\Google Drive %28jacob.field%40prelimine.com%29\repos\LitKit1_git\DeploymentFiles\LitKitInstallTest\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.12</ApplicationVersion>
+    <ApplicationVersion>1.0.0.24</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -414,6 +414,7 @@
     <None Include="Resources\Group.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Test Resource File.txt" />
     <None Include="bin\Debug\Services\Licensing\license.xml" />
     <Content Include="PilcrowLone1_B.ico" />
     <Content Include="Services\Exhibit\TestXMLFile.xml" />

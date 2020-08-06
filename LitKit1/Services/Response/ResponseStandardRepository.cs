@@ -112,13 +112,28 @@ namespace Services.Response
 
         static XmlDocument LoadStandardLanguage()
         {
-            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-            String Root = Directory.GetCurrentDirectory()+@"\..\litkit.dll*";
-            string path = Root + @"\Services\Response\ResponseFrame.xml";
+            try
+            {
+                Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+                String Root = Directory.GetCurrentDirectory();
 
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(path);
-            return xmlDocument;
+                string Parent = Directory.GetCurrentDirectory() + @"\..\";
+                var Dirs = Directory.EnumerateDirectories(Parent);
+
+                string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
+                string path = Rootdll + @"\Services\Response\ResponseStandardLanguage.xml";
+
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.Load(path);
+                return xmlDocument;
+            }
+
+            catch 
+            {
+                
+                return null;
+
+            }
         }
 
         public static List<ResponseStandard> GetResponses(string docType)

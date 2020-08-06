@@ -528,7 +528,13 @@ namespace LitKit1
         {
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             String Root = Directory.GetCurrentDirectory();
-            MessageBox.Show($"Installation Parth: {Root}");
+
+            string Parent = Directory.GetCurrentDirectory() + @"\..\";
+            var Dirs = Directory.EnumerateDirectories(Parent);
+
+            string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
+
+            MessageBox.Show($"Installation Path: {Root}" + Environment.NewLine + $"DLL Path: {Rootdll}");
         }
 
         private void ReportBug_Click(object sender, RibbonControlEventArgs e)

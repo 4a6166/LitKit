@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using Rhino.Licensing;
 
@@ -13,10 +15,17 @@ namespace Services.Licensing
         {
             bool result = false;
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-            String Root = Directory.GetCurrentDirectory() + @"\..\litkit.dll*";
-            PublicKeyPath = Root + @"\Services\Licensing\publicKey.xml";  
+            String Root = Directory.GetCurrentDirectory();
+
+            string Parent = Directory.GetCurrentDirectory() + @"\..\";
+            var Dirs = Directory.EnumerateDirectories(Parent);
+
+            string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
+
+
+            PublicKeyPath = Rootdll + @"\Services\Licensing\publicKey.xml";  
                 //@"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Services\Licensing\publicKey.xml";
-            LicensePath = Root + @"\Services\Licensing\license.xml"; 
+            LicensePath = Rootdll + @"\Services\Licensing\license.xml"; 
                 //@"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Services\Licensing\license.xml";
 
             try

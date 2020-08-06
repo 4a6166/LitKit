@@ -27,8 +27,14 @@ namespace Services.Response
         void FrameCustomXMLDoc()
         {
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-            String Root = Directory.GetCurrentDirectory() + @"\..\litkit.dll*";
-            string path = Root + @"\Services\Response\ResponseFrame.xml";
+            String Root = Directory.GetCurrentDirectory();
+
+            string Parent = Directory.GetCurrentDirectory() + @"\..\";
+            var Dirs = Directory.EnumerateDirectories(Parent);
+
+            string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
+
+            string path = Rootdll + @"\Services\Response\ResponseFrame.xml";
 
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(path);
