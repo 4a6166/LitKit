@@ -30,58 +30,62 @@ namespace LitKit1.Controls.AnsResControls
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-            string name = textBox1.Text;
-
-            bool c = false;
-            bool a = false;
-            bool p = false;
-            bool i = false;
-            switch (docType)
+            try
             {
-                case "Answer a Complaint":
-                    c = true;
-                    a = false;
-                    p = false;
-                    i = false;
-                    break;
-                case "Respond to Requests for Admission":
-                    c = false;
-                    a = false;
-                    p = true;
-                    i = false;
-                    break;
-                case "Respond to Requests for Production of Documents":
-                    c = false;
-                    a = false;
-                    p = true;
-                    i = false;
-                    break;
-                case "Respond to Interrogatories":
-                    c = false;
-                    a = false;
-                    p = false;
-                    i = true;
-                    break;
-                default:
-                    throw new Exception("docType incorrect");
+                string name = textBox1.Text;
+
+                bool c = false;
+                bool a = false;
+                bool p = false;
+                bool i = false;
+                switch (docType)
+                {
+                    case "Answer a Complaint":
+                        c = true;
+                        a = false;
+                        p = false;
+                        i = false;
+                        break;
+                    case "Respond to Requests for Admission":
+                        c = false;
+                        a = false;
+                        p = true;
+                        i = false;
+                        break;
+                    case "Respond to Requests for Production of Documents":
+                        c = false;
+                        a = false;
+                        p = true;
+                        i = false;
+                        break;
+                    case "Respond to Interrogatories":
+                        c = false;
+                        a = false;
+                        p = false;
+                        i = true;
+                        break;
+                    default:
+                        throw new Exception("docType incorrect");
+                }
+
+                repository.AddCustomResponse(name, c, a, p, i, text);
+
+                this.FindForm().Close();
+
+                ctrlAnsResView AnsResCtrl = new ctrlAnsResView();
+                Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
+                ActivePane.Control.Controls.Clear();
+                //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
+
+                ActivePane.Control.Controls.Add(AnsResCtrl);
+                //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
+                AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                ActivePane.Visible = true;
+                //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
             }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #302"); }
 
-            repository.AddCustomResponse(name, c, a, p, i, text);
-
-            this.FindForm().Close();
-
-            ctrlAnsResView AnsResCtrl = new ctrlAnsResView();
-            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
-            ActivePane.Control.Controls.Clear();
-            //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
-
-            ActivePane.Control.Controls.Add(AnsResCtrl);
-            //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
-            AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-
-            ActivePane.Visible = true;
-            //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
         }
 
         private void button2_Click(object sender, EventArgs e)

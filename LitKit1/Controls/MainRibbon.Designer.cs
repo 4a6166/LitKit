@@ -36,6 +36,10 @@
         {
             Microsoft.Office.Tools.Ribbon.RibbonGroup grpShortcuts;
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
+            Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl2 = this.Factory.CreateRibbonDialogLauncher();
+            Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl3 = this.Factory.CreateRibbonDialogLauncher();
+            Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl4 = this.Factory.CreateRibbonDialogLauncher();
+            Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl5 = this.Factory.CreateRibbonDialogLauncher();
             this.menuTranscript = this.Factory.CreateRibbonMenu();
             this.btnBlockTranscript = this.Factory.CreateRibbonButton();
             this.btnInLineTranscript = this.Factory.CreateRibbonButton();
@@ -76,6 +80,7 @@
             this.btnPinCite = this.Factory.CreateRibbonButton();
             this.btnRemovePinCite = this.Factory.CreateRibbonButton();
             this.btnIndexOfExhibits = this.Factory.CreateRibbonButton();
+            this.testExhibits = this.Factory.CreateRibbonButton();
             this.grpAnsRes = this.Factory.CreateRibbonGroup();
             this.splitbtnResposeTool = this.Factory.CreateRibbonSplitButton();
             this.button4 = this.Factory.CreateRibbonButton();
@@ -94,6 +99,8 @@
             // 
             // grpShortcuts
             // 
+            ribbonDialogLauncherImpl1.Enabled = false;
+            grpShortcuts.DialogLauncher = ribbonDialogLauncherImpl1;
             grpShortcuts.Items.Add(this.menuTranscript);
             grpShortcuts.Items.Add(this.menu1);
             grpShortcuts.Items.Add(this.menu5);
@@ -346,6 +353,8 @@
             // 
             // RedactionsGroup
             // 
+            ribbonDialogLauncherImpl2.Enabled = false;
+            this.RedactionsGroup.DialogLauncher = ribbonDialogLauncherImpl2;
             this.RedactionsGroup.Items.Add(this.markRedact);
             this.RedactionsGroup.Items.Add(this.unmarkRedact);
             this.RedactionsGroup.Items.Add(this.btnClearAllRedactions);
@@ -414,10 +423,13 @@
             // 
             // grpExhibitTool
             // 
+            ribbonDialogLauncherImpl3.Enabled = false;
+            this.grpExhibitTool.DialogLauncher = ribbonDialogLauncherImpl3;
             this.grpExhibitTool.Items.Add(this.btnExhibitTool);
             this.grpExhibitTool.Items.Add(this.btnPinCite);
             this.grpExhibitTool.Items.Add(this.btnRemovePinCite);
             this.grpExhibitTool.Items.Add(this.btnIndexOfExhibits);
+            this.grpExhibitTool.Items.Add(this.testExhibits);
             this.grpExhibitTool.Label = "Exhibits";
             this.grpExhibitTool.Name = "grpExhibitTool";
             // 
@@ -459,8 +471,16 @@
     " table will not be updated when Exhibits are moved, edited, or deleted.";
             this.btnIndexOfExhibits.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.IndexOfExhibits_Click);
             // 
+            // testExhibits
+            // 
+            this.testExhibits.Label = "Add Test Exhibits";
+            this.testExhibits.Name = "testExhibits";
+            this.testExhibits.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AddExhibtsForTest);
+            // 
             // grpAnsRes
             // 
+            ribbonDialogLauncherImpl4.Enabled = false;
+            this.grpAnsRes.DialogLauncher = ribbonDialogLauncherImpl4;
             this.grpAnsRes.Items.Add(this.splitbtnResposeTool);
             this.grpAnsRes.Label = "Responses";
             this.grpAnsRes.Name = "grpAnsRes";
@@ -485,7 +505,7 @@
             // 
             // group1
             // 
-            this.group1.DialogLauncher = ribbonDialogLauncherImpl1;
+            this.group1.DialogLauncher = ribbonDialogLauncherImpl5;
             this.group1.Items.Add(this.CustomerSupport);
             this.group1.Items.Add(this.button2);
             this.group1.Items.Add(this.ExhibitChangeControl);
@@ -592,6 +612,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu5;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton testExhibits;
     }
 
     partial class ThisRibbonCollection

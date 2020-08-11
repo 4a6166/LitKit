@@ -133,7 +133,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Italic);
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(289, 35);
+            this.label2.Size = new System.Drawing.Size(261, 35);
             this.label2.TabIndex = 12;
             this.label2.Text = "Consider modifying the response language with one of these options:";
             // 
@@ -145,8 +145,9 @@
             this.panel1.Controls.Add(this.listBox1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(12, 258);
+            this.panel1.MinimumSize = new System.Drawing.Size(246, 150);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(289, 246);
+            this.panel1.Size = new System.Drawing.Size(289, 185);
             this.panel1.TabIndex = 14;
             // 
             // listBox1
@@ -157,8 +158,9 @@
             this.listBox1.BackColor = System.Drawing.SystemColors.Window;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(0, 37);
+            this.listBox1.MinimumSize = new System.Drawing.Size(0, 100);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(289, 186);
+            this.listBox1.Size = new System.Drawing.Size(289, 134);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
@@ -182,7 +184,7 @@
             this.panel2.Controls.Add(this.tableLayoutPanel1);
             this.panel2.Controls.Add(this.richTextBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 510);
+            this.panel2.Location = new System.Drawing.Point(0, 449);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(317, 128);
             this.panel2.TabIndex = 16;
@@ -292,7 +294,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label11);
@@ -301,9 +302,10 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
-            this.MinimumSize = new System.Drawing.Size(317, 200);
+            this.Controls.Add(this.panel2);
+            this.MinimumSize = new System.Drawing.Size(317, 400);
             this.Name = "ctrlAnsResCustomize";
-            this.Size = new System.Drawing.Size(317, 638);
+            this.Size = new System.Drawing.Size(317, 577);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);

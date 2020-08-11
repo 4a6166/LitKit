@@ -116,12 +116,25 @@ namespace Services.Response
             {
                 Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
                 String Root = Directory.GetCurrentDirectory();
+                string path = string.Empty;
 
-                string Parent = Directory.GetCurrentDirectory() + @"\..\";
-                var Dirs = Directory.EnumerateDirectories(Parent);
+                try //For use during debug
+                {
+                    path = Root + @"\Services\Response\ResponseStandardLanguage.xml";
 
-                string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
-                string path = Rootdll + @"\Services\Response\ResponseStandardLanguage.xml";
+                }
+                catch { }
+
+                //try //For use during user testing
+                //{
+                //    string Parent = Directory.GetCurrentDirectory() + @"\..\";
+                //    var Dirs = Directory.EnumerateDirectories(Parent);
+
+                //    string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
+                //    path = Rootdll + @"\Services\Response\ResponseStandardLanguage.xml";
+                    
+                //}
+                //catch { }
 
                 XmlDocument xmlDocument = new XmlDocument();
                 xmlDocument.Load(path);
