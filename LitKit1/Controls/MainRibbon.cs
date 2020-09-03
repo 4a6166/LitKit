@@ -96,12 +96,12 @@ namespace LitKit1
         {
             try
             {
-                string result = "Inserts Non-Breaking Spaces after " + InsertNBS.Expressions.First();
-                for (var i = 1; i <= InsertNBS.Expressions.Count - 2; i++)
+                string result = "Inserts Non-Breaking Spaces after " + InsertNBS.ExpressionsSpaceAfter.First();
+                for (var i = 1; i <= InsertNBS.ExpressionsSpaceAfter.Count - 2; i++)
                 {
-                    result += ", " + InsertNBS.Expressions[i];
+                    result += ", " + InsertNBS.ExpressionsSpaceAfter[i];
                 }
-                result += " and " + InsertNBS.Expressions.Last();
+                result += " and " + InsertNBS.ExpressionsSpaceAfter.Last();
                 return result;
             }
             catch { return null; }

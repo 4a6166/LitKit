@@ -73,12 +73,14 @@ namespace Services.RibbonButtons
 
         private static readonly List<string> abbreviations = new List<string>()
         {
+            #region name prefix/suffix
             "Mr.",
             "Mrs.",
             "Ms.",
             "Dr.",
             "Jr.",
             "Sr.",
+#endregion
 
             "i.e.",
             "e.g.",
@@ -91,18 +93,22 @@ namespace Services.RibbonButtons
             "U.S.",
             "U.S.A.",
 
-
+            #region time
             "a.m.",
             "A.M.",
             "p.m.",
             "P.M.",
             "hr.",
             "sec.",
+            #endregion
 
+            #region distance
             "oz.",
             "in.",
             "ft.",
+#endregion
 
+            #region districts
             "E.D.",
             "W.D.",
             "M.D.",
@@ -149,7 +155,9 @@ namespace Services.RibbonButtons
             "Wash.",
             "Wisc.",
             "Wyo.",
+#endregion
 
+            #region months
             "Jan.",
             "Feb.",
             "Mar.",
@@ -159,6 +167,7 @@ namespace Services.RibbonButtons
             "Oct.",
             "Nov.",
             "Dec.",
+#endregion
 
             "U.S.C.",
             "C.F.R.",
@@ -178,6 +187,40 @@ namespace Services.RibbonButtons
             "Opp.",
             "Mot.",
 
+            "Co.",
+            "L.L.C.",
+            "L.L.P.",
+            "etc.",
+            "Inc.",
+            "P.C.",
+
+            #region letters
+            "A.",
+            "B.",
+            "C.",
+            "D.",
+            "E.",
+            "F.",
+            "G.",
+            "H.",
+            "I.",
+            "J.",
+            "K.",
+            "L.",
+            "M.",
+            "N.",
+            "O.",
+            "P.",
+            "Q.",
+            "R.",
+            "S.",
+            "T.",
+            "U.",
+            "V.",
+            "X.",
+            "Y.",
+            "Z.",
+#endregion
 
         };
     }

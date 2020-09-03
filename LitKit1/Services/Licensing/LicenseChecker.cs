@@ -8,7 +8,7 @@ namespace Services.Licensing
 {
     public class LicenseChecker
     {
-        private static string PublicKeyPath;
+        private static string publicKey = @"<RSAKeyValue><Modulus>v17shViD7bFwTSpNjJcxEdQ2JGncp8F8TjBp7+2uZzzBRLDV2du2s2LTbTEHAJW5yr0UhWj4MhAsjsAMD3Vi9QhTV4vhgVIZchfiGeEL9M0lMLm2uWAio9hAWV2yM10JS5mqFZfiX4EM1ltAsBpqXOrk04mvQCmf7J8Z81l1UAU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
         private static string LicensePath;
 
         public static bool LicenseIsValid()
@@ -17,37 +17,26 @@ namespace Services.Licensing
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             String Root = Directory.GetCurrentDirectory();
 
-            try  // For use during debug
-            {
-                PublicKeyPath = Root + @"\Services\Licensing\publicKey.xml";
-                LicensePath = Root + @"\Services\Licensing\license.xml";
 
-            }
-            catch { }
+            LicensePath = Root + @"\Services\Licensing\license.xml";  // For use during debug
 
-            //try // For use during user testing
+            // For use during user testing
             //{
             //    string Parent = Directory.GetCurrentDirectory() + @"\..\";
             //    var Dirs = Directory.EnumerateDirectories(Parent);
 
             //    string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
 
-
-            //    PublicKeyPath = Rootdll + @"\Services\Licensing\publicKey.xml";
-            //    //@"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Services\Licensing\publicKey.xml";
             //    LicensePath = Rootdll + @"\Services\Licensing\license.xml";
-            //    //@"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Services\Licensing\license.xml";
             //}
-            //catch { }
+
 
             try
             {
-                var publicKey = File.ReadAllText(PublicKeyPath);
-
                 //Throws an exception if license has been modified
                 LicenseValidator validator = new LicenseValidator(publicKey, LicensePath);
                 validator.AssertValidLicense();
-                
+
                 if (validator.ExpirationDate > DateTime.Now)
                 {
                     result = true;

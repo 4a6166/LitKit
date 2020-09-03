@@ -283,7 +283,7 @@ namespace LitKit1.Controls.AnsResControls
 
                 return result;
             }
-            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #306"); }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #306"); return null; }
 
         }
 
@@ -318,7 +318,7 @@ namespace LitKit1.Controls.AnsResControls
 
                 return result;
             }
-            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #307"); }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #307"); return null; }
 
         }
 

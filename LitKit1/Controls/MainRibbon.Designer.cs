@@ -100,6 +100,7 @@
             // grpShortcuts
             // 
             ribbonDialogLauncherImpl1.Enabled = false;
+            ribbonDialogLauncherImpl1.Visible = false;
             grpShortcuts.DialogLauncher = ribbonDialogLauncherImpl1;
             grpShortcuts.Items.Add(this.menuTranscript);
             grpShortcuts.Items.Add(this.menu1);
@@ -354,6 +355,7 @@
             // RedactionsGroup
             // 
             ribbonDialogLauncherImpl2.Enabled = false;
+            ribbonDialogLauncherImpl2.Visible = false;
             this.RedactionsGroup.DialogLauncher = ribbonDialogLauncherImpl2;
             this.RedactionsGroup.Items.Add(this.markRedact);
             this.RedactionsGroup.Items.Add(this.unmarkRedact);
@@ -424,6 +426,7 @@
             // grpExhibitTool
             // 
             ribbonDialogLauncherImpl3.Enabled = false;
+            ribbonDialogLauncherImpl3.Visible = false;
             this.grpExhibitTool.DialogLauncher = ribbonDialogLauncherImpl3;
             this.grpExhibitTool.Items.Add(this.btnExhibitTool);
             this.grpExhibitTool.Items.Add(this.btnPinCite);
@@ -475,11 +478,13 @@
             // 
             this.testExhibits.Label = "Add Test Exhibits";
             this.testExhibits.Name = "testExhibits";
+            this.testExhibits.Visible = false;
             this.testExhibits.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AddExhibtsForTest);
             // 
             // grpAnsRes
             // 
             ribbonDialogLauncherImpl4.Enabled = false;
+            ribbonDialogLauncherImpl4.Visible = false;
             this.grpAnsRes.DialogLauncher = ribbonDialogLauncherImpl4;
             this.grpAnsRes.Items.Add(this.splitbtnResposeTool);
             this.grpAnsRes.Label = "Responses";
@@ -527,6 +532,7 @@
             this.button2.Name = "button2";
             this.button2.OfficeImageId = "ErrorChecking";
             this.button2.ShowImage = true;
+            this.button2.Visible = false;
             this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ReportBug_Click);
             // 
             // ExhibitChangeControl
