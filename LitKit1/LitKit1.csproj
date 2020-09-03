@@ -30,7 +30,7 @@
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>C:\Users\Jake\Google Drive %28jacob.field%40prelimine.com%29\repos\LitKit1_git\DeploymentFiles\LitKitInstallTest\Obfuscation tests\</PublishUrl>
+    <PublishUrl>C:\Users\Jake\Google Drive %28jacob.field%40prelimine.com%29\repos\LitKit1_git\DeploymentFiles\LitKitInstallTest\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
     <ApplicationVersion>1.0.0.30</ApplicationVersion>
@@ -507,6 +507,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="AfterCompile">
-    <Exec Command="if &quot;$(ConfigurationName)&quot; == &quot;Release&quot; (&quot;$(ProjectDir)_ConfuserEx\Confuser.CLI.exe&quot; &quot;$(ProjectDir)_ConfuserEx\c.crproj&quot;)&#xD;&#xA;" />
+    <Exec Command="echo &quot;&quot;" />
   </Target>
 </Project>

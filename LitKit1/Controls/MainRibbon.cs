@@ -37,8 +37,8 @@ namespace LitKit1
 
             btnInsertNBS.SuperTip = NBSSuperTip();
 
-            licenseIsValid = LicenseChecker.LicenseIsValid();
-            //licenseIsValid = true;
+            //licenseIsValid = LicenseChecker.LicenseIsValid();
+            licenseIsValid = true;
         }
 
         private bool licenseIsValid;
