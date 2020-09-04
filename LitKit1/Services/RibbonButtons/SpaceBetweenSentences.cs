@@ -43,7 +43,7 @@ namespace Services.RibbonButtons
 
             foreach(var text in abbreviations)
             {
-                rng.Find.Execute(FindText: text + "  ", ReplaceWith: text + " ", Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText: " "+text + "  ", ReplaceWith: " "+text + " ", Replace: WdReplace.wdReplaceAll);
             }
 
             for (int i=1; i<=9; i++)
@@ -221,7 +221,6 @@ namespace Services.RibbonButtons
             "Y.",
             "Z.",
 #endregion
-
         };
     }
 }
