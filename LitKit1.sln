@@ -5,19 +5,14 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LitKit1", "LitKit1\LitKit1.csproj", "{79494501-7AE6-4250-9268-BB2A248DDD75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{968847CE-040C-40C9-9A8C-2A9495416FE1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C2E6F2C-11D4-4869-AC34-F1BD1B02B98E}"
-	ProjectSection(SolutionItems) = preProject
-		Snippets.txt = Snippets.txt
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeTester", "CodeTester\CodeTester.csproj", "{B88D7307-72FD-470D-BCDD-1639293619BA}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupProject", "SetupProject\SetupProject.wixproj", "{9D2374B9-3D2A-46C6-88DF-B4C74A85084A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		ObfuscatedRelease|Any CPU = ObfuscatedRelease|Any CPU
+		ObfuscatedRelease|x86 = ObfuscatedRelease|x86
 		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
@@ -26,26 +21,23 @@ Global
 		{79494501-7AE6-4250-9268-BB2A248DDD75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79494501-7AE6-4250-9268-BB2A248DDD75}.Debug|x86.ActiveCfg = Debug|x86
 		{79494501-7AE6-4250-9268-BB2A248DDD75}.Debug|x86.Build.0 = Debug|x86
+		{79494501-7AE6-4250-9268-BB2A248DDD75}.ObfuscatedRelease|Any CPU.ActiveCfg = ObfuscatedRelease|Any CPU
+		{79494501-7AE6-4250-9268-BB2A248DDD75}.ObfuscatedRelease|Any CPU.Build.0 = ObfuscatedRelease|Any CPU
+		{79494501-7AE6-4250-9268-BB2A248DDD75}.ObfuscatedRelease|x86.ActiveCfg = ObfuscatedRelease|x86
+		{79494501-7AE6-4250-9268-BB2A248DDD75}.ObfuscatedRelease|x86.Build.0 = ObfuscatedRelease|x86
 		{79494501-7AE6-4250-9268-BB2A248DDD75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79494501-7AE6-4250-9268-BB2A248DDD75}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79494501-7AE6-4250-9268-BB2A248DDD75}.Release|x86.ActiveCfg = Release|x86
 		{79494501-7AE6-4250-9268-BB2A248DDD75}.Release|x86.Build.0 = Release|x86
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Debug|x86.Build.0 = Debug|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Release|x86.ActiveCfg = Release|Any CPU
-		{968847CE-040C-40C9-9A8C-2A9495416FE1}.Release|x86.Build.0 = Release|Any CPU
-		{B88D7307-72FD-470D-BCDD-1639293619BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B88D7307-72FD-470D-BCDD-1639293619BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B88D7307-72FD-470D-BCDD-1639293619BA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B88D7307-72FD-470D-BCDD-1639293619BA}.Debug|x86.Build.0 = Debug|Any CPU
-		{B88D7307-72FD-470D-BCDD-1639293619BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B88D7307-72FD-470D-BCDD-1639293619BA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B88D7307-72FD-470D-BCDD-1639293619BA}.Release|x86.ActiveCfg = Release|Any CPU
-		{B88D7307-72FD-470D-BCDD-1639293619BA}.Release|x86.Build.0 = Release|Any CPU
+		{9D2374B9-3D2A-46C6-88DF-B4C74A85084A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9D2374B9-3D2A-46C6-88DF-B4C74A85084A}.Debug|x86.ActiveCfg = Debug|x86
+		{9D2374B9-3D2A-46C6-88DF-B4C74A85084A}.Debug|x86.Build.0 = Debug|x86
+		{9D2374B9-3D2A-46C6-88DF-B4C74A85084A}.ObfuscatedRelease|Any CPU.ActiveCfg = Release|x86
+		{9D2374B9-3D2A-46C6-88DF-B4C74A85084A}.ObfuscatedRelease|x86.ActiveCfg = Release|x86
+		{9D2374B9-3D2A-46C6-88DF-B4C74A85084A}.ObfuscatedRelease|x86.Build.0 = Release|x86
+		{9D2374B9-3D2A-46C6-88DF-B4C74A85084A}.Release|Any CPU.ActiveCfg = Release|x86
+		{9D2374B9-3D2A-46C6-88DF-B4C74A85084A}.Release|x86.ActiveCfg = Release|x86
+		{9D2374B9-3D2A-46C6-88DF-B4C74A85084A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

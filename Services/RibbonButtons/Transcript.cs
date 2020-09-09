@@ -24,11 +24,23 @@ namespace Services.RibbonButtons
         /// <param name="Quote"></param>
         public void PasteAsInText(string Quote)
         {
+            //TODO: when a quotation mark is at the end of the inserted text, the result is two quotation marks. When it is at the beginning, the result is one.
             string quote = RemoveNumberingAndLineBreaks(Quote, InLineOrBlock.InLine);
-            
+
+            var rngStart = _app.Selection.Start;
+
             quote = quote.Trim();
             quote = "\"" + quote + "\"";
             _app.Selection.TypeText(quote);
+
+            var rngEnd = _app.Selection.End;
+
+            _app.Selection.SetRange(rngStart, rngEnd);
+            var rng = _app.Selection.Range;
+            rng.Find.Execute(FindText: "\"", ReplaceWith: "\"", Replace: Word.WdReplace.wdReplaceAll);
+            rng.Find.Execute(FindText: "\'", ReplaceWith: "\'", Replace: Word.WdReplace.wdReplaceAll);
+
+            _app.Selection.Collapse(Word.WdCollapseDirection.wdCollapseEnd);
         }
 
         /// <summary>
@@ -37,13 +49,18 @@ namespace Services.RibbonButtons
         /// <param name="Quote"></param>
         public void PasteAsBlockQuote(string Quote)
         {
+            //TODO: when the first char is a quotation mark, it disappears from text to be inserted
 
             string quote = RemoveNumberingAndLineBreaks(Quote, InLineOrBlock.Block);
 
-            int RangeStart = _app.Selection.Start + 1;
+            int RangeStart = _app.Selection.Start ;
             _app.Selection.TypeText( quote + Environment.NewLine);
 
             _app.Selection.SetRange(RangeStart, _app.Selection.Start + quote.Length-1);
+
+            var rng = _app.Selection.Range;
+            rng.Find.Execute(FindText: "\"", ReplaceWith: "\"", Replace: Word.WdReplace.wdReplaceAll);
+            rng.Find.Execute(FindText: "\'", ReplaceWith: "\'", Replace: Word.WdReplace.wdReplaceAll);
 
             _app.Selection.Paragraphs.Format.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceSingle;
             float indentInches = 1;
@@ -53,6 +70,8 @@ namespace Services.RibbonButtons
             _app.Selection.SetRange(_app.Selection.End + 1, _app.Selection.End + 1);
             _app.Selection.Paragraphs.Format.LeftIndent = 0;
             _app.Selection.Paragraphs.Format.RightIndent = 0;
+
+            
         }
 
 

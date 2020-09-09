@@ -76,7 +76,7 @@ namespace Services.Response
 
         static string RequestInterrog(string docType)
         {
-            if (docType == "Interrogatory")
+            if (docType == "Respond to Interrogatories")
             {
                 return "Interrogatory";
             }
@@ -103,7 +103,7 @@ namespace Services.Response
 
         static string paraRequest(string docType)
         {
-            if (docType == "Admission")
+            if (docType == "Respond to Requests for Admission")
             {
                 return "Request";
             }

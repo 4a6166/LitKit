@@ -64,7 +64,7 @@ namespace LitKit1.Controls.ExhibitControls
 
         }
 
-        public string GetExampleTextFromDescBatesText(string text) //TODO: break this type of code into another group? example text updates
+        public string GetExampleTextFromDescBatesText(string text) 
         {
             string exampleText;
             switch (text)

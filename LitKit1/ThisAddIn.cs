@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using Services;
 using Microsoft.Office.Core;
 using LitKit1.Controls.AnsResControls;
+using Services.Licensing;
 
 namespace LitKit1
 {
@@ -24,7 +25,7 @@ namespace LitKit1
 
             try { AddTaskPanes(Application.ActiveDocument); }
             catch { }
-            
+
             ApplicationEvents4_Event app = (ApplicationEvents4_Event)Application;
             app.DocumentOpen += new ApplicationEvents4_DocumentOpenEventHandler(Application_DocumentOpen);
             app.NewDocument += new ApplicationEvents4_NewDocumentEventHandler(Application_NewDocument);
@@ -61,7 +62,7 @@ namespace LitKit1
         public void AddAnsResControlMain(object window)
         {
             AnsResMain = new ctrlAnsResMain();
-            AnsResTaskPane = this.CustomTaskPanes.Add(AnsResMain, "LitKit Answers and Response Tool", window);
+            AnsResTaskPane = this.CustomTaskPanes.Add(AnsResMain, "LitKit Response Tool", window);
             AnsResMain.Dock = System.Windows.Forms.DockStyle.Fill;
             AnsResTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionLeft;
             AnsResTaskPane.Width = 350;

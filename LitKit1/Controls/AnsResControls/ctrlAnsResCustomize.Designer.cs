@@ -41,12 +41,12 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
-            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
-            this.richTextBox5 = new System.Windows.Forms.RichTextBox();
-            this.richTextBox6 = new System.Windows.Forms.RichTextBox();
             this.richTextBox7 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox6 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox5 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -54,6 +54,7 @@
             // 
             // label1
             // 
+            this.label1.AutoEllipsis = true;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 20);
             this.label1.Name = "label1";
@@ -132,7 +133,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Italic);
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(289, 35);
+            this.label2.Size = new System.Drawing.Size(261, 35);
             this.label2.TabIndex = 12;
             this.label2.Text = "Consider modifying the response language with one of these options:";
             // 
@@ -144,8 +145,9 @@
             this.panel1.Controls.Add(this.listBox1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(12, 258);
+            this.panel1.MinimumSize = new System.Drawing.Size(246, 150);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(289, 246);
+            this.panel1.Size = new System.Drawing.Size(289, 185);
             this.panel1.TabIndex = 14;
             // 
             // listBox1
@@ -156,8 +158,9 @@
             this.listBox1.BackColor = System.Drawing.SystemColors.Window;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(0, 37);
+            this.listBox1.MinimumSize = new System.Drawing.Size(0, 100);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(289, 186);
+            this.listBox1.Size = new System.Drawing.Size(289, 134);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
@@ -181,7 +184,7 @@
             this.panel2.Controls.Add(this.tableLayoutPanel1);
             this.panel2.Controls.Add(this.richTextBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 510);
+            this.panel2.Location = new System.Drawing.Point(0, 449);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(317, 128);
             this.panel2.TabIndex = 16;
@@ -208,71 +211,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(289, 73);
             this.tableLayoutPanel1.TabIndex = 16;
             // 
-            // richTextBox2
-            // 
-            this.richTextBox2.BackColor = System.Drawing.SystemColors.Window;
-            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox2.Location = new System.Drawing.Point(201, 3);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.richTextBox2.Size = new System.Drawing.Size(85, 18);
-            this.richTextBox2.TabIndex = 17;
-            this.richTextBox2.Text = "[X]";
-            // 
-            // richTextBox3
-            // 
-            this.richTextBox3.BackColor = System.Drawing.SystemColors.Window;
-            this.richTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox3.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.ReadOnly = true;
-            this.richTextBox3.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.richTextBox3.Size = new System.Drawing.Size(192, 18);
-            this.richTextBox3.TabIndex = 18;
-            this.richTextBox3.Text = "Preceding Paragraph Number";
-            // 
-            // richTextBox4
-            // 
-            this.richTextBox4.BackColor = System.Drawing.SystemColors.Window;
-            this.richTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox4.Location = new System.Drawing.Point(3, 27);
-            this.richTextBox4.Name = "richTextBox4";
-            this.richTextBox4.ReadOnly = true;
-            this.richTextBox4.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.richTextBox4.Size = new System.Drawing.Size(192, 18);
-            this.richTextBox4.TabIndex = 19;
-            this.richTextBox4.Text = "Responding Party or Parties";
-            // 
-            // richTextBox5
-            // 
-            this.richTextBox5.BackColor = System.Drawing.SystemColors.Window;
-            this.richTextBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox5.Location = new System.Drawing.Point(201, 27);
-            this.richTextBox5.Name = "richTextBox5";
-            this.richTextBox5.ReadOnly = true;
-            this.richTextBox5.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.richTextBox5.Size = new System.Drawing.Size(85, 18);
-            this.richTextBox5.TabIndex = 20;
-            this.richTextBox5.Text = "[Responding]";
-            // 
-            // richTextBox6
-            // 
-            this.richTextBox6.BackColor = System.Drawing.SystemColors.Window;
-            this.richTextBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox6.Location = new System.Drawing.Point(201, 51);
-            this.richTextBox6.Name = "richTextBox6";
-            this.richTextBox6.ReadOnly = true;
-            this.richTextBox6.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.richTextBox6.Size = new System.Drawing.Size(85, 19);
-            this.richTextBox6.TabIndex = 21;
-            this.richTextBox6.Text = "[Propounding]";
-            // 
             // richTextBox7
             // 
             this.richTextBox7.BackColor = System.Drawing.SystemColors.Window;
@@ -287,11 +225,75 @@
             this.richTextBox7.Text = "Propounding Party or Parties";
             this.richTextBox7.TextChanged += new System.EventHandler(this.richTextBox7_TextChanged);
             // 
+            // richTextBox6
+            // 
+            this.richTextBox6.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox6.Location = new System.Drawing.Point(201, 51);
+            this.richTextBox6.Name = "richTextBox6";
+            this.richTextBox6.ReadOnly = true;
+            this.richTextBox6.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox6.Size = new System.Drawing.Size(85, 19);
+            this.richTextBox6.TabIndex = 21;
+            this.richTextBox6.Text = "[Propounding]";
+            // 
+            // richTextBox5
+            // 
+            this.richTextBox5.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox5.Location = new System.Drawing.Point(201, 27);
+            this.richTextBox5.Name = "richTextBox5";
+            this.richTextBox5.ReadOnly = true;
+            this.richTextBox5.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox5.Size = new System.Drawing.Size(85, 18);
+            this.richTextBox5.TabIndex = 20;
+            this.richTextBox5.Text = "[Responding]";
+            // 
+            // richTextBox4
+            // 
+            this.richTextBox4.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox4.Location = new System.Drawing.Point(3, 27);
+            this.richTextBox4.Name = "richTextBox4";
+            this.richTextBox4.ReadOnly = true;
+            this.richTextBox4.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox4.Size = new System.Drawing.Size(192, 18);
+            this.richTextBox4.TabIndex = 19;
+            this.richTextBox4.Text = "Responding Party or Parties";
+            // 
+            // richTextBox3
+            // 
+            this.richTextBox3.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox3.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.ReadOnly = true;
+            this.richTextBox3.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox3.Size = new System.Drawing.Size(192, 18);
+            this.richTextBox3.TabIndex = 18;
+            this.richTextBox3.Text = "Preceding Paragraph Number";
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox2.Location = new System.Drawing.Point(201, 3);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.ReadOnly = true;
+            this.richTextBox2.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox2.Size = new System.Drawing.Size(85, 18);
+            this.richTextBox2.TabIndex = 17;
+            this.richTextBox2.Text = "[X]";
+            // 
             // ctrlAnsResCustomize
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label11);
@@ -300,9 +302,10 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
-            this.MinimumSize = new System.Drawing.Size(317, 200);
+            this.Controls.Add(this.panel2);
+            this.MinimumSize = new System.Drawing.Size(317, 400);
             this.Name = "ctrlAnsResCustomize";
-            this.Size = new System.Drawing.Size(317, 638);
+            this.Size = new System.Drawing.Size(317, 577);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
