@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<exhibits xmlns="LitKit Exhibits">
+  <exhibit id="1">
+    <description>Test description of exhibit ID 1.</description>
+    <bates>ABC123</bates>
+  </exhibit>
+  <exhibit id="2">
+    <description>"Test description of exhibit ID 2."</description>
+    <bates>DEF456</bates>
+  </exhibit> 
+</exhibits>
+
+<!--
+<Race date="2010-12-30" name="New Years Meet">
+  <Course>
+    <CourseName>The new track</CourseName>
+    <Address>Track Road 123</Address>
+  </Course>
+  <Horses>
+    <Horse Name="Bonfire">
+      <Value>5000</Value>
+      <DateOfBirth>1988-01-02</DateOfBirth>
+      <Gender>M</Gender>
+    </Horse>
+    <Horse Name="Faithfull Dobbin">
+      <Value>3500</Value>
+      <DateOfBirth>1986-05-31</DateOfBirth>
+      <Gender>F</Gender>
+    </Horse>
+    <Horse Name="Pegasus">
+      <Value>3000</Value>
+      <DateOfBirth>1992-06-23</DateOfBirth>
+      <Gender>M</Gender>
+    </Horse>
+  </Horses>
+</Race>
+-->
