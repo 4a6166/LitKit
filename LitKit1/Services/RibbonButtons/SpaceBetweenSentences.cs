@@ -85,6 +85,8 @@ namespace Services.RibbonButtons
             "i.e.",
             "e.g.",
             "etc.",
+            "No.",
+            "ex.",
 
             "St.",
             "Ave.",
