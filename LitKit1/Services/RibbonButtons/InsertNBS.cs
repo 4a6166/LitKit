@@ -10,22 +10,47 @@ namespace Services.RibbonButtons
     /// </summary>
     public class InsertNBS
     {
+        static readonly string nbs = "\u00A0";
         public static void Insert(Word.Application _app)
         {
             _app.Application.System.Cursor = WdCursorType.wdCursorWait;
 
             _app.ActiveDocument.Select();
             var rng = _app.Selection.Range;
-            foreach (string expression in Expressions)
-            {
-                string expr = expression.Substring(0, expression.Length) + "\u00A0";
-                rng.Find.Execute(FindText: expression + " ", ReplaceWith: expr, Replace: WdReplace.wdReplaceAll);
-            }
+            InsertSpaceAfterText(rng);
+            InsertSpaceBeforeText(rng);
+
+            FixLawyerEllipses(rng);
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
         }
 
-        public static List<string> Expressions = new List<string>()
+        private static void InsertSpaceAfterText(Range rng)
+        {
+            foreach (string expression in ExpressionsSpaceAfter)
+            {
+                string expr = expression.Substring(0, expression.Length) + nbs;
+                rng.Find.Execute(FindText: expression + " ", ReplaceWith: expr, Replace: WdReplace.wdReplaceAll);
+            }
+        }
+
+        static void InsertSpaceBeforeText(Range rng)
+        {
+            foreach (string expression in ExpressionsSpaceBefore)
+            {
+                string expr = nbs + expression;
+                rng.Find.Execute(FindText: " " + expression, ReplaceWith: expr, Replace: WdReplace.wdReplaceAll);
+            }
+
+        }
+
+        static void FixLawyerEllipses(Range rng)
+        {
+            rng.Find.Execute(FindText: " . . . .", ReplaceWith: $"{nbs}.{nbs}.{nbs}.{nbs}.", Replace: WdReplace.wdReplaceAll);
+            rng.Find.Execute(FindText: " . . .", ReplaceWith: $"{nbs}.{nbs}.{nbs}.", Replace: WdReplace.wdReplaceAll);
+        }
+
+        public static List<string> ExpressionsSpaceAfter = new List<string>()
         {
             "Dr.",
             "Mr.",
@@ -41,8 +66,17 @@ namespace Services.RibbonButtons
             "¶", "\u00B6",
             "§", "\u00A7",
 
-        };
+            "Section",
+            "Exh.",
+            "Ex.",
 
+        };
+        public static List<string> ExpressionsSpaceBefore = new List<string>()
+        {
+            "million",
+            "billion",
+            "trillion",
+        };
     }
 
 }

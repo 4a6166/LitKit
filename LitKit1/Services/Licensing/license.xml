@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<license id="27ee3c0e-def1-4a1b-b828-315782be33ba" expiration="2020-09-02T19:24:01.9710635" type="Trial">
-  <name>Test License</name>
+<license id="20abad9f-ad45-4db7-804f-e2472fb5dc70" expiration="2022-01-01T22:19:14.0000000" type="Personal">
+  <name>Internal Test License</name>
   <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
     <SignedInfo>
       <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
@@ -10,9 +10,9 @@
           <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
         </Transforms>
         <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
-        <DigestValue>xo04qvxXzSRdc1xXFMn+QpMITU1ihiMwxBffDdgoxfQ=</DigestValue>
+        <DigestValue>yG29taV8X0+h+Id2US5bzIPo3h1iLE1Hv3nuo8CqUwc=</DigestValue>
       </Reference>
     </SignedInfo>
-    <SignatureValue>Zwb3bNyKGcrg3bx1EnndVfDprYcWzuFPetawOL89Q2btcw+GS+hJudr0HE4DIzqA45N1y5ztf4aLCvX7fzKOYKiyK1fFa3K6Jd4hOx5OUGIiSSWM9PkLBVUVByNJvGfrJVfOosoX44HVHG4d9UnstrxMHX2HXU6Bbc234NXhTpU=</SignatureValue>
+    <SignatureValue>MC7P3MEUlF0TOWI/PeaFKUN40gvCALrBIf1V/n/bQjSMCEH02UqE5aHGrFtmFTFMxdtD14bo6LWNOdkW4SabPsRV2UltsU1Tjjk/P/5wkeQgT2Ktos4Nkf00/QRzvNC0i1LJtFZQipa/8gU0oUao05+7MeZTdWgAkRe39BUArzU=</SignatureValue>
   </Signature>
 </license>

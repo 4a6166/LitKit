@@ -10,15 +10,20 @@ namespace LitKit1.Controls.AnsResControls
     {
         public ctrlAnsResView()
         {
-            InitializeComponent();
-            _app = Globals.ThisAddIn.Application;
-            repository = new ResponseRepository(_app);
-            responses = repository.GetResponses();
-            loadCurrentDocProperties(_app);
+            try
+            {
+                InitializeComponent();
+                _app = Globals.ThisAddIn.Application;
+                repository = new ResponseRepository(_app);
+                responses = repository.GetResponses();
+                loadCurrentDocProperties(_app);
 
-            loadComboBoxItems();
+                loadComboBoxItems();
 
-            LoadListBoxItems();
+                LoadListBoxItems();
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #312"); }
+
 
         }
 
@@ -34,76 +39,96 @@ namespace LitKit1.Controls.AnsResControls
 
         private void loadCurrentDocProperties(Word.Application _app)
         {
-            UpdateViewVars();
-            comboBox1.Text = docType;
-            textBox1.Text = respondingParty;
-            textBox2.Text = propoundingParty;
-            checkBox1.Checked = bool.Parse(respondingPlural);
+            try
+            {
+                UpdateViewVars();
+                comboBox1.Text = docType;
+                textBox1.Text = respondingParty;
+                textBox2.Text = propoundingParty;
+                checkBox1.Checked = bool.Parse(respondingPlural);
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #313"); }
+
 
         }
 
         private void UpdateViewVars()
         {
-            docType = repository.GetDocProps(_app, DocPropsNode.DocType);
-            respondingParty = repository.GetDocProps(_app, DocPropsNode.Responding);
-            respondingPlural = repository.GetDocProps(_app, DocPropsNode.RespondingPlural).ToString();
-            propoundingParty = repository.GetDocProps(_app, DocPropsNode.Propounding);
+            try
+            {
+                docType = repository.GetDocProps(_app, DocPropsNode.DocType);
+                respondingParty = repository.GetDocProps(_app, DocPropsNode.Responding);
+                respondingPlural = repository.GetDocProps(_app, DocPropsNode.RespondingPlural).ToString();
+                propoundingParty = repository.GetDocProps(_app, DocPropsNode.Propounding);
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #314"); }
+
         }
 
         private void loadComboBoxItems()
         {
-            string complaint = "Answer a Complaint";
-            string admission = "Respond to Requests for Admission";
-            string production = "Respond to Requests for Production of Documents";
-            string interrogatory = "Respond to Interrogatories";
+            try
+            {
+                string complaint = "Answer a Complaint";
+                string admission = "Respond to Requests for Admission";
+                string production = "Respond to Requests for Production of Documents";
+                string interrogatory = "Respond to Interrogatories";
 
-            comboBox1.Items.Clear();
-            comboBox1.Items.Add(complaint);
-            comboBox1.Items.Add(admission);
-            comboBox1.Items.Add(production);
-            comboBox1.Items.Add(interrogatory);
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+                comboBox1.Items.Clear();
+                comboBox1.Items.Add(complaint);
+                comboBox1.Items.Add(admission);
+                comboBox1.Items.Add(production);
+                comboBox1.Items.Add(interrogatory);
+                comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            comboBox1.SelectedItem = docType;
+                comboBox1.SelectedItem = docType;
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #315"); }
+
 
         }
 
         private void LoadListBoxItems()
         {
-            listBox1.Items.Clear();
-            int type = 0;
-            switch (comboBox1.Text)
-            {
-                case "Answer a Complaint":
-                    type = 0;
-                    break;
-                case "Respond to Requests for Admission":
-                    type = 1;
-                    break;
-                case "Respond to Requests for Production of Documents":
-                    type = 2;
-                    break;
-                case "Respond to Interrogatories":
-                    type = 3;
-                    break;
-                default:
-                    throw new Exception("DocType incorrect");
-            }
-
-            foreach (var t in responses)
-            {
-                if (t.DocTypes[type])
-                {
-                    var item = listBox1.Items.Add(t);
-                }
-            }
-            listBox1.DisplayMember = "Name";
-
             try
             {
-                listBox1.SelectedIndex = 0;
+                listBox1.Items.Clear();
+                int type = 0;
+                switch (comboBox1.Text)
+                {
+                    case "Answer a Complaint":
+                        type = 0;
+                        break;
+                    case "Respond to Requests for Admission":
+                        type = 1;
+                        break;
+                    case "Respond to Requests for Production of Documents":
+                        type = 2;
+                        break;
+                    case "Respond to Interrogatories":
+                        type = 3;
+                        break;
+                    default:
+                        throw new Exception("DocType incorrect");
+                }
+
+                foreach (var t in responses)
+                {
+                    if (t.DocTypes[type])
+                    {
+                        var item = listBox1.Items.Add(t);
+                    }
+                }
+                listBox1.DisplayMember = "Name";
+
+                try
+                {
+                    listBox1.SelectedIndex = 0;
+                }
+                catch { }
             }
-            catch { }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #316"); }
+
         }
 
 
@@ -112,51 +137,66 @@ namespace LitKit1.Controls.AnsResControls
 
         public void button1_Click(object sender, EventArgs e)
         {
-            ctrlAnsResCustomize AnsResCtrl;
-            if (listBox1.SelectedItem != null)
-            { 
-                AnsResCtrl = new ctrlAnsResCustomize(listBox1.SelectedItem as Response, docType, respondingParty, respondingPlural, propoundingParty);
-            }
-            else 
+            try
             {
-                AnsResCtrl = new ctrlAnsResCustomize(null, docType, respondingParty, respondingPlural, propoundingParty);
+                ctrlAnsResCustomize AnsResCtrl;
+                if (listBox1.SelectedItem != null)
+                {
+                    AnsResCtrl = new ctrlAnsResCustomize(listBox1.SelectedItem as Response, docType, respondingParty, respondingPlural, propoundingParty);
+                }
+                else
+                {
+                    AnsResCtrl = new ctrlAnsResCustomize(null, docType, respondingParty, respondingPlural, propoundingParty);
+                }
+                Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
+                ActivePane.Control.Controls.Clear();
+                //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
+
+                ActivePane.Control.Controls.Add(AnsResCtrl);
+                //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
+                AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+
+                ActivePane.Visible = true;
+                //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
             }
-            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
-            ActivePane.Control.Controls.Clear();
-            //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #303"); }
 
-            ActivePane.Control.Controls.Add(AnsResCtrl);
-            //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
-            AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-
-            ActivePane.Visible = true;
-            //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItems != null)
+            try
             {
-                var listboxItem = listBox1.SelectedItem as Response;
-                string insertText = listboxItem.DisplayText;
+                if (listBox1.SelectedItems != null)
+                {
+                    _app.UndoRecord.StartCustomRecord("Response Inserted");
 
-                insertText = ResponseStandardRepository.FillString(listboxItem.ID, insertText, respondingParty, respondingPlural, propoundingParty, docType);
+                    var listboxItem = listBox1.SelectedItem as Response;
+                    string insertText = listboxItem.DisplayText;
+
+                    insertText = ResponseStandardRepository.FillString(listboxItem.ID, insertText, respondingParty, respondingPlural, propoundingParty, docType);
 
 
-                insertText = insertText.Replace("[X]", FillParaNumberForX(_app.Selection));
+                    insertText = insertText.Replace("[X]", FillParaNumberForX(_app.Selection));
 
-                _app.Selection.TypeText(insertText);
+                    _app.Selection.TypeText(insertText);
 
-                var selEnd = _app.Selection.Start;
+                    var selEnd = _app.Selection.Start;
 
-                _app.Selection.SetRange(selEnd-insertText.Length, selEnd);
-                _app.Selection.Find.Execute(FindText: "\"", ReplaceWith: "\"", Replace: Word.WdReplace.wdReplaceAll);
-                _app.Selection.Find.Execute(FindText: "\'", ReplaceWith: "\'", Replace: Word.WdReplace.wdReplaceAll);
+                    _app.Selection.SetRange(selEnd - insertText.Length, selEnd);
+                    _app.Selection.Find.Execute(FindText: "\"", ReplaceWith: "\"", Replace: Word.WdReplace.wdReplaceAll);
+                    _app.Selection.Find.Execute(FindText: "\'", ReplaceWith: "\'", Replace: Word.WdReplace.wdReplaceAll);
 
-                _app.Selection.Collapse(Word.WdCollapseDirection.wdCollapseEnd);
+                    _app.Selection.Collapse(Word.WdCollapseDirection.wdCollapseEnd);
 
-                Globals.ThisAddIn.ReturnFocus();
+                    Globals.ThisAddIn.ReturnFocus();
+
+                    _app.UndoRecord.EndCustomRecord();
+
+                }
             }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #304"); }
+
         }
 
         private List<string> ParaNumberLanguages = new List<string>()
@@ -174,25 +214,61 @@ namespace LitKit1.Controls.AnsResControls
 
         private string GetParaNumbers(string text, Word.Paragraph paragraph)
         {
-            string result = string.Empty;
-            int languageEndLength;
-            foreach (string language in ParaNumberLanguages)
+            try
             {
-                if (text.Length < language.Length + 15)
+                string result = string.Empty;
+                int languageEndLength;
+                foreach (string language in ParaNumberLanguages)
                 {
-                    languageEndLength = text.Length - 1;
-                }
-                else
-                {
-                    languageEndLength = language.Length + 15;
-                }
-                try
-                {
-                    if (language == text.Substring(0, language.Length))
+                    if (text.Length < language.Length + 15)
                     {
-                        for (int i = language.Length; i <= languageEndLength; i++)
+                        languageEndLength = text.Length - 1;
+                    }
+                    else
+                    {
+                        languageEndLength = language.Length + 15;
+                    }
+                    try
+                    {
+                        if (language == text.Substring(0, language.Length))
                         {
+                            for (int i = language.Length; i <= languageEndLength; i++)
+                            {
 
+                                try
+                                {
+                                    if (char.IsDigit(text[i]))
+                                    {
+                                        result += text[i];
+                                    }
+                                }
+                                catch { }
+                            }
+                        }
+                    }
+                    catch { }
+                }
+
+                if (result == string.Empty || result == "")
+                {
+                    if (paragraph.Range.ListParagraphs.Count > 0)
+                    {
+                        for (int i = 0; i <= paragraph.Range.ListFormat.ListString.Length - 1; i++)
+                        {
+                            if (char.IsDigit(paragraph.Range.ListFormat.ListString[i]))
+                            {
+                                result += paragraph.Range.ListFormat.ListString[i];
+                            }
+                        }
+                    }
+                    else
+                    {
+                        int ctLen;
+                        if (text.Length > 5)
+                        { ctLen = 5; }
+                        else { ctLen = text.Length; }
+                        for (int i = 0; i <= ctLen; i++)
+                        {
                             try
                             {
                                 if (char.IsDigit(text[i]))
@@ -204,79 +280,58 @@ namespace LitKit1.Controls.AnsResControls
                         }
                     }
                 }
-                catch { }
-            }
 
-            if (result == string.Empty || result == "")
-            {
-                if (paragraph.Range.ListParagraphs.Count > 0)
-                {
-                    for (int i = 0; i <= paragraph.Range.ListFormat.ListString.Length - 1; i++)
-                    {
-                        if (char.IsDigit(paragraph.Range.ListFormat.ListString[i]))
-                        {
-                            result += paragraph.Range.ListFormat.ListString[i];
-                        }
-                    }
-                }
-                else
-                {
-                    int ctLen;
-                    if (text.Length > 5)
-                    { ctLen = 5; }
-                    else { ctLen = text.Length; }
-                    for (int i = 0; i <= ctLen; i++)
-                    {
-                        try
-                        {
-                            if (char.IsDigit(text[i]))
-                            {
-                                result += text[i];
-                            }
-                        }
-                        catch { }
-                    }
-                }
+                return result;
             }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #306"); return null; }
 
-            return result;
         }
 
         private string FillParaNumberForX(Word.Selection selection)
         {
-            string result = string.Empty;
-
-            // Current Paragraph
-            result = GetParaNumbers(selection.Paragraphs.First.Range.Text.ToUpper(), selection.Paragraphs.First);
-
-            // Previous paragraph
-            if (result == string.Empty || result == "")
+            try
             {
-                try
-                {
-                    //var previousParagraph = selection.Paragraphs.First.Previous(1);
-                    //string prevText = previousParagraph.Range.Text.ToUpper();
+                string result = string.Empty;
 
-                    result = GetParaNumbers(selection.Paragraphs.First.Previous(1).Range.Text.ToUpper(), selection.Paragraphs.First.Previous(1));
-                }
-                catch
-                {
+                // Current Paragraph
+                result = GetParaNumbers(selection.Paragraphs.First.Range.Text.ToUpper(), selection.Paragraphs.First);
 
+                // Previous paragraph
+                if (result == string.Empty || result == "")
+                {
+                    try
+                    {
+                        //var previousParagraph = selection.Paragraphs.First.Previous(1);
+                        //string prevText = previousParagraph.Range.Text.ToUpper();
+
+                        result = GetParaNumbers(selection.Paragraphs.First.Previous(1).Range.Text.ToUpper(), selection.Paragraphs.First.Previous(1));
+                    }
+                    catch
+                    {
+
+                    }
                 }
+
+                // If above do not work
+                if (result == string.Empty || result == "")
+                { result = "[X]"; }
+
+                return result;
             }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #307"); return null; }
 
-            // If above do not work
-            if (result == string.Empty || result == "")
-            { result = "[X]"; }
-
-            return result;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadListBoxItems();
-            docType = comboBox1.Text;
-            repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+            try
+            {
+                LoadListBoxItems();
+                docType = comboBox1.Text;
+                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #308"); }
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -294,25 +349,40 @@ namespace LitKit1.Controls.AnsResControls
 
         private void textBox1_Leave(object sender, EventArgs e)
         {
-            respondingParty = textBox1.Text;
-            repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+            try
+            {
+                respondingParty = textBox1.Text;
+                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #309"); }
+
 
         }
 
         private void textBox2_Leave(object sender, EventArgs e)
         {
-            propoundingParty = textBox2.Text;
-            repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+            try
+            {
+                propoundingParty = textBox2.Text;
+                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #310"); }
+
         }
 
         private void checkBox1_Leave(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
+            try
             {
-                respondingPlural = "True";
+                if (checkBox1.Checked)
+                {
+                    respondingPlural = "True";
+                }
+                else respondingPlural = "False";
+                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
             }
-            else respondingPlural = "False";
-            repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #311"); }
+
         }
 
         private void toolTipPropoundingParty_Popup(object sender, PopupEventArgs e)

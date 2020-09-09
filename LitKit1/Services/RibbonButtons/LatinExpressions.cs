@@ -45,6 +45,10 @@ namespace Services.RibbonButtons
 
         public static List<string> Expressions = new List<string>()
         {
+            "supra",
+            "infra",
+            "id.",
+
             "res ipsa",
             "res ipsa loquitur",
             "pro se",

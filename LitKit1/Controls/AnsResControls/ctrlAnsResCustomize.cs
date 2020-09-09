@@ -236,14 +236,19 @@ namespace LitKit1.Controls.AnsResControls
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if ((string)listBox1.SelectedItem == "Add new response...")
+            try
             {
-                //MessageBox.Show("Add pop up to add new response"); 
+                if ((string)listBox1.SelectedItem == "Add new response...")
+                {
+                    //MessageBox.Show("Add pop up to add new response"); 
+                }
+                if (listBox1.SelectedItem != null)
+                {
+                    textBox1.Text = listBox1.SelectedItem.ToString();
+                }
             }
-            if (listBox1.SelectedItem != null)
-            {
-                textBox1.Text = listBox1.SelectedItem.ToString();
-            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #301"); }
+
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)

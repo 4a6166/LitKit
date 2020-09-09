@@ -28,13 +28,23 @@ namespace Services.Response
         {
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             String Root = Directory.GetCurrentDirectory();
+            string path = string.Empty;
 
-            string Parent = Directory.GetCurrentDirectory() + @"\..\";
-            var Dirs = Directory.EnumerateDirectories(Parent);
+            try // For debugging
+            {
+                path = Root + @"\Services\Response\ResponseFrame.xml";
+            }
+            catch { }
+            //try //For user testing
+            //{
+            //    string Parent = Directory.GetCurrentDirectory() + @"\..\";
+            //    var Dirs = Directory.EnumerateDirectories(Parent);
 
-            string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
+            //    string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
 
-            string path = Rootdll + @"\Services\Response\ResponseFrame.xml";
+            //    path = Rootdll + @"\Services\Response\ResponseFrame.xml";
+            //}
+            //catch { }
 
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(path);
