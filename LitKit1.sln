@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LitKit1", "LitKit1\LitKit1.
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{17B1D100-3083-452C-B8F5-B38CCC8ADFC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicenseValidator", "LicenseValidator\LicenseValidator.csproj", "{E4020144-6883-4F95-B6E1-540805B75EB6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,10 +19,6 @@ Global
 		{79494501-7AE6-4250-9268-BB2A248DDD75}.Release|Any CPU.Build.0 = Release|Any CPU
 		{17B1D100-3083-452C-B8F5-B38CCC8ADFC0}.Debug|Any CPU.ActiveCfg = Debug
 		{17B1D100-3083-452C-B8F5-B38CCC8ADFC0}.Release|Any CPU.ActiveCfg = Release
-		{E4020144-6883-4F95-B6E1-540805B75EB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4020144-6883-4F95-B6E1-540805B75EB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E4020144-6883-4F95-B6E1-540805B75EB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4020144-6883-4F95-B6E1-540805B75EB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

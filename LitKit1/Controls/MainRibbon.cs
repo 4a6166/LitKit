@@ -723,10 +723,7 @@ namespace LitKit1
                 MessageBox.Show("New Lic Validator: False");
             }
 
-            try { LicenseValidatorA.Validator validator = new LicenseValidatorA.Validator();
-                MessageBox.Show("ValidatorA works");
-            }
-            catch { MessageBox.Show("Validator A does not load");}
+
 
 
 
