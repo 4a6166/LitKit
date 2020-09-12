@@ -4,11 +4,18 @@ using System.Linq;
 using System.IO;
 using Rhino.Licensing;
 
+using System.Reflection;
+
+[assembly: Obfuscation(Feature = "apply to type Services.Licensing.*: all", Exclude = true, ApplyToMembers = true)]
+
 namespace Services.Licensing
 {
     public class LicenseChecker
     {
-        private static string publicKey = @"<RSAKeyValue><Modulus>v17shViD7bFwTSpNjJcxEdQ2JGncp8F8TjBp7+2uZzzBRLDV2du2s2LTbTEHAJW5yr0UhWj4MhAsjsAMD3Vi9QhTV4vhgVIZchfiGeEL9M0lMLm2uWAio9hAWV2yM10JS5mqFZfiX4EM1ltAsBpqXOrk04mvQCmf7J8Z81l1UAU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+        private static string publicKey
+            = @"<RSAKeyValue><Modulus>v17shViD7bFwTSpNjJcxEdQ2JGncp8F8TjBp7+2uZzzBRLDV2du2s2LTbTEHAJW5yr0UhWj4MhAsjsAMD3Vi9QhTV4vhgVIZchfiGeEL9M0lMLm2uWAio9hAWV2yM10JS5mqFZfiX4EM1ltAsBpqXOrk04mvQCmf7J8Z81l1UAU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+
+
         private static string LicensePath;
 
         public static bool LicenseIsValid()
@@ -17,18 +24,23 @@ namespace Services.Licensing
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             String Root = Directory.GetCurrentDirectory();
 
+            //var Files = Directory.EnumerateFileSystemEntries(Root);
 
-            LicensePath = Root + @"\Services\Licensing\license.xml";  // For use during debug
+            //string licPath = Files.Where(n => n.Contains("license.xml")).SingleOrDefault();
+            //string pubPath = Files.Where(n => n.Contains("publicKey.xml")).SingleOrDefault();
 
-            // For use during user testing
-            //{
-            //    string Parent = Directory.GetCurrentDirectory() + @"\..\";
-            //    var Dirs = Directory.EnumerateDirectories(Parent);
+            string licPath = Root + @"\license.xml";
+            //string pubPath = Root + @"\publicKey.xml";
 
-            //    string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
+            //publicKey = new StreamReader(pubPath).ReadToEnd();
 
-            //    LicensePath = Rootdll + @"\Services\Licensing\license.xml";
-            //}
+
+
+
+            LicensePath = licPath;
+            //publicKey = @"<RSAKeyValue><Modulus>v17shViD7bFwTSpNjJcxEdQ2JGncp85F8TjBp7+2uZzzBRLDV2du2s2LTbTEHAJW5yr0UhWj4MhAsjsAMD3Vi9QhTV4vhgVIZchfiGeEL9M0lMLm2uWAio9hAWV2yM10JS5mqFZfiX4EM1ltAsBpqXOrk04mvQCmf7J8Z81l1UAU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+
+
 
 
             try

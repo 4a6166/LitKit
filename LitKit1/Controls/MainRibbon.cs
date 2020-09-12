@@ -662,15 +662,40 @@ namespace LitKit1
 
         private void group1_DialogLauncherClick(object sender, RibbonControlEventArgs e)
         {
+
+
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             String Root = Directory.GetCurrentDirectory();
 
+            MessageBox.Show(Root);
+
             string Parent = Directory.GetCurrentDirectory() + @"\..\";
-            var Dirs = Directory.EnumerateDirectories(Parent);
+            var Files = Directory.EnumerateFileSystemEntries(Root);
 
-            string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
+            string filesString = "All Files:" +Environment.NewLine;
+            foreach (var file in Files)
+            {
+                filesString += file + Environment.NewLine;
+            }
 
-            MessageBox.Show($"Installation Path: {Root}" + Environment.NewLine + $"DLL Path: {Rootdll}");
+            MessageBox.Show(filesString);
+
+
+            string licPath = string.Empty;
+            try
+            {
+                licPath = Files.Where(n => n.Contains("license.xml")).SingleOrDefault();
+            }
+            catch
+            { licPath = "Files.Where failed"; }
+
+
+            MessageBox.Show($"License Path: {licPath}");
+
+            string licPath2 = Root + @"\license.xml";
+            string lic = new StreamReader(licPath2).ReadToEnd();
+
+            MessageBox.Show(lic);
         }
 
         private void ReportBug_Click(object sender, RibbonControlEventArgs e)
