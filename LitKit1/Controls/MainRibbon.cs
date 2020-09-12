@@ -35,6 +35,8 @@ namespace LitKit1
             /// may have to export to XML to add an image to the shrunken button groups. More here: https://stackoverflow.com/questions/45805664/how-to-set-icon-for-resized-buttom-group-in-excel-ribbon and https://docs.microsoft.com/en-us/windows/win32/windowsribbon/windowsribbon-templates
             _app = Globals.ThisAddIn.Application;
 
+            //MessageBox.Show(ClassLibrary1.Class1.test());
+
             btnInsertNBS.SuperTip = NBSSuperTip();
 
             licenseIsValid = LicenseChecker.LicenseIsValid();
@@ -662,14 +664,12 @@ namespace LitKit1
 
         private void group1_DialogLauncherClick(object sender, RibbonControlEventArgs e)
         {
+            licenseIsValid = true;
+            MessageBox.Show("License made Valid");
 
 
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             String Root = Directory.GetCurrentDirectory();
-
-            MessageBox.Show(Root);
-
-            string Parent = Directory.GetCurrentDirectory() + @"\..\";
             var Files = Directory.EnumerateFileSystemEntries(Root);
 
             string filesString = "All Files:" +Environment.NewLine;
@@ -677,7 +677,6 @@ namespace LitKit1
             {
                 filesString += file + Environment.NewLine;
             }
-
             MessageBox.Show(filesString);
 
 
@@ -690,12 +689,12 @@ namespace LitKit1
             { licPath = "Files.Where failed"; }
 
 
-            MessageBox.Show($"License Path: {licPath}");
-
-            string licPath2 = Root + @"\license.xml";
-            string lic = new StreamReader(licPath2).ReadToEnd();
+            string lic = new StreamReader(licPath).ReadToEnd();
 
             MessageBox.Show(lic);
+
+            LicenseChecker.LicenseIsValid();
+
         }
 
         private void ReportBug_Click(object sender, RibbonControlEventArgs e)

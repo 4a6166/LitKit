@@ -105,7 +105,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_D8B8FF748F7B156457081A53C4C658D5"
+        "MsmKey" = "8:_D8319BA6111E7F3CFE5830E44F75D729"
+        "OwnerKey" = "8:_5343DC3EF7FC42D9950F7E29AA609B0E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D875CA1B97E8366190B49B91624F279B"
         "OwnerKey" = "8:_5343DC3EF7FC42D9950F7E29AA609B0E"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -142,13 +148,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F94B39B9DDCE72F66E8AABC9AFF13867"
+        "OwnerKey" = "8:_D875CA1B97E8366190B49B91624F279B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D8B8FF748F7B156457081A53C4C658D5"
+        "OwnerKey" = "8:_D8319BA6111E7F3CFE5830E44F75D729"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F94B39B9DDCE72F66E8AABC9AFF13867"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -265,7 +277,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\LitKit Installer.msi"
+        "OutputFilename" = "8:Release\\LitKit_Installer.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -367,7 +379,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:TRUE"
+            "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -531,7 +543,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:TRUE"
+            "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -626,14 +638,45 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D8B8FF748F7B156457081A53C4C658D5"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D8319BA6111E7F3CFE5830E44F75D729"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:ClassLibrary1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e1a3717c717ca8ca, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_D8B8FF748F7B156457081A53C4C658D5"
+                    "_D8319BA6111E7F3CFE5830E44F75D729"
+                    {
+                    "Name" = "8:ClassLibrary1.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ClassLibrary1.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_934A3461DE3F4F2CA3AA64E6B213D6E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D875CA1B97E8366190B49B91624F279B"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:log4net, Version=2.0.9.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_D875CA1B97E8366190B49B91624F279B"
                     {
                     "Name" = "8:log4net.dll"
                     "Attributes" = "3:512"
@@ -791,7 +834,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Prelimine LitKit"
         "ProductCode" = "8:{0C18043B-9433-4FCF-AD32-902C26204598}"
-        "PackageCode" = "8:{0D12068F-AE11-43F1-9791-859B68B8C6D6}"
+        "PackageCode" = "8:{7965391F-E586-4065-B058-045B34642CD5}"
         "UpgradeCode" = "8:{4371C41D-C1BF-4E5E-814B-028076E593B4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -802,7 +845,7 @@
         "Manufacturer" = "8:Prelimine"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://www.prelimine.com"
-        "Title" = "8:LitKit Installer"
+        "Title" = "8:LitKit_Installer"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Prelimine"
         "Keywords" = "8:"
