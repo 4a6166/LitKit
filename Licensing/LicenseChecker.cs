@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+
 using Rhino.Licensing;
 
 //using System.Reflection;
 //[assembly: Obfuscation(Feature = "apply to type Services.Licensing.*: all", Exclude = true, ApplyToMembers = true)]
 
-namespace Services.Licensing
+namespace Lic
 {
     public class LicenseChecker
     {
@@ -39,13 +38,25 @@ namespace Services.Licensing
 
             }
             catch (LicenseNotFoundException e)
-            { System.Windows.Forms.MessageBox.Show("License not found"); return false; }
+            { 
+                //System.Windows.Forms.MessageBox.Show("License not found"); 
+                return false; 
+            }
             catch (LicenseFileNotFoundException e)
-            { System.Windows.Forms.MessageBox.Show("License FILE not found"); return false; }
+            { 
+                //Console.WriteLine("License FILE not found"); 
+                return false; 
+            }
             catch (LicenseExpiredException e)
-            { System.Windows.Forms.MessageBox.Show("License Expired"); return false; }
+            { 
+                //Console.WriteLine("License Expired"); 
+                return false; 
+            }
             catch (Exception e)
-            { System.Windows.Forms.MessageBox.Show("Generic Exception"); return false; }
+            { 
+                //Console.WriteLine("Generic Exceoption"); 
+                return false; 
+            }
         }
     }
 }

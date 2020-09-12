@@ -12,7 +12,6 @@ using LitKit1.Controls.RedactionControls;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Tools.Ribbon;
-using Services;  //Remember to add the reference so this using statement can be picked up
 using Services.Exhibit;
 using Services.RedactionTool;
 using Ribbon = Ribbon_0._0._1;
@@ -21,6 +20,8 @@ using LitKit1.Controls.AnsResControls;
 using Services.Response;
 using Services.Licensing;
 using System.IO;
+using System.ComponentModel;
+using Rhino.Licensing;
 
 namespace LitKit1
 {
@@ -663,39 +664,70 @@ namespace LitKit1
         private void group1_DialogLauncherClick(object sender, RibbonControlEventArgs e)
         {
 
+            /*
+                        Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+                        String Root = Directory.GetCurrentDirectory();
+
+                        MessageBox.Show(Root);
+
+                        string Parent = Directory.GetCurrentDirectory() + @"\..\";
+                        var Files = Directory.EnumerateFileSystemEntries(Root);
+
+                        string filesString = "All Files:" +Environment.NewLine;
+                        foreach (var file in Files)
+                        {
+                            filesString += file + Environment.NewLine;
+                        }
+
+                        MessageBox.Show(filesString);
+
+
+                        string licPath = string.Empty;
+                        try
+                        {
+                            licPath = Files.Where(n => n.Contains("license.xml")).SingleOrDefault();
+                        }
+                        catch
+                        { licPath = "Files.Where failed"; }
+
+
+                        MessageBox.Show($"License Path: {licPath}");
+
+                        string licPath2 = Root + @"\license.xml";
+                        string lic = new StreamReader(licPath2).ReadToEnd();
+
+                        MessageBox.Show(lic);
+            */
+
+            MessageBox.Show("Calling static LicenseChecker.LicenseIsValid");
+            MessageBox.Show("License Checkeer Valid: "+ LicenseChecker.LicenseIsValid().ToString());
+
+            string publicKey = @"<RSAKeyValue><Modulus>v17shViD7bFwTSpNjJcxEdQ2JGncp8F8TjBp7+2uZzzBRLDV2du2s2LTbTEHAJW5yr0UhWj4MhAsjsAMD3Vi9QhTV4vhgVIZchfiGeEL9M0lMLm2uWAio9hAWV2yM10JS5mqFZfiX4EM1ltAsBpqXOrk04mvQCmf7J8Z81l1UAU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
 
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             String Root = Directory.GetCurrentDirectory();
 
-            MessageBox.Show(Root);
-
-            string Parent = Directory.GetCurrentDirectory() + @"\..\";
-            var Files = Directory.EnumerateFileSystemEntries(Root);
-
-            string filesString = "All Files:" +Environment.NewLine;
-            foreach (var file in Files)
-            {
-                filesString += file + Environment.NewLine;
-            }
-
-            MessageBox.Show(filesString);
+            string licPath = Root + @"\license.xml";
 
 
-            string licPath = string.Empty;
+
             try
             {
-                licPath = Files.Where(n => n.Contains("license.xml")).SingleOrDefault();
+                LicenseValidator licenseValidator = new LicenseValidator(publicKey, licPath);
+
+                licenseValidator.AssertValidLicense();
+                MessageBox.Show("Path: " + licPath + Environment.NewLine +"New Lic Validator: True");
             }
             catch
-            { licPath = "Files.Where failed"; }
+            {
+                MessageBox.Show("New Lic Validator: False");
+            }
 
 
-            MessageBox.Show($"License Path: {licPath}");
 
-            string licPath2 = Root + @"\license.xml";
-            string lic = new StreamReader(licPath2).ReadToEnd();
 
-            MessageBox.Show(lic);
+
+
         }
 
         private void ReportBug_Click(object sender, RibbonControlEventArgs e)
