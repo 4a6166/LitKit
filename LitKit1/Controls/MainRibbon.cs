@@ -693,7 +693,7 @@ namespace LitKit1
 
             MessageBox.Show(lic);
 
-            LicenseChecker.LicenseIsValid();
+            MessageBox.Show("Valid: "+LicenseChecker.LicenseIsValid());
 
         }
 
