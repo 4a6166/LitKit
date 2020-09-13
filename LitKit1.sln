@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LitKit1", "LitKit1\LitKit1.
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{17B1D100-3083-452C-B8F5-B38CCC8ADFC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{55A50413-45CD-474D-A31B-D374109EDA71}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,18 +37,6 @@ Global
 		{17B1D100-3083-452C-B8F5-B38CCC8ADFC0}.Prod|x86.Build.0 = Prod
 		{17B1D100-3083-452C-B8F5-B38CCC8ADFC0}.Release|Any CPU.ActiveCfg = Release
 		{17B1D100-3083-452C-B8F5-B38CCC8ADFC0}.Release|x86.ActiveCfg = Release
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Debug|x86.Build.0 = Debug|Any CPU
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Prod|Any CPU.ActiveCfg = Debug|Any CPU
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Prod|Any CPU.Build.0 = Debug|Any CPU
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Prod|x86.ActiveCfg = Debug|Any CPU
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Prod|x86.Build.0 = Debug|Any CPU
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Release|x86.ActiveCfg = Release|Any CPU
-		{55A50413-45CD-474D-A31B-D374109EDA71}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

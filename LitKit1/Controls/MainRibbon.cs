@@ -664,9 +664,6 @@ namespace LitKit1
 
         private void group1_DialogLauncherClick(object sender, RibbonControlEventArgs e)
         {
-            licenseIsValid = true;
-            MessageBox.Show("License made Valid");
-
 
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             String Root = Directory.GetCurrentDirectory();
@@ -677,7 +674,6 @@ namespace LitKit1
             {
                 filesString += file + Environment.NewLine;
             }
-            MessageBox.Show(filesString);
 
 
             string licPath = string.Empty;
@@ -691,9 +687,8 @@ namespace LitKit1
 
             string lic = new StreamReader(licPath).ReadToEnd();
 
-            MessageBox.Show(lic);
 
-            MessageBox.Show("Valid: "+LicenseChecker.LicenseIsValid());
+            MessageBox.Show("License is valid: "+LicenseChecker.LicenseIsValid() +Environment.NewLine + "Licensed to: " +LicenseChecker.Name() + Environment.NewLine + "Expiration: " + LicenseChecker.Expiration());
 
         }
 
