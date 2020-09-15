@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Word = Microsoft.Office.Interop.Word;
 
 
-namespace Services.RibbonButtons
+namespace Tools.Simple
 {
     /// <summary>
     /// Italicize latin expressions

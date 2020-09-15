@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Services.Exhibit;
+using Tools.Exhibit;
 
 namespace LitKit1.Controls.ExhibitControls
 {

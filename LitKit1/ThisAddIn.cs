@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 using Word = Microsoft.Office.Interop.Word;
-using Office = Microsoft.Office.Core;
-using Microsoft.Office.Tools.Word;
-using Services.Exhibit;
-using LitKit1.Controls;
 using Microsoft.Office.Interop.Word;
 using LitKit1.Controls.ExhibitControls;
 using System.Runtime.InteropServices;
-using Services;
 using Microsoft.Office.Core;
 using LitKit1.Controls.AnsResControls;
-using Services.Licensing;
 
 namespace LitKit1
 {

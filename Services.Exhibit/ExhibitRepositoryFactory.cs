@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Office.Interop.Word;
 
-namespace Services.Exhibit
+namespace Tools.Exhibit
 {
     public class ExhibitRepositoryFactory
     {

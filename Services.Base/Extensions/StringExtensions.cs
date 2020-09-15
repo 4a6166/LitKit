@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace Services.Extensions
+namespace Tools.Extensions
 {
     public static class StringExtensions
     {

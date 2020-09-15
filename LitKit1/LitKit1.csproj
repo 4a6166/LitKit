@@ -29,6 +29,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>C:\Users\Jake\Google Drive %28jacob.field%40prelimine.com%29\repos\LitKit1_git\DeploymentFiles\LitKitInstallTest\</PublishUrl>
     <InstallUrl />
@@ -44,7 +45,6 @@
     <FriendlyName>Prelimine LitKit</FriendlyName>
     <OfficeApplicationDescription>Litigation-oriented software aiming to automate repetitive tasks while minimizing errors, as well as overhead costs for law firms in the shape of paralegal, word processing, and secretarial help</OfficeApplicationDescription>
     <LoadBehavior>16</LoadBehavior>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -137,6 +137,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Log" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -357,38 +360,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\Delegates.cs" />
-    <Compile Include="Services\Exhibit\Exhibit.cs" />
-    <Compile Include="Services\Exhibit\ExhibitEnums.cs" />
-    <Compile Include="Services\Exhibit\ExhibitHelper.cs" />
-    <Compile Include="Services\Exhibit\ExhibitRepository.cs" />
-    <Compile Include="Services\Exhibit\ExhibitRepositoryFactory.cs" />
-    <Compile Include="Services\Exhibit\ExhibitsReference.cs" />
-    <Compile Include="Services\Exhibit\IExhibitRepository.cs" />
-    <Compile Include="Services\Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Services\Extensions\StringExtensions.cs" />
-    <Compile Include="Services\Extensions\TimeDateExtensions.cs" />
-    <Compile Include="Services\Extensions\XMLDocumentExtensions.cs" />
-    <Compile Include="Services\Licensing\LicenseChecker.cs" />
-    <Compile Include="Services\OperationResult.cs" />
-    <Compile Include="Services\RedactionTool\IRedaction.cs" />
-    <Compile Include="Services\RedactionTool\OldRedact.cs" />
-    <Compile Include="Services\RedactionTool\Redactions.cs" />
-    <Compile Include="Services\RedactionTool\RedactionText.cs" />
-    <Compile Include="Services\Response\Response.cs" />
-    <Compile Include="Services\Response\ResponseEnums.cs" />
-    <Compile Include="Services\Response\ResponseRepository.cs" />
-    <Compile Include="Services\Response\ResponseStandard.cs" />
-    <Compile Include="Services\Response\ResponseStandardRepository.cs" />
-    <Compile Include="Services\RibbonButtons\BlockQuotes.cs" />
-    <Compile Include="Services\RibbonButtons\InsertNBS.cs" />
-    <Compile Include="Services\RibbonButtons\LatinExpressions.cs" />
-    <Compile Include="Services\RibbonButtons\OxfordComma.cs" />
-    <Compile Include="Services\RibbonButtons\SmartQuotesAndApostrophes.cs" />
-    <Compile Include="Services\RibbonButtons\SpaceBetweenSentences.cs" />
-    <Compile Include="Services\RibbonButtons\Transcript.cs" />
-    <Compile Include="Services\SaveFile.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
@@ -424,16 +395,32 @@
     <None Include="Resources\Test Resource File.txt" />
     <None Include="bin\Debug\Services\Licensing\license.xml" />
     <Content Include="Resources\PilcrowLone1_B.ico" />
-    <Content Include="Services\Exhibit\TestXMLFile.xml" />
-    <Content Include="Services\Response\ResponseStandardLanguage.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Services\Response\ResponseFrame.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Services\Licensing\license.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Services.Base\Services.Base.csproj">
+      <Project>{a6acc4d7-446c-44a8-950c-93bdebc5fee1}</Project>
+      <Name>Services.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Exhibit\Tools.Exhibit.csproj">
+      <Project>{82857471-938d-409a-9c09-b147d287c706}</Project>
+      <Name>Tools.Exhibit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.License\Services.License.csproj">
+      <Project>{f7dfe3b3-c6a5-4692-8561-86afbd093478}</Project>
+      <Name>Services.License</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.RedactionTool\Tools.Redaction.csproj">
+      <Project>{e5f99a67-b9d4-475e-80af-4f3c6845b060}</Project>
+      <Name>Tools.Redaction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Response\Tools.Response.csproj">
+      <Project>{d89d2952-3a1b-4248-ab28-a01986422ba8}</Project>
+      <Name>Tools.Response</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.RibbonButtons\Tools.Simple.csproj">
+      <Project>{e0783a21-83f7-4ff3-afc4-4c1eaf167c2d}</Project>
+      <Name>Tools.Simple</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

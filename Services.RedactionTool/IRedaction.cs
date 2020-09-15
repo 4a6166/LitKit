@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Word = Microsoft.Office.Interop.Word;
 using Application = Microsoft.Office.Interop.Word.Application;
 
-namespace Services.RedactionTool
+namespace Tools.RedactionTool
 {
     public enum RedactionState
     {

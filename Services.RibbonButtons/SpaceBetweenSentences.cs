@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Word = Microsoft.Office.Interop.Word;
 
-namespace Services.RibbonButtons
+namespace Tools.Simple
 {
     /// <summary>
     /// Adds or removes double space between sentences

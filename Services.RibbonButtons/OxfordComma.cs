@@ -3,7 +3,7 @@ using System.Linq;
 using Word = Microsoft.Office.Interop.Word;
 
 
-namespace Services.RibbonButtons
+namespace Tools.Simple
 {
     /// <summary>
     /// Adds or removes Oxford Commas (if there is a comma before "and" and there is a commad between andy of the preceding 4 words.)

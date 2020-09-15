@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services
+namespace Services.Base
 {
     /// <summary>
     /// Use to create an event that publishes when creating a new Redaction in Redaction.cs > public event RedactionCalledDelegate RedactionCalled;

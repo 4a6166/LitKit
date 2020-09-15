@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Linq;
 
-namespace Services.Exhibit
+namespace Tools.Exhibit
 {
 
     public class Exhibit

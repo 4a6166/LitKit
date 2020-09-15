@@ -2,7 +2,7 @@
 using System.Linq;
 using Word = Microsoft.Office.Interop.Word;
 
-namespace Services.RibbonButtons
+namespace Tools.Simple
 {
     public class Transcript
     {

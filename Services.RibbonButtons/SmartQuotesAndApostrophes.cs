@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Word = Microsoft.Office.Interop.Word;
 
 
-namespace Services.RibbonButtons
+namespace Tools.Simple
 {
     /// <summary>
     /// Searches for all apostrophes and turn them to smart quotes or vice versa

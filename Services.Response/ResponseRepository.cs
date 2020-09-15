@@ -6,8 +6,9 @@ using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
+using Services.Base;
 
-namespace Services.Response
+namespace Tools.Response
 {
     public class ResponseRepository
     {

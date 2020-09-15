@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Response
+namespace Tools.Response
 {
     public class ResponseStandard
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Application = Microsoft.Office.Interop.Word.Application;
 
-namespace Services.Exhibit
+namespace Tools.Exhibit
 {
     public class ExhibitRepository : IExhibitRepository
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Services.Response
+namespace Tools.Response
 {
     public class Response
     {

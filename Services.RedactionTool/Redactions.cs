@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Word = Microsoft.Office.Interop.Word;
-using Microsoft.Office.Tools.Word;
 using Microsoft.Office.Interop.Word;
 using Application = Microsoft.Office.Interop.Word.Application;
 using System.IO;
@@ -10,8 +9,9 @@ using System.Windows.Forms;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Core;
+using Services.Base;
 
-namespace Services.RedactionTool
+namespace Tools.RedactionTool
 {
     public class Redactions: BaseService
     {

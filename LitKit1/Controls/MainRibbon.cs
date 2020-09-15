@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 using LitKit1.Controls;
-using LitKit1.Controls.ExhibitControls;
 using LitKit1.Controls.RedactionControls;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Tools.Ribbon;
-using Services;  //Remember to add the reference so this using statement can be picked up
-using Services.Exhibit;
-using Services.RedactionTool;
+using Tools.Exhibit;
+using Tools.RedactionTool;
 using Ribbon = Ribbon_0._0._1;
-using Services.RibbonButtons;
+using Tools.Simple;
 using LitKit1.Controls.AnsResControls;
-using Services.Response;
+using Tools.Response;
 using Services.Licensing;
 using System.IO;
 

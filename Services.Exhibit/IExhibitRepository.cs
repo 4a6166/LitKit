@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using static Services.Exhibit.ExhibitRepository;
+using static Tools.Exhibit.ExhibitRepository;
 
-namespace Services.Exhibit
+namespace Tools.Exhibit
 {
     public interface IExhibitRepository  //CRUD interface setup
     {

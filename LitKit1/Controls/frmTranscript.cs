@@ -1,4 +1,4 @@
-﻿using Services;
+﻿using Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
-using Services.RibbonButtons;
+using Tools.Simple;
 
 namespace LitKit1.Controls
 {

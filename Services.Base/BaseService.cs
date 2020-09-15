@@ -1,4 +1,4 @@
-﻿namespace Services
+﻿namespace Services.Base
 {
     public abstract class BaseService
     {

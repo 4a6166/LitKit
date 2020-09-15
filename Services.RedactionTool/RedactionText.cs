@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Application = Microsoft.Office.Interop.Word.Application;
 
-namespace Services.RedactionTool
+namespace Tools.RedactionTool
 {
     class RedactionText : IRedaction
     {

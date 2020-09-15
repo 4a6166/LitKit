@@ -1,11 +1,11 @@
-﻿using Services.Extensions;
+﻿using Tools.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services
+namespace Services.Base
 {
     /// <summary>
     /// Provides a success flag and a message

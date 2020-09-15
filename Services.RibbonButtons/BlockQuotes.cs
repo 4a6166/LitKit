@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Word = Microsoft.Office.Interop.Word;
 
 
-namespace Services.RibbonButtons
+namespace Tools.Simple
 {
     /// <summary>
     /// Searches for quotes of over x number of words and transforms them into block quotes

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Services.Extensions
+namespace Tools.Extensions
 {
     public static class XmlDocumentExtensions
     {

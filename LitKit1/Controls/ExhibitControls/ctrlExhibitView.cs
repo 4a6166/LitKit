@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Services.Exhibit;
+using Tools.Exhibit;
 using LitKit1.Controls.ExhibitControls;
 using Word = Microsoft.Office.Interop.Word;
-using Tools = Microsoft.Office.Tools;
+using MTools = Microsoft.Office.Tools;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Core;
 
@@ -177,7 +177,7 @@ namespace LitKit1.Controls
         private void ExhibitFormatting_Click(object sender, EventArgs e)
         {
             ctrlExhibitFormat exhibitCtrl = new ctrlExhibitFormat();
-            Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+            MTools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
 
             ActivePane.Control.Controls.Clear();
             //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
@@ -194,7 +194,7 @@ namespace LitKit1.Controls
         private void NewExhibit_Click(object sender, EventArgs e)
         {
             ctrlExhibitUpdateAdd exhibitCtrl = new ctrlExhibitUpdateAdd();
-            Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+            MTools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
             ActivePane.Control.Controls.Clear();
             ActivePane.Control.Controls.Add(exhibitCtrl);
 
@@ -216,7 +216,7 @@ namespace LitKit1.Controls
 
                 ctrlExhibitUpdateAdd exhibitCtrl = new ctrlExhibitUpdateAdd();
 
-                Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+                MTools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
 
                 ActivePane.Control.Controls.Clear();
                 //Globals.ThisAddIn.ExhibitMain.Controls.Clear();

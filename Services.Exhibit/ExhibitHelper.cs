@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
 
-namespace Services.Exhibit
+namespace Tools.Exhibit
 {
 
 
