@@ -393,7 +393,6 @@
     <None Include="Resources\Group.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Test Resource File.txt" />
     <Content Include="Resources\PilcrowLone1_B.ico" />
   </ItemGroup>
   <ItemGroup>

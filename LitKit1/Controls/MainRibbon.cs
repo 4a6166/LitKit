@@ -692,6 +692,19 @@ namespace LitKit1
             Process.Start("https://forms.gle/HkqXuHyjJhzcVjJE6");
         }
 
+        private void togglebtnSmallCaps_Click(object sender, RibbonControlEventArgs e)
+        {
+            _app.UndoRecord.StartCustomRecord("Change Small Caps");
 
+            SmallCaps sc = new SmallCaps(_app);
+            sc.ChangeSmallCaps(_app.Selection, togglebtnSmallCaps);
+            _app.UndoRecord.EndCustomRecord();
+        }
+
+        private void btnReplace_Click(object sender, RibbonControlEventArgs e)
+        {
+            Replace replace = new Tools.Simple.Replace(_app);
+            replace.SendKey();
+        }
     }
 }
