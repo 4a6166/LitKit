@@ -70,6 +70,21 @@ namespace Tools.Simple
             "Exh.",
             "Ex.",
 
+            #region Months
+            "January", "Jan", "Jan.",
+            "February", "Feb", "Feb.",
+            "March", "Mar", "Mar.",
+            "April", "Apr", "Apr.",
+            "May",
+            "June",
+            "July",
+            "August", "Aug", "Aug.",
+            "September", "Sept", "Sept.",
+            "October", "Oct", "Oct",
+            "November", "Nov", "Nov.",
+            "December", "Dec", "Dec.",
+            #endregion
+
         };
         public static List<string> ExpressionsSpaceBefore = new List<string>()
         {
