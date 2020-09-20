@@ -18,7 +18,7 @@ namespace Tools.Simple
             var rng = _app.Selection.Range;
             foreach (string expression in Expressions)
             {
-                 rng.Find.Replacement.Font.Italic = 1;
+                rng.Find.Replacement.Font.Italic = 1;
                 
                 rng.Find.Execute(FindText: expression, ReplaceWith: expression, Replace: WdReplace.wdReplaceAll);
             }
@@ -32,11 +32,11 @@ namespace Tools.Simple
 
             _app.ActiveDocument.Select();
             var rng = _app.Selection.Range;
-            foreach (string expression in Expressions)
+            for (int i =1; i<= Expressions.Count; i++)
             {
                 rng.Find.Replacement.Font.Italic = 0;
 
-                rng.Find.Execute(FindText: expression, ReplaceWith: expression, Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText: Expressions[i], ReplaceWith: Expressions[i], Replace: WdReplace.wdReplaceAll);
             }
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
@@ -45,9 +45,9 @@ namespace Tools.Simple
 
         public static List<string> Expressions = new List<string>()
         {
+            "id.",
             "supra",
             "infra",
-            "id.",
 
             "res ipsa",
             "res ipsa loquitur",
