@@ -102,14 +102,15 @@ namespace LitKit1.Controls.ExhibitControls
 
         public void UpdateExampleCiteText()
         {
-            string Intro = cbIntroMark.Text;
-            string Numbering = cbNumbering.Text;
-            string FirstOnly = cbFirstOnly.Text;
-            string DescBatesFormat = cbDescBatesFormat.Text;
-            string Parentheses = checkbParentheses.Checked.ToString();
+            string FirstCite = txtbxLongCustom.Text;
+            string FollowingCites = txtbxShortCustom.Text;
+            string IndexStyle = cbNumbering.Text;
+            string IndexStart = numericUpDown1.Text;
+            string UniformCites = "False";
             string IdCite = checkbIdCite.Checked.ToString();
+            string FormatCustomized = "True";
 
-            repository.UpdateFormatting(Intro, Numbering, FirstOnly, DescBatesFormat, Parentheses, IdCite);
+            repository.UpdateFormatting(FirstCite, FollowingCites, IndexStyle, IndexStart, UniformCites, IdCite, FormatCustomized);
 
             Exhibit exhibit = new Exhibit("Description", "BATES000123");
 
@@ -136,21 +137,13 @@ namespace LitKit1.Controls.ExhibitControls
 
         private void UpdateExhibitFormatting_Click(object sender, EventArgs e)
         {
-            string Intro = cbIntroMark.Text;
-            string Numbering = cbNumbering.Text;
-            string FirstOnly = cbFirstOnly.Text;
-            string DescBatesFormat = cbDescBatesFormat.Text;
-            string Parentheses = checkbParentheses.Checked.ToString();
-            string IdCite = checkbIdCite.Checked.ToString();
-
-            repository.UpdateFormatting(Intro, Numbering, FirstOnly, DescBatesFormat, Parentheses, IdCite);
+            UpdateExampleCiteText();
 
             helper.RefreshInsertedExhibits(_app);
 
             button3_Click(sender, e);
 
             Globals.ThisAddIn.ReturnFocus();
-
 
         }
 
@@ -207,6 +200,87 @@ namespace LitKit1.Controls.ExhibitControls
         }
 
         private void LongCiteExampleText_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ctrlExhibitFormat_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+            panelCustomCite.Visible = false;
+        }
+
+        private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
+        {
+            checkbIdCite.Checked = checkBox1.Checked;
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelCustomCite_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnCustomizeFormatting_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            checkBox1.Checked = checkbIdCite.Checked;
+            comboBox1.SelectedIndex = cbNumbering.SelectedIndex;
+
+            panelCustomCite.Visible = true;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            button3_Click(sender, e);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            cbNumbering.SelectedIndex = comboBox1.SelectedIndex;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+            UpdateExampleCiteText();
+
+            helper.RefreshInsertedExhibits(_app);
+
+            button3_Click(sender, e);
+
+            Globals.ThisAddIn.ReturnFocus();
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
 
         }

@@ -17,7 +17,7 @@ namespace Tools.Exhibit
 
         string GetFormatting(FormatNodes node);
 
-        void UpdateFormatting(string Intro, string Numbering, string FirstOnly, string DescBatesFormat, string Parentheses, string IdCite);
+        void UpdateFormatting(string FirstCite, string FollowingCites, string IndexStyle, string IndexStart, bool UniformCites, bool IdCite, bool FormatCustomized);
 
     }
 }

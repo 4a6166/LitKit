@@ -8,12 +8,13 @@ namespace Tools.Exhibit
 {
     public enum FormatNodes
     {
-        Intro, //"Intro"
-        Numbering, //"Numbering"
-        FirstOnly, //"FirstOnly"
-        DescBatesFormat, //"DescBatesFormat"
-        Parentheses, //"Parentheses"
-        IdCite //"IdCite"
+        FirstCite, //"Intro"
+        FollowingCites, //"Numbering"
+        IndexStyle, //"FirstOnly"
+        IndexStart, //"DescBatesFormat"
+        UniformCites, //"Parentheses"
+        IdCite, //"IdCite"
+        FormatCustomized, 
     }
     public enum IntroOptions
     {
