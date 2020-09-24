@@ -19,46 +19,61 @@ namespace LitKit1.Controls.ExhibitControls
             InitializeComponent();
             
             _app = Globals.ThisAddIn.Application;
-            repository = ExhibitRepositoryFactory.GetRepository("XML",_app);
+            repository = new ExhibitRepository(_app);
+            helper = new ExhibitHelper(_app);
 
             LoadFormatting(_app);
 
-            cbIntroMark.Text = enumSwitch.IntroOptions_EnumSwitchText(intro);
-            cbNumbering.Text = enumSwitch.NumberingOptions_EnumSwitchText(numbering);
-            cbFirstOnly.Text = enumSwitch.FirstOnlyOptions_EnumSwitchText(firstOnly);
+            cbIntroMark.Text = intro;
+            cbNumbering.Text = enumSwitch.NumberingOptions_EnumSwitchText(IndexStyle);
+            cbUniformCitesStandard.Checked = !UniformCites;
 
-            cbDescBatesFormat.Text = enumSwitch.DescBatesFormatOptions_EnumSwitchText(descBatesFormat);
+            cbDescBatesFormat.Text = (descBatesFormat);
 
             
             if ( parentheses == "True" ) { checkbParentheses.Checked = true; } else { checkbParentheses.Checked = false; }
-            if( idCite == "True") { checkbIdCite.Checked = true; } else { checkbIdCite.Checked = false; }
+            if( idCite == true) { checkbIdCite.Checked = true; } else { checkbIdCite.Checked = false; }
             
         }
         readonly Word.Application _app;
-        readonly IExhibitRepository repository;
+        readonly ExhibitRepository repository;
 
-        private IntroOptions intro;
-        private NumberingOptions numbering;
-        private FirstOnlyOptions firstOnly;
-        private DescBatesFormatOptions descBatesFormat;
-        private string parentheses; //"True" or "False"
-        private string idCite; //"True" or "False"
+        private string FirstCite;
+        private string FollowingCites;
+        private NumberingOptions IndexStyle;
+        private int IndexStart;
+        private bool UniformCites;
+        private bool idCite; //"True" or "False"
+        private bool FormatCustomized;
+
+        private string intro;
+        private string descBatesFormat;
+        private string parentheses;
+
         readonly EnumSwitch enumSwitch = new EnumSwitch();
-        readonly ExhibitHelper helper = new ExhibitHelper();
+        readonly ExhibitHelper helper;
 
 
 
         private void LoadFormatting(Word.Application _app)
         {
-            intro = enumSwitch.IntroOptions_TextSwitchEnum(repository.GetFormatting(FormatNodes.Intro));
-            numbering = enumSwitch.NumberingOptions_TextSwitchEnum(repository.GetFormatting(FormatNodes.Numbering));
-            firstOnly = enumSwitch.FirstOnlyOptions_TextSwitchEnum(repository.GetFormatting(FormatNodes.FirstOnly));
-            descBatesFormat = enumSwitch.DescBatesFormatOptions_TextSwitchEnum(repository.GetFormatting(FormatNodes.DescBatesFormat));
+            FirstCite = repository.GetFormatting(FormatNodes.FirstCite);
+            FollowingCites = repository.GetFormatting(FormatNodes.FollowingCites);
+
+            IndexStyle = enumSwitch.NumberingOptions_TextSwitchEnum(repository.GetFormatting(FormatNodes.IndexStyle));
+
+            IndexStart = Int32.Parse(repository.GetFormatting(FormatNodes.IndexStart));
+
+            UniformCites = bool.Parse(repository.GetFormatting(FormatNodes.UniformCites));
+            idCite = bool.Parse(repository.GetFormatting(FormatNodes.IdCite));
+            FormatCustomized = bool.Parse(repository.GetFormatting(FormatNodes.FormatCustomized));
+
+            intro = repository.GetFormatting(FormatNodes.Intro);
+            descBatesFormat = repository.GetFormatting(FormatNodes.DescBatesFormat);
             parentheses = repository.GetFormatting(FormatNodes.Parentheses);
-            idCite = repository.GetFormatting(FormatNodes.IdCite);
+
 
             cbDescBatesFormat.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbFirstOnly.DropDownStyle = ComboBoxStyle.DropDownList;
             cbIntroMark.DropDownStyle = ComboBoxStyle.DropDownList;
             cbNumbering.DropDownStyle = ComboBoxStyle.DropDownList;
 
@@ -102,20 +117,11 @@ namespace LitKit1.Controls.ExhibitControls
 
         public void UpdateExampleCiteText()
         {
-            string FirstCite = txtbxLongCustom.Text;
-            string FollowingCites = txtbxShortCustom.Text;
-            string IndexStyle = cbNumbering.Text;
-            string IndexStart = numericUpDown1.Text;
-            string UniformCites = "False";
-            string IdCite = checkbIdCite.Checked.ToString();
-            string FormatCustomized = "True";
-
-            repository.UpdateFormatting(FirstCite, FollowingCites, IndexStyle, IndexStart, UniformCites, IdCite, FormatCustomized);
 
             Exhibit exhibit = new Exhibit("Description", "BATES000123");
 
-            LongCiteExampleText.Text = helper.FormatFirstCite(exhibit, 1, _app);
-            ShortCiteExampleText.Text = helper.FormatFollowingCite(exhibit, 1, _app);
+            LongCiteExampleText.Text = ExhibitFormatter.FormatCite(exhibit, FirstCite, IndexStyle, 1, 1);
+            ShortCiteExampleText.Text = ExhibitFormatter.FormatCite(exhibit, FollowingCites, IndexStyle, 1, 1);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -139,7 +145,11 @@ namespace LitKit1.Controls.ExhibitControls
         {
             UpdateExampleCiteText();
 
-            helper.RefreshInsertedExhibits(_app);
+            helper.RefreshInsertedExhibits();
+
+            EnumSwitch enumSwitch = new EnumSwitch();
+
+            repository.UpdateFormatting(FirstCite, FollowingCites, enumSwitch.NumberingOptions_EnumSwitchText(IndexStyle), IndexStart.ToString(), UniformCites, idCite, FormatCustomized);
 
             button3_Click(sender, e);
 
@@ -176,7 +186,7 @@ namespace LitKit1.Controls.ExhibitControls
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-
+            // Don't update examples. Check state is pulled when Saved.
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -268,7 +278,7 @@ namespace LitKit1.Controls.ExhibitControls
 
             UpdateExampleCiteText();
 
-            helper.RefreshInsertedExhibits(_app);
+            helper.RefreshInsertedExhibits();
 
             button3_Click(sender, e);
 
@@ -281,6 +291,17 @@ namespace LitKit1.Controls.ExhibitControls
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateExampleCiteText();
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }

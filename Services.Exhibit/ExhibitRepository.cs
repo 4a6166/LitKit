@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -6,7 +7,7 @@ using Application = Microsoft.Office.Interop.Word.Application;
 
 namespace Tools.Exhibit
 {
-    public class ExhibitRepository : IExhibitRepository
+    public class ExhibitRepository
     {
         public ExhibitRepository(Application _app)
         {
@@ -18,8 +19,6 @@ namespace Tools.Exhibit
             }
 
         }
-
-        
         #region builds initial custom XML doc if it doens't exist
         void FrameCustomXMLDoc()
         {
@@ -30,13 +29,19 @@ namespace Tools.Exhibit
                     new XElement(rootName, "")
                 );
 
-            xDocument.Element(rootName).Add(new XElement("Format", 
+            xDocument.Element(rootName).Add(new XElement("Format",
+                new XElement("FirstCite", "Exhibit [INDEX], [PINCITE][DESC] ([BATES])"),
+                new XElement("FollowingCites", "Exhibit [INDEX], [PINCITE][DESC] ([BATES])"),
+                new XElement("IndexStyle", "Numeric"),
+                new XElement("IndexStart", "1"),
+                new XElement("UniformCites", "True"), //First and following cites are in the same format
+                new XElement("IdCite", "True"),
+                new XElement("FormatCustomized", "False"),
+
+                // used for standard formatting form
                 new XElement("Intro", "Exhibit"),
-                new XElement("Numbering", "1, 2, 3..."),
-                new XElement("FirstOnly", "In first citation only"),
-                new XElement("DescBatesFormat", "Description, Bates"),
-                new XElement("Parentheses", "False"),
-                new XElement("IdCite", "True")
+                new XElement("DescBatesFormat", "Description (Bates)"),
+                new XElement("Parentheses", "True")
                 ));
 
             string docString = /*@"<?xml version="+quotes+"1.0" + quotes + " encoding=" + quotes + "UTF - 8" + quotes + " standalone =" + quotes + "yes" + quotes + " ?>" +*/
@@ -47,44 +52,40 @@ namespace Tools.Exhibit
         }
         #endregion
 
-
         private readonly Application _app;
 
         static string NameSpace = "Prelimine Litkit Exhibits";
         static XNamespace name = NameSpace;
         static XName rootName = name + "Exhibits";
 
-        public void UpdateFormatting(string Intro, string Numbering, string FirstOnly, string DescBatesFormat, string Parentheses, string IdCite)
+        public void UpdateFormatting(string FirstCite, string FollowingCites, string IndexStyle, string IndexStart, bool UniformCites, bool IdCite, bool FormatCustomized)
         {
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode("//Format");
-            FormattingNode.SelectSingleNode("//Intro").Text= Intro;
-            FormattingNode.SelectSingleNode("//Numbering").Text = Numbering;
-            FormattingNode.SelectSingleNode("//FirstOnly").Text = FirstOnly;
-            FormattingNode.SelectSingleNode("//DescBatesFormat").Text = DescBatesFormat;
-            FormattingNode.SelectSingleNode("//Parentheses").Text = Parentheses;
-            FormattingNode.SelectSingleNode("//IdCite").Text = IdCite;
-
-
+            FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite;
+            FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites;
+            FormattingNode.SelectSingleNode("//IndexStyle").Text = IndexStyle;
+            FormattingNode.SelectSingleNode("//IndexStart").Text = IndexStart;
+            FormattingNode.SelectSingleNode("//UniformCites").Text = UniformCites.ToString();
+            FormattingNode.SelectSingleNode("//IdCite").Text = IdCite.ToString();
+            FormattingNode.SelectSingleNode("//FormatCustomized").Text = FormatCustomized.ToString();
         }
-        
-        
 
         public string GetFormatting(FormatNodes node)  //TODO: check why this loops so many times when Updating Formatting on Exhibit Format
         {
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode("//Format");
-            CustomXMLNode FormatNode = FormattingNode.SelectSingleNode("//"+node.ToString());
+            CustomXMLNode FormatNode = FormattingNode.SelectSingleNode("//" + node.ToString());
             return FormatNode.Text;
         }
 
         public void AddExhibit(string Description, string BatesNumber)
         {
             Exhibit newExhibit = new Exhibit(Description, BatesNumber);
-            
+
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
-            CustomXMLNode ExhibitsNode = customXmlDoc.SelectSingleNode("//Format").ParentNode;   
-            customXmlDoc.AddNode(ExhibitsNode, "Exhibit","",null,MsoCustomXMLNodeType.msoCustomXMLNodeElement,"");
+            CustomXMLNode ExhibitsNode = customXmlDoc.SelectSingleNode("//Format").ParentNode;
+            customXmlDoc.AddNode(ExhibitsNode, "Exhibit", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, "");
 
             CustomXMLNodes ExhibitNodes = customXmlDoc.SelectNodes("//Exhibit");
             CustomXMLNode ExhibitNode = ExhibitNodes[ExhibitNodes.Count];
@@ -117,7 +118,7 @@ namespace Tools.Exhibit
             CustomXMLNodes exhibitNodes = customXmlDoc.SelectNodes("//Exhibit");
             foreach (CustomXMLNode exh in exhibitNodes)
             {
-                if(exh.SelectSingleNode("ID").Text == id)
+                if (exh.SelectSingleNode("ID").Text == id)
                 {
                     nodesList.Add(exh);
                 }
@@ -129,7 +130,7 @@ namespace Tools.Exhibit
             return exhibit;
         }
 
-        public IEnumerable<Exhibit> GetExhibits()  
+        public IEnumerable<Exhibit> GetExhibits()
         {
 
             List<Exhibit> exhibits = new List<Exhibit>();
@@ -163,5 +164,6 @@ namespace Tools.Exhibit
                 }
             }
         }
+
     }
 }

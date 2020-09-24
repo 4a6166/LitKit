@@ -14,7 +14,11 @@ namespace Tools.Exhibit
         IndexStart, //"DescBatesFormat"
         UniformCites, //"Parentheses"
         IdCite, //"IdCite"
-        FormatCustomized, 
+        FormatCustomized,
+
+        Intro,
+        DescBatesFormat,
+        Parentheses
     }
     public enum IntroOptions
     {
@@ -51,62 +55,6 @@ namespace Tools.Exhibit
 
     public class EnumSwitch
     {
-        public FormatNodes FormatNodes_TextSwitchEnum(string TextToSwitch)
-        {
-            FormatNodes result;
-            switch (TextToSwitch)
-            {
-                case "Intro":
-                    result = FormatNodes.Intro;
-                    break;
-                case "Numbering":
-                    result = FormatNodes.Numbering;
-                    break;
-                    case "FirstOnly":
-                    result = FormatNodes.FirstOnly;
-                    break;
-                case "DescBatesFormat":
-                    result = FormatNodes.DescBatesFormat;
-                    break;
-                case "Parentheses":
-                    result = FormatNodes.Parentheses;
-                    break;
-                case "IdCite":
-                    result = FormatNodes.IdCite;
-                    break;
-                default:
-                    throw new Exception("Correct text not sent to method");
-            }
-            return result;
-        }
-        public string FormatNodes_EnumSwitchText(FormatNodes EnumToSwitch)
-        {
-            string result;
-            switch (EnumToSwitch)
-            {
-                case FormatNodes.Intro:
-                    result = "Intro";
-                    break;
-                case FormatNodes.Numbering:
-                    result = "Numbering";
-                    break;
-                case FormatNodes.FirstOnly:
-                    result = "FirstOnly";
-                    break;
-                case FormatNodes.DescBatesFormat:
-                    result = "DescBatesFormat";
-                    break;
-                case FormatNodes.Parentheses:
-                    result = "Parentheses";
-                    break;
-                case FormatNodes.IdCite:
-                    result = "IdCite";
-                    break;
-                default:
-                    throw new Exception("Correct Node not sent to method");
-            }
-            return result;
-        }
 
         public IntroOptions IntroOptions_TextSwitchEnum(string TextToSwitch)
         {
