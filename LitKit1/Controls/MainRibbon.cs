@@ -132,7 +132,6 @@ namespace LitKit1
                     ActivePane.Control.Controls.Add(exhibitCtrl);
                     //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
                     exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-                    exhibitCtrl.LoadListView();
 
                     if (!ActivePane.Visible)
                     {
@@ -151,18 +150,17 @@ namespace LitKit1
 
         private void AddExhibtsForTest(object sender, RibbonControlEventArgs e)
         {
-            ExhibitHelper helper = new ExhibitHelper();
-            IExhibitRepository repository = ExhibitRepositoryFactory.GetRepository("XML", _app);
+            ExhibitRepository repository = new ExhibitRepository(_app);
 
             if (repository.GetExhibits().Count() == 0)
             {
                 repository.AddExhibit("A" +" " +Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
             }
             
-            repository.AddExhibit(helper.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(helper.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(helper.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(helper.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
 
             frmToast toast = new frmToast(_app.ActiveWindow);
             toast.OpenToast("Test Exhibits Added", "Remove before production.",1000);
@@ -251,8 +249,7 @@ namespace LitKit1
                 {
                     _app.UndoRecord.StartCustomRecord("Add Pincite");
 
-                    ExhibitHelper helper = new ExhibitHelper();
-                    helper.AddPincite(_app.Selection);
+                    new Pincite(_app).AddPincite(_app.Selection);
                     Globals.ThisAddIn.ReturnFocus();
 
                     _app.UndoRecord.EndCustomRecord();
@@ -271,8 +268,7 @@ namespace LitKit1
                 {
                     _app.UndoRecord.StartCustomRecord("Remove Pincite");
 
-                    ExhibitHelper helper = new ExhibitHelper();
-                    helper.RemovePinCite(_app.Selection);
+                    new Pincite(_app).RemovePinCite(_app.Selection);
 
                     _app.UndoRecord.EndCustomRecord();
                 }
@@ -290,7 +286,7 @@ namespace LitKit1
                 {
                     _app.UndoRecord.StartCustomRecord("Exhibit Index");
 
-                    new ExhibitHelper().InsertExhibitIndex(_app);
+                    new ExhibitIndex(_app).InsertExhibitIndex();
                     Globals.ThisAddIn.ReturnFocus();
 
                     _app.UndoRecord.EndCustomRecord();

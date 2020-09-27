@@ -118,13 +118,13 @@ namespace Tools.Exhibit
             NumberingOptions result;
             switch (TextToSwitch)
             {
-                case "1, 2, 3...":
+                case "Numbers":
                     result = NumberingOptions.Numbers;
                     break;
-                case "A, B, C...":
+                case "Letters":
                     result = NumberingOptions.Letters;
                     break;
-                case "I, II, III...":
+                case "RomanNumerals":
                     result = NumberingOptions.RomanNumerals;
                     break;
                 default:
@@ -138,13 +138,13 @@ namespace Tools.Exhibit
             switch (EnumToSwitch)
             {
                 case NumberingOptions.Numbers:
-                    result = "1, 2, 3...";
+                    result = "Numbers";
                     break;
                 case NumberingOptions.Letters:
-                    result = "A, B, C...";
+                    result = "Letters";
                     break;
                 case NumberingOptions.RomanNumerals:
-                    result = "I, II, III...";
+                    result = "RomanNumerals";
                     break;
                 default:
                     throw new Exception("Correct Node not sent to method");

@@ -122,10 +122,10 @@ namespace Tools.Exhibit
 
 
             result = CiteFormat;
-            result.Replace("[INDEX]", Number);
-            result.Replace("[DESC]", Description);
-            result.Replace("[BATES]", Bates);
-            result.Replace("[PINCITE]", Pincite);
+            result = result.Replace("{INDEX}", Number);
+            result = result.Replace("{DESC}", Description);
+            result = result.Replace("{BATES}", Bates);
+            result = result.Replace("{PINCITE}", Pincite);
 
             return result;
         }

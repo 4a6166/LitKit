@@ -30,9 +30,9 @@ namespace Tools.Exhibit
                 );
 
             xDocument.Element(rootName).Add(new XElement("Format",
-                new XElement("FirstCite", "Exhibit [INDEX], [PINCITE][DESC] ([BATES])"),
-                new XElement("FollowingCites", "Exhibit [INDEX], [PINCITE][DESC] ([BATES])"),
-                new XElement("IndexStyle", "Numeric"),
+                new XElement("FirstCite", "Exhibit {INDEX}, {PINCITE}{DESC} ({BATES})"),
+                new XElement("FollowingCites", "Exhibit {INDEX}, {PINCITE}{DESC} ({BATES})"),
+                new XElement("IndexStyle", "Numbers"),
                 new XElement("IndexStart", "1"),
                 new XElement("UniformCites", "True"), //First and following cites are in the same format
                 new XElement("IdCite", "True"),
@@ -76,9 +76,12 @@ namespace Tools.Exhibit
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode("//Format");
             CustomXMLNode FormatNode = FormattingNode.SelectSingleNode("//" + node.ToString());
-            return FormatNode.Text;
+            string result = FormatNode.Text.Replace("\\u00A0", "\u00A0");
+
+            return result;
         }
 
+        #region Exhibits
         public void AddExhibit(string Description, string BatesNumber)
         {
             Exhibit newExhibit = new Exhibit(Description, BatesNumber);
@@ -164,6 +167,96 @@ namespace Tools.Exhibit
                 }
             }
         }
+        #endregion
 
+        #region Legal and Record Cites
+        public void AddLRCite(string LongCite, string ShortCite)
+        {
+            LegalRecordCite newExhibit = new LegalRecordCite(LongCite, ShortCite);
+
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNode ExhibitsNode = customXmlDoc.SelectSingleNode("//Format").ParentNode;
+            customXmlDoc.AddNode(ExhibitsNode, "LRCite", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, "");
+
+            CustomXMLNodes ExhibitNodes = customXmlDoc.SelectNodes("//LRCite");
+            CustomXMLNode ExhibitNode = ExhibitNodes[ExhibitNodes.Count];
+            customXmlDoc.AddNode(ExhibitNode, "ID", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newExhibit.ID);
+            customXmlDoc.AddNode(ExhibitNode, "LongCite", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newExhibit.LongCite);
+            customXmlDoc.AddNode(ExhibitNode, "ShortCite", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newExhibit.ShortCite);
+        }
+
+        public void DeleteLRCite(string id)
+        {
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+
+            CustomXMLNodes exhibitNodes = customXmlDoc.SelectNodes("//LRCite");
+            foreach (CustomXMLNode exh in exhibitNodes)
+            {
+                if (exh.SelectSingleNode("ID").Text == id)
+                {
+                    exh.Delete();
+                }
+            }
+
+        }
+
+        public LegalRecordCite GetLRCite(string id)
+        {
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            id = id.Split('|')[0];
+
+            List<CustomXMLNode> nodesList = new List<CustomXMLNode>();
+            CustomXMLNodes exhibitNodes = customXmlDoc.SelectNodes("//LRCite");
+            foreach (CustomXMLNode exh in exhibitNodes)
+            {
+                if (exh.SelectSingleNode("ID").Text == id)
+                {
+                    nodesList.Add(exh);
+                }
+            }
+            LegalRecordCite LRCite = new LegalRecordCite(nodesList.First().SelectSingleNode("ID").Text);
+            LRCite.LongCite = nodesList.First().SelectSingleNode("LongCite").Text;
+            LRCite.ShortCite = nodesList.First().SelectSingleNode("ShortCite").Text;
+
+            return LRCite;
+        }
+
+        public IEnumerable<LegalRecordCite> GetLRCites()
+        {
+
+            List<LegalRecordCite> cites = new List<LegalRecordCite>();
+
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNodes exhibitNodes = customXmlDoc.SelectNodes("//LRCite");
+
+            foreach (CustomXMLNode element in exhibitNodes)
+            {
+                string ID = element.SelectSingleNode("ID").Text;
+                LegalRecordCite cite = new LegalRecordCite(ID);
+                cite.LongCite = element.SelectSingleNode("LongCite").Text;
+                cite.ShortCite = element.SelectSingleNode("ShortCite").Text;
+
+                cites.Add(cite);
+            }
+
+            return cites.AsEnumerable();
+        }
+
+        public void UpdateLRCite(string id, string LongCite, string ShortCite)
+        {
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNodes exhibitNodes = customXmlDoc.SelectNodes("//LRCite");
+            foreach (CustomXMLNode exh in exhibitNodes)
+            {
+                if (exh.SelectSingleNode("ID").Text == id)
+                {
+                    exh.SelectSingleNode("LongCite").Text = LongCite;
+                    exh.SelectSingleNode("ShortCite").Text = ShortCite;
+                }
+            }
+        }
+
+
+        #endregion
     }
 }

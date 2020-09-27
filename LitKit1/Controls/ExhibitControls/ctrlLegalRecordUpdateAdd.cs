@@ -11,73 +11,21 @@ using Tools.Exhibit;
 
 namespace LitKit1.Controls.ExhibitControls
 {
-    public partial class ctrlExhibitUpdateAdd : UserControl
+    public partial class ctrlLegalRecordUpdateAdd : UserControl
     {
-        public ctrlExhibitUpdateAdd()
+        public ctrlLegalRecordUpdateAdd()
         {
             InitializeComponent();
-            
+
             _app = Globals.ThisAddIn.Application;
+
         }
 
         readonly Microsoft.Office.Interop.Word.Application _app;
         public string ID = string.Empty;
 
-        private string lcExample = "Description of Exhibit";
-        private string scExample = "ABC0001234";
-
-
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (textBox1.Text == "Description of Exhibit" || textBox1.Text == "" || string.IsNullOrWhiteSpace(textBox1.Text))
-            {
-                MessageBox.Show("No exhibit information provided");
-            }
-
-            else if (string.IsNullOrEmpty(ID))
-            {
-                ExhibitRepository repository = new ExhibitRepository(Globals.ThisAddIn.Application);
-
-                string description = string.Empty;
-                if (textBox1.Text != "Description of Exhibit")
-                {
-                    description = textBox1.Text;
-                }
-
-                string bates = string.Empty;
-                if (textBox3.Text != "ABC0001234")
-                {
-                    bates = textBox3.Text;
-                }
-
-                repository.AddExhibit(description, bates);
-
-
-                button3_Click(sender, e);
-            }
-            else
-            {
-                ExhibitRepository repository = new ExhibitRepository(Globals.ThisAddIn.Application);
-
-                string description = string.Empty;
-                if (textBox1.Text != "Description of Exhibit")
-                {
-                    description = textBox1.Text;
-                }
-
-                string bates = string.Empty;
-                if (textBox3.Text != "ABC0001234")
-                {
-                    bates = textBox3.Text;
-                }
-
-                repository.UpdateExhibit(ID, description, bates);
-
-                button3_Click(sender, e);
-            }
-        }
+        private string lcExample = "Palsgraf v. Long Island R.R. Co., 162 N.E. 99, 101 (N.Y. 1928)";
+        private string scExample = "Palsgraf, 162 N.E. at 101";
 
 
         private void button3_Click(object sender, EventArgs e)
@@ -90,11 +38,48 @@ namespace LitKit1.Controls.ExhibitControls
             ActivePane.Control.Controls.Add(exhibitCtrl);
             //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
             exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            TabControl tabControl = (TabControl)exhibitCtrl.Controls[0];
-            tabControl.SelectedIndex = 0; //To set the tab to the list that was just being edited (Exhibit tab here)
+            TabControl tabControl = (TabControl) exhibitCtrl.Controls[0];
+            tabControl.SelectedIndex = 1; //To set the tab to the list that was just being edited (legal/record cites here)
 
             ActivePane.Visible = true;
             //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text == lcExample || textBox1.Text == "" || string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                MessageBox.Show("No citation information provided");
+            }
+
+            else
+            {
+                ExhibitRepository repository = new ExhibitRepository(Globals.ThisAddIn.Application);
+
+                string LongCite = textBox1.Text;
+                string ShortCite = string.Empty;
+                if (textBox3.Text != scExample)
+                {
+                    ShortCite = textBox3.Text;
+                }
+                else ShortCite = textBox1.Text;
+
+
+                if (string.IsNullOrEmpty(ID))
+                {
+                    repository.AddLRCite(LongCite, ShortCite);
+
+                    button3_Click(sender, e);
+                }
+                else
+                {
+                    repository.UpdateLRCite(ID, LongCite, ShortCite);
+
+                    button3_Click(sender, e);
+                }
+            }
+
         }
 
         private void textBox1_Enter(object sender, EventArgs e)
@@ -105,6 +90,15 @@ namespace LitKit1.Controls.ExhibitControls
                 textBox1.ForeColor = Color.Black;
             }
         }
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            if (textBox1.Text == "")
+            {
+                textBox1.Text = lcExample;
+                textBox1.ForeColor = Color.Gray;
+            }
+        }
+
 
         private void textBox3_Enter(object sender, EventArgs e)
         {
@@ -124,15 +118,6 @@ namespace LitKit1.Controls.ExhibitControls
             }
         }
 
-        private void textBox1_Leave(object sender, EventArgs e)
-        {
-            if (textBox1.Text == "")
-            {
-                textBox1.Text = lcExample;
-                textBox1.ForeColor = Color.Gray;
-            }
-            
-        }
 
         public void GrayExampleText()
         {
@@ -143,11 +128,6 @@ namespace LitKit1.Controls.ExhibitControls
             if (textBox3.Text != scExample)
             { textBox3.ForeColor = Color.Black; }
             else textBox3.ForeColor = Color.Gray;
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
 
         }
 
@@ -181,6 +161,22 @@ namespace LitKit1.Controls.ExhibitControls
             {
                 button1.PerformClick();
             }
+        }
+
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

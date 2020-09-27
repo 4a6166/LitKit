@@ -54,7 +54,7 @@ namespace Tools.Exhibit
                     tags.Add(exhibit.Tag);
                     Index = tags.Count - 1;
 
-                    _app.Selection.TypeText(helper.ApplyNumFormat(Index, Numbering));
+                    _app.Selection.TypeText(ExhibitFormatter.ApplyNumFormat(Index, Numbering));
                     _app.Selection.MoveRight(WdUnits.wdCell);
                     _app.Selection.TypeText(Description);
 

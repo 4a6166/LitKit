@@ -117,4 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Placeholder Key
+{INDEX} = Automatically updated Exhibit Numbering
+{DESC} = Entered Exhibit description
+{BATES} = Entered Bates Number
+{PINCITE} = Placeholder for any added Pincites
+\u00A0 = Non-breaking Space</value>
+  </data>
 </root>

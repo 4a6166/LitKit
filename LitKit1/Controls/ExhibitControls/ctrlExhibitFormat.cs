@@ -135,7 +135,6 @@ namespace LitKit1.Controls.ExhibitControls
             ActivePane.Control.Controls.Add(exhibitCtrl);
             //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
             exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            exhibitCtrl.LoadListView();
 
             ActivePane.Visible = true;
             //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
@@ -143,13 +142,23 @@ namespace LitKit1.Controls.ExhibitControls
 
         private void UpdateExhibitFormatting_Click(object sender, EventArgs e)
         {
-            UpdateExampleCiteText();
 
-            helper.RefreshInsertedExhibits();
 
             EnumSwitch enumSwitch = new EnumSwitch();
 
-            repository.UpdateFormatting(FirstCite, FollowingCites, enumSwitch.NumberingOptions_EnumSwitchText(IndexStyle), IndexStart.ToString(), UniformCites, idCite, FormatCustomized);
+            MessageBox.Show("TODO");
+            FirstCite = "TBD";
+            FollowingCites = "TBD";
+            IndexStyle = NumberingOptions.Numbers;
+            IndexStart = 1;
+            UniformCites = false;
+            idCite = checkbIdCite.Checked;
+
+
+            repository.UpdateFormatting(FirstCite, FollowingCites, enumSwitch.NumberingOptions_EnumSwitchText(IndexStyle), IndexStart.ToString(), UniformCites, idCite, false);
+
+            helper.RefreshInsertedExhibits();
+
 
             button3_Click(sender, e);
 
@@ -227,12 +236,11 @@ namespace LitKit1.Controls.ExhibitControls
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
 
-            panelCustomCite.Visible = false;
         }
 
         private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
         {
-            checkbIdCite.Checked = checkBox1.Checked;
+            //checkbIdCite.Checked = checkBox1.Checked;
         }
 
         private void label9_Click(object sender, EventArgs e)
@@ -247,10 +255,15 @@ namespace LitKit1.Controls.ExhibitControls
 
         private void btnCustomizeFormatting_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            checkBox1.Checked = checkbIdCite.Checked;
-            comboBox1.SelectedIndex = cbNumbering.SelectedIndex;
+            
+            ctrlExhibitFormatCustom exhibitCtrl = new ctrlExhibitFormatCustom();
+            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+            ActivePane.Control.Controls.Clear();
 
-            panelCustomCite.Visible = true;
+            ActivePane.Control.Controls.Add(exhibitCtrl);
+            exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+
+            ActivePane.Visible = true;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -270,7 +283,7 @@ namespace LitKit1.Controls.ExhibitControls
 
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            cbNumbering.SelectedIndex = comboBox1.SelectedIndex;
+            //cbNumbering.SelectedIndex = comboBox1.SelectedIndex;
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -302,6 +315,11 @@ namespace LitKit1.Controls.ExhibitControls
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
