@@ -32,7 +32,7 @@ namespace Tools.Simple
 
             _app.ActiveDocument.Select();
             var rng = _app.Selection.Range;
-            for (int i =1; i<= Expressions.Count; i++)
+            for (int i =1; i< Expressions.Count; i++)
             {
                 rng.Find.Replacement.Font.Italic = 0;
 
