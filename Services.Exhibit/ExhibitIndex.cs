@@ -23,7 +23,7 @@ namespace Tools.Exhibit
         {
             ExhibitHelper helper = new ExhibitHelper(_app);
 
-            List<ContentControl> exhibits = helper.GetExhibitsInDocument();
+            List<ContentControl> exhibits = helper.GetAllExhibitsFromDoc();
             List<string> tags = new List<string> { "FillItem" };
 
             _app.ActiveDocument.Tables.Add(_app.Selection.Range, 2, 2, WdDefaultTableBehavior.wdWord9TableBehavior, WdAutoFitBehavior.wdAutoFitFixed);

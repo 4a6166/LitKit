@@ -115,7 +115,7 @@
             this.panel2.Location = new System.Drawing.Point(3, 76);
             this.panel2.MinimumSize = new System.Drawing.Size(0, 104);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(714, 104);
+            this.panel2.Size = new System.Drawing.Size(779, 104);
             this.panel2.TabIndex = 24;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
@@ -124,8 +124,6 @@
             this.cbUniformCitesStandard.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbUniformCitesStandard.AutoSize = true;
-            this.cbUniformCitesStandard.Checked = true;
-            this.cbUniformCitesStandard.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbUniformCitesStandard.Location = new System.Drawing.Point(56, 18);
             this.cbUniformCitesStandard.Name = "cbUniformCitesStandard";
             this.cbUniformCitesStandard.Size = new System.Drawing.Size(213, 17);
@@ -211,7 +209,7 @@
             this.cbDescBatesFormat.Location = new System.Drawing.Point(163, 22);
             this.cbDescBatesFormat.MinimumSize = new System.Drawing.Size(30, 0);
             this.cbDescBatesFormat.Name = "cbDescBatesFormat";
-            this.cbDescBatesFormat.Size = new System.Drawing.Size(540, 21);
+            this.cbDescBatesFormat.Size = new System.Drawing.Size(601, 21);
             this.cbDescBatesFormat.TabIndex = 3;
             this.cbDescBatesFormat.Text = "Description, Bates";
             this.cbDescBatesFormat.SelectedIndexChanged += new System.EventHandler(this.comboBox5_SelectedIndexChanged);

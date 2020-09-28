@@ -90,7 +90,7 @@ namespace LitKit1.Controls.ExhibitControls
             ActivePane.Control.Controls.Add(exhibitCtrl);
             //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
             exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            TabControl tabControl = (TabControl)exhibitCtrl.Controls[0];
+            TabControl tabControl = (TabControl)exhibitCtrl.Controls[2]; // the index of the tab control moves depending on what control is closes to the top of the form.
             tabControl.SelectedIndex = 0; //To set the tab to the list that was just being edited (Exhibit tab here)
 
             ActivePane.Visible = true;

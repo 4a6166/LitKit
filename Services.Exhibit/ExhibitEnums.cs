@@ -49,6 +49,12 @@ namespace Tools.Exhibit
         _P_Description_P_, //"(Description)"
         _P_Description_Bates_P_ //"(Description, Bates)"
     }
+    public enum CiteType
+    {
+        None,
+        Exhibit,
+        LegalOrRecordCitation,
+    }
 
 
 

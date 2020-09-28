@@ -23,17 +23,8 @@ namespace LitKit1.Controls.ExhibitControls
             helper = new ExhibitHelper(_app);
 
             LoadFormatting(_app);
+            UpdateExampleCiteText();
 
-            cbIntroMark.Text = intro;
-            cbNumbering.Text = enumSwitch.NumberingOptions_EnumSwitchText(IndexStyle);
-            cbUniformCitesStandard.Checked = !UniformCites;
-
-            cbDescBatesFormat.Text = (descBatesFormat);
-
-            
-            if ( parentheses == "True" ) { checkbParentheses.Checked = true; } else { checkbParentheses.Checked = false; }
-            if( idCite == true) { checkbIdCite.Checked = true; } else { checkbIdCite.Checked = false; }
-            
         }
         readonly Word.Application _app;
         readonly ExhibitRepository repository;
@@ -48,7 +39,7 @@ namespace LitKit1.Controls.ExhibitControls
 
         private string intro;
         private string descBatesFormat;
-        private string parentheses;
+        private bool parentheses;
 
         readonly EnumSwitch enumSwitch = new EnumSwitch();
         readonly ExhibitHelper helper;
@@ -70,12 +61,34 @@ namespace LitKit1.Controls.ExhibitControls
 
             intro = repository.GetFormatting(FormatNodes.Intro);
             descBatesFormat = repository.GetFormatting(FormatNodes.DescBatesFormat);
-            parentheses = repository.GetFormatting(FormatNodes.Parentheses);
+            parentheses = bool.Parse(repository.GetFormatting(FormatNodes.Parentheses));
 
 
             cbDescBatesFormat.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbDescBatesFormat.Text = descBatesFormat;
+
             cbIntroMark.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbIntroMark.Text = intro;
+
             cbNumbering.DropDownStyle = ComboBoxStyle.DropDownList;
+            switch (IndexStyle)
+            {
+                case NumberingOptions.Numbers:
+                    cbNumbering.Text = "1, 2, 3...";
+                    break;
+                case NumberingOptions.Letters:
+                    cbNumbering.Text = "A, B, C...";
+                    break;
+                case NumberingOptions.RomanNumerals:
+                    cbNumbering.Text = "I, II, III...";
+                    break;
+                default:
+                    throw new Exception("Numbeirng drop down not loaded properly.");
+            }
+
+            checkbParentheses.Checked = parentheses;  //// this might be flipping these becuase of the check changed listener******************************************
+            cbUniformCitesStandard.Checked = !UniformCites;  //On load should be false 
+            checkbIdCite.Checked = idCite;
 
         }
 
@@ -115,8 +128,111 @@ namespace LitKit1.Controls.ExhibitControls
             return exampleText;
         }
 
+        public void UpdateFormattingVars()
+        {
+            FirstCite = MakeFirstCiteFormatting();
+            FollowingCites = MakeFollowingCiteFormatting();
+            SwitchIndexStyleToEnum();
+
+            IndexStart = 1;
+            idCite = checkbIdCite.Checked;
+            FormatCustomized = false;
+
+            intro = cbIntroMark.Text;
+            descBatesFormat = cbDescBatesFormat.Text;
+            parentheses = checkbParentheses.Checked;
+            UniformCites = !cbUniformCitesStandard.Checked;
+
+        }
+
+        private void SwitchIndexStyleToEnum()
+        {
+            switch (cbNumbering.Text)
+            {
+                case "1, 2, 3...":
+                    IndexStyle = NumberingOptions.Numbers;
+                    break;
+                case "A, B, C...":
+                    IndexStyle = NumberingOptions.Letters;
+                    break;
+                case "I, II, III...":
+                    IndexStyle = NumberingOptions.RomanNumerals;
+                    break;
+                default:
+                    throw new Exception("cbNumbering has taken an unhandled input.");
+            }
+        }
+
+        private string MakeFirstCiteFormatting()
+        {
+            string result = cbIntroMark.Text + " {INDEX}, ";
+
+            switch (cbDescBatesFormat.Text)
+            {
+                case "Description, Bates":
+                    result += "{DESC} ({BATES})";
+                    break;
+                case "Description":
+                    result += "{DESC}";
+                    break;
+                case "(Description)":
+                    result += "({DESC})";
+                    break;
+                case "(Description, Bates)":
+                    result += "({DESC}, {BATES})";
+                    break;
+
+                default:
+                    throw new Exception("Input combination not handled.");
+            }
+
+            if (checkbParentheses.Checked)
+            {
+                result = "("+result+")";
+            }
+
+            return result;
+        }
+
+        private string MakeFollowingCiteFormatting()
+        {
+            string result = cbIntroMark.Text + " {INDEX}";
+            if (!cbUniformCitesStandard.Checked) // Description and Bates in Initial Cite Only == false
+            {
+                result = cbIntroMark.Text + " {INDEX}, ";
+
+                switch (cbDescBatesFormat.Text)
+                {
+                    case "Description, Bates":
+                        result += "{DESC} ({BATES})";
+                        break;
+                    case "Description":
+                        result += "{DESC}";
+                        break;
+                    case "(Description)":
+                        result += "({DESC})";
+                        break;
+                    case "(Description, Bates)":
+                        result += "({DESC}, {BATES})";
+                        break;
+
+                    default:
+                        throw new Exception("Input combination not handled.");
+                }
+
+            }
+
+            if (checkbParentheses.Checked)
+            {
+                result = "(" + result + ")";
+            }
+            return result;
+        }
+
         public void UpdateExampleCiteText()
         {
+            FirstCite = MakeFirstCiteFormatting();
+            FollowingCites = MakeFollowingCiteFormatting();
 
             Exhibit exhibit = new Exhibit("Description", "BATES000123");
 
@@ -142,23 +258,10 @@ namespace LitKit1.Controls.ExhibitControls
 
         private void UpdateExhibitFormatting_Click(object sender, EventArgs e)
         {
+            
+            repository.UpdateStandardFormatting(FirstCite, FollowingCites, IndexStyle.ToString(), IndexStart.ToString(), UniformCites, idCite, false, intro, descBatesFormat, parentheses);
 
-
-            EnumSwitch enumSwitch = new EnumSwitch();
-
-            MessageBox.Show("TODO");
-            FirstCite = "TBD";
-            FollowingCites = "TBD";
-            IndexStyle = NumberingOptions.Numbers;
-            IndexStart = 1;
-            UniformCites = false;
-            idCite = checkbIdCite.Checked;
-
-
-            repository.UpdateFormatting(FirstCite, FollowingCites, enumSwitch.NumberingOptions_EnumSwitchText(IndexStyle), IndexStart.ToString(), UniformCites, idCite, false);
-
-            helper.RefreshInsertedExhibits();
-
+            helper.UpdateInsertedCites();
 
             button3_Click(sender, e);
 
@@ -170,32 +273,38 @@ namespace LitKit1.Controls.ExhibitControls
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            intro = cbIntroMark.Text;
             UpdateExampleCiteText();
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            SwitchIndexStyleToEnum(); 
             UpdateExampleCiteText();
         }
 
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
-            UpdateExampleCiteText();
-        }
-
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
-        {
+            descBatesFormat = cbDescBatesFormat.Text;
             UpdateExampleCiteText();
         }
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
+            parentheses = checkbParentheses.Checked;
             UpdateExampleCiteText();
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            UniformCites = !cbUniformCitesStandard.Checked;
+            UpdateExampleCiteText();
+
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            // Don't update examples. Check state is pulled when Saved.
+            idCite = checkbIdCite.Checked;
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -291,7 +400,7 @@ namespace LitKit1.Controls.ExhibitControls
 
             UpdateExampleCiteText();
 
-            helper.RefreshInsertedExhibits();
+            helper.UpdateInsertedCites();
 
             button3_Click(sender, e);
 
@@ -308,11 +417,6 @@ namespace LitKit1.Controls.ExhibitControls
 
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            UpdateExampleCiteText();
-
-        }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {

@@ -134,7 +134,7 @@ namespace LitKit1.Controls.ExhibitControls
 
             repository.UpdateFormatting(FirstCite, FollowingCites, IStyle, IStart, UniformCites, idCite, true);
 
-            helper.RefreshInsertedExhibits();
+            helper.UpdateInsertedCites();
 
 
             ReturnToExhibitList_click(sender, e);

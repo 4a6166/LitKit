@@ -33,6 +33,7 @@
             this.btnCiteToExhibit = new System.Windows.Forms.Button();
             this.btnCreateExhibitIndex = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.RefreshNumbering = new System.Windows.Forms.Button();
             this.ErrorLabel = new System.Windows.Forms.Label();
             this.btnRemoveExhibitLocks = new System.Windows.Forms.Button();
             this.toolTipAdd = new System.Windows.Forms.ToolTip(this.components);
@@ -45,25 +46,26 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.ExhibitFormatting = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button8 = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.listView2 = new System.Windows.Forms.ListView();
-            this.toolTipIndex = new System.Windows.Forms.ToolTip(this.components);
-            this.toolTipClearFromDoc = new System.Windows.Forms.ToolTip(this.components);
-            this.toolTipCiteExhibit = new System.Windows.Forms.ToolTip(this.components);
             this.NewExhibit = new System.Windows.Forms.Button();
             this.ClearReferencesToExhibit = new System.Windows.Forms.Button();
             this.EditExhibit = new System.Windows.Forms.Button();
             this.DeleteExhibit = new System.Windows.Forms.Button();
-            this.RefreshNumbering = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.button6 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button8 = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.NewCite = new System.Windows.Forms.Button();
             this.ClearReferencesToCite = new System.Windows.Forms.Button();
             this.EditCite = new System.Windows.Forms.Button();
             this.DeleteCite = new System.Windows.Forms.Button();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.toolTipIndex = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTipClearFromDoc = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTipCiteExhibit = new System.Windows.Forms.ToolTip(this.components);
+            this.btnAddPincite = new System.Windows.Forms.Button();
+            this.btnRemovePincite = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -81,7 +83,7 @@
             this.listView1.MinimumSize = new System.Drawing.Size(50, 150);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(297, 406);
+            this.listView1.Size = new System.Drawing.Size(297, 372);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
@@ -124,12 +126,25 @@
             this.panel1.Controls.Add(this.btnCiteToExhibit);
             this.panel1.Controls.Add(this.btnCreateExhibitIndex);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(3, 412);
+            this.panel1.Location = new System.Drawing.Point(3, 414);
             this.panel1.MinimumSize = new System.Drawing.Size(112, 49);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(297, 155);
             this.panel1.TabIndex = 11;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // RefreshNumbering
+            // 
+            this.RefreshNumbering.BackgroundImage = global::LitKit1.Properties.Resources.icons8_refresh_64;
+            this.RefreshNumbering.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.RefreshNumbering.Location = new System.Drawing.Point(5, 23);
+            this.RefreshNumbering.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
+            this.RefreshNumbering.Name = "RefreshNumbering";
+            this.RefreshNumbering.Size = new System.Drawing.Size(35, 35);
+            this.RefreshNumbering.TabIndex = 3;
+            this.RefreshNumbering.UseVisualStyleBackColor = true;
+            this.RefreshNumbering.Click += new System.EventHandler(this.RefreshNumbering_Click);
+            this.RefreshNumbering.MouseHover += new System.EventHandler(this.RefreshNumbering_MouseHover);
             // 
             // ErrorLabel
             // 
@@ -183,10 +198,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(3, 3);
+            this.tabControl1.Location = new System.Drawing.Point(3, 37);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(311, 632);
+            this.tabControl1.Size = new System.Drawing.Size(311, 598);
             this.tabControl1.TabIndex = 19;
             this.tabControl1.TabIndexChanged += new System.EventHandler(this.tabControl1_TabIndexChanged);
             // 
@@ -198,7 +213,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(303, 570);
+            this.tabPage1.Size = new System.Drawing.Size(303, 572);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Exhibits";
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
@@ -216,7 +231,7 @@
             this.panel2.Controls.Add(this.listView1);
             this.panel2.Location = new System.Drawing.Point(3, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(297, 406);
+            this.panel2.Size = new System.Drawing.Size(297, 372);
             this.panel2.TabIndex = 9;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
@@ -224,7 +239,7 @@
             // 
             this.ExhibitFormatting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ExhibitFormatting.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ExhibitFormatting.Location = new System.Drawing.Point(161, 377);
+            this.ExhibitFormatting.Location = new System.Drawing.Point(161, 343);
             this.ExhibitFormatting.Name = "ExhibitFormatting";
             this.ExhibitFormatting.Size = new System.Drawing.Size(101, 24);
             this.ExhibitFormatting.TabIndex = 8;
@@ -233,6 +248,66 @@
             this.ExhibitFormatting.UseVisualStyleBackColor = true;
             this.ExhibitFormatting.Click += new System.EventHandler(this.ExhibitFormatting_Click);
             this.ExhibitFormatting.MouseHover += new System.EventHandler(this.ExhibitFormatting_MouseHover);
+            // 
+            // NewExhibit
+            // 
+            this.NewExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.NewExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_plus_math_60;
+            this.NewExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.NewExhibit.Location = new System.Drawing.Point(268, 253);
+            this.NewExhibit.Name = "NewExhibit";
+            this.NewExhibit.Size = new System.Drawing.Size(24, 24);
+            this.NewExhibit.TabIndex = 4;
+            this.NewExhibit.Text = " ";
+            this.NewExhibit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.NewExhibit.UseVisualStyleBackColor = true;
+            this.NewExhibit.Click += new System.EventHandler(this.NewExhibit_Click);
+            this.NewExhibit.MouseHover += new System.EventHandler(this.NewExhibit_MouseHover);
+            // 
+            // ClearReferencesToExhibit
+            // 
+            this.ClearReferencesToExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ClearReferencesToExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_erase_64;
+            this.ClearReferencesToExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClearReferencesToExhibit.Location = new System.Drawing.Point(268, 313);
+            this.ClearReferencesToExhibit.Name = "ClearReferencesToExhibit";
+            this.ClearReferencesToExhibit.Size = new System.Drawing.Size(24, 24);
+            this.ClearReferencesToExhibit.TabIndex = 6;
+            this.ClearReferencesToExhibit.Text = " ";
+            this.ClearReferencesToExhibit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.ClearReferencesToExhibit.UseVisualStyleBackColor = true;
+            this.ClearReferencesToExhibit.Click += new System.EventHandler(this.ClearReferencesToExhibit_Click);
+            this.ClearReferencesToExhibit.MouseHover += new System.EventHandler(this.ClearReferencesToExhibit_MouseHover);
+            // 
+            // EditExhibit
+            // 
+            this.EditExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_pencil_drawing_64;
+            this.EditExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.EditExhibit.Location = new System.Drawing.Point(268, 283);
+            this.EditExhibit.Name = "EditExhibit";
+            this.EditExhibit.Size = new System.Drawing.Size(24, 24);
+            this.EditExhibit.TabIndex = 5;
+            this.EditExhibit.Text = " ";
+            this.EditExhibit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.EditExhibit.UseVisualStyleBackColor = true;
+            this.EditExhibit.Click += new System.EventHandler(this.EditExhibit_Click);
+            this.EditExhibit.MouseHover += new System.EventHandler(this.EditExhibit_MouseHover);
+            // 
+            // DeleteExhibit
+            // 
+            this.DeleteExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.DeleteExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_delete_64;
+            this.DeleteExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.DeleteExhibit.Location = new System.Drawing.Point(268, 343);
+            this.DeleteExhibit.Name = "DeleteExhibit";
+            this.DeleteExhibit.Size = new System.Drawing.Size(24, 24);
+            this.DeleteExhibit.TabIndex = 7;
+            this.DeleteExhibit.Text = " ";
+            this.DeleteExhibit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.DeleteExhibit.UseVisualStyleBackColor = true;
+            this.DeleteExhibit.Click += new System.EventHandler(this.button2_Click_1);
+            this.DeleteExhibit.MouseHover += new System.EventHandler(this.DeleteExhibit_MouseHover);
             // 
             // tabPage2
             // 
@@ -257,6 +332,19 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(297, 155);
             this.panel4.TabIndex = 12;
+            // 
+            // button6
+            // 
+            this.button6.BackgroundImage = global::LitKit1.Properties.Resources.icons8_refresh_64;
+            this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button6.Location = new System.Drawing.Point(5, 23);
+            this.button6.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(35, 35);
+            this.button6.TabIndex = 3;
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.MouseHover += new System.EventHandler(this.button6_MouseHover);
             // 
             // label1
             // 
@@ -298,107 +386,6 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(297, 443);
             this.panel3.TabIndex = 0;
-            // 
-            // listView2
-            // 
-            this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView2.HideSelection = false;
-            this.listView2.Location = new System.Drawing.Point(0, 0);
-            this.listView2.MinimumSize = new System.Drawing.Size(50, 150);
-            this.listView2.MultiSelect = false;
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(297, 443);
-            this.listView2.TabIndex = 9;
-            this.listView2.UseCompatibleStateImageBehavior = false;
-            this.listView2.View = System.Windows.Forms.View.List;
-            this.listView2.SelectedIndexChanged += new System.EventHandler(this.listView2_SelectedIndexChanged);
-            this.listView2.DoubleClick += new System.EventHandler(this.listView2_DoubleClick);
-            // 
-            // NewExhibit
-            // 
-            this.NewExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.NewExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_plus_math_60;
-            this.NewExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.NewExhibit.Location = new System.Drawing.Point(268, 287);
-            this.NewExhibit.Name = "NewExhibit";
-            this.NewExhibit.Size = new System.Drawing.Size(24, 24);
-            this.NewExhibit.TabIndex = 4;
-            this.NewExhibit.Text = " ";
-            this.NewExhibit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.NewExhibit.UseVisualStyleBackColor = true;
-            this.NewExhibit.Click += new System.EventHandler(this.NewExhibit_Click);
-            this.NewExhibit.MouseHover += new System.EventHandler(this.NewExhibit_MouseHover);
-            // 
-            // ClearReferencesToExhibit
-            // 
-            this.ClearReferencesToExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ClearReferencesToExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_erase_64;
-            this.ClearReferencesToExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClearReferencesToExhibit.Location = new System.Drawing.Point(268, 347);
-            this.ClearReferencesToExhibit.Name = "ClearReferencesToExhibit";
-            this.ClearReferencesToExhibit.Size = new System.Drawing.Size(24, 24);
-            this.ClearReferencesToExhibit.TabIndex = 6;
-            this.ClearReferencesToExhibit.Text = " ";
-            this.ClearReferencesToExhibit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.ClearReferencesToExhibit.UseVisualStyleBackColor = true;
-            this.ClearReferencesToExhibit.Click += new System.EventHandler(this.ClearReferencesToExhibit_Click);
-            this.ClearReferencesToExhibit.MouseHover += new System.EventHandler(this.ClearReferencesToExhibit_MouseHover);
-            // 
-            // EditExhibit
-            // 
-            this.EditExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.EditExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_pencil_drawing_64;
-            this.EditExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.EditExhibit.Location = new System.Drawing.Point(268, 317);
-            this.EditExhibit.Name = "EditExhibit";
-            this.EditExhibit.Size = new System.Drawing.Size(24, 24);
-            this.EditExhibit.TabIndex = 5;
-            this.EditExhibit.Text = " ";
-            this.EditExhibit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.EditExhibit.UseVisualStyleBackColor = true;
-            this.EditExhibit.Click += new System.EventHandler(this.EditExhibit_Click);
-            this.EditExhibit.MouseHover += new System.EventHandler(this.EditExhibit_MouseHover);
-            // 
-            // DeleteExhibit
-            // 
-            this.DeleteExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.DeleteExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_delete_64;
-            this.DeleteExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.DeleteExhibit.Location = new System.Drawing.Point(268, 377);
-            this.DeleteExhibit.Name = "DeleteExhibit";
-            this.DeleteExhibit.Size = new System.Drawing.Size(24, 24);
-            this.DeleteExhibit.TabIndex = 7;
-            this.DeleteExhibit.Text = " ";
-            this.DeleteExhibit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.DeleteExhibit.UseVisualStyleBackColor = true;
-            this.DeleteExhibit.Click += new System.EventHandler(this.button2_Click_1);
-            this.DeleteExhibit.MouseHover += new System.EventHandler(this.DeleteExhibit_MouseHover);
-            // 
-            // RefreshNumbering
-            // 
-            this.RefreshNumbering.BackgroundImage = global::LitKit1.Properties.Resources.icons8_refresh_64;
-            this.RefreshNumbering.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.RefreshNumbering.Location = new System.Drawing.Point(5, 23);
-            this.RefreshNumbering.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
-            this.RefreshNumbering.Name = "RefreshNumbering";
-            this.RefreshNumbering.Size = new System.Drawing.Size(35, 35);
-            this.RefreshNumbering.TabIndex = 3;
-            this.RefreshNumbering.UseVisualStyleBackColor = true;
-            this.RefreshNumbering.Click += new System.EventHandler(this.RefreshNumbering_Click);
-            this.RefreshNumbering.MouseHover += new System.EventHandler(this.RefreshNumbering_MouseHover);
-            // 
-            // button6
-            // 
-            this.button6.BackgroundImage = global::LitKit1.Properties.Resources.icons8_refresh_64;
-            this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button6.Location = new System.Drawing.Point(5, 23);
-            this.button6.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(35, 35);
-            this.button6.TabIndex = 3;
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            this.button6.MouseHover += new System.EventHandler(this.button6_MouseHover);
             // 
             // NewCite
             // 
@@ -460,11 +447,48 @@
             this.DeleteCite.Click += new System.EventHandler(this.button5_Click);
             this.DeleteCite.MouseHover += new System.EventHandler(this.DeleteCite_MouseHover);
             // 
+            // listView2
+            // 
+            this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView2.HideSelection = false;
+            this.listView2.Location = new System.Drawing.Point(0, 0);
+            this.listView2.MinimumSize = new System.Drawing.Size(50, 150);
+            this.listView2.MultiSelect = false;
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(297, 443);
+            this.listView2.TabIndex = 9;
+            this.listView2.UseCompatibleStateImageBehavior = false;
+            this.listView2.View = System.Windows.Forms.View.List;
+            this.listView2.SelectedIndexChanged += new System.EventHandler(this.listView2_SelectedIndexChanged);
+            this.listView2.DoubleClick += new System.EventHandler(this.listView2_DoubleClick);
+            // 
+            // btnAddPincite
+            // 
+            this.btnAddPincite.Location = new System.Drawing.Point(233, 8);
+            this.btnAddPincite.Name = "btnAddPincite";
+            this.btnAddPincite.Size = new System.Drawing.Size(75, 23);
+            this.btnAddPincite.TabIndex = 16;
+            this.btnAddPincite.Text = "Add Pincite To Selected";
+            this.btnAddPincite.UseVisualStyleBackColor = true;
+            this.btnAddPincite.Click += new System.EventHandler(this.button1_Click_2);
+            // 
+            // btnRemovePincite
+            // 
+            this.btnRemovePincite.Location = new System.Drawing.Point(112, 8);
+            this.btnRemovePincite.Name = "btnRemovePincite";
+            this.btnRemovePincite.Size = new System.Drawing.Size(93, 23);
+            this.btnRemovePincite.TabIndex = 20;
+            this.btnRemovePincite.Text = "Remove Pincite From Selected";
+            this.btnRemovePincite.UseVisualStyleBackColor = true;
+            this.btnRemovePincite.Click += new System.EventHandler(this.btnRemovePincite_Click);
+            // 
             // ctrlExhibitView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
+            this.Controls.Add(this.btnRemovePincite);
+            this.Controls.Add(this.btnAddPincite);
             this.Controls.Add(this.tabControl1);
             this.MinimumSize = new System.Drawing.Size(317, 200);
             this.Name = "ctrlExhibitView";
@@ -517,5 +541,7 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button btnAddPincite;
+        private System.Windows.Forms.Button btnRemovePincite;
     }
 }

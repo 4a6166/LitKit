@@ -34,14 +34,14 @@ namespace Tools.Exhibit
                 new XElement("FollowingCites", "Exhibit {INDEX}, {PINCITE}{DESC} ({BATES})"),
                 new XElement("IndexStyle", "Numbers"),
                 new XElement("IndexStart", "1"),
-                new XElement("UniformCites", "True"), //First and following cites are in the same format
                 new XElement("IdCite", "True"),
                 new XElement("FormatCustomized", "False"),
 
                 // used for standard formatting form
                 new XElement("Intro", "Exhibit"),
                 new XElement("DescBatesFormat", "Description (Bates)"),
-                new XElement("Parentheses", "True")
+                new XElement("UniformCites", "True"), //First and following cites are in the same format
+                new XElement("Parentheses", "False")
                 ));
 
             string docString = /*@"<?xml version="+quotes+"1.0" + quotes + " encoding=" + quotes + "UTF - 8" + quotes + " standalone =" + quotes + "yes" + quotes + " ?>" +*/
@@ -69,6 +69,24 @@ namespace Tools.Exhibit
             FormattingNode.SelectSingleNode("//UniformCites").Text = UniformCites.ToString();
             FormattingNode.SelectSingleNode("//IdCite").Text = IdCite.ToString();
             FormattingNode.SelectSingleNode("//FormatCustomized").Text = FormatCustomized.ToString();
+        }
+
+        public void UpdateStandardFormatting(string FirstCite, string FollowingCites, string IndexStyle, string IndexStart, bool UniformCites, bool IdCite, bool FormatCustomized, string intro, string descBatesFormat, bool parentheses)
+        {
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode("//Format");
+            FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite;
+            FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites;
+            FormattingNode.SelectSingleNode("//IndexStyle").Text = IndexStyle;
+            FormattingNode.SelectSingleNode("//IndexStart").Text = IndexStart;
+            FormattingNode.SelectSingleNode("//UniformCites").Text = UniformCites.ToString();
+            FormattingNode.SelectSingleNode("//IdCite").Text = IdCite.ToString();
+            FormattingNode.SelectSingleNode("//FormatCustomized").Text = FormatCustomized.ToString();
+
+            FormattingNode.SelectSingleNode("//Intro").Text = intro;
+            FormattingNode.SelectSingleNode("//DescBatesFormat").Text = descBatesFormat;
+            FormattingNode.SelectSingleNode("//Parentheses").Text = parentheses.ToString();
+
         }
 
         public string GetFormatting(FormatNodes node)  //TODO: check why this loops so many times when Updating Formatting on Exhibit Format

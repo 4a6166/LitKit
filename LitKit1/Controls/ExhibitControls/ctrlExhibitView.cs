@@ -232,7 +232,7 @@ namespace LitKit1.Controls
                 ErrorLabel.Visible = false;
                 Exhibit exhibit = (Exhibit)listView1.SelectedItems[0].Tag;
                 ContentControl cc = CiteToExhibit(exhibit);
-                helper.RefreshInsertedExhibits();
+                helper.UpdateInsertedCites();
 
                 _app.Selection.SetRange(cc.Range.End+1, cc.Range.End+1);
 
@@ -376,7 +376,7 @@ namespace LitKit1.Controls
             _app.UndoRecord.StartCustomRecord("Refesh Exhibits");
             var curSelEnd = _app.Selection.End;
 
-            helper.RefreshInsertedExhibits();
+            helper.UpdateInsertedCites();
             //TODO: Refresh inserted LRCites as well
 
             _app.Selection.Start = curSelEnd + 1;
@@ -426,7 +426,7 @@ namespace LitKit1.Controls
                         }
                     }
 
-                    helper.RefreshInsertedExhibits();
+                    helper.UpdateInsertedCites();
                     LoadExhibitListView();
                 }
                 _app.ActiveDocument.UndoClear(); // prevents user from re-inserting a cc that no longer is able to reference an exhibit
@@ -493,7 +493,7 @@ namespace LitKit1.Controls
             if (_app.Selection.Range.Characters.Count > 2)
             {
                 _app.UndoRecord.StartCustomRecord("Remove Exhibits");
-                helper.RemoveExhibitsFromDoc(_app.Selection);
+                helper.RemoveSelectedCitesFromDoc(_app.Selection);
                 _app.UndoRecord.EndCustomRecord();
             }
             else
@@ -502,7 +502,7 @@ namespace LitKit1.Controls
                 if (result == DialogResult.Yes)
                 {
                     _app.UndoRecord.StartCustomRecord("Remove Exhibits");
-                    helper.RemoveExhibitsFromDoc();
+                    helper.RemoveAllCitesFromDoc();
                     _app.UndoRecord.EndCustomRecord();
                 }
         }
@@ -528,7 +528,7 @@ namespace LitKit1.Controls
                         }
                     }
 
-                    helper.RefreshInsertedExhibits();
+                    helper.UpdateInsertedCites();
 
                     _app.UndoRecord.EndCustomRecord();
                 }
@@ -745,7 +745,7 @@ namespace LitKit1.Controls
                 label1.Visible = false;
                 LegalRecordCite cite = (LegalRecordCite)listView2.SelectedItems[0].Tag;
                 ContentControl cc = InsertLRCite(cite);
-                helper.RefreshInsertedExhibits();
+                helper.UpdateInsertedCites();
 
                 _app.Selection.SetRange(cc.Range.End + 1, cc.Range.End + 1);
 
@@ -799,6 +799,39 @@ namespace LitKit1.Controls
         private void button6_MouseHover(object sender, EventArgs e)
         {
             toolTipRefresh.Show("Refreshes the formatting, numbering, and content of all the exhibits within the document text.", button6);
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            //mirror of pincite button on ribbon
+
+            try
+            {
+                _app.UndoRecord.StartCustomRecord("Add Pincite");
+
+                new Pincite(_app).AddPincite(_app.Selection);
+                Globals.ThisAddIn.ReturnFocus();
+
+                _app.UndoRecord.EndCustomRecord();
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #204"); }
+
+
+        }
+
+        private void btnRemovePincite_Click(object sender, EventArgs e)
+        {
+            //mirror of remove pincite button on ribbon
+            try
+            {
+                _app.UndoRecord.StartCustomRecord("Remove Pincite");
+
+                new Pincite(_app).RemovePinCite(_app.Selection);
+
+                _app.UndoRecord.EndCustomRecord();
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #205"); }
+
         }
     }
     

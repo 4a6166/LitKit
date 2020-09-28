@@ -63,7 +63,7 @@
     <Compile Include="ExhibitHelper.cs" />
     <Compile Include="ExhibitIndex.cs" />
     <Compile Include="ExhibitRepository.cs" />
-    <Compile Include="ExhibitsReference.cs" />
+    <Compile Include="CitationReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
