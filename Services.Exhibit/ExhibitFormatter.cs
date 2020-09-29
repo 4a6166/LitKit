@@ -129,8 +129,9 @@ namespace Tools.Exhibit
 
             return result;
         }
-        public static string FormatIdCite(Range range)
+        public static string FormatIdCite(Range range, string Pincite = "")
         {
+            string result = string.Empty;
             try
             {
                 var _app = range.Application;
@@ -138,18 +139,22 @@ namespace Tools.Exhibit
 
                 if (_app.Selection.Range.Text.Contains(",") || _app.Selection.Range.Text.Contains("See") || _app.Selection.Range.Text.Contains("see") || _app.Selection.Range.Text.Contains("e.g.") || _app.Selection.Range.Text.Contains("cf.") || _app.Selection.Range.Text.Contains("Cf.") || _app.Selection.Range.Text.Contains("CF."))
                 {
-                    return "id.";
+                    result = "id.";
                 }
                 else if (_app.Selection.Range.Text.Contains(".") || _app.Selection.Range.Text.Contains("\r\n") || _app.Selection.Range.Text.Contains("\r") || _app.Selection.Range.Text.Contains("\n"))
                 {
-                    return "Id.";
+                    result = "Id.";
                 }
                 else
                 {
-                    return "id.";
+                    result = "id.";
                 }
             }
-            catch { return "id."; }
+            catch { result = "id."; }
+
+            result += Pincite;
+
+            return result;
         }
     }
 }

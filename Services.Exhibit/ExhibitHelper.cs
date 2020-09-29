@@ -230,20 +230,7 @@ namespace Tools.Exhibit
 
                 string citeID = string.Empty;
                 CiteType citeType = CiteType.None;
-                switch (cite.Tag.Split(':')[0])
-                {
-                    case "Exhibit":
-                        citeID = cite.Tag.Substring(8);
-                        citeType = CiteType.Exhibit;
-                        break;
-                    case "Cite":
-                        citeID = cite.Tag.Substring(5);
-                        citeType = CiteType.LegalOrRecordCitation;
-                        break;
-                    default:
-                        throw new Exception("Unhandled cite type in Content Control tag.");
-                }
-
+                GetCCIDAndCiteType(cite, out citeID, out citeType);
 
                 Exhibit exhibit;
                 string FirstCite = repository.GetFormatting(FormatNodes.FirstCite);
@@ -265,7 +252,7 @@ namespace Tools.Exhibit
                         cite.Range.Text = repository.GetLRCite(citeID).LongCite;
                         cite.Range.Italic = 0;
                         break;
-                    case 0 when citeType == CiteType.LegalOrRecordCitation && index >0:
+                    case 0 when citeType == CiteType.LegalOrRecordCitation && index > 0:
                         cite.Range.Text = repository.GetLRCite(citeID).ShortCite;
                         cite.Range.Italic = 0;
                         break;
@@ -298,6 +285,23 @@ namespace Tools.Exhibit
                 cite.LockContents = true;
             }
 
+        }
+
+        public void GetCCIDAndCiteType(ContentControl cite, out string citeID, out CiteType citeType)
+        {
+            switch (cite.Tag.Split(':')[0])
+            {
+                case "Exhibit":
+                    citeID = cite.Tag.Substring(8);
+                    citeType = CiteType.Exhibit;
+                    break;
+                case "Cite":
+                    citeID = cite.Tag.Substring(5);
+                    citeType = CiteType.LegalOrRecordCitation;
+                    break;
+                default:
+                    throw new Exception("Unhandled cite type in Content Control tag.");
+            }
         }
 
         private static string GetPinciteText(ContentControl cite)

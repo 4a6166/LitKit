@@ -632,16 +632,15 @@ namespace LitKit1.Controls
                     _app.UndoRecord.StartCustomRecord("Remove Citation References");
 
                     string id = listView2.SelectedItems[0].SubItems[2].Text;
-                    MessageBox.Show("TODO");
-                    //foreach (Word.ContentControl cc in _app.ActiveDocument.ContentControls)
-                    //{
-                    //    if (cc.Tag == "Exhibit:" + id)
-                    //    {
-                    //        cc.Delete(true);
-                    //    }
-                    //}
+                    foreach (Word.ContentControl cc in _app.ActiveDocument.ContentControls)
+                    {
+                        if (cc.Tag == "Cite:" + id)
+                        {
+                            cc.Delete(true);
+                        }
+                    }
 
-                    //helper.RefreshInsertedExhibits();
+                    helper.UpdateInsertedCites();
 
                     _app.UndoRecord.EndCustomRecord();
                 }
@@ -710,17 +709,16 @@ namespace LitKit1.Controls
                     string id = listView2.SelectedItems[0].SubItems[2].Text;
                     repository.DeleteLRCite(id);
 
-                    MessageBox.Show("TODO");
-                    //foreach (Word.ContentControl cc in _app.ActiveDocument.ContentControls)
-                    //{
-                    //    if (cc.Tag == "Exhibit:" + id)
-                    //    {
-                    //        cc.Delete(true);
-                    //    }
-                    //}
+                    foreach (Word.ContentControl cc in _app.ActiveDocument.ContentControls)
+                    {
+                        if (cc.Tag == "Exhibit:" + id)
+                        {
+                            cc.Delete(true);
+                        }
+                    }
 
-                    //helper.RefreshInsertedExhibits();
-                    //LoadExhibitListView();
+                    helper.UpdateInsertedCites();
+                    LoadExhibitListView();
                 }
                 _app.ActiveDocument.UndoClear(); // prevents user from re-inserting a cc that no longer is able to reference an exhibit
             }

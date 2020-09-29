@@ -83,7 +83,7 @@
             this.listView1.MinimumSize = new System.Drawing.Size(50, 150);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(297, 372);
+            this.listView1.Size = new System.Drawing.Size(297, 472);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
@@ -126,7 +126,7 @@
             this.panel1.Controls.Add(this.btnCiteToExhibit);
             this.panel1.Controls.Add(this.btnCreateExhibitIndex);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(3, 414);
+            this.panel1.Location = new System.Drawing.Point(3, 514);
             this.panel1.MinimumSize = new System.Drawing.Size(112, 49);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(297, 155);
@@ -201,7 +201,7 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 37);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(311, 598);
+            this.tabControl1.Size = new System.Drawing.Size(311, 698);
             this.tabControl1.TabIndex = 19;
             this.tabControl1.TabIndexChanged += new System.EventHandler(this.tabControl1_TabIndexChanged);
             // 
@@ -213,7 +213,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(303, 572);
+            this.tabPage1.Size = new System.Drawing.Size(303, 672);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Exhibits";
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
@@ -231,7 +231,7 @@
             this.panel2.Controls.Add(this.listView1);
             this.panel2.Location = new System.Drawing.Point(3, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(297, 372);
+            this.panel2.Size = new System.Drawing.Size(297, 472);
             this.panel2.TabIndex = 9;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
@@ -239,7 +239,7 @@
             // 
             this.ExhibitFormatting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ExhibitFormatting.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ExhibitFormatting.Location = new System.Drawing.Point(161, 343);
+            this.ExhibitFormatting.Location = new System.Drawing.Point(161, 443);
             this.ExhibitFormatting.Name = "ExhibitFormatting";
             this.ExhibitFormatting.Size = new System.Drawing.Size(101, 24);
             this.ExhibitFormatting.TabIndex = 8;
@@ -254,7 +254,7 @@
             this.NewExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.NewExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_plus_math_60;
             this.NewExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.NewExhibit.Location = new System.Drawing.Point(268, 253);
+            this.NewExhibit.Location = new System.Drawing.Point(268, 353);
             this.NewExhibit.Name = "NewExhibit";
             this.NewExhibit.Size = new System.Drawing.Size(24, 24);
             this.NewExhibit.TabIndex = 4;
@@ -269,7 +269,7 @@
             this.ClearReferencesToExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ClearReferencesToExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_erase_64;
             this.ClearReferencesToExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClearReferencesToExhibit.Location = new System.Drawing.Point(268, 313);
+            this.ClearReferencesToExhibit.Location = new System.Drawing.Point(268, 413);
             this.ClearReferencesToExhibit.Name = "ClearReferencesToExhibit";
             this.ClearReferencesToExhibit.Size = new System.Drawing.Size(24, 24);
             this.ClearReferencesToExhibit.TabIndex = 6;
@@ -284,7 +284,7 @@
             this.EditExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.EditExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_pencil_drawing_64;
             this.EditExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.EditExhibit.Location = new System.Drawing.Point(268, 283);
+            this.EditExhibit.Location = new System.Drawing.Point(268, 383);
             this.EditExhibit.Name = "EditExhibit";
             this.EditExhibit.Size = new System.Drawing.Size(24, 24);
             this.EditExhibit.TabIndex = 5;
@@ -299,7 +299,7 @@
             this.DeleteExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.DeleteExhibit.BackgroundImage = global::LitKit1.Properties.Resources.icons8_delete_64;
             this.DeleteExhibit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.DeleteExhibit.Location = new System.Drawing.Point(268, 343);
+            this.DeleteExhibit.Location = new System.Drawing.Point(268, 443);
             this.DeleteExhibit.Name = "DeleteExhibit";
             this.DeleteExhibit.Size = new System.Drawing.Size(24, 24);
             this.DeleteExhibit.TabIndex = 7;
@@ -317,7 +317,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(303, 606);
+            this.tabPage2.Size = new System.Drawing.Size(303, 672);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Legal and Record Citations";
             // 
@@ -327,10 +327,10 @@
             this.panel4.Controls.Add(this.label1);
             this.panel4.Controls.Add(this.button8);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(3, 448);
+            this.panel4.Location = new System.Drawing.Point(3, 549);
             this.panel4.MinimumSize = new System.Drawing.Size(112, 49);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(297, 155);
+            this.panel4.Size = new System.Drawing.Size(297, 120);
             this.panel4.TabIndex = 12;
             // 
             // button6
@@ -384,7 +384,7 @@
             this.panel3.Controls.Add(this.listView2);
             this.panel3.Location = new System.Drawing.Point(3, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(297, 443);
+            this.panel3.Size = new System.Drawing.Size(297, 543);
             this.panel3.TabIndex = 0;
             // 
             // NewCite
@@ -392,7 +392,7 @@
             this.NewCite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.NewCite.BackgroundImage = global::LitKit1.Properties.Resources.icons8_plus_math_60;
             this.NewCite.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.NewCite.Location = new System.Drawing.Point(268, 324);
+            this.NewCite.Location = new System.Drawing.Point(268, 424);
             this.NewCite.Name = "NewCite";
             this.NewCite.Size = new System.Drawing.Size(24, 24);
             this.NewCite.TabIndex = 10;
@@ -407,7 +407,7 @@
             this.ClearReferencesToCite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ClearReferencesToCite.BackgroundImage = global::LitKit1.Properties.Resources.icons8_erase_64;
             this.ClearReferencesToCite.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClearReferencesToCite.Location = new System.Drawing.Point(268, 384);
+            this.ClearReferencesToCite.Location = new System.Drawing.Point(268, 484);
             this.ClearReferencesToCite.Name = "ClearReferencesToCite";
             this.ClearReferencesToCite.Size = new System.Drawing.Size(24, 24);
             this.ClearReferencesToCite.TabIndex = 12;
@@ -422,7 +422,7 @@
             this.EditCite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.EditCite.BackgroundImage = global::LitKit1.Properties.Resources.icons8_pencil_drawing_64;
             this.EditCite.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.EditCite.Location = new System.Drawing.Point(268, 354);
+            this.EditCite.Location = new System.Drawing.Point(268, 454);
             this.EditCite.Name = "EditCite";
             this.EditCite.Size = new System.Drawing.Size(24, 24);
             this.EditCite.TabIndex = 11;
@@ -437,7 +437,7 @@
             this.DeleteCite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.DeleteCite.BackgroundImage = global::LitKit1.Properties.Resources.icons8_delete_64;
             this.DeleteCite.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.DeleteCite.Location = new System.Drawing.Point(268, 414);
+            this.DeleteCite.Location = new System.Drawing.Point(268, 514);
             this.DeleteCite.Name = "DeleteCite";
             this.DeleteCite.Size = new System.Drawing.Size(24, 24);
             this.DeleteCite.TabIndex = 13;
@@ -455,7 +455,7 @@
             this.listView2.MinimumSize = new System.Drawing.Size(50, 150);
             this.listView2.MultiSelect = false;
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(297, 443);
+            this.listView2.Size = new System.Drawing.Size(297, 543);
             this.listView2.TabIndex = 9;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.List;
@@ -492,7 +492,7 @@
             this.Controls.Add(this.tabControl1);
             this.MinimumSize = new System.Drawing.Size(317, 200);
             this.Name = "ctrlExhibitView";
-            this.Size = new System.Drawing.Size(317, 638);
+            this.Size = new System.Drawing.Size(317, 738);
             this.Load += new System.EventHandler(this.ExhibitCtrl_Load);
             this.panel1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
