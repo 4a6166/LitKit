@@ -156,5 +156,10 @@ namespace Tools.Exhibit
 
             return result;
         }
+
+        public static string FormatLRCite(string CiteText, string Pincite = "")
+        {
+            return CiteText.Replace("{PINCITE}", Pincite);
+        }
     }
 }

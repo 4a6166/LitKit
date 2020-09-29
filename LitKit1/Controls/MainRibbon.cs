@@ -172,13 +172,18 @@ namespace LitKit1
 
             _app.UndoRecord.StartCustomRecord("Test Button Stuff");
 
-            ResponseRepository repository = new ResponseRepository(_app);
+            //_app.Selection.Find.Execute("{PINCITE}");
 
-            //repository.AddCustomResponse("Test Add", false, true, false, false, "Test display text");
-            repository.GetDocProps(_app, DocPropsNode.Propounding);
+            //Range range = _app.Selection.Range;
+            //if (range.Text.Contains("{PINCITE}"))
+            //{
+            //    range.ContentControls.Add(WdContentControlType.wdContentControlRichText, range);
+            //}
 
-            ResponseStandardRepository repoStandard = new ResponseStandardRepository();
-            //_app.Selection.TypeText(repoStandard.GetAllTexts());
+            //lgdfsadljfghkjsh{PINCITE}sdfdsaf
+
+            new Pincite(_app).InsertPinciteCC(_app.Selection.ContentControls[1]);
+
 
             _app.UndoRecord.EndCustomRecord();
         }

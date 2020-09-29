@@ -175,7 +175,7 @@ namespace LitKit1.Controls
                 cc.Tag = "Exhibit:" + exhibit.ID;
                 cc.Title = "Exhibit: " + exhibit.Description;
 
-                int index = helper.GetPosition(cc.Tag);
+                int index = helper.GetPosition(cc);
 
                 string CiteFormat = FirstCite; // TODO: update so it pulls FollowingCites if the exhibit has been inserted already
 
@@ -200,7 +200,7 @@ namespace LitKit1.Controls
                 cc.Tag = "Cite:" + cite.ID;
                 cc.Title = "Cite: " + cite.LongCite;
 
-                int index = helper.GetPosition(cc.Tag);
+                int index = helper.GetPosition(cc);
 
                 // TODO: update so it pulls ShortCite (if selected) if the exhibit has been inserted already
                 bool initialCite = true;
@@ -377,7 +377,6 @@ namespace LitKit1.Controls
             var curSelEnd = _app.Selection.End;
 
             helper.UpdateInsertedCites();
-            //TODO: Refresh inserted LRCites as well
 
             _app.Selection.Start = curSelEnd + 1;
             Globals.ThisAddIn.ReturnFocus();

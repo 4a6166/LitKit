@@ -21,13 +21,15 @@ namespace Tools.Exhibit
 
 
 
-        public int GetPosition(string tag)
+        public int GetPosition(ContentControl cite)
         {
-            List<CitationReference> references = OrderAllCitations();
+            List<CitationReference> references = OrderAllCitationRefs();
             int index = 0;
 
-            string ID = tag.Substring(8);
-            CitationReference refer = references.Where(n => n.ID == ID).FirstOrDefault();
+            string citeID = string.Empty;
+            CiteType citeType = CiteType.None;
+            GetCCIDAndCiteType(cite, out citeID, out citeType);
+            CitationReference refer = references.Where(n => n.ID == citeID).FirstOrDefault();
 
             index = references.IndexOf(refer);
 
@@ -82,7 +84,7 @@ namespace Tools.Exhibit
                 .ToList();
         }
 
-        private List<CitationReference> OrderAllCitations()
+        private List<CitationReference> OrderAllCitationRefs()
         {
             List<CitationReference> references = new List<CitationReference>();
 
@@ -91,7 +93,7 @@ namespace Tools.Exhibit
                 string refID = string.Empty;
                 CiteType citeType = CiteType.None;
 
-                if (cc.Tag == null)
+                if (cc.Tag == null || cc.Tag.StartsWith("PINCITE"))
                 {
 
                 }
@@ -122,7 +124,7 @@ namespace Tools.Exhibit
                     string refID = string.Empty;
                     CiteType citeType = CiteType.None;
 
-                    if (cc.Tag == null)
+                    if (cc.Tag == null || cc.Tag.StartsWith("PINCITE"))
                     {
 
                     }
@@ -156,7 +158,7 @@ namespace Tools.Exhibit
                     string refID = string.Empty;
                     CiteType citeType = CiteType.None;
 
-                    if (cc.Tag == null)
+                    if (cc.Tag == null || cc.Tag.StartsWith("PINCITE"))
                     {
 
                     }
@@ -187,9 +189,9 @@ namespace Tools.Exhibit
 
         }
 
-        public List<CitationReference> OrderOnlyExhibits()
+        public List<CitationReference> OrderOnlyExhibitsRefs()
         {
-            return OrderAllCitations()
+            return OrderAllCitationRefs()
                 .Where(n => n.citeType == CiteType.Exhibit)
                 .ToList();
         }
@@ -197,23 +199,7 @@ namespace Tools.Exhibit
         public void UpdateInsertedCites()
         {
             Cursor.Current = Cursors.WaitCursor;
-
-            List<ContentControl> AllCites = GetAllCitesFromDoc();
-            List<CitationReference> AllCiteRefs = OrderAllCitations();
-
-            List<string> AllCiteIDsInOrder = new List<string>();
-            foreach (CitationReference citeRef in AllCiteRefs)
-            {
-                AllCiteIDsInOrder.Add(citeRef.CcId);
-            }
-            AllCites = AllCites.OrderBy(cc => AllCiteIDsInOrder.IndexOf(cc.ID)).ToList();
-
-            List<CitationReference> ExhibitRefs = OrderOnlyExhibits();
-            List<string> ExhibitIDsInOrder = new List<string>();
-            foreach (CitationReference citeRef in ExhibitRefs)
-            {
-                ExhibitIDsInOrder.Add(citeRef.CcId);
-            }
+            List<ContentControl> AllCites = GetAndOrderAllCiteContentControls();
 
             List<string> IDsForFormatChoice = new List<string>() { "Fill Item" };
 
@@ -224,67 +210,89 @@ namespace Tools.Exhibit
                 cite.LockContents = false;
 
                 _app.Selection.SetRange(cite.Range.Start, cite.Range.End); //needed to bring the selection in/out of the footnotes/endnotes, which have their own range start
-
-
-                string PinCiteText = GetPinciteText(cite);
+                Selection selection = _app.Selection;
 
                 string citeID = string.Empty;
                 CiteType citeType = CiteType.None;
                 GetCCIDAndCiteType(cite, out citeID, out citeType);
 
                 Exhibit exhibit;
-                string FirstCite = repository.GetFormatting(FormatNodes.FirstCite);
-                string FollowingCites = repository.GetFormatting(FormatNodes.FollowingCites);
-                NumberingOptions IndexStyle = new EnumSwitch().NumberingOptions_TextSwitchEnum(repository.GetFormatting(FormatNodes.IndexStyle));
-                int IndexStart = Int32.Parse(repository.GetFormatting(FormatNodes.IndexStart));
+                string FirstCite = repository.FirstCite;
+                string FollowingCites = repository.FollowingCites;
+                NumberingOptions IndexStyle = repository.IndexStyle;
+                int IndexStart = repository.IndexStart;
 
-                bool idCite = bool.Parse(repository.GetFormatting(FormatNodes.IdCite));
                 int index = IDsForFormatChoice.FindIndex(n => n == citeID); // returns -1 if index not found
-                int switchInt = 0;
-                switch (switchInt)
+
+                if (cite.Title.Contains("|PIN"))
                 {
-                    case 0 when idCite && citeID == IDsForFormatChoice.Last():
-                        cite.Range.Text = ExhibitFormatter.FormatIdCite(cite.Range);
-                        cite.Range.Italic = -1;
-                        break;
-
-                    case 0 when citeType == CiteType.LegalOrRecordCitation && index == -1: //when citeID is not found in IDsForFormatChoice (initial cite)
-                        cite.Range.Text = repository.GetLRCite(citeID).LongCite;
-                        cite.Range.Italic = 0;
-                        break;
-                    case 0 when citeType == CiteType.LegalOrRecordCitation && index > 0:
-                        cite.Range.Text = repository.GetLRCite(citeID).ShortCite;
-                        cite.Range.Italic = 0;
-                        break;
-
-                    case 0 when citeType == CiteType.Exhibit && index == -1:
-                        index = IDsForFormatChoice.Count();
-                        exhibit = repository.GetExhibit(citeID);
-                        cite.Range.Text = ExhibitFormatter.FormatCite(exhibit, FirstCite, IndexStyle, IndexStart, index, PinCiteText);
-                        cite.Range.Italic = 0;
-                        break;
-                    case 0 when citeType == CiteType.Exhibit && index > 0:
-                        exhibit = repository.GetExhibit(citeID);
-                        cite.Range.Text = ExhibitFormatter.FormatCite(exhibit, FollowingCites, IndexStyle, IndexStart, index, PinCiteText);
-                        cite.Range.Italic = 0;
-                        break;
-                    default:
-                        throw new Exception("Error when determining Cite type or index associated with Content Control");
+                    new Pincite(_app).AddPincite(selection);
                 }
+                else
+                {
+                    bool idCite = bool.Parse(repository.GetFormatting(FormatNodes.IdCite));
 
-                //if (cite.Title.Contains("|PIN"))
-                //{
-                //    cite.Range.Select();
-                //    Word.Selection sel = _app.Selection;
-                //    sel.SetRange(cc.Range.Start, cc.Range.End);
-                //    ReAddPincite(sel, PinCiteText);
-                //}
+                    int switchInt = 0;
+                    switch (switchInt)
+                    {
+                        case 0 when idCite && citeID == IDsForFormatChoice.Last():
+                            cite.Range.Text = ExhibitFormatter.FormatIdCite(cite.Range);
+                            cite.Range.Italic = -1;
+                            break;
+
+                        case 0 when citeType == CiteType.LegalOrRecordCitation && index == -1: //when citeID is not found in IDsForFormatChoice (initial cite)
+                            cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).LongCite);
+                            cite.Range.Italic = 0;
+                            break;
+                        case 0 when citeType == CiteType.LegalOrRecordCitation && index > 0:
+                            cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).ShortCite);
+                            cite.Range.Italic = 0;
+                            break;
+
+                        case 0 when citeType == CiteType.Exhibit && index == -1:
+                            index = IDsForFormatChoice.Count();
+                            exhibit = repository.GetExhibit(citeID);
+                            cite.Range.Text = ExhibitFormatter.FormatCite(exhibit, FirstCite, IndexStyle, IndexStart, index);
+                            cite.Range.Italic = 0;
+                            break;
+                        case 0 when citeType == CiteType.Exhibit && index > 0:
+                            exhibit = repository.GetExhibit(citeID);
+                            cite.Range.Text = ExhibitFormatter.FormatCite(exhibit, FollowingCites, IndexStyle, IndexStart, index);
+                            cite.Range.Italic = 0;
+                            break;
+                        default:
+                            throw new Exception("Error when determining Cite type or index associated with Content Control");
+                    }
+
+                }
 
                 IDsForFormatChoice.Add(citeID);
 
                 cite.LockContents = true;
             }
 
+        }
+
+        public List<ContentControl> GetAndOrderAllCiteContentControls()
+        {
+            List<ContentControl> AllCites = GetAllCitesFromDoc();
+            List<CitationReference> AllCiteRefs = OrderAllCitationRefs();
+
+            List<string> AllCiteIDsInOrder = new List<string>();
+            foreach (CitationReference citeRef in AllCiteRefs)
+            {
+                AllCiteIDsInOrder.Add(citeRef.CcId);
+            }
+            AllCites = AllCites.OrderBy(cc => AllCiteIDsInOrder.IndexOf(cc.ID)).ToList();
+
+            //List<CitationReference> ExhibitRefs = OrderOnlyExhibitsRefs();
+            //List<string> ExhibitIDsInOrder = new List<string>();
+            //foreach (CitationReference citeRef in ExhibitRefs)
+            //{
+            //    ExhibitIDsInOrder.Add(citeRef.CcId);
+            //}
+
+            return AllCites;
         }
 
         public void GetCCIDAndCiteType(ContentControl cite, out string citeID, out CiteType citeType)
@@ -325,260 +333,6 @@ namespace Tools.Exhibit
 
             return result;
         }
-
-        //public void UpdateInsertedCites(string a)
-        //{
-        //    Cursor.Current = Cursors.WaitCursor;
-
-        //    List<ContentControl> ccs = GetAllCitesFromDoc();
-        //    List<CitationReference> ccRefs = OrderAllCitations();
-        //    List<string> CcIDsInOrder = new List<string>();
-        //    foreach (CitationReference eRef in ccRefs)
-        //    {
-        //        CcIDsInOrder.Add(eRef.CcId);
-        //    }
-
-        //    ccs = ccs.OrderBy(cc => CcIDsInOrder.IndexOf(cc.ID)).ToList();
-
-        //    string idCite = repository.GetFormatting(FormatNodes.IdCite);
-
-        //    List<string> insertedCiteTags = new List<string> { "FillItem" };
-        //    List<string> CiteTagsIndex = new List<string> { "FillItem" };
-
-        //    List<string> allBodyIDs = new List<string>();
-        //    foreach (ContentControl cc in _app.ActiveDocument.ContentControls)
-        //    {
-        //        if (cc.Tag != null && (cc.Tag.StartsWith("Exhibit:") || cc.Tag.StartsWith("Cite:")))
-        //        {
-        //            allBodyIDs.Add(cc.ID);
-        //        }
-        //    }
-        //    List<string> insertedBodyTags = new List<string> { "FillItem" };
-
-        //    List<string> allFootNoteIDs = new List<string>();
-        //    foreach (Word.Footnote fn in _app.ActiveDocument.Footnotes)
-        //    {
-        //        foreach (ContentControl cc in fn.Range.ContentControls)
-        //        {
-        //            if (cc.Tag != null && (cc.Tag.StartsWith("Exhibit:") || cc.Tag.StartsWith("Cite:")))
-        //            {
-        //                allFootNoteIDs.Add(cc.ID);
-        //            }
-        //        }
-        //    }
-        //    List<string> insertedFootNoteTags = new List<string> { "FillItem" };
-
-        //    List<string> allEndNoteIDs = new List<string>();
-        //    foreach (Word.Endnote en in _app.ActiveDocument.Endnotes)
-        //    {
-        //        foreach (ContentControl cc in en.Range.ContentControls)
-        //        {
-        //            if (cc.Tag != null && (cc.Tag.StartsWith("Exhibit:") || cc.Tag.StartsWith("Cite:")))
-        //            {
-        //                allEndNoteIDs.Add(cc.ID);
-        //            }
-        //        }
-        //    }
-        //    List<string> insertedEndNoteTags = new List<string> { "FillItem" };
-
-        //    string text = string.Empty;
-        //    string ID = string.Empty;
-
-        //    foreach (ContentControl cc in ccs)
-        //    {
-        //            string PinCiteText = string.Empty;
-        //            if (cc.Title.Contains("|PIN"))
-        //            {
-        //                foreach (ContentControl ccChild in cc.Range.ContentControls)
-        //                {
-        //                    if (ccChild.Tag.Contains("PINCITE:"))
-        //                    {
-        //                        if (ccChild.Range.Text == "{type PinCite text}")
-        //                        {
-        //                            PinCiteText = string.Empty;
-        //                        }
-        //                        else PinCiteText = ccChild.Range.Text;
-        //                    }
-        //                }
-        //            }
-
-        //        #region exhibit is in footnotes
-        //        if (allFootNoteIDs.Contains(cc.ID))
-        //        {
-        //            // Start formatting Exhibit text, PINCITE is re-added after
-        //            if (idCite == "True" && cc.Tag == insertedFootNoteTags.Last())  //Id cites
-        //            {
-        //                int index = CiteTagsIndex.IndexOf(cc.Tag);
-        //                Word.Selection sel = _app.Selection;
-        //                sel.SetRange(cc.Range.Start, cc.Range.End); // needed to bring the selection in/out of the footnotes/endnotes, which have their own range start
-        //                text = FormatIdExhibit(sel.Range, index);
-        //                insertedCiteTags.Add(cc.Tag);
-        //                insertedFootNoteTags.Add(cc.Tag);
-        //            }
-        //            else if (CiteTagsIndex.Contains(cc.Tag)) //Following cites
-        //            {
-        //                int index = CiteTagsIndex.IndexOf(cc.Tag);
-        //                insertedFootNoteTags.Add(cc.Tag);
-
-        //                ID = cc.Tag.Substring(8);
-        //                Exhibit exhibit = repository.GetExhibit(ID);
-
-        //                text = FormatFollowingCite(exhibit, index);
-        //            }
-        //            else // first cites
-        //            {
-        //                int index = CiteTagsIndex.Count;
-        //                CiteTagsIndex.Add(cc.Tag);
-        //                insertedFootNoteTags.Add(cc.Tag);
-
-        //                ID = cc.Tag.Substring(8);
-        //                Exhibit exhibit = repository.GetExhibit(ID);
-
-        //                text = FormatFirstCite(exhibit, index);
-        //            }
-
-        //            cc.LockContents = false;
-        //            cc.Range.Text = text;
-
-        //            if (cc.Range.Text != null && (cc.Range.Text.Contains("Id.") || cc.Range.Text.Contains("id.")))
-        //            {
-        //                cc.Range.Italic = -1;
-        //            }
-        //            else cc.Range.Italic = 0;
-
-        //            cc.LockContents = true;
-
-        //            //Re-adds PINCITE following full formatting of text in Exhibit
-        //            if (cc.Title.Contains("|PIN"))
-        //            {
-        //                cc.Range.Select();
-        //                Word.Selection sel = _app.Selection;
-        //                sel.SetRange(cc.Range.Start, cc.Range.End);
-        //                ReAddPincite(sel, PinCiteText);
-        //            }
-        //        }
-
-        //        #endregion
-        //        #region exhibit is in endnotes
-        //        if (allEndNoteIDs.Contains(cc.ID))
-        //        {
-        //            // Start formatting Exhibit text, PINCITE is re-added after
-        //            if (idCite == "True" && cc.Tag == insertedEndNoteTags.Last())  //Id cites
-        //            {
-        //                int index = CiteTagsIndex.IndexOf(cc.Tag);
-        //                Word.Selection sel = _app.Selection;
-        //                sel.SetRange(cc.Range.Start, cc.Range.End); // needed to bring the selection in/out of the footnotes/endnotes, which have their own range start
-        //                text = FormatIdExhibit(sel.Range, index);
-        //                insertedCiteTags.Add(cc.Tag);
-        //                insertedEndNoteTags.Add(cc.Tag);
-        //            }
-        //            else if (CiteTagsIndex.Contains(cc.Tag)) //Following cites
-        //            {
-        //                int index = CiteTagsIndex.IndexOf(cc.Tag);
-        //                insertedEndNoteTags.Add(cc.Tag);
-
-        //                ID = cc.Tag.Substring(8);
-        //                Exhibit exhibit = repository.GetExhibit(ID);
-
-        //                text = FormatFollowingCite(exhibit, index);
-        //            }
-        //            else // first cites
-        //            {
-        //                int index = CiteTagsIndex.Count;
-        //                CiteTagsIndex.Add(cc.Tag);
-        //                insertedEndNoteTags.Add(cc.Tag);
-
-        //                ID = cc.Tag.Substring(8);
-        //                Exhibit exhibit = repository.GetExhibit(ID);
-
-        //                text = FormatFirstCite(exhibit, index);
-        //            }
-
-        //            cc.LockContents = false;
-        //            cc.Range.Text = text;
-
-        //            if (cc.Range.Text != null && (cc.Range.Text.Contains("Id.") || cc.Range.Text.Contains("id.")))
-        //            {
-        //                cc.Range.Italic = -1;
-        //            }
-        //            else cc.Range.Italic = 0;
-
-        //            cc.LockContents = true;
-
-        //            //Re-adds PINCITE following full formatting of text in Exhibit
-        //            if (cc.Title.Contains("|PIN"))
-        //            {
-        //                cc.Range.Select();
-        //                Word.Selection sel = _app.Selection;
-        //                sel.SetRange(cc.Range.Start, cc.Range.End);
-        //                ReAddPincite(sel, PinCiteText);
-        //            }
-        //        }
-
-        //        #endregion
-
-        //        #region exhibit is in body text
-        //        if (allBodyIDs.Contains(cc.ID))
-        //        {
-        //            // Start formatting Exhibit text, PINCITE is re-added after
-        //            if (idCite == "True" && cc.Tag == insertedBodyTags.Last())  //Id cites
-        //            {
-        //                int index = CiteTagsIndex.IndexOf(cc.Tag);
-        //                Word.Selection sel = _app.Selection;
-        //                sel.SetRange(cc.Range.Start, cc.Range.End); // needed to bring the selection in/out of the footnotes/endnotes, which have their own range start
-        //                text = FormatIdExhibit(sel.Range, index);
-        //                insertedCiteTags.Add(cc.Tag);
-        //                insertedBodyTags.Add(cc.Tag);
-        //            }
-        //            else if (CiteTagsIndex.Contains(cc.Tag)) //Following cites
-        //            {
-        //                int index = CiteTagsIndex.IndexOf(cc.Tag);
-        //                insertedBodyTags.Add(cc.Tag);
-
-        //                ID = cc.Tag.Substring(8);
-        //                Exhibit exhibit = repository.GetExhibit(ID);
-
-        //                text = FormatFollowingCite(exhibit, index);
-        //            }
-        //            else // first cites
-        //            {
-        //                int index = CiteTagsIndex.Count;
-        //                CiteTagsIndex.Add(cc.Tag);
-        //                insertedBodyTags.Add(cc.Tag);
-
-        //                ID = cc.Tag.Substring(8);
-        //                Exhibit exhibit = repository.GetExhibit(ID);
-
-        //                text = FormatFirstCite(exhibit, index);
-        //            }
-
-        //            cc.LockContents = false;
-        //            cc.Range.Text = text;
-
-        //            if (cc.Range.Text != null && (cc.Range.Text.Contains("Id.") || cc.Range.Text.Contains("id.")))
-        //            {
-        //                cc.Range.Italic = -1;
-        //            }
-        //            else cc.Range.Italic = 0;
-
-        //            cc.LockContents = true;
-
-        //            //Re-adds PINCITE following full formatting of text in Exhibit
-        //            if (cc.Title.Contains("|PIN"))
-        //            {
-        //                cc.Range.Select();
-        //                Word.Selection sel = _app.Selection;
-        //                sel.SetRange(cc.Range.Start, cc.Range.End);
-        //                ReAddPincite(sel, PinCiteText);
-        //            }
-        //        }
-        //        #endregion
-        //    }
-
-        //    Cursor.Current = Cursors.Default;
-        //}
-
-
 
         public void RemoveAllCitesFromDoc()
         {

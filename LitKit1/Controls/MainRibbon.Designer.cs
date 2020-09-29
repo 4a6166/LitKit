@@ -574,13 +574,11 @@
             // ExhibitChangeControl
             // 
             this.ExhibitChangeControl.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.ExhibitChangeControl.Enabled = false;
             this.ExhibitChangeControl.Image = global::LitKit1.Properties.Resources.Group;
             this.ExhibitChangeControl.Label = "TestClass Button";
             this.ExhibitChangeControl.Name = "ExhibitChangeControl";
             this.ExhibitChangeControl.OfficeImageId = "TipWizardHelp";
             this.ExhibitChangeControl.ShowImage = true;
-            this.ExhibitChangeControl.Visible = false;
             this.ExhibitChangeControl.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Test_Button_Click);
             // 
             // MainRibbon

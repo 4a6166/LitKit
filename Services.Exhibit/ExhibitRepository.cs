@@ -18,6 +18,8 @@ namespace Tools.Exhibit
                 FrameCustomXMLDoc();
             }
 
+            UpdateRepoVarsFromDB();
+
         }
         #region builds initial custom XML doc if it doens't exist
         void FrameCustomXMLDoc()
@@ -58,6 +60,36 @@ namespace Tools.Exhibit
         static XNamespace name = NameSpace;
         static XName rootName = name + "Exhibits";
 
+
+        #region Formatting
+        //TODO: make FirstCite, FollowingCite, etc properties of repo and pull repo instantiation out of formatting update forms
+        public string FirstCite { get; private set; }
+        public string FollowingCites { get; private set; }
+        public NumberingOptions IndexStyle { get; private set; }
+        public int IndexStart { get; private set; }
+        public bool idCite { get; private set; }
+        public bool FormatCustomized { get; private set; }
+
+        public string Intro { get; private set; }
+        public string DescBatesFormat { get; private set; }
+        public bool UniformCites { get; private set; }
+        public bool Parentheses { get; private set; }
+
+        public void UpdateRepoVarsFromDB()
+        {
+            FirstCite = GetFormatting(FormatNodes.FirstCite);
+            FollowingCites = GetFormatting(FormatNodes.FollowingCites);
+            IndexStyle = new EnumSwitch().NumberingOptions_TextSwitchEnum(GetFormatting(FormatNodes.IndexStyle));
+            IndexStart = Int32.Parse(GetFormatting(FormatNodes.IndexStart));
+            idCite = bool.Parse(GetFormatting(FormatNodes.IdCite));
+            FormatCustomized = bool.Parse(GetFormatting(FormatNodes.FormatCustomized));
+
+            Intro = GetFormatting(FormatNodes.Intro);
+            DescBatesFormat = GetFormatting(FormatNodes.DescBatesFormat);
+            UniformCites = bool.Parse(GetFormatting(FormatNodes.UniformCites));
+            Parentheses = bool.Parse(GetFormatting(FormatNodes.Parentheses));
+        }
+
         public void UpdateFormatting(string FirstCite, string FollowingCites, string IndexStyle, string IndexStart, bool UniformCites, bool IdCite, bool FormatCustomized)
         {
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
@@ -69,6 +101,9 @@ namespace Tools.Exhibit
             FormattingNode.SelectSingleNode("//UniformCites").Text = UniformCites.ToString();
             FormattingNode.SelectSingleNode("//IdCite").Text = IdCite.ToString();
             FormattingNode.SelectSingleNode("//FormatCustomized").Text = FormatCustomized.ToString();
+
+            UpdateRepoVarsFromDB();
+
         }
 
         public void UpdateStandardFormatting(string FirstCite, string FollowingCites, string IndexStyle, string IndexStart, bool UniformCites, bool IdCite, bool FormatCustomized, string intro, string descBatesFormat, bool parentheses)
@@ -87,6 +122,8 @@ namespace Tools.Exhibit
             FormattingNode.SelectSingleNode("//DescBatesFormat").Text = descBatesFormat;
             FormattingNode.SelectSingleNode("//Parentheses").Text = parentheses.ToString();
 
+            UpdateRepoVarsFromDB();
+
         }
 
         public string GetFormatting(FormatNodes node)  //TODO: check why this loops so many times when Updating Formatting on Exhibit Format
@@ -98,6 +135,8 @@ namespace Tools.Exhibit
 
             return result;
         }
+
+        #endregion
 
         #region Exhibits
         public void AddExhibit(string Description, string BatesNumber)
