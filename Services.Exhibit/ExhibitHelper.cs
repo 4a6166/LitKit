@@ -202,6 +202,7 @@ namespace Tools.Exhibit
             List<ContentControl> AllCites = GetAndOrderAllCiteContentControls();
 
             List<string> IDsForFormatChoice = new List<string>() { "Fill Item" };
+            List<string> ExhibitIndex = new List<string>() { "Fill Item" };
 
 
             foreach (ContentControl cite in AllCites)
@@ -210,7 +211,6 @@ namespace Tools.Exhibit
                 cite.LockContents = false;
 
                 _app.Selection.SetRange(cite.Range.Start, cite.Range.End); //needed to bring the selection in/out of the footnotes/endnotes, which have their own range start
-                Selection selection = _app.Selection;
 
                 string citeID = string.Empty;
                 CiteType citeType = CiteType.None;
@@ -222,11 +222,12 @@ namespace Tools.Exhibit
                 NumberingOptions IndexStyle = repository.IndexStyle;
                 int IndexStart = repository.IndexStart;
 
-                int index = IDsForFormatChoice.FindIndex(n => n == citeID); // returns -1 if index not found
+                int FormatChoiceIndex = IDsForFormatChoice.FindIndex(n => n == citeID); // returns -1 if index not found
+                int index = ExhibitIndex.FindIndex(n => n == citeID);
 
                 if (cite.Title.Contains("|PIN"))
                 {
-                    new Pincite(_app).AddPincite(selection);
+                    new Pincite(_app).ReAddPincite(cite);
                 }
                 else
                 {
@@ -240,22 +241,23 @@ namespace Tools.Exhibit
                             cite.Range.Italic = -1;
                             break;
 
-                        case 0 when citeType == CiteType.LegalOrRecordCitation && index == -1: //when citeID is not found in IDsForFormatChoice (initial cite)
+                        case 0 when citeType == CiteType.LegalOrRecordCitation && FormatChoiceIndex == -1: //when citeID is not found in IDsForFormatChoice (initial cite)
                             cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).LongCite);
                             cite.Range.Italic = 0;
                             break;
-                        case 0 when citeType == CiteType.LegalOrRecordCitation && index > 0:
+                        case 0 when citeType == CiteType.LegalOrRecordCitation && FormatChoiceIndex > 0:
                             cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).ShortCite);
                             cite.Range.Italic = 0;
                             break;
 
-                        case 0 when citeType == CiteType.Exhibit && index == -1:
-                            index = IDsForFormatChoice.Count();
+                        case 0 when citeType == CiteType.Exhibit && FormatChoiceIndex == -1:
+                            index = ExhibitIndex.Count();
                             exhibit = repository.GetExhibit(citeID);
                             cite.Range.Text = ExhibitFormatter.FormatCite(exhibit, FirstCite, IndexStyle, IndexStart, index);
                             cite.Range.Italic = 0;
+                            ExhibitIndex.Add(citeID);
                             break;
-                        case 0 when citeType == CiteType.Exhibit && index > 0:
+                        case 0 when citeType == CiteType.Exhibit && FormatChoiceIndex > 0:
                             exhibit = repository.GetExhibit(citeID);
                             cite.Range.Text = ExhibitFormatter.FormatCite(exhibit, FollowingCites, IndexStyle, IndexStart, index);
                             cite.Range.Italic = 0;
@@ -306,6 +308,10 @@ namespace Tools.Exhibit
                 case "Cite":
                     citeID = cite.Tag.Substring(5);
                     citeType = CiteType.LegalOrRecordCitation;
+                    break;
+                case "PINCITE":
+                    ContentControl parent = cite.ParentContentControl;
+                    GetCCIDAndCiteType(parent, out citeID, out citeType);
                     break;
                 default:
                     throw new Exception("Unhandled cite type in Content Control tag.");

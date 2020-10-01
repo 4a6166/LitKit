@@ -707,5 +707,10 @@ namespace LitKit1
             Replace replace = new Tools.Simple.Replace(_app);
             replace.SendKey();
         }
+
+        private void btnTesterFeedback_Click(object sender, RibbonControlEventArgs e)
+        {
+            Process.Start("https://www.prelimine.com");
+        }
     }
 }

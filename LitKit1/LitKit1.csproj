@@ -353,14 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Controls\frmLoading.resx">
       <DependentUpon>frmLoading.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -375,6 +370,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -412,6 +412,32 @@
     <None Include="Resources\Group.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\RemovePincite_32px.png" />
+    <None Include="Resources\Support_16px.png" />
+    <None Include="Resources\ShowHideFMarks_16px.png" />
+    <None Include="Resources\SmartQuotes_16px.png" />
+    <None Include="Resources\SenteceSpacing_16px.png" />
+    <None Include="Resources\ResponseTool_32px.png" />
+    <None Include="Resources\RemovePincite_16px.png" />
+    <None Include="Resources\UnmarkSelection_16px.png" />
+    <None Include="Resources\ClearAllRedactions_32px.png" />
+    <None Include="Resources\CreatePDF_32px.png" />
+    <None Include="Resources\MarkSelection_32px.png" />
+    <None Include="Resources\ClearAllRedactions_16px.png" />
+    <None Include="Resources\CreatePDF_16px.png" />
+    <None Include="Resources\CreateRedactedPDF_32px.png" />
+    <None Include="Resources\CreateUnredactedPDF_32px.png" />
+    <None Include="Resources\ExhibitTool_32px.png" />
+    <None Include="Resources\AddPincite_16px.png" />
+    <None Include="Resources\IndexOfExhibits_16px.png" />
+    <None Include="Resources\CustomizeObjAndResp_32px.png" />
+    <None Include="Resources\PasteTranscript_32px.png" />
+    <None Include="Resources\LatinWords_16px.png" />
+    <None Include="Resources\OxfordComma_16px.png" />
+    <None Include="Resources\InsertNBS_16px.png" />
+    <None Include="Resources\LegalSymbol_32px.png" />
+    <None Include="Resources\KeepWithNext_16px.png" />
+    <None Include="Resources\AddPincite_32px.png" />
     <Content Include="Resources\PilcrowLone1_B.ico" />
   </ItemGroup>
   <ItemGroup>

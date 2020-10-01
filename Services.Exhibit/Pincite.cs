@@ -42,6 +42,21 @@ namespace Tools.Exhibit
             }
         }
 
+        public void ReAddPincite(ContentControl cite)
+        {
+            cite.LockContents = false;
+
+            string CurrentPinText = GetPinciteText(cite);
+
+            int index = new ExhibitHelper(_app).GetPosition(cite);
+            bool InitialCite = IsInitialCite(cite);
+            PrepCiteForPin(cite, index, InitialCite);
+            InsertPinciteCC(cite, CurrentPinText);
+
+            cite.LockContents = true;
+        }
+
+
         private static string GetPinciteText(ContentControl cite)
         {
             string result = string.Empty;
@@ -52,7 +67,7 @@ namespace Tools.Exhibit
                 {
                     if (ccChild.Tag.Contains("PINCITE:"))
                     {
-                        if (ccChild.Range.Text == "{type PinCite text}")
+                        if (ccChild.Range.Text == "{type Pincite text}")
                         {
                             result = string.Empty;
                         }
@@ -63,6 +78,7 @@ namespace Tools.Exhibit
 
             return result;
         }
+
 
 
         public void PrepCiteForPin(ContentControl cite, int index, bool IsInitialCite)

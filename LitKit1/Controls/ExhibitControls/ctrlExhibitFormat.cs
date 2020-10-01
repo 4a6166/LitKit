@@ -165,7 +165,7 @@ namespace LitKit1.Controls.ExhibitControls
 
         private string MakeFirstCiteFormatting()
         {
-            string result = cbIntroMark.Text + " {INDEX}, ";
+            string result = cbIntroMark.Text + " {INDEX}, {PINCITE}";
 
             switch (cbDescBatesFormat.Text)
             {
@@ -196,7 +196,7 @@ namespace LitKit1.Controls.ExhibitControls
 
         private string MakeFollowingCiteFormatting()
         {
-            string result = cbIntroMark.Text + " {INDEX}";
+            string result = cbIntroMark.Text + " {INDEX} {PINCITE}";
             if (!cbUniformCitesStandard.Checked) // Description and Bates in Initial Cite Only == false
             {
                 result = cbIntroMark.Text + " {INDEX}, ";

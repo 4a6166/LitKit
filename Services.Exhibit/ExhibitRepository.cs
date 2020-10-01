@@ -33,7 +33,7 @@ namespace Tools.Exhibit
 
             xDocument.Element(rootName).Add(new XElement("Format",
                 new XElement("FirstCite", "Exhibit {INDEX}, {PINCITE}{DESC} ({BATES})"),
-                new XElement("FollowingCites", "Exhibit {INDEX}, {PINCITE}{DESC} ({BATES})"),
+                new XElement("FollowingCites", "Exhibit {INDEX}{PINCITE}"),
                 new XElement("IndexStyle", "Numbers"),
                 new XElement("IndexStart", "1"),
                 new XElement("IdCite", "True"),
@@ -94,8 +94,17 @@ namespace Tools.Exhibit
         {
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode("//Format");
-            FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite;
-            FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites;
+
+            if (FirstCite.Contains("{PINCITE}"))
+            {
+                FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite;
+            } else FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite + "{PINCITE}";
+
+            if (FollowingCites.Contains("{PINCITE}"))
+            {
+                FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites;
+            } else FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites + "{PINCITE}";
+
             FormattingNode.SelectSingleNode("//IndexStyle").Text = IndexStyle;
             FormattingNode.SelectSingleNode("//IndexStart").Text = IndexStart;
             FormattingNode.SelectSingleNode("//UniformCites").Text = UniformCites.ToString();
@@ -110,8 +119,19 @@ namespace Tools.Exhibit
         {
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode("//Format");
-            FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite;
-            FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites;
+
+            if (FirstCite.Contains("{PINCITE}"))
+            {
+                FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite;
+            }
+            else FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite + "{PINCITE}";
+
+            if (FollowingCites.Contains("{PINCITE}"))
+            {
+                FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites;
+            }
+            else FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites + "{PINCITE}";
+
             FormattingNode.SelectSingleNode("//IndexStyle").Text = IndexStyle;
             FormattingNode.SelectSingleNode("//IndexStart").Text = IndexStart;
             FormattingNode.SelectSingleNode("//UniformCites").Text = UniformCites.ToString();

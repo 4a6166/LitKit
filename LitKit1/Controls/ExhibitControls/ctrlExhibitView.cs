@@ -830,6 +830,16 @@ namespace LitKit1.Controls
             catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #205"); }
 
         }
+
+        private void btnAddPincite_MouseHover(object sender, EventArgs e)
+        {
+            toolTipDelete.Show("Add a Pincite to the Citation selected in the document.", btnAddPincite);
+        }
+
+        private void btnRemovePincite_MouseHover(object sender, EventArgs e)
+        {
+            toolTipDelete.Show("Remove a Pincite from the Citation selected in the document.", btnRemovePincite);
+        }
     }
     
 }

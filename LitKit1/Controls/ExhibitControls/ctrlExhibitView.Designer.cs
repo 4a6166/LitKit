@@ -33,7 +33,6 @@
             this.btnCiteToExhibit = new System.Windows.Forms.Button();
             this.btnCreateExhibitIndex = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.RefreshNumbering = new System.Windows.Forms.Button();
             this.ErrorLabel = new System.Windows.Forms.Label();
             this.btnRemoveExhibitLocks = new System.Windows.Forms.Button();
             this.toolTipAdd = new System.Windows.Forms.ToolTip(this.components);
@@ -46,26 +45,27 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.ExhibitFormatting = new System.Windows.Forms.Button();
-            this.NewExhibit = new System.Windows.Forms.Button();
-            this.ClearReferencesToExhibit = new System.Windows.Forms.Button();
-            this.EditExhibit = new System.Windows.Forms.Button();
-            this.DeleteExhibit = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.button6 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.NewCite = new System.Windows.Forms.Button();
-            this.ClearReferencesToCite = new System.Windows.Forms.Button();
-            this.EditCite = new System.Windows.Forms.Button();
-            this.DeleteCite = new System.Windows.Forms.Button();
             this.listView2 = new System.Windows.Forms.ListView();
             this.toolTipIndex = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipClearFromDoc = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipCiteExhibit = new System.Windows.Forms.ToolTip(this.components);
-            this.btnAddPincite = new System.Windows.Forms.Button();
             this.btnRemovePincite = new System.Windows.Forms.Button();
+            this.btnAddPincite = new System.Windows.Forms.Button();
+            this.NewExhibit = new System.Windows.Forms.Button();
+            this.ClearReferencesToExhibit = new System.Windows.Forms.Button();
+            this.EditExhibit = new System.Windows.Forms.Button();
+            this.DeleteExhibit = new System.Windows.Forms.Button();
+            this.RefreshNumbering = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.NewCite = new System.Windows.Forms.Button();
+            this.ClearReferencesToCite = new System.Windows.Forms.Button();
+            this.EditCite = new System.Windows.Forms.Button();
+            this.DeleteCite = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -132,19 +132,6 @@
             this.panel1.Size = new System.Drawing.Size(297, 155);
             this.panel1.TabIndex = 11;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            // 
-            // RefreshNumbering
-            // 
-            this.RefreshNumbering.BackgroundImage = global::LitKit1.Properties.Resources.icons8_refresh_64;
-            this.RefreshNumbering.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.RefreshNumbering.Location = new System.Drawing.Point(5, 23);
-            this.RefreshNumbering.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
-            this.RefreshNumbering.Name = "RefreshNumbering";
-            this.RefreshNumbering.Size = new System.Drawing.Size(35, 35);
-            this.RefreshNumbering.TabIndex = 3;
-            this.RefreshNumbering.UseVisualStyleBackColor = true;
-            this.RefreshNumbering.Click += new System.EventHandler(this.RefreshNumbering_Click);
-            this.RefreshNumbering.MouseHover += new System.EventHandler(this.RefreshNumbering_MouseHover);
             // 
             // ErrorLabel
             // 
@@ -249,6 +236,108 @@
             this.ExhibitFormatting.Click += new System.EventHandler(this.ExhibitFormatting_Click);
             this.ExhibitFormatting.MouseHover += new System.EventHandler(this.ExhibitFormatting_MouseHover);
             // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.panel4);
+            this.tabPage2.Controls.Add(this.panel3);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(303, 672);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Legal and Record Citations";
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.button6);
+            this.panel4.Controls.Add(this.label1);
+            this.panel4.Controls.Add(this.button8);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel4.Location = new System.Drawing.Point(3, 549);
+            this.panel4.MinimumSize = new System.Drawing.Size(112, 49);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(297, 120);
+            this.panel4.TabIndex = 12;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(28, 3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(263, 19);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "[PLACEHOLDER TEXT}";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label1.Visible = false;
+            // 
+            // button8
+            // 
+            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button8.Location = new System.Drawing.Point(42, 23);
+            this.button8.Margin = new System.Windows.Forms.Padding(1, 3, 3, 3);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(251, 35);
+            this.button8.TabIndex = 2;
+            this.button8.Text = "Insert Selected Citation";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button8.MouseHover += new System.EventHandler(this.button8_MouseHover);
+            // 
+            // panel3
+            // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Controls.Add(this.NewCite);
+            this.panel3.Controls.Add(this.ClearReferencesToCite);
+            this.panel3.Controls.Add(this.EditCite);
+            this.panel3.Controls.Add(this.DeleteCite);
+            this.panel3.Controls.Add(this.listView2);
+            this.panel3.Location = new System.Drawing.Point(3, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(297, 543);
+            this.panel3.TabIndex = 0;
+            // 
+            // listView2
+            // 
+            this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView2.HideSelection = false;
+            this.listView2.Location = new System.Drawing.Point(0, 0);
+            this.listView2.MinimumSize = new System.Drawing.Size(50, 150);
+            this.listView2.MultiSelect = false;
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(297, 543);
+            this.listView2.TabIndex = 9;
+            this.listView2.UseCompatibleStateImageBehavior = false;
+            this.listView2.View = System.Windows.Forms.View.List;
+            this.listView2.SelectedIndexChanged += new System.EventHandler(this.listView2_SelectedIndexChanged);
+            this.listView2.DoubleClick += new System.EventHandler(this.listView2_DoubleClick);
+            // 
+            // btnRemovePincite
+            // 
+            this.btnRemovePincite.Image = global::LitKit1.Properties.Resources.RemovePincite_16px;
+            this.btnRemovePincite.Location = new System.Drawing.Point(284, 6);
+            this.btnRemovePincite.Name = "btnRemovePincite";
+            this.btnRemovePincite.Size = new System.Drawing.Size(25, 25);
+            this.btnRemovePincite.TabIndex = 20;
+            this.btnRemovePincite.UseVisualStyleBackColor = true;
+            this.btnRemovePincite.Click += new System.EventHandler(this.btnRemovePincite_Click);
+            this.btnRemovePincite.MouseHover += new System.EventHandler(this.btnRemovePincite_MouseHover);
+            // 
+            // btnAddPincite
+            // 
+            this.btnAddPincite.Image = global::LitKit1.Properties.Resources.AddPincite_16px;
+            this.btnAddPincite.Location = new System.Drawing.Point(258, 6);
+            this.btnAddPincite.Name = "btnAddPincite";
+            this.btnAddPincite.Size = new System.Drawing.Size(25, 25);
+            this.btnAddPincite.TabIndex = 16;
+            this.btnAddPincite.UseVisualStyleBackColor = true;
+            this.btnAddPincite.Click += new System.EventHandler(this.button1_Click_2);
+            this.btnAddPincite.MouseHover += new System.EventHandler(this.btnAddPincite_MouseHover);
+            // 
             // NewExhibit
             // 
             this.NewExhibit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -309,29 +398,18 @@
             this.DeleteExhibit.Click += new System.EventHandler(this.button2_Click_1);
             this.DeleteExhibit.MouseHover += new System.EventHandler(this.DeleteExhibit_MouseHover);
             // 
-            // tabPage2
+            // RefreshNumbering
             // 
-            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Controls.Add(this.panel4);
-            this.tabPage2.Controls.Add(this.panel3);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(303, 672);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Legal and Record Citations";
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.button6);
-            this.panel4.Controls.Add(this.label1);
-            this.panel4.Controls.Add(this.button8);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(3, 549);
-            this.panel4.MinimumSize = new System.Drawing.Size(112, 49);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(297, 120);
-            this.panel4.TabIndex = 12;
+            this.RefreshNumbering.BackgroundImage = global::LitKit1.Properties.Resources.icons8_refresh_64;
+            this.RefreshNumbering.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.RefreshNumbering.Location = new System.Drawing.Point(5, 23);
+            this.RefreshNumbering.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
+            this.RefreshNumbering.Name = "RefreshNumbering";
+            this.RefreshNumbering.Size = new System.Drawing.Size(35, 35);
+            this.RefreshNumbering.TabIndex = 3;
+            this.RefreshNumbering.UseVisualStyleBackColor = true;
+            this.RefreshNumbering.Click += new System.EventHandler(this.RefreshNumbering_Click);
+            this.RefreshNumbering.MouseHover += new System.EventHandler(this.RefreshNumbering_MouseHover);
             // 
             // button6
             // 
@@ -345,47 +423,6 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             this.button6.MouseHover += new System.EventHandler(this.button6_MouseHover);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(28, 3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(263, 19);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "[PLACEHOLDER TEXT}";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label1.Visible = false;
-            // 
-            // button8
-            // 
-            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button8.Location = new System.Drawing.Point(42, 23);
-            this.button8.Margin = new System.Windows.Forms.Padding(1, 3, 3, 3);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(251, 35);
-            this.button8.TabIndex = 2;
-            this.button8.Text = "Insert Selected Citation";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            this.button8.MouseHover += new System.EventHandler(this.button8_MouseHover);
-            // 
-            // panel3
-            // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel3.Controls.Add(this.NewCite);
-            this.panel3.Controls.Add(this.ClearReferencesToCite);
-            this.panel3.Controls.Add(this.EditCite);
-            this.panel3.Controls.Add(this.DeleteCite);
-            this.panel3.Controls.Add(this.listView2);
-            this.panel3.Location = new System.Drawing.Point(3, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(297, 543);
-            this.panel3.TabIndex = 0;
             // 
             // NewCite
             // 
@@ -446,41 +483,6 @@
             this.DeleteCite.UseVisualStyleBackColor = true;
             this.DeleteCite.Click += new System.EventHandler(this.button5_Click);
             this.DeleteCite.MouseHover += new System.EventHandler(this.DeleteCite_MouseHover);
-            // 
-            // listView2
-            // 
-            this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView2.HideSelection = false;
-            this.listView2.Location = new System.Drawing.Point(0, 0);
-            this.listView2.MinimumSize = new System.Drawing.Size(50, 150);
-            this.listView2.MultiSelect = false;
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(297, 543);
-            this.listView2.TabIndex = 9;
-            this.listView2.UseCompatibleStateImageBehavior = false;
-            this.listView2.View = System.Windows.Forms.View.List;
-            this.listView2.SelectedIndexChanged += new System.EventHandler(this.listView2_SelectedIndexChanged);
-            this.listView2.DoubleClick += new System.EventHandler(this.listView2_DoubleClick);
-            // 
-            // btnAddPincite
-            // 
-            this.btnAddPincite.Location = new System.Drawing.Point(233, 8);
-            this.btnAddPincite.Name = "btnAddPincite";
-            this.btnAddPincite.Size = new System.Drawing.Size(75, 23);
-            this.btnAddPincite.TabIndex = 16;
-            this.btnAddPincite.Text = "Add Pincite To Selected";
-            this.btnAddPincite.UseVisualStyleBackColor = true;
-            this.btnAddPincite.Click += new System.EventHandler(this.button1_Click_2);
-            // 
-            // btnRemovePincite
-            // 
-            this.btnRemovePincite.Location = new System.Drawing.Point(112, 8);
-            this.btnRemovePincite.Name = "btnRemovePincite";
-            this.btnRemovePincite.Size = new System.Drawing.Size(93, 23);
-            this.btnRemovePincite.TabIndex = 20;
-            this.btnRemovePincite.Text = "Remove Pincite From Selected";
-            this.btnRemovePincite.UseVisualStyleBackColor = true;
-            this.btnRemovePincite.Click += new System.EventHandler(this.btnRemovePincite_Click);
             // 
             // ctrlExhibitView
             // 
