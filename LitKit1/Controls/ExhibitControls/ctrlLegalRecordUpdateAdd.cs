@@ -178,5 +178,10 @@ namespace LitKit1.Controls.ExhibitControls
         {
 
         }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

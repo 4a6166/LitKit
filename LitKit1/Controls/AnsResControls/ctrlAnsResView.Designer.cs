@@ -41,6 +41,8 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -154,7 +156,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(298, 30);
             this.button1.TabIndex = 12;
-            this.button1.Text = "Customize Objections and Responses";
+            this.button1.Text = "Customize or Add Objections and Responses";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             this.button1.MouseHover += new System.EventHandler(this.button1_MouseHover);
@@ -166,24 +168,45 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.HorizontalScrollbar = true;
-            this.listBox1.Location = new System.Drawing.Point(9, 229);
+            this.listBox1.Location = new System.Drawing.Point(9, 268);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(298, 355);
+            this.listBox1.Size = new System.Drawing.Size(298, 316);
             this.listBox1.TabIndex = 13;
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             this.listBox1.MouseHover += new System.EventHandler(this.listBox1_MouseHover);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Italic);
+            this.label5.Location = new System.Drawing.Point(6, 247);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(243, 13);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Double-click on an objection or response to insert.\r\n";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 230);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(125, 13);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Objections or Responses";
             // 
             // ctrlAnsResView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -210,5 +233,7 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
     }
 }

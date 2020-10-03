@@ -779,7 +779,7 @@ namespace LitKit1.Controls
 
         private void ClearReferencesToCite_MouseHover(object sender, EventArgs e)
         {
-            toolTipClearFromDoc.Show("Removes all references to the selected Exhibit from the document.", ClearReferencesToCite);
+            toolTipClearFromDoc.Show("Removes all references to the selected Citation from the document.", ClearReferencesToCite);
         }
 
         private void DeleteCite_MouseHover(object sender, EventArgs e)
