@@ -469,7 +469,7 @@ namespace LitKit1.Controls
 
         private void RefreshNumbering_MouseHover(object sender, EventArgs e)
         {
-            toolTipRefresh.Show("Refreshes the formatting, numbering, and content of all the exhibits within the document text.", RefreshNumbering);
+            toolTipRefresh.Show("Refreshes the formatting, numbering, and content of all the citations within the document text.", RefreshNumbering);
         }
 
         private void ExhibitFormatting_MouseHover(object sender, EventArgs e)
@@ -484,7 +484,7 @@ namespace LitKit1.Controls
 
         private void button2_MouseHover(object sender, EventArgs e)
         {
-            toolTipRemoveLocks.Show("Removes the controls binding all Exhibits in the current selection, leaving them as plain text. To remove the Exhibit controls from the entire document, select no text.", btnRemoveExhibitLocks);
+            toolTipRemoveLocks.Show("Removes the controls binding all citations in the current selection, leaving them as plain text. To remove the citiation controls from the entire document, select no text.", btnRemoveExhibitLocks);
         }
 
         private void btnRemoveExhibitLocks_Click(object sender, EventArgs e)
@@ -497,7 +497,7 @@ namespace LitKit1.Controls
             }
             else
             {
-                DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all Exhibits in the document? The text will remain but will no longer update when adjustments to the Exhibit List are made.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all citations in the document? The text will remain but will no longer update when adjustments to the Exhibit or References Lists are made.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (result == DialogResult.Yes)
                 {
                     _app.UndoRecord.StartCustomRecord("Remove Exhibits");
@@ -795,7 +795,7 @@ namespace LitKit1.Controls
 
         private void button6_MouseHover(object sender, EventArgs e)
         {
-            toolTipRefresh.Show("Refreshes the formatting, numbering, and content of all the exhibits within the document text.", button6);
+            toolTipRefresh.Show("Refreshes the formatting, numbering, and content of all the citations within the document text.", button6);
         }
 
         private void button1_Click_2(object sender, EventArgs e)

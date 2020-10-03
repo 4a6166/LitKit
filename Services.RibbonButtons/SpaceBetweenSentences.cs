@@ -31,46 +31,113 @@ namespace Tools.Simple
             //    }
             //}
 
-
             _app.ActiveDocument.Select();
-            var rng = _app.Selection.Range;
-            rng.Find.Execute(FindText: ". ", ReplaceWith: ".  ", Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: ".   ", ReplaceWith: ".  ", Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: "? ", ReplaceWith: "?  ", Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: "! ", ReplaceWith: "!  ", Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: "?   ", ReplaceWith: "?  ", Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: "!   ", ReplaceWith: "!  ", Replace: WdReplace.wdReplaceAll);
+            DoubleSpace(_app.Selection.Range);
 
-            foreach(var text in abbreviations)
+            if (_app.ActiveDocument.Footnotes.Count > 0)
             {
-                rng.Find.Execute(FindText: " "+text + "  ", ReplaceWith: " "+text + " ", Replace: WdReplace.wdReplaceAll);
+                foreach (Footnote footnote in _app.ActiveDocument.Footnotes)
+                {
+                    footnote.Range.Select();
+                    DoubleSpace(footnote.Range);
+                }
             }
 
-            for (int i=1; i<=9; i++)
+            if (_app.ActiveDocument.Endnotes.Count >0)
             {
-                rng.Find.Execute(FindText: $"No.  {i}", ReplaceWith: $"No. {i}", Replace: WdReplace.wdReplaceAll);
+                foreach (Endnote endnote in _app.ActiveDocument.Endnotes)
+                {
+                    endnote.Range.Select();
+                    DoubleSpace(endnote.Range);
+                }
             }
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
 
         }
+
+        private static void DoubleSpace(Range rng)
+        {
+            string oneSpace = " ";
+            string twoSpaces = "  ";
+            string threeSpaces = "   ";
+            string quote = "\"";
+
+            foreach (var symbol in Symbols)
+            {
+                rng.Find.Execute(FindText: symbol + oneSpace, ReplaceWith: symbol + twoSpaces, Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText: symbol+ threeSpaces, ReplaceWith: symbol + twoSpaces, Replace: WdReplace.wdReplaceAll);
+
+                rng.Find.Execute(FindText: symbol + quote + oneSpace, ReplaceWith: symbol + quote + twoSpaces, Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText: symbol + quote + threeSpaces, ReplaceWith: symbol + quote + twoSpaces, Replace: WdReplace.wdReplaceAll);
+            }
+
+
+            foreach (var text in abbreviations)
+            {
+                rng.Find.Execute(FindText: " "+text + "  ", ReplaceWith: " "+text + " ", MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
+            }
+
+            for (int i = 0; i <= 9; i++)
+            {
+                rng.Find.Execute(FindText: $"No.  {i}", ReplaceWith: $"No. {i}", Replace: WdReplace.wdReplaceAll);
+            }
+
+            rng.Find.Execute(FindText: "id." + twoSpaces + "at", ReplaceWith: "id." + oneSpace + "at", Replace: WdReplace.wdReplaceAll);
+        }
+
         public static void RemoveSpace(Word.Application _app)
         {
             _app.Application.System.Cursor = WdCursorType.wdCursorWait;
 
             _app.ActiveDocument.Select();
-            var rng = _app.Selection.Range;
+            SingleSpace(_app.Selection.Range);
 
-            rng.Find.Execute(FindText: ".  ", ReplaceWith: ". ", Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: ".   ", ReplaceWith: ". ", Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: "?  ", ReplaceWith: "? ", Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: "!  ", ReplaceWith: "! ", Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: "?   ", ReplaceWith: "? ", Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: "!   ", ReplaceWith: "! ", Replace: WdReplace.wdReplaceAll);
+            if (_app.ActiveDocument.Footnotes.Count > 0)
+            {
+                foreach (Footnote footnote in _app.ActiveDocument.Footnotes)
+                {
+                    footnote.Range.Select();
+                    SingleSpace(footnote.Range);
+                }
+            }
+
+            if (_app.ActiveDocument.Endnotes.Count > 0)
+            {
+                foreach (Endnote endnote in _app.ActiveDocument.Endnotes)
+                {
+                    endnote.Range.Select();
+                    SingleSpace(endnote.Range);
+                }
+            }
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
         }
 
+        private static void SingleSpace(Range rng)
+        {
+            string oneSpace = " ";
+            string twoSpaces = "  ";
+            string threeSpaces = "   ";
+            string quote = "\"";
+
+            foreach (var symbol in Symbols)
+            {
+                rng.Find.Execute(FindText: symbol + twoSpaces, ReplaceWith: symbol + oneSpace, Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText: symbol + threeSpaces, ReplaceWith: symbol + oneSpace, Replace: WdReplace.wdReplaceAll);
+
+                rng.Find.Execute(FindText: symbol + quote + twoSpaces, ReplaceWith: symbol + quote + oneSpace, Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText: symbol + quote + threeSpaces, ReplaceWith: symbol + quote + oneSpace, Replace: WdReplace.wdReplaceAll);
+            }
+
+        }
+
+        private static readonly List<string> Symbols = new List<string>()
+        {
+            ".",
+            "?",
+            "!",
+        };
         private static readonly List<string> abbreviations = new List<string>()
         {
             #region name prefix/suffix
@@ -374,7 +441,6 @@ namespace Tools.Simple
             "Fed.",
             "App.",
             "Supp.",
-            "F.",
             "Ex.",
             "Exh.",
             "Pl.",

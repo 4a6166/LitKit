@@ -167,7 +167,7 @@
             this.btnRemoveExhibitLocks.Name = "btnRemoveExhibitLocks";
             this.btnRemoveExhibitLocks.Size = new System.Drawing.Size(84, 40);
             this.btnRemoveExhibitLocks.TabIndex = 15;
-            this.btnRemoveExhibitLocks.Text = "Remove Exhibit Locks";
+            this.btnRemoveExhibitLocks.Text = "Remove Citation Locks";
             this.btnRemoveExhibitLocks.UseVisualStyleBackColor = true;
             this.btnRemoveExhibitLocks.Click += new System.EventHandler(this.btnRemoveExhibitLocks_Click);
             this.btnRemoveExhibitLocks.MouseHover += new System.EventHandler(this.button2_MouseHover);

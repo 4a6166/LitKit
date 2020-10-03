@@ -343,8 +343,10 @@ namespace Ribbon_0._0._1
                     successful = ApplyRedactionsFooter(_app);
                     successful = ApplyRedactionsEndNote(_app);
                     successful = ApplyRedactionImageFloat(_app);
+
                     successful = ApplyRedactionsSpecialTables(_app);
                     //successful = ApplyRedactionsChart(_app);
+
 
                     if (successful)
                     {
@@ -362,6 +364,8 @@ namespace Ribbon_0._0._1
             }
         }
 
+
+
         private static bool ApplyRedactionsSpecialTables(Word.Application app)
         {
             bool successful = true;
@@ -369,6 +373,7 @@ namespace Ribbon_0._0._1
 
             foreach (TableOfContents toc in doc.TablesOfContents)
             {
+                toc.Update();
                 toc.Range.Select();
                 for (int i = 1; i <= app.Selection.Words.Count; i++)
                 {
@@ -382,6 +387,7 @@ namespace Ribbon_0._0._1
 
             foreach (TableOfAuthorities toa in doc.TablesOfAuthorities)
             {
+                toa.Update();
                 toa.Range.Select();
                 for (int i = 1; i <= app.Selection.Words.Count; i++)
                 {
@@ -395,6 +401,7 @@ namespace Ribbon_0._0._1
 
             foreach(TableOfFigures tof in doc.TablesOfFigures)
             {
+                tof.Update();
                 tof.Range.Select();
                 for (int i = 1; i <= app.Selection.Words.Count; i++)
                 {
@@ -408,6 +415,7 @@ namespace Ribbon_0._0._1
 
             foreach(Index index in doc.Indexes)
             {
+                index.Update();
                 index.Range.Select();
                 for (int i = 1; i <= app.Selection.Words.Count; i++)
                 {

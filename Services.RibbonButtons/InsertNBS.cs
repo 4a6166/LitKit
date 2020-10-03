@@ -17,12 +17,35 @@ namespace Tools.Simple
 
             _app.ActiveDocument.Select();
             var rng = _app.Selection.Range;
+
             InsertSpaceAfterText(rng);
             InsertSpaceBeforeText(rng);
-
             FixLawyerEllipses(rng);
 
-            _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
+            if (_app.ActiveDocument.Footnotes.Count > 0)
+            {
+                foreach (Footnote footnote in _app.ActiveDocument.Footnotes)
+                {
+                    rng = footnote.Range;
+                    InsertSpaceAfterText(rng);
+                    InsertSpaceBeforeText(rng);
+                    FixLawyerEllipses(rng);
+                }
+            }
+
+            if (_app.ActiveDocument.Endnotes.Count >0)
+            {
+                foreach(Endnote endnote in _app.ActiveDocument.Endnotes)
+                {
+                    rng = endnote.Range;
+                    InsertSpaceAfterText(rng);
+                    InsertSpaceBeforeText(rng);
+                    FixLawyerEllipses(rng);
+
+                }
+            }
+
+                _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
         }
 
         private static void InsertSpaceAfterText(Range rng)
@@ -30,7 +53,7 @@ namespace Tools.Simple
             foreach (string expression in ExpressionsSpaceAfter)
             {
                 string expr = expression.Substring(0, expression.Length) + nbs;
-                rng.Find.Execute(FindText: expression + " ", ReplaceWith: expr, Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText: expression + " ", ReplaceWith: expr, MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
             }
         }
 
@@ -39,15 +62,15 @@ namespace Tools.Simple
             foreach (string expression in ExpressionsSpaceBefore)
             {
                 string expr = nbs + expression;
-                rng.Find.Execute(FindText: " " + expression, ReplaceWith: expr, Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText: " " + expression, ReplaceWith: expr, MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
             }
 
         }
 
         static void FixLawyerEllipses(Range rng)
         {
-            rng.Find.Execute(FindText: " . . . .", ReplaceWith: $"{nbs}.{nbs}.{nbs}.{nbs}.", Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: " . . .", ReplaceWith: $"{nbs}.{nbs}.{nbs}.", Replace: WdReplace.wdReplaceAll);
+            rng.Find.Execute(FindText: " . . . .", ReplaceWith: $"{nbs}.{nbs}.{nbs}.{nbs}.", MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
+            rng.Find.Execute(FindText: " . . .", ReplaceWith: $"{nbs}.{nbs}.{nbs}.", MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
         }
 
         public static List<string> ExpressionsSpaceAfter = new List<string>()
@@ -58,12 +81,15 @@ namespace Tools.Simple
             "Mrs.",
             "Prof.",
 
+            "at",
+
             "No.",
             "¥", "\u00A5",
             "£", "\u00A3",
             "€", "\u20AC",
             "$", "\u0024",
             "¶", "\u00B6",
+            "¶¶", "\u00B6\u00B6",
             "§", "\u00A7",
 
             "Section",

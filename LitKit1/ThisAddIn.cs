@@ -35,7 +35,7 @@ namespace LitKit1
         public void AddExhibitControlMain(object window)
         {
             ExhibitMain = new ctrlExhibitMain();
-            ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Exhibit Tool", window);
+            ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Citations Tool", window);
             ExhibitMain.Dock = System.Windows.Forms.DockStyle.Fill;
             ExhibitTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
             ExhibitTaskPane.Width = 350;

@@ -436,7 +436,7 @@ namespace LitKit1
                         Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
                     }
                 }
-                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212"); }
+                catch {/* MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212");*/ }
             }
         }
 
@@ -710,7 +710,8 @@ namespace LitKit1
 
         private void btnTesterFeedback_Click(object sender, RibbonControlEventArgs e)
         {
-            Process.Start("https://www.prelimine.com");
+            string survey = @"https://corexms868hzxvx3tkx7.sjc1.qualtrics.com/jfe/form/SV_6Q2lF3dfTOdE69v";
+            Process.Start(survey);
         }
     }
 }
