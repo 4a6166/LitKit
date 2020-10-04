@@ -23,7 +23,7 @@ namespace Tools.Exhibit
 
         public int GetPosition(ContentControl cite)
         {
-            List<CitationReference> references = OrderAllCitationRefs();
+            List<CitationReference> references = OrderOnlyExhibitsRefs();
             int index = 0;
 
             string citeID = string.Empty;
@@ -31,7 +31,11 @@ namespace Tools.Exhibit
             GetCCIDAndCiteType(cite, out citeID, out citeType);
             CitationReference refer = references.Where(n => n.ID == citeID).FirstOrDefault();
 
-            index = references.IndexOf(refer);
+            try
+            {
+                index = references.IndexOf(refer);
+            }
+            catch { index = -1; }
 
             return index + 1;
 
@@ -225,74 +229,69 @@ namespace Tools.Exhibit
                 int FormatChoiceIndex = IDsForFormatChoice.FindIndex(n => n == citeID); // returns -1 if index not found
                 int index = ExhibitIndex.FindIndex(n => n == citeID);
 
-                if (cite.Title.Contains("|PIN"))
+
+                bool idCite = bool.Parse(repository.GetFormatting(FormatNodes.IdCite));
+
+                int switchInt = 0;
+                switch (switchInt)
                 {
-                    new Pincite(_app).ReAddPincite(cite);
+                    case 0 when citeType == CiteType.LegalOrRecordCitation && cite.Title.Contains("|PIN"):
+                        new Pincite(_app).ReAddPincite(cite, index);
+                        break;
+                    case 0 when citeType == CiteType.Exhibit && cite.Title.Contains("|PIN") && FormatChoiceIndex == -1:
+                        index = ExhibitIndex.Count();
+                        new Pincite(_app).ReAddPincite(cite, index);
+                        ExhibitIndex.Add(citeID);
+                        break;
+                    case 0 when citeType == CiteType.Exhibit && cite.Title.Contains("|PIN") && FormatChoiceIndex >0:
+                        new Pincite(_app).ReAddPincite(cite, index);
+                        break;
+
+                    case 0 when idCite && citeID == IDsForFormatChoice.Last():
+                        cite.Range.Text = ExhibitFormatter.FormatIdCite(cite.Range);
+                        cite.Range.Italic = -1;
+                        break;
+
+                    case 0 when citeType == CiteType.LegalOrRecordCitation && FormatChoiceIndex == -1: //when citeID is not found in IDsForFormatChoice (initial cite)
+                        cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).LongCite);
+                        cite.Range.Italic = 0;
+
+                        break;
+                    case 0 when citeType == CiteType.LegalOrRecordCitation && FormatChoiceIndex > 0:
+                        cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).ShortCite);
+                        cite.Range.Italic = 0;
+                        break;
+
+                    case 0 when citeType == CiteType.Exhibit && FormatChoiceIndex == -1:
+                        index = ExhibitIndex.Count();
+                        exhibit = repository.GetExhibit(citeID);
+                        cite.Range.Text = ExhibitFormatter.FormatCite(exhibit, FirstCite, IndexStyle, IndexStart, index);
+                        cite.Range.Italic = 0;
+                        ExhibitIndex.Add(citeID);
+                        break;
+                    case 0 when citeType == CiteType.Exhibit && FormatChoiceIndex > 0:
+                        exhibit = repository.GetExhibit(citeID);
+                        cite.Range.Text = ExhibitFormatter.FormatCite(exhibit, FollowingCites, IndexStyle, IndexStart, index);
+                        cite.Range.Italic = 0;
+                        break;
+                    default:
+                        throw new Exception("Error when determining Cite type or index associated with Content Control");
                 }
-                else
+
                 {
-                    bool idCite = bool.Parse(repository.GetFormatting(FormatNodes.IdCite));
-
-                    int switchInt = 0;
-                    switch (switchInt)
+                    try
                     {
-                        case 0 when idCite && citeID == IDsForFormatChoice.Last():
-                            cite.Range.Text = ExhibitFormatter.FormatIdCite(cite.Range);
-                            cite.Range.Italic = -1;
-                            break;
+                        string[] anchors = new string[] { "<i>", "</i>" };
+                        var TextParts = cite.Range.Text.Split(anchors, StringSplitOptions.None);
 
-                        case 0 when citeType == CiteType.LegalOrRecordCitation && FormatChoiceIndex == -1: //when citeID is not found in IDsForFormatChoice (initial cite)
-                            cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).LongCite);
-                            cite.Range.Italic = 0;
-                            try
-                            {
-                                string[] anchors = new string[] { "<i>", "</i>" };
-                                var TextParts = cite.Range.Text.Split(anchors, StringSplitOptions.None);
-
-                                Range rng = cite.Range;
-                                rng.Start = rng.Start + TextParts[0].Length;
-                                rng.End = rng.Start + TextParts[1].Length + 7;
-                                rng.Text = TextParts[1];
-                                rng.Font.Italic = -1;
-                            }
-                            catch
-                            { }
-
-                            break;
-                        case 0 when citeType == CiteType.LegalOrRecordCitation && FormatChoiceIndex > 0:
-                            cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).ShortCite);
-                            cite.Range.Italic = 0;
-                            try
-                            {
-                                string[] anchors = new string[] { "<i>", "</i>" };
-                                var TextParts = cite.Range.Text.Split(anchors, StringSplitOptions.None);
-
-                                Range rng = cite.Range;
-                                rng.Start = rng.Start + TextParts[0].Length;
-                                rng.End = rng.Start + TextParts[1].Length + 7;
-                                rng.Text = TextParts[1];
-                                rng.Font.Italic = -1;
-                            }
-                            catch
-                            { }
-                            break;
-
-                        case 0 when citeType == CiteType.Exhibit && FormatChoiceIndex == -1:
-                            index = ExhibitIndex.Count();
-                            exhibit = repository.GetExhibit(citeID);
-                            cite.Range.Text = ExhibitFormatter.FormatCite(exhibit, FirstCite, IndexStyle, IndexStart, index);
-                            cite.Range.Italic = 0;
-                            ExhibitIndex.Add(citeID);
-                            break;
-                        case 0 when citeType == CiteType.Exhibit && FormatChoiceIndex > 0:
-                            exhibit = repository.GetExhibit(citeID);
-                            cite.Range.Text = ExhibitFormatter.FormatCite(exhibit, FollowingCites, IndexStyle, IndexStart, index);
-                            cite.Range.Italic = 0;
-                            break;
-                        default:
-                            throw new Exception("Error when determining Cite type or index associated with Content Control");
+                        Range rng = cite.Range;
+                        rng.Start = rng.Start + TextParts[0].Length;
+                        rng.End = rng.Start + TextParts[1].Length + 7;
+                        rng.Text = TextParts[1];
+                        rng.Font.Italic = -1;
                     }
-
+                    catch
+                    { }
                 }
 
                 IDsForFormatChoice.Add(citeID);

@@ -31,6 +31,7 @@ namespace Tools.Exhibit
             if (CiteIsGood)
             {
                 cite.LockContents = false;
+                cite.Range.Font.Italic = 0;
 
                 string CurrentPinText = GetPinciteText(cite);
 
@@ -43,13 +44,13 @@ namespace Tools.Exhibit
             }
         }
 
-        public void ReAddPincite(ContentControl cite)
+        public void ReAddPincite(ContentControl cite, int index)
         {
             cite.LockContents = false;
-
+            cite.Range.Font.Italic = 0;
             string CurrentPinText = GetPinciteText(cite);
 
-            int index = new ExhibitHelper(_app).GetPosition(cite);
+            //int index = new ExhibitHelper(_app).GetPosition(cite);
             int InitialCite = IsInitialCite(cite);
             PrepCiteForPin(cite, index, InitialCite);
             InsertPinciteCC(cite, CurrentPinText);

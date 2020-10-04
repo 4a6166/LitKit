@@ -84,7 +84,9 @@ namespace Tools.Simple
                 rng.Find.Execute(FindText: $"No.  {i}", ReplaceWith: $"No. {i}", Replace: WdReplace.wdReplaceAll);
             }
 
-            rng.Find.Execute(FindText: "id." + twoSpaces + "at", ReplaceWith: "id." + oneSpace + "at", Replace: WdReplace.wdReplaceAll);
+            rng.Find.Execute(FindText: "id." + twoSpaces + "at", ReplaceWith: "id." + oneSpace + "at", MatchCase: true, Replace: WdReplace.wdReplaceAll);
+            rng.Find.Execute(FindText: "Id." + twoSpaces + "at", ReplaceWith: "Id." + oneSpace + "at", MatchCase: true, Replace: WdReplace.wdReplaceAll);
+
         }
 
         public static void RemoveSpace(Word.Application _app)
