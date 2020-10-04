@@ -1275,15 +1275,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Prelimine LitKit"
-        "ProductCode" = "8:{0C18043B-9433-4FCF-AD32-902C26204598}"
-        "PackageCode" = "8:{DF083F08-E4B2-4516-B266-88D4CF024886}"
+        "ProductCode" = "8:{D0F46315-0AC8-45C4-BDA8-F3304107E015}"
+        "PackageCode" = "8:{E97073FF-5E38-4138-97BC-2215284EDB7A}"
         "UpgradeCode" = "8:{4371C41D-C1BF-4E5E-814B-028076E593B4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:0.2.0"
         "Manufacturer" = "8:Prelimine"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://www.prelimine.com"
@@ -1951,7 +1951,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_403FA228145444CBA1CA6408146D7A42"
             {
-            "SourcePath" = "8:..\\LitKit1\\obj\\Debug\\LitKit.dll"
+            "SourcePath" = "8:..\\LitKit1\\obj\\Release\\LitKit.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_934A3461DE3F4F2CA3AA64E6B213D6E4"
