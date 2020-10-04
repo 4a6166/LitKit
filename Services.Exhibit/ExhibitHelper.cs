@@ -244,10 +244,37 @@ namespace Tools.Exhibit
                         case 0 when citeType == CiteType.LegalOrRecordCitation && FormatChoiceIndex == -1: //when citeID is not found in IDsForFormatChoice (initial cite)
                             cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).LongCite);
                             cite.Range.Italic = 0;
+                            try
+                            {
+                                string[] anchors = new string[] { "<i>", "</i>" };
+                                var TextParts = cite.Range.Text.Split(anchors, StringSplitOptions.None);
+
+                                Range rng = cite.Range;
+                                rng.Start = rng.Start + TextParts[0].Length;
+                                rng.End = rng.Start + TextParts[1].Length + 7;
+                                rng.Text = TextParts[1];
+                                rng.Font.Italic = -1;
+                            }
+                            catch
+                            { }
+
                             break;
                         case 0 when citeType == CiteType.LegalOrRecordCitation && FormatChoiceIndex > 0:
                             cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).ShortCite);
                             cite.Range.Italic = 0;
+                            try
+                            {
+                                string[] anchors = new string[] { "<i>", "</i>" };
+                                var TextParts = cite.Range.Text.Split(anchors, StringSplitOptions.None);
+
+                                Range rng = cite.Range;
+                                rng.Start = rng.Start + TextParts[0].Length;
+                                rng.End = rng.Start + TextParts[1].Length + 7;
+                                rng.Text = TextParts[1];
+                                rng.Font.Italic = -1;
+                            }
+                            catch
+                            { }
                             break;
 
                         case 0 when citeType == CiteType.Exhibit && FormatChoiceIndex == -1:

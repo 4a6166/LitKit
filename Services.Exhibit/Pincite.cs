@@ -116,9 +116,38 @@ namespace Tools.Exhibit
                     break;
                 case 0 when citeType == CiteType.LegalOrRecordCitation && IsInitialCite == 1:
                     cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).LongCite, "{PINCITE}");
+
+                    try
+                    {
+                        string[] anchors = new string[] { "<i>", "</i>" };
+                        var TextParts = cite.Range.Text.Split(anchors, StringSplitOptions.None);
+
+                        Range rng = cite.Range;
+                        rng.Start = rng.Start + TextParts[0].Length;
+                        rng.End = rng.Start + TextParts[1].Length + 7;
+                        rng.Text = TextParts[1];
+                        rng.Font.Italic = -1;
+                    }
+                    catch
+                    { }
+
                     break;
                 case 0 when citeType == CiteType.LegalOrRecordCitation && IsInitialCite == 2:
                     cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).ShortCite, "{PINCITE}");
+                    try
+                    {
+                        string[] anchors = new string[] { "<i>", "</i>" };
+                        var TextParts = cite.Range.Text.Split(anchors, StringSplitOptions.None);
+
+                        Range rng = cite.Range;
+                        rng.Start = rng.Start + TextParts[0].Length;
+                        rng.End = rng.Start + TextParts[1].Length + 7;
+                        rng.Text = TextParts[1];
+                        rng.Font.Italic = -1;
+                    }
+                    catch
+                    { }
+
                     break;
 
                 default:
