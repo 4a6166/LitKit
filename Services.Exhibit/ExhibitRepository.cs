@@ -32,7 +32,7 @@ namespace Tools.Exhibit
                 );
 
             xDocument.Element(rootName).Add(new XElement("Format",
-                new XElement("FirstCite", "Exhibit {INDEX}, {PINCITE}{DESC} ({BATES})"),
+                new XElement("FirstCite", "Exhibit {INDEX}, {DESC} {PINCITE}({BATES})"),
                 new XElement("FollowingCites", "Exhibit {INDEX}{PINCITE}"),
                 new XElement("IndexStyle", "Numbers"),
                 new XElement("IndexStart", "1"),

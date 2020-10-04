@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -34,7 +35,7 @@ namespace Tools.Exhibit
                 string CurrentPinText = GetPinciteText(cite);
 
                 int index = new ExhibitHelper(_app).GetPosition(cite);
-                bool InitialCite = IsInitialCite(cite);
+                int InitialCite = IsInitialCite(cite);
                 PrepCiteForPin(cite, index, InitialCite);
                 InsertPinciteCC(cite, CurrentPinText);
 
@@ -49,7 +50,7 @@ namespace Tools.Exhibit
             string CurrentPinText = GetPinciteText(cite);
 
             int index = new ExhibitHelper(_app).GetPosition(cite);
-            bool InitialCite = IsInitialCite(cite);
+            int InitialCite = IsInitialCite(cite);
             PrepCiteForPin(cite, index, InitialCite);
             InsertPinciteCC(cite, CurrentPinText);
 
@@ -81,7 +82,7 @@ namespace Tools.Exhibit
 
 
 
-        public void PrepCiteForPin(ContentControl cite, int index, bool IsInitialCite)
+        public void PrepCiteForPin(ContentControl cite, int index, int IsInitialCite)
         {
             string citeID = string.Empty;
             CiteType citeType = CiteType.None;
@@ -104,19 +105,19 @@ namespace Tools.Exhibit
             int switchvar = 0;
             switch (switchvar)
             {
-                case 0 when cite.Range.Text.ToUpper() == "id.":
+                case 0 when IsInitialCite == 3:
                     cite.Range.Text = ExhibitFormatter.FormatIdCite(cite.Range, "{PINCITE}");
                     break;
-                case 0 when citeType == CiteType.Exhibit && IsInitialCite == true:
+                case 0 when citeType == CiteType.Exhibit && IsInitialCite == 1:
                     cite.Range.Text = ExhibitFormatter.FormatCite(repository.GetExhibit(citeID), repository.FirstCite, repository.IndexStyle, repository.IndexStart, index, "{PINCITE}");
                     break;
-                case 0 when citeType == CiteType.Exhibit && IsInitialCite == false:
+                case 0 when citeType == CiteType.Exhibit && IsInitialCite == 2:
                     cite.Range.Text = ExhibitFormatter.FormatCite(repository.GetExhibit(citeID), repository.FollowingCites, repository.IndexStyle, repository.IndexStart, index, "{PINCITE}");
                     break;
-                case 0 when citeType == CiteType.LegalOrRecordCitation && IsInitialCite == true:
+                case 0 when citeType == CiteType.LegalOrRecordCitation && IsInitialCite == 1:
                     cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).LongCite, "{PINCITE}");
                     break;
-                case 0 when citeType == CiteType.LegalOrRecordCitation && IsInitialCite == false:
+                case 0 when citeType == CiteType.LegalOrRecordCitation && IsInitialCite == 2:
                     cite.Range.Text = ExhibitFormatter.FormatLRCite(repository.GetLRCite(citeID).ShortCite, "{PINCITE}");
                     break;
 
@@ -132,26 +133,59 @@ namespace Tools.Exhibit
 
         }
         /// <summary>
-        /// Gets index and whether the citation is the initial
+        /// returns 1 = initial cite, 2 = following non id, 3 = id
         /// </summary>
         /// <param name="index"></param>
         /// <param name="IsInitialCite"></param>
-        public bool IsInitialCite(ContentControl cite)
+        public int IsInitialCite(ContentControl cite)
         {
-            bool result = true;
+            int result = 0;
 
             ExhibitHelper exhibitHelper = new ExhibitHelper(_app);
             List<ContentControl> AllCites = exhibitHelper.GetAndOrderAllCiteContentControls();
-            List<string> PreceedingCites = new List<string>();
-            for (int i = 0; i< AllCites.IndexOf(cite); i++)
+
+            List<string> PreceedingCiteCCIDs = new List<string>();
+            for (int i = 0; i<=AllCites.Count; i++)
             {
-                PreceedingCites.Add(cite.Tag);
+                if (AllCites[i].ID != cite.ID)
+                {
+                    PreceedingCiteCCIDs.Add(AllCites[i].ID);
+                }
+                else break;
             }
 
-            if (PreceedingCites.Contains(cite.Tag))
+            List<string> AllCiteTags = new List<string>();
+            for (int i = 0; i <= AllCites.Count -1; i++)
             {
-                result = false;
+                AllCiteTags.Add(AllCites[i].Tag);
+
             }
+
+            List<string> PreceedingCites = new List<string>();
+
+            for (int i = 0; i<= AllCiteTags.IndexOf(cite.Tag); i++)
+            {
+                var catalogedCite = AllCites[i].Tag;
+                PreceedingCites.Add(catalogedCite);
+            }
+
+
+            string previousCiteID = AllCites.Where(n => n.ID == PreceedingCiteCCIDs.Last()).SingleOrDefault().Tag;
+
+
+            if (!PreceedingCites.Contains(cite.Tag))
+            {
+                result = 1; //initial cite
+            }
+            else if (previousCiteID == cite.Tag)
+            {
+                result = 3; //following cite
+            }
+            else
+            {
+                result = 2; //id
+            }
+            
             return result;
         }
 

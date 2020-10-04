@@ -165,21 +165,21 @@ namespace LitKit1.Controls.ExhibitControls
 
         private string MakeFirstCiteFormatting()
         {
-            string result = cbIntroMark.Text + " {INDEX}, {PINCITE}";
+            string result = cbIntroMark.Text + " {INDEX}, ";
 
             switch (cbDescBatesFormat.Text)
             {
                 case "Description, Bates":
-                    result += "{DESC} ({BATES})";
+                    result += "{DESC} {PINCITE}({BATES})";
                     break;
                 case "Description":
-                    result += "{DESC}";
+                    result += "{DESC}{PINCITE}";
                     break;
                 case "(Description)":
-                    result += "({DESC})";
+                    result += "{PINCITE}({DESC})";
                     break;
                 case "(Description, Bates)":
-                    result += "({DESC}, {BATES})";
+                    result += "{PINCITE}({DESC}, {BATES})";
                     break;
 
                 default:
@@ -196,7 +196,7 @@ namespace LitKit1.Controls.ExhibitControls
 
         private string MakeFollowingCiteFormatting()
         {
-            string result = cbIntroMark.Text + " {INDEX} {PINCITE}";
+            string result = cbIntroMark.Text + " {INDEX} ";
             if (!cbUniformCitesStandard.Checked) // Description and Bates in Initial Cite Only == false
             {
                 result = cbIntroMark.Text + " {INDEX}, ";
@@ -204,16 +204,16 @@ namespace LitKit1.Controls.ExhibitControls
                 switch (cbDescBatesFormat.Text)
                 {
                     case "Description, Bates":
-                        result += "{DESC} ({BATES})";
+                        result += "{DESC} {PINCITE}({BATES})";
                         break;
                     case "Description":
-                        result += "{DESC}";
+                        result += "{DESC}{PINCITE}";
                         break;
                     case "(Description)":
-                        result += "({DESC})";
+                        result += "{PINCITE}({DESC})";
                         break;
                     case "(Description, Bates)":
-                        result += "({DESC}, {BATES})";
+                        result += "{PINCITE}({DESC}, {BATES})";
                         break;
 
                     default:
