@@ -53,7 +53,7 @@ namespace Tools.Simple
             foreach (string expression in ExpressionsSpaceAfter)
             {
                 string expr = expression.Substring(0, expression.Length) + nbs;
-                rng.Find.Execute(FindText: expression + " ", ReplaceWith: expr, MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText: " "+expression +" ", ReplaceWith: " "+expr, MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Tools.Simple
             foreach (string expression in ExpressionsSpaceBefore)
             {
                 string expr = nbs + expression;
-                rng.Find.Execute(FindText: " " + expression, ReplaceWith: expr, MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText: " "+ expression, ReplaceWith: expr, MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
             }
 
         }

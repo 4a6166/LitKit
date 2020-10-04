@@ -65,6 +65,16 @@ namespace LitKit1.Controls.ExhibitControls
                 }
                 else ShortCite = textBox1.Text;
 
+                if (!LongCite.Contains("{PINCITE}"))
+                {
+                    LongCite += "{PINCITE}";
+                }
+                if (!ShortCite.Contains("{PINCITE}"))
+                {
+                    ShortCite += "{PINCITE}";
+                }
+
+
 
                 if (string.IsNullOrEmpty(ID))
                 {

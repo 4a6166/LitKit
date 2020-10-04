@@ -34,23 +34,24 @@ namespace Tools.Simple
             _app.ActiveDocument.Select();
             DoubleSpace(_app.Selection.Range);
 
-            if (_app.ActiveDocument.Footnotes.Count > 0)
-            {
-                foreach (Footnote footnote in _app.ActiveDocument.Footnotes)
-                {
-                    footnote.Range.Select();
-                    DoubleSpace(footnote.Range);
-                }
-            }
+            //// For testing, not going through footnotes because of how long it takes
+            //if (_app.ActiveDocument.Footnotes.Count > 0)
+            //{
+            //    foreach (Footnote footnote in _app.ActiveDocument.Footnotes)
+            //    {
+            //        footnote.Range.Select();
+            //        DoubleSpace(footnote.Range);
+            //    }
+            //}
 
-            if (_app.ActiveDocument.Endnotes.Count >0)
-            {
-                foreach (Endnote endnote in _app.ActiveDocument.Endnotes)
-                {
-                    endnote.Range.Select();
-                    DoubleSpace(endnote.Range);
-                }
-            }
+            //if (_app.ActiveDocument.Endnotes.Count >0)
+            //{
+            //    foreach (Endnote endnote in _app.ActiveDocument.Endnotes)
+            //    {
+            //        endnote.Range.Select();
+            //        DoubleSpace(endnote.Range);
+            //    }
+            //}
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
 
@@ -75,7 +76,7 @@ namespace Tools.Simple
 
             foreach (var text in abbreviations)
             {
-                rng.Find.Execute(FindText: " "+text + "  ", ReplaceWith: " "+text + " ", MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText: " "+text + "  ", ReplaceWith: " "+text + " ", MatchCase: true, Replace: WdReplace.wdReplaceAll);
             }
 
             for (int i = 0; i <= 9; i++)
@@ -93,23 +94,24 @@ namespace Tools.Simple
             _app.ActiveDocument.Select();
             SingleSpace(_app.Selection.Range);
 
-            if (_app.ActiveDocument.Footnotes.Count > 0)
-            {
-                foreach (Footnote footnote in _app.ActiveDocument.Footnotes)
-                {
-                    footnote.Range.Select();
-                    SingleSpace(footnote.Range);
-                }
-            }
+            //// For testing, not going through footnotes because of how long it takes
+            //if (_app.ActiveDocument.Footnotes.Count > 0)
+            //{
+            //    foreach (Footnote footnote in _app.ActiveDocument.Footnotes)
+            //    {
+            //        footnote.Range.Select();
+            //        SingleSpace(footnote.Range);
+            //    }
+            //}
 
-            if (_app.ActiveDocument.Endnotes.Count > 0)
-            {
-                foreach (Endnote endnote in _app.ActiveDocument.Endnotes)
-                {
-                    endnote.Range.Select();
-                    SingleSpace(endnote.Range);
-                }
-            }
+            //if (_app.ActiveDocument.Endnotes.Count > 0)
+            //{
+            //    foreach (Endnote endnote in _app.ActiveDocument.Endnotes)
+            //    {
+            //        endnote.Range.Select();
+            //        SingleSpace(endnote.Range);
+            //    }
+            //}
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
         }
@@ -153,9 +155,12 @@ namespace Tools.Simple
 
             "i.e.",
             "e.g.",
+            "E.g.",
             "etc.",
             "No.",
+            "no.",
             "ex.",
+            "Ex.",
 
             "St.",
             "Ave.",
@@ -171,6 +176,8 @@ namespace Tools.Simple
             "P.M.",
             "hr.",
             "sec.",
+            "SEC.",
+            "Sec.",
             #endregion
 
             #region distance
@@ -266,22 +273,27 @@ namespace Tools.Simple
             "X.",
             "Y.",
             "Z.",
+            "n.",
             #endregion
 
             #region Bluebook
 
             "Admin.",
+            "admin.",
             "Adm.",
             "Agric.",
             "Alder.",
             "A.L.J.",
             "amend.",
+            "Amend.",
             "Ann.",
             "art.",
+            "Art.",
             "Assem.",
             "Assoc.",
             "Atl.",
             "App.",
+            "app.",
             "Arb.",
             "Auth.",
             "Auto.",
@@ -294,12 +306,14 @@ namespace Tools.Simple
             "B.P.A.I.",
             "Bros.",
             "Bus.",
+            "bus.",
             "Cas.",
             "Ch.",
             "Cl.",
             "Cir.",
             "Civ.",
             "Cont.",
+            "cont.",
             "Compl.",
             "Ct.",
             "Ctr.",
@@ -314,7 +328,10 @@ namespace Tools.Simple
             "Crim.",
             "Cty.",
             "Cust.",
+            "Decl.",
+            "Dep.",
             "Dev.",
+            "dev.",
             "Det.",
             "Dir.",
             "Distrib.",
@@ -323,16 +340,20 @@ namespace Tools.Simple
             "Dom.",
             "Econ.",
             "Ed.",
+            "ed.",
             "Educ.",
             "Elec.",
             "Envtl.",
             "Equip.",
             "Exch.",
             "Err.",
+            "err.",
             "Evid.",
             "Fam.",
             "fig.",
+            "Fig.",
             "Fin.",
+            "fin.",
             "Gen.",
             "Guar.",
             "H.R.",
@@ -351,25 +372,38 @@ namespace Tools.Simple
             "Legis.",
             "Liab.",
             "Ltd.",
+            "ltd.",
             "Litig.",
+            "litig.",
             "Mach.",
             "Maint.",
             "Mgmt.",
             "Mfr.",
             "Mfg.",
             "Mil.",
+            "mil.",
             "Mkt.",
             "Mktg.",
             "Mech.",
             "Med.",
+            "med.",
             "Merch.",
+            "merch.",
             "Mun.",
             "Mut.",
             "Ne.",
+            "NE.",
+            "N.E.",
             "nn.",
             "Nw.",
+            "NW.",
+            "N.W.",
             "Sw.",
+            "SW.",
+            "S.W.",
             "Se.",
+            "SE.",
+            "S.E.",
             "Org.",
             "Pac.",
             "Pers.",
@@ -379,41 +413,52 @@ namespace Tools.Simple
             "Proc.",
             "Prod.",
             "Prop.",
+            "prop.",
             "Prot.",
             "Pub.",
+            "pub",
             "R.R.",
             "Ry.",
             "Rec.",
+            "rec.",
             "Ref.",
+            "ref.",
             "Reg.",
             "Regs.",
             "Rehab.",
+            "rehab.",
             "Rep.",
+            "rep.",
             "Reprod.",
             "Res.",
-            "Rest.",
             "Ret.",
             "Rev.",
             "Rptr.",
             "Sav.",
             "Sch.",
             "Sci.",
-            "Sec.",
             "Sen.",
             "Serv.",
             "Sess.",
             "So.",
+            "so.",
             "Soc.",
             "Spec.",
+            "spec.",
             "Stat.",
-            "Subcomm",
+            "stat.",
+            "Subcomm.",
             "Sup.",
             "Super.",
+            "super.",
             "Sur.",
             "Sys.",
             "tbl.",
+            "Tbl.",
             "Tech.",
+            "tech.",
             "Telecomm.",
+            "telecomm.",
             "Tel.",
             "Temp.",
             "tit.",
@@ -441,8 +486,8 @@ namespace Tools.Simple
             "Fed.",
             "App.",
             "Supp.",
-            "Ex.",
             "Exh.",
+            "exh.",
             "Pl.",
             "Def.",
             "Defs.",
@@ -453,6 +498,7 @@ namespace Tools.Simple
             "Mot.",
 
             "Co.",
+            "co.,",
             "L.L.C.",
             "L.L.P.",
             "etc.",

@@ -162,7 +162,7 @@ namespace Tools.Exhibit
 
         }
         /// <summary>
-        /// returns 1 = initial cite, 2 = following non id, 3 = id
+        /// returns 1 = initial cite, 2 = id, 3 = following non id
         /// </summary>
         /// <param name="index"></param>
         /// <param name="IsInitialCite"></param>
@@ -172,49 +172,93 @@ namespace Tools.Exhibit
 
             ExhibitHelper exhibitHelper = new ExhibitHelper(_app);
             List<ContentControl> AllCites = exhibitHelper.GetAndOrderAllCiteContentControls();
+            List<string> AllCiteCCIDs = new List<string>();
+            List<string> PreviousCiteTags = new List<string>();
 
-            List<string> PreceedingCiteCCIDs = new List<string>();
-            for (int i = 0; i<=AllCites.Count; i++)
-            {
-                if (AllCites[i].ID != cite.ID)
-                {
-                    PreceedingCiteCCIDs.Add(AllCites[i].ID);
-                }
-                else break;
-            }
 
-            List<string> AllCiteTags = new List<string>();
-            for (int i = 0; i <= AllCites.Count -1; i++)
+            for (int i = 0; i<AllCites.Count; i++)
             {
-                AllCiteTags.Add(AllCites[i].Tag);
+                AllCiteCCIDs.Add(AllCites[i].ID);
 
             }
 
-            List<string> PreceedingCites = new List<string>();
-
-            for (int i = 0; i<= AllCiteTags.IndexOf(cite.Tag); i++)
+            for (int i = 0; i<AllCiteCCIDs.IndexOf(cite.ID); i++)
             {
-                var catalogedCite = AllCites[i].Tag;
-                PreceedingCites.Add(catalogedCite);
+                PreviousCiteTags.Add(AllCites[i].Tag);
             }
 
-
-            string previousCiteID = AllCites.Where(n => n.ID == PreceedingCiteCCIDs.Last()).SingleOrDefault().Tag;
-
-
-            if (!PreceedingCites.Contains(cite.Tag))
+            if (PreviousCiteTags.LastOrDefault() == cite.Tag)
             {
-                result = 1; //initial cite
+                result = 3;
             }
-            else if (previousCiteID == cite.Tag)
+            else if (PreviousCiteTags.Contains(cite.Tag))
             {
-                result = 3; //following cite
+                result = 2;
             }
-            else
-            {
-                result = 2; //id
-            }
-            
+            else result = 1;
+
+
+
+
+            //List<string> PreceedingCiteCCIDs = new List<string>();
+            //for (int i = 0; i<AllCites.Count; i++)
+            //{
+            //    if (AllCites[i].ID != cite.ID)
+            //    {
+            //        PreceedingCiteCCIDs.Add(AllCites[i].ID);
+            //    }
+            //    else break;
+            //}
+
+            //List<string> AllCiteTags = new List<string>();
+            //for (int i = 0; i <= AllCites.Count -1; i++)
+            //{
+            //    AllCiteTags.Add(AllCites[i].Tag);
+
+            //}
+
+            //List<string> PreceedingCiteTags = new List<string>();
+
+            //for (int i = 0; i< AllCiteTags.IndexOf(cite.Tag); i++)
+            //{
+            //    var catalogedCiteTag = AllCites[i].Tag;
+            //    PreceedingCiteTags.Add(catalogedCiteTag);
+            //}
+
+
+            //string previousCiteTag;
+            //try
+            //{
+            //    previousCiteTag = AllCites.Where(n => n.ID == PreceedingCiteCCIDs.Last()).SingleOrDefault().Tag;
+            //}
+            //catch { previousCiteTag = null; }
+
+            //int CountOfCiteInPreceedingCites = 0;
+            //if (PreceedingCiteTags.Contains(cite.Tag))
+            //{
+            //    foreach (var c in PreceedingCiteTags)
+            //    {
+            //        if (c == cite.Tag)
+            //        {
+            //            CountOfCiteInPreceedingCites++;
+            //        }
+            //    }
+            //}
+
+
+            //if (CountOfCiteInPreceedingCites > 1)
+            //{
+            //    result = 1; //initial cite
+            //}
+            //else if (previousCiteTag == cite.Tag)
+            //{
+            //    result = 2; // id
+            //}
+            //else
+            //{
+            //    result = 3; //following cite
+            //}
+
             return result;
         }
 

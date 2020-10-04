@@ -625,7 +625,7 @@ namespace LitKit1.Controls
             if (listView2.SelectedItems.Count > 0)
             {
                 label1.Visible = false;
-                DialogResult result = MessageBox.Show("Are you sure you want to remove all references to this citation from the document? The citation will remain in the citation List.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult result = MessageBox.Show("Are you sure you want to remove all references to this citation from the document? The citation will remain in the Citation List.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
                     _app.UndoRecord.StartCustomRecord("Remove Citation References");
@@ -702,7 +702,7 @@ namespace LitKit1.Controls
             if (listView2.SelectedItems.Count > 0)
             {
                 label1.Visible = false;
-                DialogResult result = MessageBox.Show("Are you sure you want to remove this citation from the citation List? This will also remove the references to this citation from the document and cannot be undone.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult result = MessageBox.Show("Are you sure you want to remove this citation from the Citation List? This will also remove the references to this citation from the document and cannot be undone.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
                     string id = listView2.SelectedItems[0].SubItems[2].Text;
@@ -710,7 +710,7 @@ namespace LitKit1.Controls
 
                     foreach (Word.ContentControl cc in _app.ActiveDocument.ContentControls)
                     {
-                        if (cc.Tag == "Exhibit:" + id)
+                        if (cc.Tag == "Exhibit:" + id || cc.Tag == "Cite:"+id)
                         {
                             cc.Delete(true);
                         }
@@ -718,6 +718,7 @@ namespace LitKit1.Controls
 
                     helper.UpdateInsertedCites();
                     LoadExhibitListView();
+                    LoadLRListView();
                 }
                 _app.ActiveDocument.UndoClear(); // prevents user from re-inserting a cc that no longer is able to reference an exhibit
             }
