@@ -19,15 +19,29 @@ namespace Services.Licensing
 
         private static string LicensePath;
 
-        public static bool LicenseIsValid()
+        private static string GetLicensePath()
         {
-            bool result = false;
+            string licPath = string.Empty;
+
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             String Root = Directory.GetCurrentDirectory();
 
-            string licPath = Root + @"\license.xml";
+            
+            var files = Directory.EnumerateFiles(Root);
+            licPath = files.Where(n => n.Contains("license.xml")).First();
 
-            LicensePath = licPath;
+            return licPath;
+        }
+        public static bool LicenseIsValid()
+        {
+            bool result = false;
+            //Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            //String Root = Directory.GetCurrentDirectory();
+
+            //string licPath = Root + @"\license.xml";
+
+            //LicensePath = licPath;
+            LicensePath = GetLicensePath();
 
             try
             {
@@ -49,10 +63,12 @@ namespace Services.Licensing
         public static string Expiration()
         {
             string result = string.Empty;
-            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-            String Root = Directory.GetCurrentDirectory();
+            //Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            //String Root = Directory.GetCurrentDirectory();
 
-            string licPath = Root + @"\license.xml";
+            //string licPath = Root + @"\license.xml";
+
+            string licPath = GetLicensePath();
 
             XmlDocument license = new XmlDocument();
             license.Load(licPath);

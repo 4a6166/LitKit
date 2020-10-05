@@ -98,7 +98,10 @@ namespace Tools.Simple
                     {
                         string strng1 = RemoveNumbers(line);
 
-                        if (strng1.StartsWith("Q.") ||
+                        if (strng1.StartsWith("Q ") ||
+                            strng1.StartsWith("A ") ||
+
+                            strng1.StartsWith("Q.") ||
                             strng1.StartsWith("A.") ||
                             strng1.StartsWith("Mr.") ||
                             strng1.StartsWith("Mrs.") ||

@@ -42,6 +42,7 @@ namespace Tools.Exhibit
             return Guid.NewGuid().ToString();
         }
 
+
         public string ID { get; private set; }
         public string Description { get; set; }
         public string BatesNumber { get; set; }

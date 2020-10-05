@@ -21,8 +21,14 @@ namespace LitKit1.Controls.ExhibitControls
         }
 
         readonly Microsoft.Office.Interop.Word.Application _app;
+        public string ID = string.Empty;
 
-        
+        private string lcExample = "Description of Exhibit";
+        private string scExample = "ABC0001234";
+
+
+
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (textBox1.Text == "Description of Exhibit" || textBox1.Text == "" || string.IsNullOrWhiteSpace(textBox1.Text))
@@ -32,7 +38,7 @@ namespace LitKit1.Controls.ExhibitControls
 
             else if (string.IsNullOrEmpty(ID))
             {
-                IExhibitRepository repository = ExhibitRepositoryFactory.GetRepository("XML", Globals.ThisAddIn.Application);
+                ExhibitRepository repository = new ExhibitRepository(Globals.ThisAddIn.Application);
 
                 string description = string.Empty;
                 if (textBox1.Text != "Description of Exhibit")
@@ -53,7 +59,7 @@ namespace LitKit1.Controls.ExhibitControls
             }
             else
             {
-                IExhibitRepository repository = ExhibitRepositoryFactory.GetRepository("XML", Globals.ThisAddIn.Application);
+                ExhibitRepository repository = new ExhibitRepository(Globals.ThisAddIn.Application);
 
                 string description = string.Empty;
                 if (textBox1.Text != "Description of Exhibit")
@@ -73,7 +79,6 @@ namespace LitKit1.Controls.ExhibitControls
             }
         }
 
-        public string ID = string.Empty;
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -85,7 +90,8 @@ namespace LitKit1.Controls.ExhibitControls
             ActivePane.Control.Controls.Add(exhibitCtrl);
             //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
             exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            exhibitCtrl.LoadListView();
+            TabControl tabControl = (TabControl)exhibitCtrl.Controls[2]; // the index of the tab control moves depending on what control is closes to the top of the form.
+            tabControl.SelectedIndex = 0; //To set the tab to the list that was just being edited (Exhibit tab here)
 
             ActivePane.Visible = true;
             //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
@@ -93,7 +99,7 @@ namespace LitKit1.Controls.ExhibitControls
 
         private void textBox1_Enter(object sender, EventArgs e)
         {
-            if (textBox1.Text == "Description of Exhibit")
+            if (textBox1.Text == lcExample)
             {
                 textBox1.Text = "";
                 textBox1.ForeColor = Color.Black;
@@ -102,7 +108,7 @@ namespace LitKit1.Controls.ExhibitControls
 
         private void textBox3_Enter(object sender, EventArgs e)
         {
-            if (textBox3.Text == "ABC0001234")
+            if (textBox3.Text == scExample)
             {
                 textBox3.Text = "";
                 textBox3.ForeColor = Color.Black;
@@ -113,7 +119,7 @@ namespace LitKit1.Controls.ExhibitControls
         {
             if (textBox3.Text == "")
             {
-                textBox3.Text = "ABC0001234";
+                textBox3.Text = scExample;
                 textBox3.ForeColor = Color.Gray;
             }
         }
@@ -122,7 +128,7 @@ namespace LitKit1.Controls.ExhibitControls
         {
             if (textBox1.Text == "")
             {
-                textBox1.Text = "Description of Exhibit";
+                textBox1.Text = lcExample;
                 textBox1.ForeColor = Color.Gray;
             }
             
@@ -130,11 +136,11 @@ namespace LitKit1.Controls.ExhibitControls
 
         public void GrayExampleText()
         {
-            if (textBox1.Text != "Description of Exhibit")
+            if (textBox1.Text != lcExample)
             { textBox1.ForeColor = Color.Black; }
             else textBox1.ForeColor = Color.Gray;
 
-            if (textBox3.Text != "ABC0001234")
+            if (textBox3.Text != scExample)
             { textBox3.ForeColor = Color.Black; }
             else textBox3.ForeColor = Color.Gray;
 

@@ -30,6 +30,7 @@
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <TargetFrameworkProfile />
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>C:\Users\Jake\Google Drive %28jacob.field%40prelimine.com%29\repos\LitKit1_git\DeploymentFiles\LitKitInstallTest\</PublishUrl>
     <InstallUrl />
@@ -45,7 +46,6 @@
     <FriendlyName>Prelimine LitKit</FriendlyName>
     <OfficeApplicationDescription>Litigation-oriented software aiming to automate repetitive tasks while minimizing errors, as well as overhead costs for law firms in the shape of paralegal, word processing, and secretarial help</OfficeApplicationDescription>
     <LoadBehavior>16</LoadBehavior>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -225,6 +225,12 @@
     <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.Designer.cs">
       <DependentUpon>ctrlExhibitFormat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.Designer.cs">
+      <DependentUpon>ctrlExhibitFormatCustom.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ExhibitControls\ctrlExhibitMain.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -242,6 +248,12 @@
     </Compile>
     <Compile Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.Designer.cs">
       <DependentUpon>ctrlExhibitUpdateAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.Designer.cs">
+      <DependentUpon>ctrlLegalRecordUpdateAdd.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ExhibitControls\UITests.cs">
       <SubType>UserControl</SubType>
@@ -304,6 +316,10 @@
       <DependentUpon>ctrlExhibitFormat.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.resx">
+      <DependentUpon>ctrlExhibitFormatCustom.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitMain.resx">
       <DependentUpon>ctrlExhibitMain.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -315,6 +331,9 @@
     <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.resx">
       <DependentUpon>ctrlExhibitUpdateAdd.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.resx">
+      <DependentUpon>ctrlLegalRecordUpdateAdd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ExhibitControls\UITests.resx">
       <DependentUpon>UITests.cs</DependentUpon>
@@ -334,14 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Controls\frmLoading.resx">
       <DependentUpon>frmLoading.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -356,6 +370,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -393,6 +412,32 @@
     <None Include="Resources\Group.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\RemovePincite_32px.png" />
+    <None Include="Resources\Support_16px.png" />
+    <None Include="Resources\ShowHideFMarks_16px.png" />
+    <None Include="Resources\SmartQuotes_16px.png" />
+    <None Include="Resources\SenteceSpacing_16px.png" />
+    <None Include="Resources\ResponseTool_32px.png" />
+    <None Include="Resources\RemovePincite_16px.png" />
+    <None Include="Resources\UnmarkSelection_16px.png" />
+    <None Include="Resources\ClearAllRedactions_32px.png" />
+    <None Include="Resources\CreatePDF_32px.png" />
+    <None Include="Resources\MarkSelection_32px.png" />
+    <None Include="Resources\ClearAllRedactions_16px.png" />
+    <None Include="Resources\CreatePDF_16px.png" />
+    <None Include="Resources\CreateRedactedPDF_32px.png" />
+    <None Include="Resources\CreateUnredactedPDF_32px.png" />
+    <None Include="Resources\ExhibitTool_32px.png" />
+    <None Include="Resources\AddPincite_16px.png" />
+    <None Include="Resources\IndexOfExhibits_16px.png" />
+    <None Include="Resources\CustomizeObjAndResp_32px.png" />
+    <None Include="Resources\PasteTranscript_32px.png" />
+    <None Include="Resources\LatinWords_16px.png" />
+    <None Include="Resources\OxfordComma_16px.png" />
+    <None Include="Resources\InsertNBS_16px.png" />
+    <None Include="Resources\LegalSymbol_32px.png" />
+    <None Include="Resources\KeepWithNext_16px.png" />
+    <None Include="Resources\AddPincite_32px.png" />
     <Content Include="Resources\PilcrowLone1_B.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -6,7 +7,7 @@ using Application = Microsoft.Office.Interop.Word.Application;
 
 namespace Tools.Exhibit
 {
-    public class ExhibitRepository : IExhibitRepository
+    public class ExhibitRepository
     {
         public ExhibitRepository(Application _app)
         {
@@ -17,9 +18,9 @@ namespace Tools.Exhibit
                 FrameCustomXMLDoc();
             }
 
-        }
+            UpdateRepoVarsFromDB();
 
-        
+        }
         #region builds initial custom XML doc if it doens't exist
         void FrameCustomXMLDoc()
         {
@@ -30,13 +31,19 @@ namespace Tools.Exhibit
                     new XElement(rootName, "")
                 );
 
-            xDocument.Element(rootName).Add(new XElement("Format", 
+            xDocument.Element(rootName).Add(new XElement("Format",
+                new XElement("FirstCite", "Exhibit {INDEX}, {DESC} {PINCITE}({BATES})"),
+                new XElement("FollowingCites", "Exhibit {INDEX}{PINCITE}"),
+                new XElement("IndexStyle", "Numbers"),
+                new XElement("IndexStart", "1"),
+                new XElement("IdCite", "True"),
+                new XElement("FormatCustomized", "False"),
+
+                // used for standard formatting form
                 new XElement("Intro", "Exhibit"),
-                new XElement("Numbering", "1, 2, 3..."),
-                new XElement("FirstOnly", "In first citation only"),
-                new XElement("DescBatesFormat", "Description, Bates"),
-                new XElement("Parentheses", "False"),
-                new XElement("IdCite", "True")
+                new XElement("DescBatesFormat", "Description (Bates)"),
+                new XElement("UniformCites", "True"), //First and following cites are in the same format
+                new XElement("Parentheses", "False")
                 ));
 
             string docString = /*@"<?xml version="+quotes+"1.0" + quotes + " encoding=" + quotes + "UTF - 8" + quotes + " standalone =" + quotes + "yes" + quotes + " ?>" +*/
@@ -47,44 +54,118 @@ namespace Tools.Exhibit
         }
         #endregion
 
-
         private readonly Application _app;
 
         static string NameSpace = "Prelimine Litkit Exhibits";
         static XNamespace name = NameSpace;
         static XName rootName = name + "Exhibits";
 
-        public void UpdateFormatting(string Intro, string Numbering, string FirstOnly, string DescBatesFormat, string Parentheses, string IdCite)
+
+        #region Formatting
+        //TODO: make FirstCite, FollowingCite, etc properties of repo and pull repo instantiation out of formatting update forms
+        public string FirstCite { get; private set; }
+        public string FollowingCites { get; private set; }
+        public NumberingOptions IndexStyle { get; private set; }
+        public int IndexStart { get; private set; }
+        public bool idCite { get; private set; }
+        public bool FormatCustomized { get; private set; }
+
+        public string Intro { get; private set; }
+        public string DescBatesFormat { get; private set; }
+        public bool UniformCites { get; private set; }
+        public bool Parentheses { get; private set; }
+
+        public void UpdateRepoVarsFromDB()
+        {
+            FirstCite = GetFormatting(FormatNodes.FirstCite);
+            FollowingCites = GetFormatting(FormatNodes.FollowingCites);
+            IndexStyle = new EnumSwitch().NumberingOptions_TextSwitchEnum(GetFormatting(FormatNodes.IndexStyle));
+            IndexStart = Int32.Parse(GetFormatting(FormatNodes.IndexStart));
+            idCite = bool.Parse(GetFormatting(FormatNodes.IdCite));
+            FormatCustomized = bool.Parse(GetFormatting(FormatNodes.FormatCustomized));
+
+            Intro = GetFormatting(FormatNodes.Intro);
+            DescBatesFormat = GetFormatting(FormatNodes.DescBatesFormat);
+            UniformCites = bool.Parse(GetFormatting(FormatNodes.UniformCites));
+            Parentheses = bool.Parse(GetFormatting(FormatNodes.Parentheses));
+        }
+
+        public void UpdateFormatting(string FirstCite, string FollowingCites, string IndexStyle, string IndexStart, bool UniformCites, bool IdCite, bool FormatCustomized)
         {
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode("//Format");
-            FormattingNode.SelectSingleNode("//Intro").Text= Intro;
-            FormattingNode.SelectSingleNode("//Numbering").Text = Numbering;
-            FormattingNode.SelectSingleNode("//FirstOnly").Text = FirstOnly;
-            FormattingNode.SelectSingleNode("//DescBatesFormat").Text = DescBatesFormat;
-            FormattingNode.SelectSingleNode("//Parentheses").Text = Parentheses;
-            FormattingNode.SelectSingleNode("//IdCite").Text = IdCite;
 
+            if (FirstCite.Contains("{PINCITE}"))
+            {
+                FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite;
+            } else FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite + "{PINCITE}";
+
+            if (FollowingCites.Contains("{PINCITE}"))
+            {
+                FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites;
+            } else FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites + "{PINCITE}";
+
+            FormattingNode.SelectSingleNode("//IndexStyle").Text = IndexStyle;
+            FormattingNode.SelectSingleNode("//IndexStart").Text = IndexStart;
+            FormattingNode.SelectSingleNode("//UniformCites").Text = UniformCites.ToString();
+            FormattingNode.SelectSingleNode("//IdCite").Text = IdCite.ToString();
+            FormattingNode.SelectSingleNode("//FormatCustomized").Text = FormatCustomized.ToString();
+
+            UpdateRepoVarsFromDB();
 
         }
-        
-        
+
+        public void UpdateStandardFormatting(string FirstCite, string FollowingCites, string IndexStyle, string IndexStart, bool UniformCites, bool IdCite, bool FormatCustomized, string intro, string descBatesFormat, bool parentheses)
+        {
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode("//Format");
+
+            if (FirstCite.Contains("{PINCITE}"))
+            {
+                FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite;
+            }
+            else FormattingNode.SelectSingleNode("//FirstCite").Text = FirstCite + "{PINCITE}";
+
+            if (FollowingCites.Contains("{PINCITE}"))
+            {
+                FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites;
+            }
+            else FormattingNode.SelectSingleNode("//FollowingCites").Text = FollowingCites + "{PINCITE}";
+
+            FormattingNode.SelectSingleNode("//IndexStyle").Text = IndexStyle;
+            FormattingNode.SelectSingleNode("//IndexStart").Text = IndexStart;
+            FormattingNode.SelectSingleNode("//UniformCites").Text = UniformCites.ToString();
+            FormattingNode.SelectSingleNode("//IdCite").Text = IdCite.ToString();
+            FormattingNode.SelectSingleNode("//FormatCustomized").Text = FormatCustomized.ToString();
+
+            FormattingNode.SelectSingleNode("//Intro").Text = intro;
+            FormattingNode.SelectSingleNode("//DescBatesFormat").Text = descBatesFormat;
+            FormattingNode.SelectSingleNode("//Parentheses").Text = parentheses.ToString();
+
+            UpdateRepoVarsFromDB();
+
+        }
 
         public string GetFormatting(FormatNodes node)  //TODO: check why this loops so many times when Updating Formatting on Exhibit Format
         {
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode("//Format");
-            CustomXMLNode FormatNode = FormattingNode.SelectSingleNode("//"+node.ToString());
-            return FormatNode.Text;
+            CustomXMLNode FormatNode = FormattingNode.SelectSingleNode("//" + node.ToString());
+            string result = FormatNode.Text.Replace("\\u00A0", "\u00A0");
+
+            return result;
         }
 
+        #endregion
+
+        #region Exhibits
         public void AddExhibit(string Description, string BatesNumber)
         {
             Exhibit newExhibit = new Exhibit(Description, BatesNumber);
-            
+
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
-            CustomXMLNode ExhibitsNode = customXmlDoc.SelectSingleNode("//Format").ParentNode;   
-            customXmlDoc.AddNode(ExhibitsNode, "Exhibit","",null,MsoCustomXMLNodeType.msoCustomXMLNodeElement,"");
+            CustomXMLNode ExhibitsNode = customXmlDoc.SelectSingleNode("//Format").ParentNode;
+            customXmlDoc.AddNode(ExhibitsNode, "Exhibit", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, "");
 
             CustomXMLNodes ExhibitNodes = customXmlDoc.SelectNodes("//Exhibit");
             CustomXMLNode ExhibitNode = ExhibitNodes[ExhibitNodes.Count];
@@ -117,7 +198,7 @@ namespace Tools.Exhibit
             CustomXMLNodes exhibitNodes = customXmlDoc.SelectNodes("//Exhibit");
             foreach (CustomXMLNode exh in exhibitNodes)
             {
-                if(exh.SelectSingleNode("ID").Text == id)
+                if (exh.SelectSingleNode("ID").Text == id)
                 {
                     nodesList.Add(exh);
                 }
@@ -129,7 +210,7 @@ namespace Tools.Exhibit
             return exhibit;
         }
 
-        public IEnumerable<Exhibit> GetExhibits()  
+        public IEnumerable<Exhibit> GetExhibits()
         {
 
             List<Exhibit> exhibits = new List<Exhibit>();
@@ -163,5 +244,96 @@ namespace Tools.Exhibit
                 }
             }
         }
+        #endregion
+
+        #region Legal and Record Cites
+        public void AddLRCite(string LongCite, string ShortCite)
+        {
+            LegalRecordCite newExhibit = new LegalRecordCite(LongCite, ShortCite);
+
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNode ExhibitsNode = customXmlDoc.SelectSingleNode("//Format").ParentNode;
+            customXmlDoc.AddNode(ExhibitsNode, "LRCite", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, "");
+
+            CustomXMLNodes ExhibitNodes = customXmlDoc.SelectNodes("//LRCite");
+            CustomXMLNode ExhibitNode = ExhibitNodes[ExhibitNodes.Count];
+            customXmlDoc.AddNode(ExhibitNode, "ID", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newExhibit.ID);
+            customXmlDoc.AddNode(ExhibitNode, "LongCite", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newExhibit.LongCite);
+            customXmlDoc.AddNode(ExhibitNode, "ShortCite", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newExhibit.ShortCite);
+        }
+
+        public void DeleteLRCite(string id)
+        {
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+
+            CustomXMLNodes exhibitNodes = customXmlDoc.SelectNodes("//LRCite");
+            foreach (CustomXMLNode exh in exhibitNodes)
+            {
+                if (exh.SelectSingleNode("ID").Text == id)
+                {
+                    exh.Delete();
+                }
+            }
+
+        }
+
+        public LegalRecordCite GetLRCite(string id)
+        {
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            id = id.Split('|')[0];
+
+            List<CustomXMLNode> nodesList = new List<CustomXMLNode>();
+            CustomXMLNodes exhibitNodes = customXmlDoc.SelectNodes("//LRCite");
+            foreach (CustomXMLNode exh in exhibitNodes)
+            {
+                if (exh.SelectSingleNode("ID").Text == id)
+                {
+                    nodesList.Add(exh);
+                }
+            }
+            LegalRecordCite LRCite = new LegalRecordCite(nodesList.First().SelectSingleNode("ID").Text);
+            LRCite.LongCite = nodesList.First().SelectSingleNode("LongCite").Text;
+            LRCite.ShortCite = nodesList.First().SelectSingleNode("ShortCite").Text;
+
+            return LRCite;
+        }
+
+        public IEnumerable<LegalRecordCite> GetLRCites()
+        {
+
+            List<LegalRecordCite> cites = new List<LegalRecordCite>();
+
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNodes exhibitNodes = customXmlDoc.SelectNodes("//LRCite");
+
+            foreach (CustomXMLNode element in exhibitNodes)
+            {
+                string ID = element.SelectSingleNode("ID").Text;
+                LegalRecordCite cite = new LegalRecordCite(ID);
+                cite.LongCite = element.SelectSingleNode("LongCite").Text;
+                cite.ShortCite = element.SelectSingleNode("ShortCite").Text;
+
+                cites.Add(cite);
+            }
+
+            return cites.AsEnumerable();
+        }
+
+        public void UpdateLRCite(string id, string LongCite, string ShortCite)
+        {
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNodes exhibitNodes = customXmlDoc.SelectNodes("//LRCite");
+            foreach (CustomXMLNode exh in exhibitNodes)
+            {
+                if (exh.SelectSingleNode("ID").Text == id)
+                {
+                    exh.SelectSingleNode("LongCite").Text = LongCite;
+                    exh.SelectSingleNode("ShortCite").Text = ShortCite;
+                }
+            }
+        }
+
+
+        #endregion
     }
 }

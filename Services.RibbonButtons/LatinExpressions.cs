@@ -1,5 +1,6 @@
 ﻿using Microsoft.Office.Interop.Word;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Word = Microsoft.Office.Interop.Word;
 
 
@@ -16,11 +17,14 @@ namespace Tools.Simple
 
             _app.ActiveDocument.Select();
             var rng = _app.Selection.Range;
+
             foreach (string expression in Expressions)
             {
                 rng.Find.Replacement.Font.Italic = 1;
-                
-                rng.Find.Execute(FindText: expression, ReplaceWith: expression, Replace: WdReplace.wdReplaceAll);
+
+                rng.Find.Execute(FindText: expression, ReplaceWith: expression, MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
+
+
             }
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
@@ -32,11 +36,11 @@ namespace Tools.Simple
 
             _app.ActiveDocument.Select();
             var rng = _app.Selection.Range;
-            for (int i =1; i<= Expressions.Count; i++)
+            for (int i =1; i< Expressions.Count; i++)
             {
                 rng.Find.Replacement.Font.Italic = 0;
 
-                rng.Find.Execute(FindText: Expressions[i], ReplaceWith: Expressions[i], Replace: WdReplace.wdReplaceAll);
+                rng.Find.Execute(FindText:Expressions[i], ReplaceWith: Expressions[i], MatchWholeWord: true, Replace: WdReplace.wdReplaceAll);
             }
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;

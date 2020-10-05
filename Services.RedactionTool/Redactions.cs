@@ -58,18 +58,18 @@ namespace Tools.RedactionTool
             return fileToRedact;
         }
 
-        public void SaveRedactedPDF(string Path, bool FileAvailable)
-        {
-            if (Path != null && FileAvailable)
-            {
-                var doc = CloneDocument(_app.ActiveDocument);
-                RedactRedactions();
+        //public void SaveRedactedPDF(string Path, bool FileAvailable)
+        //{
+        //    if (Path != null && FileAvailable)
+        //    {
+        //        var doc = CloneDocument(_app.ActiveDocument);
+        //        RedactRedactions();
 
-                _app.ActiveDocument.ExportAsFixedFormat(Path, Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true, IncludeDocProps: false, KeepIRM: false, DocStructureTags: false, BitmapMissingFonts: true, UseISO19005_1: false);
+        //        _app.ActiveDocument.ExportAsFixedFormat(Path, Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true, IncludeDocProps: false, KeepIRM: false, DocStructureTags: false, BitmapMissingFonts: true, UseISO19005_1: false);
 
-                doc.Close(WdSaveOptions.wdDoNotSaveChanges);
-            }
-        }
+        //        doc.Close(WdSaveOptions.wdDoNotSaveChanges);
+        //    }
+        //}
 
         public static string ConfidentialityLabel = null;
         public static bool cancel = false;
@@ -139,14 +139,81 @@ namespace Tools.RedactionTool
                     header.TextFrame.TextRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
                 }
 
+                UpdateTables(_app);
+
+
                 _app.ActiveDocument.ExportAsFixedFormat(saveFile.Path, Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true, IncludeDocProps: false, KeepIRM: false, DocStructureTags: false, BitmapMissingFonts: true, UseISO19005_1: false);
 
                 doc.Close(WdSaveOptions.wdDoNotSaveChanges);
             }
         }
 
-        #region Get Redactions
-        private void GetRedactionsText()
+        public static bool UpdateTables(Word.Application app)
+        {
+            bool successful = true;
+            Word.Document doc = app.ActiveDocument;
+
+            foreach (TableOfContents toc in doc.TablesOfContents)
+            {
+                toc.Update();
+                //toc.Range.Select();
+                //for (int i = 1; i <= app.Selection.Words.Count; i++)
+                //{
+                //    var word = app.Selection.Words[i];
+                //    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                //    {
+                //        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                //    }
+                //}
+            }
+
+            foreach (TableOfAuthorities toa in doc.TablesOfAuthorities)
+            {
+                toa.Update();
+                //toa.Range.Select();
+                //for (int i = 1; i <= app.Selection.Words.Count; i++)
+                //{
+                //    var word = app.Selection.Words[i];
+                //    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                //    {
+                //        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                //    }
+                //}
+            }
+
+            foreach (TableOfFigures tof in doc.TablesOfFigures)
+            {
+                tof.Update();
+                //tof.Range.Select();
+                //for (int i = 1; i <= app.Selection.Words.Count; i++)
+                //{
+                //    var word = app.Selection.Words[i];
+                //    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                //    {
+                //        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                //    }
+                //}
+            }
+
+            foreach (Index index in doc.Indexes)
+            {
+                index.Update();
+                //index.Range.Select();
+                //for (int i = 1; i <= app.Selection.Words.Count; i++)
+                //{
+                //    var word = app.Selection.Words[i];
+                //    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                //    {
+                //        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                //    }
+                //}
+            }
+
+            return successful;
+        }
+
+            #region Get Redactions
+            private void GetRedactionsText()
         {
             foreach (Word.ContentControl cc in _app.ActiveDocument.ContentControls)
             {

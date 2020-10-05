@@ -30,11 +30,10 @@
         {
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnCustomizeFormatting = new System.Windows.Forms.LinkLabel();
             this.label5 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cbFirstOnly = new System.Windows.Forms.ComboBox();
+            this.cbUniformCitesStandard = new System.Windows.Forms.CheckBox();
             this.checkbIdCite = new System.Windows.Forms.CheckBox();
             this.checkbParentheses = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -52,7 +51,6 @@
             this.ShortCiteExample = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -73,6 +71,7 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.btnCustomizeFormatting);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.button3);
             this.groupBox2.Controls.Add(this.panel2);
@@ -80,9 +79,21 @@
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Location = new System.Drawing.Point(26, 107);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(297, 285);
+            this.groupBox2.Size = new System.Drawing.Size(785, 321);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
+            // 
+            // btnCustomizeFormatting
+            // 
+            this.btnCustomizeFormatting.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnCustomizeFormatting.Location = new System.Drawing.Point(3, 305);
+            this.btnCustomizeFormatting.Name = "btnCustomizeFormatting";
+            this.btnCustomizeFormatting.Size = new System.Drawing.Size(779, 13);
+            this.btnCustomizeFormatting.TabIndex = 21;
+            this.btnCustomizeFormatting.TabStop = true;
+            this.btnCustomizeFormatting.Text = "Customize Formatting";
+            this.btnCustomizeFormatting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnCustomizeFormatting.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btnCustomizeFormatting_LinkClicked);
             // 
             // label5
             // 
@@ -98,57 +109,33 @@
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.panel3);
+            this.panel2.Controls.Add(this.cbUniformCitesStandard);
             this.panel2.Controls.Add(this.checkbIdCite);
             this.panel2.Controls.Add(this.checkbParentheses);
             this.panel2.Location = new System.Drawing.Point(3, 76);
             this.panel2.MinimumSize = new System.Drawing.Size(0, 104);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(291, 104);
+            this.panel2.Size = new System.Drawing.Size(779, 104);
             this.panel2.TabIndex = 24;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
-            // panel3
+            // cbUniformCitesStandard
             // 
-            this.panel3.Controls.Add(this.label4);
-            this.panel3.Controls.Add(this.cbFirstOnly);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(291, 35);
-            this.panel3.TabIndex = 18;
-            // 
-            // label4
-            // 
-            this.label4.AutoEllipsis = true;
-            this.label4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label4.Location = new System.Drawing.Point(3, 6);
-            this.label4.MaximumSize = new System.Drawing.Size(190, 23);
-            this.label4.MinimumSize = new System.Drawing.Size(0, 23);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(154, 23);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "Description/Bates Appears";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
-            // cbFirstOnly
-            // 
-            this.cbFirstOnly.FormattingEnabled = true;
-            this.cbFirstOnly.Items.AddRange(new object[] {
-            "In first citation only",
-            "In all citations",
-            "In no citations"});
-            this.cbFirstOnly.Location = new System.Drawing.Point(163, 8);
-            this.cbFirstOnly.MaximumSize = new System.Drawing.Size(117, 0);
-            this.cbFirstOnly.MinimumSize = new System.Drawing.Size(30, 0);
-            this.cbFirstOnly.Name = "cbFirstOnly";
-            this.cbFirstOnly.Size = new System.Drawing.Size(117, 21);
-            this.cbFirstOnly.TabIndex = 4;
-            this.cbFirstOnly.Text = "In first citation only";
-            this.cbFirstOnly.SelectedIndexChanged += new System.EventHandler(this.comboBox4_SelectedIndexChanged);
+            this.cbUniformCitesStandard.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbUniformCitesStandard.AutoSize = true;
+            this.cbUniformCitesStandard.Location = new System.Drawing.Point(56, 18);
+            this.cbUniformCitesStandard.Name = "cbUniformCitesStandard";
+            this.cbUniformCitesStandard.Size = new System.Drawing.Size(213, 17);
+            this.cbUniformCitesStandard.TabIndex = 19;
+            this.cbUniformCitesStandard.Text = "Description and Bates in Initial Cite Only";
+            this.cbUniformCitesStandard.UseVisualStyleBackColor = true;
+            this.cbUniformCitesStandard.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // checkbIdCite
             // 
+            this.checkbIdCite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.checkbIdCite.AutoSize = true;
             this.checkbIdCite.Checked = true;
             this.checkbIdCite.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -162,6 +149,8 @@
             // 
             // checkbParentheses
             // 
+            this.checkbParentheses.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.checkbParentheses.AutoSize = true;
             this.checkbParentheses.Location = new System.Drawing.Point(56, 64);
             this.checkbParentheses.Name = "checkbParentheses";
@@ -182,8 +171,9 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 16);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(291, 54);
+            this.panel1.Size = new System.Drawing.Size(779, 54);
             this.panel1.TabIndex = 19;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // label1
             // 
@@ -204,6 +194,7 @@
             this.label2.Size = new System.Drawing.Size(50, 12);
             this.label2.TabIndex = 15;
             this.label2.Text = "Numbering";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // cbDescBatesFormat
             // 
@@ -218,7 +209,7 @@
             this.cbDescBatesFormat.Location = new System.Drawing.Point(163, 22);
             this.cbDescBatesFormat.MinimumSize = new System.Drawing.Size(30, 0);
             this.cbDescBatesFormat.Name = "cbDescBatesFormat";
-            this.cbDescBatesFormat.Size = new System.Drawing.Size(117, 21);
+            this.cbDescBatesFormat.Size = new System.Drawing.Size(601, 21);
             this.cbDescBatesFormat.TabIndex = 3;
             this.cbDescBatesFormat.Text = "Description, Bates";
             this.cbDescBatesFormat.SelectedIndexChanged += new System.EventHandler(this.comboBox5_SelectedIndexChanged);
@@ -264,7 +255,7 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(162, 6);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(120, 12);
+            this.label3.Size = new System.Drawing.Size(543, 12);
             this.label3.TabIndex = 16;
             this.label3.Text = "Description and Bates";
             this.label3.Click += new System.EventHandler(this.label3_Click);
@@ -272,7 +263,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(184, 220);
+            this.button2.Location = new System.Drawing.Point(666, 220);
             this.button2.MaximumSize = new System.Drawing.Size(101, 40);
             this.button2.MinimumSize = new System.Drawing.Size(101, 40);
             this.button2.Name = "button2";
@@ -293,7 +284,7 @@
             this.groupBox1.Controls.Add(this.ShortCiteExample);
             this.groupBox1.Location = new System.Drawing.Point(26, 19);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(297, 69);
+            this.groupBox1.Size = new System.Drawing.Size(785, 69);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
@@ -306,7 +297,7 @@
             this.LongCiteExampleText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.LongCiteExampleText.Location = new System.Drawing.Point(45, 15);
             this.LongCiteExampleText.Name = "LongCiteExampleText";
-            this.LongCiteExampleText.Size = new System.Drawing.Size(249, 18);
+            this.LongCiteExampleText.Size = new System.Drawing.Size(672, 18);
             this.LongCiteExampleText.TabIndex = 10;
             this.LongCiteExampleText.Text = "Exhibit 1, an example exhibit (A123)";
             this.LongCiteExampleText.Click += new System.EventHandler(this.LongCiteExampleText_Click);
@@ -329,7 +320,7 @@
             this.ShortCiteExampleText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.ShortCiteExampleText.Location = new System.Drawing.Point(45, 43);
             this.ShortCiteExampleText.Name = "ShortCiteExampleText";
-            this.ShortCiteExampleText.Size = new System.Drawing.Size(249, 18);
+            this.ShortCiteExampleText.Size = new System.Drawing.Size(672, 18);
             this.ShortCiteExampleText.TabIndex = 12;
             this.ShortCiteExampleText.Text = "Exhibit 1";
             // 
@@ -352,12 +343,12 @@
             this.Controls.Add(this.groupBox1);
             this.MinimumSize = new System.Drawing.Size(350, 400);
             this.Name = "ctrlExhibitFormat";
-            this.Size = new System.Drawing.Size(350, 600);
+            this.Size = new System.Drawing.Size(850, 548);
+            this.Load += new System.EventHandler(this.ctrlExhibitFormat_Load);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -372,7 +363,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox checkbIdCite;
         private System.Windows.Forms.ComboBox cbDescBatesFormat;
-        private System.Windows.Forms.ComboBox cbFirstOnly;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkbParentheses;
         private System.Windows.Forms.ComboBox cbIntroMark;
@@ -388,7 +378,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.LinkLabel btnCustomizeFormatting;
+        private System.Windows.Forms.CheckBox cbUniformCitesStandard;
     }
 }

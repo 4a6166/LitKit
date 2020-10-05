@@ -304,9 +304,9 @@ namespace LitKit1.Controls.AnsResControls
                         //var previousParagraph = selection.Paragraphs.First.Previous(1);
                         //string prevText = previousParagraph.Range.Text.ToUpper();
 
-                        result = GetParaNumbers(selection.Paragraphs.First.Previous(1).Range.Text.ToUpper(), selection.Paragraphs.First.Previous(1));
+                        result = GetParaNumbers(selection.Paragraphs.First.Previous(1).Range.Text.ToUpper(), selection.Paragraphs.First.Previous(1)); //will throw null ref exception when no preceeding number. Handle correctly by doing nothing.
                     }
-                    catch
+                    catch // (NullReferenceException)
                     {
 
                     }

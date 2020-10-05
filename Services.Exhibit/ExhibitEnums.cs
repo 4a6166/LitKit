@@ -8,12 +8,17 @@ namespace Tools.Exhibit
 {
     public enum FormatNodes
     {
-        Intro, //"Intro"
-        Numbering, //"Numbering"
-        FirstOnly, //"FirstOnly"
-        DescBatesFormat, //"DescBatesFormat"
-        Parentheses, //"Parentheses"
-        IdCite //"IdCite"
+        FirstCite, //"Intro"
+        FollowingCites, //"Numbering"
+        IndexStyle, //"FirstOnly"
+        IndexStart, //"DescBatesFormat"
+        UniformCites, //"Parentheses"
+        IdCite, //"IdCite"
+        FormatCustomized,
+
+        Intro,
+        DescBatesFormat,
+        Parentheses
     }
     public enum IntroOptions
     {
@@ -44,68 +49,18 @@ namespace Tools.Exhibit
         _P_Description_P_, //"(Description)"
         _P_Description_Bates_P_ //"(Description, Bates)"
     }
+    public enum CiteType
+    {
+        None,
+        Exhibit,
+        LegalOrRecordCitation,
+    }
 
 
 
 
     public class EnumSwitch
     {
-        public FormatNodes FormatNodes_TextSwitchEnum(string TextToSwitch)
-        {
-            FormatNodes result;
-            switch (TextToSwitch)
-            {
-                case "Intro":
-                    result = FormatNodes.Intro;
-                    break;
-                case "Numbering":
-                    result = FormatNodes.Numbering;
-                    break;
-                    case "FirstOnly":
-                    result = FormatNodes.FirstOnly;
-                    break;
-                case "DescBatesFormat":
-                    result = FormatNodes.DescBatesFormat;
-                    break;
-                case "Parentheses":
-                    result = FormatNodes.Parentheses;
-                    break;
-                case "IdCite":
-                    result = FormatNodes.IdCite;
-                    break;
-                default:
-                    throw new Exception("Correct text not sent to method");
-            }
-            return result;
-        }
-        public string FormatNodes_EnumSwitchText(FormatNodes EnumToSwitch)
-        {
-            string result;
-            switch (EnumToSwitch)
-            {
-                case FormatNodes.Intro:
-                    result = "Intro";
-                    break;
-                case FormatNodes.Numbering:
-                    result = "Numbering";
-                    break;
-                case FormatNodes.FirstOnly:
-                    result = "FirstOnly";
-                    break;
-                case FormatNodes.DescBatesFormat:
-                    result = "DescBatesFormat";
-                    break;
-                case FormatNodes.Parentheses:
-                    result = "Parentheses";
-                    break;
-                case FormatNodes.IdCite:
-                    result = "IdCite";
-                    break;
-                default:
-                    throw new Exception("Correct Node not sent to method");
-            }
-            return result;
-        }
 
         public IntroOptions IntroOptions_TextSwitchEnum(string TextToSwitch)
         {
@@ -169,13 +124,13 @@ namespace Tools.Exhibit
             NumberingOptions result;
             switch (TextToSwitch)
             {
-                case "1, 2, 3...":
+                case "Numbers":
                     result = NumberingOptions.Numbers;
                     break;
-                case "A, B, C...":
+                case "Letters":
                     result = NumberingOptions.Letters;
                     break;
-                case "I, II, III...":
+                case "RomanNumerals":
                     result = NumberingOptions.RomanNumerals;
                     break;
                 default:
@@ -189,13 +144,13 @@ namespace Tools.Exhibit
             switch (EnumToSwitch)
             {
                 case NumberingOptions.Numbers:
-                    result = "1, 2, 3...";
+                    result = "Numbers";
                     break;
                 case NumberingOptions.Letters:
-                    result = "A, B, C...";
+                    result = "Letters";
                     break;
                 case NumberingOptions.RomanNumerals:
-                    result = "I, II, III...";
+                    result = "RomanNumerals";
                     break;
                 default:
                     throw new Exception("Correct Node not sent to method");

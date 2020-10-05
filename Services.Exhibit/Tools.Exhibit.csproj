@@ -55,13 +55,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExhibitFormatter.cs" />
+    <Compile Include="LegalRecordCites.cs" />
+    <Compile Include="Pincite.cs" />
     <Compile Include="Exhibit.cs" />
     <Compile Include="ExhibitEnums.cs" />
     <Compile Include="ExhibitHelper.cs" />
+    <Compile Include="ExhibitIndex.cs" />
     <Compile Include="ExhibitRepository.cs" />
-    <Compile Include="ExhibitRepositoryFactory.cs" />
-    <Compile Include="ExhibitsReference.cs" />
-    <Compile Include="IExhibitRepository.cs" />
+    <Compile Include="CitationReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
