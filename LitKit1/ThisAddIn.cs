@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 using Word = Microsoft.Office.Interop.Word;
-using Office = Microsoft.Office.Core;
-using Microsoft.Office.Tools.Word;
-using Services.Exhibit;
-using LitKit1.Controls;
 using Microsoft.Office.Interop.Word;
 using LitKit1.Controls.ExhibitControls;
 using System.Runtime.InteropServices;
-using Services;
 using Microsoft.Office.Core;
 using LitKit1.Controls.AnsResControls;
-using Services.Licensing;
 
 namespace LitKit1
 {
@@ -22,7 +12,7 @@ namespace LitKit1
     {
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-
+             
             try { AddTaskPanes(Application.ActiveDocument); }
             catch { }
 
@@ -45,7 +35,7 @@ namespace LitKit1
         public void AddExhibitControlMain(object window)
         {
             ExhibitMain = new ctrlExhibitMain();
-            ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Exhibit Tool", window);
+            ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Citations Tool", window);
             ExhibitMain.Dock = System.Windows.Forms.DockStyle.Fill;
             ExhibitTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
             ExhibitTaskPane.Width = 350;

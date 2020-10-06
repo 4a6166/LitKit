@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 using LitKit1.Controls;
-using LitKit1.Controls.ExhibitControls;
 using LitKit1.Controls.RedactionControls;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Tools.Ribbon;
-using Services;  //Remember to add the reference so this using statement can be picked up
-using Services.Exhibit;
-using Services.RedactionTool;
+using Tools.Exhibit;
+using Tools.RedactionTool;
 using Ribbon = Ribbon_0._0._1;
-using Services.RibbonButtons;
+using Tools.Simple;
 using LitKit1.Controls.AnsResControls;
-using Services.Response;
+using Tools.Response;
 using Services.Licensing;
 using System.IO;
 
@@ -137,7 +132,6 @@ namespace LitKit1
                     ActivePane.Control.Controls.Add(exhibitCtrl);
                     //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
                     exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-                    exhibitCtrl.LoadListView();
 
                     if (!ActivePane.Visible)
                     {
@@ -156,18 +150,17 @@ namespace LitKit1
 
         private void AddExhibtsForTest(object sender, RibbonControlEventArgs e)
         {
-            ExhibitHelper helper = new ExhibitHelper();
-            IExhibitRepository repository = ExhibitRepositoryFactory.GetRepository("XML", _app);
+            ExhibitRepository repository = new ExhibitRepository(_app);
 
             if (repository.GetExhibits().Count() == 0)
             {
                 repository.AddExhibit("A" +" " +Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
             }
             
-            repository.AddExhibit(helper.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(helper.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(helper.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(helper.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
 
             frmToast toast = new frmToast(_app.ActiveWindow);
             toast.OpenToast("Test Exhibits Added", "Remove before production.",1000);
@@ -179,13 +172,18 @@ namespace LitKit1
 
             _app.UndoRecord.StartCustomRecord("Test Button Stuff");
 
-            ResponseRepository repository = new ResponseRepository(_app);
+            //_app.Selection.Find.Execute("{PINCITE}");
 
-            //repository.AddCustomResponse("Test Add", false, true, false, false, "Test display text");
-            repository.GetDocProps(_app, DocPropsNode.Propounding);
+            //Range range = _app.Selection.Range;
+            //if (range.Text.Contains("{PINCITE}"))
+            //{
+            //    range.ContentControls.Add(WdContentControlType.wdContentControlRichText, range);
+            //}
 
-            ResponseStandardRepository repoStandard = new ResponseStandardRepository();
-            //_app.Selection.TypeText(repoStandard.GetAllTexts());
+            //lgdfsadljfghkjsh{PINCITE}sdfdsaf
+
+            new Pincite(_app).InsertPinciteCC(_app.Selection.ContentControls[1]);
+
 
             _app.UndoRecord.EndCustomRecord();
         }
@@ -256,8 +254,7 @@ namespace LitKit1
                 {
                     _app.UndoRecord.StartCustomRecord("Add Pincite");
 
-                    ExhibitHelper helper = new ExhibitHelper();
-                    helper.AddPincite(_app.Selection);
+                    new Pincite(_app).AddPincite(_app.Selection);
                     Globals.ThisAddIn.ReturnFocus();
 
                     _app.UndoRecord.EndCustomRecord();
@@ -276,8 +273,7 @@ namespace LitKit1
                 {
                     _app.UndoRecord.StartCustomRecord("Remove Pincite");
 
-                    ExhibitHelper helper = new ExhibitHelper();
-                    helper.RemovePinCite(_app.Selection);
+                    new Pincite(_app).RemovePinCite(_app.Selection);
 
                     _app.UndoRecord.EndCustomRecord();
                 }
@@ -295,7 +291,7 @@ namespace LitKit1
                 {
                     _app.UndoRecord.StartCustomRecord("Exhibit Index");
 
-                    new ExhibitHelper().InsertExhibitIndex(_app);
+                    new ExhibitIndex(_app).InsertExhibitIndex();
                     Globals.ThisAddIn.ReturnFocus();
 
                     _app.UndoRecord.EndCustomRecord();
@@ -440,7 +436,7 @@ namespace LitKit1
                         Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
                     }
                 }
-                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212"); }
+                catch {/* MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212");*/ }
             }
         }
 
@@ -697,6 +693,25 @@ namespace LitKit1
             Process.Start("https://forms.gle/HkqXuHyjJhzcVjJE6");
         }
 
+        private void togglebtnSmallCaps_Click(object sender, RibbonControlEventArgs e)
+        {
+            _app.UndoRecord.StartCustomRecord("Change Small Caps");
 
+            SmallCaps sc = new SmallCaps(_app);
+            sc.ChangeSmallCaps(_app.Selection, togglebtnSmallCaps);
+            _app.UndoRecord.EndCustomRecord();
+        }
+
+        private void btnReplace_Click(object sender, RibbonControlEventArgs e)
+        {
+            Replace replace = new Tools.Simple.Replace(_app);
+            replace.SendKey();
+        }
+
+        private void btnTesterFeedback_Click(object sender, RibbonControlEventArgs e)
+        {
+            string survey = @"https://corexms868hzxvx3tkx7.sjc1.qualtrics.com/jfe/form/SV_6Q2lF3dfTOdE69v";
+            Process.Start(survey);
+        }
     }
 }

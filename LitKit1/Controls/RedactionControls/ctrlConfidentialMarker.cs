@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Services.RedactionTool;
+using Tools.RedactionTool;
 
 namespace LitKit1.Controls.RedactionControls
 {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
-using Services.Response;
+using Tools.Response;
 
 namespace LitKit1.Controls.AnsResControls
 {

@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Services.Exhibit;
+using Tools.Exhibit;
 using LitKit1.Controls.ExhibitControls;
 using Word = Microsoft.Office.Interop.Word;
-using Tools = Microsoft.Office.Tools;
+using MTools = Microsoft.Office.Tools;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Core;
 
@@ -22,29 +22,35 @@ namespace LitKit1.Controls
         {
             InitializeComponent();
             _app = Globals.ThisAddIn.Application;
-            repository = ExhibitRepositoryFactory.GetRepository("XML", _app);
+            helper = new ExhibitHelper(_app);
+            repository = new ExhibitRepository(_app);
 
             ErrorLabel.Visible = false;
             ErrorLabel.Text = string.Empty;
             LoadFormatting();
+            LoadExhibitListView();
+            LoadLRListView();
             
         }
 
         readonly Microsoft.Office.Interop.Word.Application _app;
-        readonly IExhibitRepository repository;
+        readonly ExhibitRepository repository;
         private IEnumerable<Exhibit> exhibits;
+        private IEnumerable<LegalRecordCite> cites;
 
-        private IntroOptions intro;
-        private NumberingOptions numbering;
-        private FirstOnlyOptions firstOnly;
-        private DescBatesFormatOptions descBatesFormat;
-        private string parentheses; //"True" or "False"
-        private string idCite; //"True" or "False"
-        readonly ExhibitHelper helper = new ExhibitHelper();
+        private string FirstCite;
+        private string FollowingCites;
+        private NumberingOptions IndexStyle;
+        private int IndexStart;
+        private bool UniformCites;
+        private bool idCite;
+        private bool FormatCustomized;
+
+        readonly ExhibitHelper helper;
         readonly EnumSwitch enumSwitch = new EnumSwitch();
 
 
-        public void LoadListView()
+        public void LoadExhibitListView()
         {
             listView1.Clear();
             listView1.FullRowSelect = true;
@@ -61,7 +67,7 @@ namespace LitKit1.Controls
 
             foreach (Exhibit ex in exhibits)
             {
-                CreateListViewItems(listView1, ex);
+                CreateExhibitListViewItems(listView1, ex);
             }
 
             try
@@ -71,7 +77,35 @@ namespace LitKit1.Controls
             catch { }
         }
 
-        private void CreateListViewItems(ListView lv, Exhibit exhibit)
+        public void LoadLRListView()
+        {
+            listView2.Clear();
+            listView2.FullRowSelect = true;
+            listView2.View = System.Windows.Forms.View.Details;
+
+            listView2.Columns.Add("Citation", 300);
+            listView2.Columns.Add("ShortCite", 0);
+            listView2.Columns.Add("ID", 0);
+
+            listView2.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+
+
+            cites = repository.GetLRCites();
+
+            foreach (LegalRecordCite ex in cites)
+            {
+                CreateLRListViewItems(listView2, ex);
+            }
+
+            try
+            {
+                listView2.Items[0].Selected = true;
+            }
+            catch { }
+        }
+
+
+        private void CreateExhibitListViewItems(ListView lv, Exhibit exhibit)
         {
             string[] arr = new string[3];
             arr[0] = exhibit.Description;
@@ -85,14 +119,30 @@ namespace LitKit1.Controls
             lv.Items.Add(item);
         }
 
+        private void CreateLRListViewItems(ListView lv, LegalRecordCite LRCite)
+        {
+            string[] arr = new string[3];
+            arr[0] = LRCite.LongCite;
+            arr[1] = LRCite.ShortCite;
+            arr[2] = LRCite.ID;
+
+            ListViewItem item = new ListViewItem(arr)
+            {
+                Tag = LRCite
+            };
+            lv.Items.Add(item);
+        }
+
         private void LoadFormatting()
         {
-            intro = enumSwitch.IntroOptions_TextSwitchEnum(repository.GetFormatting(FormatNodes.Intro));
-            numbering = enumSwitch.NumberingOptions_TextSwitchEnum(repository.GetFormatting(FormatNodes.Numbering));
-            firstOnly = enumSwitch.FirstOnlyOptions_TextSwitchEnum(repository.GetFormatting(FormatNodes.FirstOnly));
-            descBatesFormat = enumSwitch.DescBatesFormatOptions_TextSwitchEnum(repository.GetFormatting(FormatNodes.DescBatesFormat));
-            parentheses = repository.GetFormatting(FormatNodes.Parentheses);
-            idCite = repository.GetFormatting(FormatNodes.IdCite);
+            FirstCite = repository.GetFormatting(FormatNodes.FirstCite);
+            FollowingCites = repository.GetFormatting(FormatNodes.FollowingCites);
+            IndexStyle = enumSwitch.NumberingOptions_TextSwitchEnum(repository.GetFormatting(FormatNodes.IndexStyle));
+            IndexStart = Int32.Parse(repository.GetFormatting(FormatNodes.IndexStart));
+            UniformCites = bool.Parse(repository.GetFormatting(FormatNodes.UniformCites));
+            idCite = bool.Parse(repository.GetFormatting(FormatNodes.IdCite));
+            FormatCustomized = bool.Parse(repository.GetFormatting(FormatNodes.FormatCustomized));
+
 
         }
 
@@ -125,8 +175,11 @@ namespace LitKit1.Controls
                 cc.Tag = "Exhibit:" + exhibit.ID;
                 cc.Title = "Exhibit: " + exhibit.Description;
 
-                int index = helper.GetPosition(cc.Tag, _app);
-                helper.FormatFirstCite(exhibit, index, _app);
+                int index = helper.GetPosition(cc);
+
+                string CiteFormat = FirstCite; // TODO: update so it pulls FollowingCites if the exhibit has been inserted already
+
+                cc.Range.Text = ExhibitFormatter.FormatCite(exhibit, CiteFormat, IndexStyle, IndexStart, index);
 
                 Globals.ThisAddIn.ReturnFocus();
                 return cc;
@@ -139,6 +192,37 @@ namespace LitKit1.Controls
             }
         }
 
+        public ContentControl InsertLRCite(LegalRecordCite cite)
+        {
+            try
+            {
+                ContentControl cc = _app.Selection.ContentControls.Add(Word.WdContentControlType.wdContentControlRichText);
+                cc.Tag = "Cite:" + cite.ID;
+                cc.Title = "Cite: " + cite.LongCite;
+
+                int index = helper.GetPosition(cc);
+
+                // TODO: update so it pulls ShortCite (if selected) if the exhibit has been inserted already
+                bool initialCite = true;
+
+                if (initialCite == true)
+                {
+                    cc.Range.Text = cite.LongCite;
+                }
+                else cc.Range.Text = cite.ShortCite;
+
+                Globals.ThisAddIn.ReturnFocus();
+                return cc;
+            }
+            catch
+            {
+                frmToast toast = new frmToast(_app.ActiveWindow);
+                toast.OpenToast("Something went wrong!", "Please clear your selection and try again.");
+                return null;
+            }
+        }
+
+
         private void button2_Click(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count > 0)
@@ -148,7 +232,7 @@ namespace LitKit1.Controls
                 ErrorLabel.Visible = false;
                 Exhibit exhibit = (Exhibit)listView1.SelectedItems[0].Tag;
                 ContentControl cc = CiteToExhibit(exhibit);
-                helper.RefreshInsertedExhibits(_app);
+                helper.UpdateInsertedCites();
 
                 _app.Selection.SetRange(cc.Range.End+1, cc.Range.End+1);
 
@@ -158,7 +242,7 @@ namespace LitKit1.Controls
             }
             else
             {
-                ErrorLabel.Text = "You must select an Exhibit before editing";
+                ErrorLabel.Text = "You must select an Exhibit before inserting";
                 ErrorLabel.Visible = true;
             }
 
@@ -166,7 +250,14 @@ namespace LitKit1.Controls
 
         private void label3_Click(object sender, EventArgs e)
         {
+            //For determining the index of the controls in the parent control
 
+            //string result = string.Empty;
+            //foreach(Control control in this.Controls)
+            //{
+            //    result += control.Name + Environment.NewLine;
+            //}
+            //MessageBox.Show(result);
         }
 
         private void ExhibitCtrl_Load(object sender, EventArgs e)
@@ -176,8 +267,20 @@ namespace LitKit1.Controls
 
         private void ExhibitFormatting_Click(object sender, EventArgs e)
         {
-            ctrlExhibitFormat exhibitCtrl = new ctrlExhibitFormat();
-            Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+            UserControl exhibitCtrl;
+            switch (FormatCustomized)
+            {
+                case true:
+                    exhibitCtrl = new ctrlExhibitFormatCustom();
+                    break;
+                case false:
+                    exhibitCtrl = new ctrlExhibitFormat();
+                    break;
+                default:
+                    throw new Exception("Bool FormattingCustomized not reading as true or false");
+            }
+
+            MTools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
 
             ActivePane.Control.Controls.Clear();
             //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
@@ -194,7 +297,7 @@ namespace LitKit1.Controls
         private void NewExhibit_Click(object sender, EventArgs e)
         {
             ctrlExhibitUpdateAdd exhibitCtrl = new ctrlExhibitUpdateAdd();
-            Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+            MTools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
             ActivePane.Control.Controls.Clear();
             ActivePane.Control.Controls.Add(exhibitCtrl);
 
@@ -216,7 +319,7 @@ namespace LitKit1.Controls
 
                 ctrlExhibitUpdateAdd exhibitCtrl = new ctrlExhibitUpdateAdd();
 
-                Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+                MTools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
 
                 ActivePane.Control.Controls.Clear();
                 //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
@@ -260,7 +363,7 @@ namespace LitKit1.Controls
             {
                 _app.UndoRecord.StartCustomRecord("Exhibit Index");
 
-                helper.InsertExhibitIndex(_app);
+                new ExhibitIndex(_app).InsertExhibitIndex();
                 Globals.ThisAddIn.ReturnFocus();
 
                 _app.UndoRecord.EndCustomRecord();
@@ -273,7 +376,7 @@ namespace LitKit1.Controls
             _app.UndoRecord.StartCustomRecord("Refesh Exhibits");
             var curSelEnd = _app.Selection.End;
 
-            helper.RefreshInsertedExhibits(_app);
+            helper.UpdateInsertedCites();
 
             _app.Selection.Start = curSelEnd + 1;
             Globals.ThisAddIn.ReturnFocus();
@@ -322,8 +425,8 @@ namespace LitKit1.Controls
                         }
                     }
 
-                    helper.RefreshInsertedExhibits(_app);
-                    LoadListView();
+                    helper.UpdateInsertedCites();
+                    LoadExhibitListView();
                 }
                 _app.ActiveDocument.UndoClear(); // prevents user from re-inserting a cc that no longer is able to reference an exhibit
             }
@@ -366,7 +469,7 @@ namespace LitKit1.Controls
 
         private void RefreshNumbering_MouseHover(object sender, EventArgs e)
         {
-            toolTipRefresh.Show("Refreshes the formatting, numbering, and content of all the exhibits within the document text.", RefreshNumbering);
+            toolTipRefresh.Show("Refreshes the formatting, numbering, and content of all the citations within the document text.", RefreshNumbering);
         }
 
         private void ExhibitFormatting_MouseHover(object sender, EventArgs e)
@@ -381,7 +484,7 @@ namespace LitKit1.Controls
 
         private void button2_MouseHover(object sender, EventArgs e)
         {
-            toolTipRemoveLocks.Show("Removes the controls binding all Exhibits in the current selection, leaving them as plain text. To remove the Exhibit controls from the entire document, select no text.", btnRemoveExhibitLocks);
+            toolTipRemoveLocks.Show("Removes the controls binding all citations in the current selection, leaving them as plain text. To remove the citiation controls from the entire document, select no text.", btnRemoveExhibitLocks);
         }
 
         private void btnRemoveExhibitLocks_Click(object sender, EventArgs e)
@@ -389,16 +492,16 @@ namespace LitKit1.Controls
             if (_app.Selection.Range.Characters.Count > 2)
             {
                 _app.UndoRecord.StartCustomRecord("Remove Exhibits");
-                helper.RemoveExhibitsFromDoc(_app.Selection);
+                helper.RemoveSelectedCitesFromDoc(_app.Selection);
                 _app.UndoRecord.EndCustomRecord();
             }
             else
             {
-                DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all Exhibits in the document? The text will remain but will no longer update when adjustments to the Exhibit List are made.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all citations in the document? The text will remain but will no longer update when adjustments to the Exhibit or References Lists are made.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (result == DialogResult.Yes)
                 {
                     _app.UndoRecord.StartCustomRecord("Remove Exhibits");
-                    helper.RemoveExhibitsFromDoc(_app);
+                    helper.RemoveAllCitesFromDoc();
                     _app.UndoRecord.EndCustomRecord();
                 }
         }
@@ -424,7 +527,7 @@ namespace LitKit1.Controls
                         }
                     }
 
-                    helper.RefreshInsertedExhibits(_app);
+                    helper.UpdateInsertedCites();
 
                     _app.UndoRecord.EndCustomRecord();
                 }
@@ -476,6 +579,267 @@ namespace LitKit1.Controls
                 }
             }
             catch { }
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl1_TabIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void listView2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click_2(object sender, EventArgs e)
+        {
+            ctrlLegalRecordUpdateAdd exhibitCtrl = new ctrlLegalRecordUpdateAdd();
+            MTools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+            ActivePane.Control.Controls.Clear();
+            ActivePane.Control.Controls.Add(exhibitCtrl);
+
+
+
+            exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+            exhibitCtrl.button1.Text = "Add to Citation List";
+            exhibitCtrl.label3.Text = "New Citation Reference";
+
+            exhibitCtrl.GrayExampleText();
+
+            ActivePane.Visible = true;
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (listView2.SelectedItems.Count > 0)
+            {
+                label1.Visible = false;
+                DialogResult result = MessageBox.Show("Are you sure you want to remove all references to this citation from the document? The citation will remain in the Citation List.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    _app.UndoRecord.StartCustomRecord("Remove Citation References");
+
+                    string id = listView2.SelectedItems[0].SubItems[2].Text;
+                    foreach (Word.ContentControl cc in _app.ActiveDocument.ContentControls)
+                    {
+                        if (cc.Tag == "Cite:" + id)
+                        {
+                            cc.Delete(true);
+                        }
+                    }
+
+                    helper.UpdateInsertedCites();
+
+                    _app.UndoRecord.EndCustomRecord();
+                }
+            }
+            else
+            {
+                ErrorLabel.Text = "You must select an Exhibit before deleting";
+                ErrorLabel.Visible = true;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (listView2.SelectedItems.Count > 0)
+            {
+
+                ctrlLegalRecordUpdateAdd exhibitCtrl = new ctrlLegalRecordUpdateAdd();
+
+                MTools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+
+                ActivePane.Control.Controls.Clear();
+                //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
+
+                ActivePane.Control.Controls.Add(exhibitCtrl);
+                //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
+
+
+
+                exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+                exhibitCtrl.label3.Text = "Citation: "+
+                    listView2.SelectedItems[0].SubItems[0].Text;
+
+                exhibitCtrl.ID = listView2.SelectedItems[0].SubItems[2].Text;
+                exhibitCtrl.textBox1.Text = listView2.SelectedItems[0].SubItems[0].Text;
+
+                if (string.IsNullOrWhiteSpace(listView2.SelectedItems[0].SubItems[1].Text))
+                {
+                    exhibitCtrl.textBox3.Text = "New Citation";
+                }
+                else
+                {
+                    exhibitCtrl.textBox3.Text = listView2.SelectedItems[0].SubItems[1].Text;
+                }
+
+                exhibitCtrl.GrayExampleText();
+
+                ActivePane.Visible = true;
+                //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
+            }
+            else
+            {
+                label1.Text = "You must select an Exhibit before editing";
+                label1.Visible = true;
+            }
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (listView2.SelectedItems.Count > 0)
+            {
+                label1.Visible = false;
+                DialogResult result = MessageBox.Show("Are you sure you want to remove this citation from the Citation List? This will also remove the references to this citation from the document and cannot be undone.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    string id = listView2.SelectedItems[0].SubItems[2].Text;
+                    repository.DeleteLRCite(id);
+
+                    foreach (Word.ContentControl cc in _app.ActiveDocument.ContentControls)
+                    {
+                        if (cc.Tag == "Exhibit:" + id || cc.Tag == "Cite:"+id)
+                        {
+                            cc.Delete(true);
+                        }
+                    }
+
+                    helper.UpdateInsertedCites();
+                    LoadExhibitListView();
+                    LoadLRListView();
+                }
+                _app.ActiveDocument.UndoClear(); // prevents user from re-inserting a cc that no longer is able to reference an exhibit
+            }
+            else
+            {
+                label1.Text = "You must select a citation before deleting";
+                label1.Visible = true;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (listView2.SelectedItems.Count > 0)
+            {
+                _app.UndoRecord.StartCustomRecord("Insert Legal or Record Citation");
+
+                label1.Visible = false;
+                LegalRecordCite cite = (LegalRecordCite)listView2.SelectedItems[0].Tag;
+                ContentControl cc = InsertLRCite(cite);
+                helper.UpdateInsertedCites();
+
+                _app.Selection.SetRange(cc.Range.End + 1, cc.Range.End + 1);
+
+                _app.UndoRecord.EndCustomRecord();
+
+                Globals.ThisAddIn.ReturnFocus();
+            }
+            else
+            {
+                label1.Text = "You must select an citation before inserting";
+                label1.Visible = true;
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            RefreshNumbering_Click(sender, e);
+        }
+
+        private void listView2_DoubleClick(object sender, EventArgs e)
+        {
+            button8_Click(sender, e);
+        }
+
+        private void NewCite_MouseHover(object sender, EventArgs e)
+        {
+            toolTipAdd.Show("Add a new Citation to the list.", NewCite);
+        }
+
+        private void EditCite_MouseHover(object sender, EventArgs e)
+        {
+            toolTipEdit.Show("Edit the long and short formats for the selected Citation.", EditCite);
+        }
+
+        private void ClearReferencesToCite_MouseHover(object sender, EventArgs e)
+        {
+            toolTipClearFromDoc.Show("Removes all references to the selected Citation from the document.", ClearReferencesToCite);
+        }
+
+        private void DeleteCite_MouseHover(object sender, EventArgs e)
+        {
+            toolTipDelete.Show("Delete the selected Citation from the Citation List.", DeleteCite);
+
+        }
+
+        private void button8_MouseHover(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button6_MouseHover(object sender, EventArgs e)
+        {
+            toolTipRefresh.Show("Refreshes the formatting, numbering, and content of all the citations within the document text.", button6);
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            //mirror of pincite button on ribbon
+
+            try
+            {
+                _app.UndoRecord.StartCustomRecord("Add Pincite");
+
+                new Pincite(_app).AddPincite(_app.Selection);
+                Globals.ThisAddIn.ReturnFocus();
+
+                _app.UndoRecord.EndCustomRecord();
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #204"); }
+
+
+        }
+
+        private void btnRemovePincite_Click(object sender, EventArgs e)
+        {
+            //mirror of remove pincite button on ribbon
+            try
+            {
+                _app.UndoRecord.StartCustomRecord("Remove Pincite");
+
+                new Pincite(_app).RemovePinCite(_app.Selection);
+
+                _app.UndoRecord.EndCustomRecord();
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #205"); }
+
+        }
+
+        private void btnAddPincite_MouseHover(object sender, EventArgs e)
+        {
+            toolTipDelete.Show("Add a Pincite to the Citation selected in the document.", btnAddPincite);
+        }
+
+        private void btnRemovePincite_MouseHover(object sender, EventArgs e)
+        {
+            toolTipDelete.Show("Remove a Pincite from the Citation selected in the document.", btnRemovePincite);
         }
     }
     
