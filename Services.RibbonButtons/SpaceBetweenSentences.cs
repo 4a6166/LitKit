@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
 
 namespace Tools.Simple
@@ -15,105 +16,94 @@ namespace Tools.Simple
     {
         public static void AddSpace(Word.Application _app)
         {
-            _app.Application.System.Cursor = WdCursorType.wdCursorWait;
+            int sentenceCount = 0;
+            foreach (Range rng in _app.ActiveDocument.StoryRanges)
+            {
+                sentenceCount += rng.Sentences.Count;
+            }
+            var warning = System.Windows.Forms.MessageBox.Show($"Sentences found: {sentenceCount}" + Environment.NewLine + "This may take a while. Do you want to proceed?", "Two Spaces Between Sentences", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 
+            if (warning == DialogResult.OK)
+            {
+                _app.Application.System.Cursor = WdCursorType.wdCursorWait;
 
-            //for (int i = 1; i <= _app.ActiveDocument.Sentences.Count; i++)
-            //{
-            //    var sentence = _app.ActiveDocument.Sentences[i];
-            //    if (sentence.Text.Contains('.'))
-            //    {
-            //        sentence.Text = sentence.Text + " ";
-            //    }
-            //    if (sentence.Text.Contains(".   "))
-            //    {
-            //        sentence.Text = sentence.Text.Substring(0, sentence.Text.Length - 1);
-            //    }
-            //}
+                var layoutType = _app.ActiveWindow.View.Type;
 
-            _app.ActiveDocument.Select();
-            DoubleSpace(_app.Selection.Range);
+                // Iterates through all the Story Ranges (header, footer, footnotes, end notes, etc. if they are present in the document.
+                foreach (Range story in _app.ActiveDocument.StoryRanges)
+                {
+                    DoubleSpace(story);
+                }
+                _app.ActiveWindow.View.Type = layoutType;
 
-            //// For testing, not going through footnotes because of how long it takes
-            //if (_app.ActiveDocument.Footnotes.Count > 0)
-            //{
-            //    foreach (Footnote footnote in _app.ActiveDocument.Footnotes)
-            //    {
-            //        footnote.Range.Select();
-            //        DoubleSpace(footnote.Range);
-            //    }
-            //}
-
-            //if (_app.ActiveDocument.Endnotes.Count >0)
-            //{
-            //    foreach (Endnote endnote in _app.ActiveDocument.Endnotes)
-            //    {
-            //        endnote.Range.Select();
-            //        DoubleSpace(endnote.Range);
-            //    }
-            //}
-
-            _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
-
+                _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
+            }
         }
 
         private static void DoubleSpace(Range rng)
         {
-            string oneSpace = " ";
-            string twoSpaces = "  ";
-            string threeSpaces = "   ";
-            string quote = "\"";
+            #region Code used in Beta
+            //string oneSpace = " ";
+            //string twoSpaces = "  ";
+            //string threeSpaces = "   ";
+            //string quote = "\"";
 
-            foreach (var symbol in Symbols)
+            //foreach (var symbol in Symbols)
+            //{
+            //    rng.Find.Execute(FindText: symbol + oneSpace, ReplaceWith: symbol + twoSpaces, Replace: WdReplace.wdReplaceAll);
+            //    rng.Find.Execute(FindText: symbol + threeSpaces, ReplaceWith: symbol + twoSpaces, Replace: WdReplace.wdReplaceAll);
+
+            //    rng.Find.Execute(FindText: symbol + quote + oneSpace, ReplaceWith: symbol + quote + twoSpaces, Replace: WdReplace.wdReplaceAll);
+            //    rng.Find.Execute(FindText: symbol + quote + threeSpaces, ReplaceWith: symbol + quote + twoSpaces, Replace: WdReplace.wdReplaceAll);
+            //}
+
+
+            //foreach (var text in abbreviations)
+            //{
+            //    rng.Find.Execute(FindText: " " + text + "  ", ReplaceWith: " " + text + " ", MatchCase: true, Replace: WdReplace.wdReplaceAll);
+            //}
+
+            //for (int i = 0; i <= 9; i++)
+            //{
+            //    rng.Find.Execute(FindText: $"No.  {i}", ReplaceWith: $"No. {i}", Replace: WdReplace.wdReplaceAll);
+            //}
+
+            //rng.Find.Execute(FindText: "id." + twoSpaces + "at", ReplaceWith: "id." + oneSpace + "at", MatchCase: true, Replace: WdReplace.wdReplaceAll);
+            //rng.Find.Execute(FindText: "Id." + twoSpaces + "at", ReplaceWith: "Id." + oneSpace + "at", MatchCase: true, Replace: WdReplace.wdReplaceAll);
+            #endregion
+
+            for (int i = 1; i < rng.Sentences.Count; i++)
             {
-                rng.Find.Execute(FindText: symbol + oneSpace, ReplaceWith: symbol + twoSpaces, Replace: WdReplace.wdReplaceAll);
-                rng.Find.Execute(FindText: symbol+ threeSpaces, ReplaceWith: symbol + twoSpaces, Replace: WdReplace.wdReplaceAll);
+                var sent = rng.Sentences[i].Text;
+                bool dontReplace = false;
 
-                rng.Find.Execute(FindText: symbol + quote + oneSpace, ReplaceWith: symbol + quote + twoSpaces, Replace: WdReplace.wdReplaceAll);
-                rng.Find.Execute(FindText: symbol + quote + threeSpaces, ReplaceWith: symbol + quote + twoSpaces, Replace: WdReplace.wdReplaceAll);
+                for (int j = 0; j < abbreviations.Count; j++)
+                {
+                    if (sent.EndsWith(abbreviations[j] + " ") || sent.EndsWith(", ") || sent.EndsWith("  "))
+                    {
+                        dontReplace = true;
+                    }
+                }
+                if (!dontReplace && !String.IsNullOrWhiteSpace(sent) && !rng.Sentences[i].Text.EndsWith("\r"))
+                {
+                    rng.Sentences[i].Select();
+                    rng.Application.Selection.InsertAfter(" ");
+
+                }
+
             }
-
-
-            foreach (var text in abbreviations)
-            {
-                rng.Find.Execute(FindText: " "+text + "  ", ReplaceWith: " "+text + " ", MatchCase: true, Replace: WdReplace.wdReplaceAll);
-            }
-
-            for (int i = 0; i <= 9; i++)
-            {
-                rng.Find.Execute(FindText: $"No.  {i}", ReplaceWith: $"No. {i}", Replace: WdReplace.wdReplaceAll);
-            }
-
-            rng.Find.Execute(FindText: "id." + twoSpaces + "at", ReplaceWith: "id." + oneSpace + "at", MatchCase: true, Replace: WdReplace.wdReplaceAll);
-            rng.Find.Execute(FindText: "Id." + twoSpaces + "at", ReplaceWith: "Id." + oneSpace + "at", MatchCase: true, Replace: WdReplace.wdReplaceAll);
-
         }
 
         public static void RemoveSpace(Word.Application _app)
         {
             _app.Application.System.Cursor = WdCursorType.wdCursorWait;
+            var layoutType = _app.ActiveWindow.View.Type;
 
-            _app.ActiveDocument.Select();
-            SingleSpace(_app.Selection.Range);
-
-            //// For testing, not going through footnotes because of how long it takes
-            //if (_app.ActiveDocument.Footnotes.Count > 0)
-            //{
-            //    foreach (Footnote footnote in _app.ActiveDocument.Footnotes)
-            //    {
-            //        footnote.Range.Select();
-            //        SingleSpace(footnote.Range);
-            //    }
-            //}
-
-            //if (_app.ActiveDocument.Endnotes.Count > 0)
-            //{
-            //    foreach (Endnote endnote in _app.ActiveDocument.Endnotes)
-            //    {
-            //        endnote.Range.Select();
-            //        SingleSpace(endnote.Range);
-            //    }
-            //}
+            foreach (Range story in _app.ActiveDocument.StoryRanges)
+            {
+                SingleSpace(story);
+            }
+            _app.ActiveWindow.View.Type = layoutType;
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
         }
