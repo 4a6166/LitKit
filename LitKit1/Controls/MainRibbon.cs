@@ -302,7 +302,10 @@ namespace LitKit1
 
         private void CustomerSupport_Click(object sender, RibbonControlEventArgs e)
         {
-            Process.Start("mailto://support@prelimine.com");
+            string link = "mailto://support@prelimine.com";
+            //Process.Start("link");
+
+            _app.ActiveDocument.FollowHyperlink(Address: link);
         }
 
 
@@ -711,7 +714,9 @@ namespace LitKit1
         private void btnTesterFeedback_Click(object sender, RibbonControlEventArgs e)
         {
             string survey = @"https://corexms868hzxvx3tkx7.sjc1.qualtrics.com/jfe/form/SV_6Q2lF3dfTOdE69v";
-            Process.Start(survey);
+            //Process.Start(survey);
+            _app.ActiveDocument.FollowHyperlink(Address: survey);
         }
     }
+
 }

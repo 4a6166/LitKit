@@ -19,12 +19,13 @@ namespace Tools.Simple
             _app.Application.System.Cursor = WdCursorType.wdCursorWait;
 
             _app.ActiveDocument.Select();
-            var rng = _app.Selection.Range;
-
+            var rng = _app.Selection;
+            rng.InsertAfter(" ");
 
             rng.Find.Execute(FindText: "\"", ReplaceWith: "\"", Replace: WdReplace.wdReplaceAll);
             rng.Find.Execute(FindText: "\'", ReplaceWith: "\'", Replace: WdReplace.wdReplaceAll);
 
+            // TODO: When no chars have been added to the doc by the user, wdReplaceAll shuts Word down 
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
         }

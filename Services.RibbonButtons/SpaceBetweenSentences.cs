@@ -16,6 +16,9 @@ namespace Tools.Simple
     {
         public static void AddSpace(Word.Application _app)
         {
+            _app.ActiveDocument.Select();
+            _app.Selection.InsertAfter(" "); // Have to add so Word doesn't crash when this is applied first when opening document in Office 2019
+
             int sentenceCount = 0;
             foreach (Range rng in _app.ActiveDocument.StoryRanges)
             {
@@ -96,6 +99,9 @@ namespace Tools.Simple
 
         public static void RemoveSpace(Word.Application _app)
         {
+            _app.ActiveDocument.Select();
+            _app.Selection.InsertAfter(" "); // Have to add so Word doesn't crash when this is applied first when opening document in Office 2019
+
             _app.Application.System.Cursor = WdCursorType.wdCursorWait;
             var layoutType = _app.ActiveWindow.View.Type;
 
