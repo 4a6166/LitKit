@@ -21,9 +21,25 @@ namespace Tools.Simple
 
         public void SendKey()
         {
-            SendKeys.Send("^h");
+            //SendKeys.Send("^h");
+
+            OpenForm();
+        }
+
+        public void OpenForm()
+        {
+            Stack<object> stack = new Stack<object>();
+
+            var a = _app.ActiveDocument.CommandBars.Count;
+            var b = _app.ActiveDocument.CommandBars.FindControls(Type: Microsoft.Office.Core.MsoControlType.msoControlButton, Visible: true).Count;
+            var c = _app.ActiveDocument.CommandBars.FindControls(Type: Microsoft.Office.Core.MsoControlType.msoControlButton, Visible: true, Id: 120);
 
 
+
+            var fill = 0;
+
+            //HomeTab > EditReplace
+            //Home > Editing > Replace
         }
 
         

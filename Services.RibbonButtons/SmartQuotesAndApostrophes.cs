@@ -20,12 +20,11 @@ namespace Tools.Simple
 
             _app.ActiveDocument.Select();
             var rng = _app.Selection;
-            rng.InsertAfter(" ");
+            //rng.InsertAfter(" ");
+            rng.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
 
             rng.Find.Execute(FindText: "\"", ReplaceWith: "\"", Replace: WdReplace.wdReplaceAll);
             rng.Find.Execute(FindText: "\'", ReplaceWith: "\'", Replace: WdReplace.wdReplaceAll);
-
-            // TODO: When no chars have been added to the doc by the user, wdReplaceAll shuts Word down 
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
         }

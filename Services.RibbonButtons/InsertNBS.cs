@@ -18,6 +18,9 @@ namespace Tools.Simple
             _app.ActiveDocument.Select();
             var rng = _app.Selection.Range;
 
+            _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
+
+
             InsertSpaceAfterText(rng);
             InsertSpaceBeforeText(rng);
             FixLawyerEllipses(rng);

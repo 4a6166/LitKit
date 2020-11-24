@@ -17,7 +17,7 @@ namespace Tools.Simple
         public static void AddSpace(Word.Application _app)
         {
             _app.ActiveDocument.Select();
-            _app.Selection.InsertAfter(" "); // Have to add so Word doesn't crash when this is applied first when opening document in Office 2019
+            _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
 
             int sentenceCount = 0;
             foreach (Range rng in _app.ActiveDocument.StoryRanges)
@@ -100,7 +100,7 @@ namespace Tools.Simple
         public static void RemoveSpace(Word.Application _app)
         {
             _app.ActiveDocument.Select();
-            _app.Selection.InsertAfter(" "); // Have to add so Word doesn't crash when this is applied first when opening document in Office 2019
+            _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
 
             _app.Application.System.Cursor = WdCursorType.wdCursorWait;
             var layoutType = _app.ActiveWindow.View.Type;
