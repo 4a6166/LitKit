@@ -690,9 +690,13 @@ namespace Ribbon_0._0._1
                         }
 
                         contentControl.Range.Font.Fill.Transparency = 1;
-                        for (var shape = 1; shape <= contentControl.Range.InlineShapes.Count; shape++)
+                        for (int j = 1; j<=contentControl.Range.Hyperlinks.Count; j++)
                         {
-                            contentControl.Range.InlineShapes[shape].PictureFormat.Brightness = 0f;
+                            contentControl.Range.Hyperlinks[j].Delete();
+                        }
+                        for (int j = 1; j <= contentControl.Range.InlineShapes.Count; j++)
+                        {
+                            contentControl.Range.InlineShapes[j].PictureFormat.Brightness = 0f;
                         }
 
                         if(contentControl.Range.Font.Fill.Transparency != 1)
