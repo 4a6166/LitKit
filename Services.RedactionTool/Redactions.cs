@@ -13,9 +13,17 @@ using Services.Base;
 
 namespace Tools.RedactionTool
 {
-    public class Redactions: BaseService
+    public class Redactions : BaseService
     {
         public event RedactionCalledDelegate RedactionCalled;
+
+        private readonly Application _app;
+
+        //private readonly List<IRedaction> redactions = new List<IRedaction>();
+
+        public static string ConfidentialityLabel = null;
+        public static bool cancel = false;
+
 
         public Redactions(Application _app)
         {
@@ -27,17 +35,7 @@ namespace Tools.RedactionTool
             }
         }
 
-        private readonly Application _app;
-
-        private readonly List<IRedaction> redactions = new List<IRedaction>();
-
-       
-       public int Count => redactions.Count;
-
-               
-
-
-        private Word.Document CloneDocument(Word.Document inputDocument)
+        private static Word.Document CloneDocument(Word.Document inputDocument)
         {
             object missing = Type.Missing;
             object normalTemplate = inputDocument.Application.NormalTemplate;
@@ -58,21 +56,7 @@ namespace Tools.RedactionTool
             return fileToRedact;
         }
 
-        //public void SaveRedactedPDF(string Path, bool FileAvailable)
-        //{
-        //    if (Path != null && FileAvailable)
-        //    {
-        //        var doc = CloneDocument(_app.ActiveDocument);
-        //        RedactRedactions();
 
-        //        _app.ActiveDocument.ExportAsFixedFormat(Path, Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true, IncludeDocProps: false, KeepIRM: false, DocStructureTags: false, BitmapMissingFonts: true, UseISO19005_1: false);
-
-        //        doc.Close(WdSaveOptions.wdDoNotSaveChanges);
-        //    }
-        //}
-
-        public static string ConfidentialityLabel = null;
-        public static bool cancel = false;
 
         public void SaveUnRedactedPDF()
         {
@@ -84,7 +68,7 @@ namespace Tools.RedactionTool
                 {
                     ContentControls contentControls = null;
                     Word.ContentControl contentControl = null;
-                    
+
 
                     for (int k = 1; k <= 10; k++) // loops k times just to ensure it ran on all content controls
                     {
@@ -105,9 +89,13 @@ namespace Tools.RedactionTool
                         }
                     }
 
-                    Ribbon_0._0._1.Redactions.UnmarkRedactionsFooter(_app);
-                    Ribbon_0._0._1.Redactions.UnmakrRedactionsEndNote(_app);
-                    Ribbon_0._0._1.Redactions.UnmarkRedactionImageFloatAll(_app);
+                    foreach (Range story in _app.ActiveDocument.StoryRanges)
+                    {
+                        //Unmark(story);
+                    }
+                    UnmarkRedactionsFooter(_app);
+                    UnmakrRedactionsEndNote(_app);
+                    UnmarkRedactionImageFloatAll(_app);
                 }
                 saveFile.FileMarking = ConfidentialityLabel;
 
@@ -212,32 +200,114 @@ namespace Tools.RedactionTool
             return successful;
         }
 
-            #region Get Redactions
-            private void GetRedactionsText()
+        
+
+
+        //------Old Redact code Pulled in---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+        public static void MarkRedaction(Application _app)
         {
-            foreach (Word.ContentControl cc in _app.ActiveDocument.ContentControls)
+
+            try
             {
-                if (cc.Tag.StartsWith("Redaction"))
+                //MessageBox.Show(_app.Selection.ShapeRange.Count.ToString());
+                if (_app.Selection.ShapeRange.Count > 0)
                 {
-                    RedactionText redactionText = new RedactionText(_app)
-                    {
-                        ContentControl = cc,
-                        State = RedactionState.Marked,
-                        Type = RedactionType.Text
-                    };
-                    redactions.Add(redactionText);
+
+                    MarkRedactionImageFloat(_app);
+                    //MarkRedactionChart();
                 }
+
+                else if (_app.Selection.InlineShapes.Count > 0)
+                {
+                    var redaction = _app.Selection.ContentControls.Add(Word.WdContentControlType.wdContentControlRichText);
+
+                    redaction.Title = "Redaction";
+                    redaction.Tag = "R-" + redaction.ID;
+                    redaction.Color = Word.WdColor.wdColorDarkRed;
+
+                    redaction.Range.HighlightColorIndex = Word.WdColorIndex.wdBlack;
+                    redaction.Range.Font.ColorIndex = Word.WdColorIndex.wdWhite;
+                }
+                else if (_app.Selection.Text != "" && _app.Selection.Text.Length > 1)
+                {
+                    //foreach (var wrd in _app.Selection.Words)
+                    //MessageBox.Show(_app.Selection.Text);
+                    {
+                        var redaction = _app.Selection.ContentControls.Add(Word.WdContentControlType.wdContentControlRichText);
+
+                        redaction.Title = "Redaction";
+                        redaction.Tag = "R-" + redaction.ID;
+                        redaction.Color = Word.WdColor.wdColorDarkRed;
+
+                        for (var i = 1; i <= redaction.Range.ContentControls.Count; i++)
+                        {
+                            redaction.Range.ContentControls[i].LockContents = false;
+                        }
+
+                        redaction.Range.HighlightColorIndex = Word.WdColorIndex.wdBlack;
+                        redaction.Range.Font.ColorIndex = Word.WdColorIndex.wdWhite;
+
+                        for (var i = 1; i <= redaction.Range.ContentControls.Count; i++)
+                        {
+                            redaction.Range.ContentControls[i].LockContents = true;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+        }
+
+        public static void MarkRedactionImageFloat(Word.Application _app)
+        {
+
+            //MessageBox.Show("Selection Shape Count: "+
+            //_app.Selection.ShapeRange
+            //.Count.ToString()
+            //+ "\n" + "All Shapes Count: "+
+            //_app.ActiveDocument.Shapes.Count.ToString());
+
+
+            if (_app.Selection.ShapeRange.Count > 0)
+            {
+
+                for (int shape = 1; shape <= _app.Selection.ShapeRange.Count; shape++)
+                {
+                    if (_app.Selection.ShapeRange[shape].HasChart == MsoTriState.msoFalse
+                        //&& _app.Selection.ShapeRange[shape].HasDiagram == MsoTriState.msoFalse
+                        //&& _app.Selection.ShapeRange[shape].HasDiagramNode == MsoTriState.msoFalse
+                        //&& _app.Selection.ShapeRange[shape].HasSmartArt == MsoTriState.msoFalse
+                        )
+                    {
+                        var redaction = _app.Selection.ShapeRange[shape];
+
+                        redaction.Title = "R-pic" + redaction.ID;
+                        redaction.AlternativeText = redaction.Title;
+
+                        redaction.PictureFormat.ColorType = MsoPictureColorType.msoPictureGrayscale;
+                        redaction.PictureFormat.Brightness = 0.23f;
+
+                    }
+                    else
+                    {
+                    }
+
+                }
+
+                //MessageBox.Show("Selection marked for Redaction");
+            }
+            else
+            { //MessageBox.Show("Nothing has been selected for redaction.");
             }
         }
 
-        private void GetRedactions()
-        {
-            GetRedactionsText();
-        }
-        #endregion
 
-        #region UnMark
-        public void UnMarkRedactionsText() //// Update to fit with rest of the class
+        public static void UnmarkRedactions(Application _app)
         {
             Word.Selection selection = null;
             Word.ContentControls contentControls = null;
@@ -255,8 +325,17 @@ namespace Tools.RedactionTool
 
                     if (contentControl.Title == "Redaction")
                     {
+                        for (var i = 1; i <= contentControl.Range.ContentControls.Count; i++)
+                        {
+                            contentControl.Range.ContentControls[i].LockContents = false;
+                        }
                         contentControl.Range.Font.ColorIndex = Word.WdColorIndex.wdAuto;
                         contentControl.Range.HighlightColorIndex = Word.WdColorIndex.wdNoHighlight;
+
+                        for (var i = 1; i <= contentControl.Range.ContentControls.Count; i++)
+                        {
+                            contentControl.Range.ContentControls[i].LockContents = true;
+                        }
                         contentControl.Delete(false);
                     }
                     if (contentControl != null) Marshal.ReleaseComObject(contentControl);
@@ -264,13 +343,23 @@ namespace Tools.RedactionTool
                 else
                 {
                     // removes marks for all redactions within a selection
-                    for (int i = 1; i <= contentControls.Count;)
+                    for (int i = 1; i <= contentControls.Count; i++)
                     {
                         contentControl = contentControls[i];
                         if (contentControl.Title == "Redaction")
                         {
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = false;
+                            }
+
                             contentControl.Range.Font.ColorIndex = Word.WdColorIndex.wdAuto;
                             contentControl.Range.HighlightColorIndex = Word.WdColorIndex.wdNoHighlight;
+
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = true;
+                            }
                             contentControl.Delete(false);
                         }
                         if (contentControl != null) Marshal.ReleaseComObject(contentControl);
@@ -285,8 +374,10 @@ namespace Tools.RedactionTool
                 if (contentControls != null) Marshal.ReleaseComObject(contentControls);
                 if (selection != null) Marshal.ReleaseComObject(selection);
             }
+            UnmarkRedactionImageFloat(_app);
+            //UnmarkRedactionsChart(_app);
         }
-        public void UnmarkRedactionImageFloat()  //// Update to fit with rest of the class
+        public static void UnmarkRedactionImageFloat(Word.Application _app)
         {
             for (int shape = 1; shape <= _app.Selection.ShapeRange.Count; shape++)
             {
@@ -300,24 +391,10 @@ namespace Tools.RedactionTool
                     redaction.PictureFormat.Brightness = 0.5f;
                 }
             }
-        }   
+        }
 
-        public void UnmarkRedactionImageFloatAll()  //// Update to fit with rest of the class
-        {
-            var ShapesFloat = _app.ActiveDocument.Shapes;
-            for (int shape = 1; shape <= ShapesFloat.Count; shape++)
-            {
-                var redaction = ShapesFloat[shape];
-                if (redaction.Title.StartsWith("R-pic") && redaction.HasChart == MsoTriState.msoFalse)
-                {
-                    redaction.PictureFormat.Brightness = 0.5f;
-                    redaction.PictureFormat.ColorType = MsoPictureColorType.msoPictureAutomatic;
-                }
 
-            }
-        } 
-
-        public void UnmarkRedactionsFooter()  //// Update to fit with rest of the class
+        public static void UnmarkRedactionsFooter(Application _app)
         {
             Word.Document doc = null;
             Word.ContentControls contentControls = null;
@@ -336,8 +413,19 @@ namespace Tools.RedactionTool
 
                         if (contentControl.Title == "Redaction")
                         {
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = false;
+                            }
+
                             contentControl.Range.Font.ColorIndex = Word.WdColorIndex.wdAuto;
                             contentControl.Range.HighlightColorIndex = Word.WdColorIndex.wdNoHighlight;
+
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = true;
+                            }
+
                             contentControl.Delete(false);
                         }
 
@@ -351,10 +439,9 @@ namespace Tools.RedactionTool
                 if (contentControls != null) Marshal.ReleaseComObject(contentControls);
                 if (doc != null) Marshal.ReleaseComObject(doc);
             }
-
         }
-
-        public void UnmarkRedactionsEndNote()  //// Update to fit with rest of the class
+        
+        public static void UnmakrRedactionsEndNote(Application _app)
         {
             Word.Document doc = null;
             Word.ContentControls contentControls = null;
@@ -373,8 +460,19 @@ namespace Tools.RedactionTool
 
                         if (contentControl.Title == "Redaction")
                         {
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = false;
+                            }
+
                             contentControl.Range.Font.ColorIndex = Word.WdColorIndex.wdAuto;
                             contentControl.Range.HighlightColorIndex = Word.WdColorIndex.wdNoHighlight;
+
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = true;
+                            }
+
                             contentControl.Delete(false);
                         }
 
@@ -388,68 +486,309 @@ namespace Tools.RedactionTool
                 if (contentControls != null) Marshal.ReleaseComObject(contentControls);
                 if (doc != null) Marshal.ReleaseComObject(doc);
             }
-
         }
-        #endregion
-        public void UnMarkRedactions()
+        public static void UnmarkRedactionImageFloatAll(Application _app)
         {
-            UnMarkRedactionsText();
-        }
-
-        #region Mark
-
-        private void RedactRedactionsText()
-        {
-            GetRedactionsText();
-            var redactions_text =
-                from redacts in redactions
-                where redacts.Type == RedactionType.Text
-                select redacts
-                ;
-
-            foreach (var redact in redactions_text)
+            var ShapesFloat = _app.ActiveDocument.Shapes;
+            for (int shape = 1; shape <= ShapesFloat.Count; shape++)
             {
-                redact.ContentControl.Range.Font.Fill.Transparency = 1;
-                redact.State = RedactionState.Applied;
-                redact.ContentControl.Tag = redact.ContentControl.Tag + redact.State;
+                var redaction = ShapesFloat[shape];
+                if (redaction.Title.StartsWith("R-pic") && redaction.HasChart == MsoTriState.msoFalse)
+                {
+                    redaction.PictureFormat.Brightness = 0.5f;
+                    redaction.PictureFormat.ColorType = MsoPictureColorType.msoPictureAutomatic;
+                }
+
             }
         }
 
-        private void MarkRedactionsText()
+        public static void SaveRedactedPDF(Application _app)
         {
-            var redaction = _app.Selection.ContentControls.Add(Word.WdContentControlType.wdContentControlText);
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "PDF|*.pdf";
+            saveFileDialog1.Title = "Export Redacted PDF";
+            saveFileDialog1.ShowDialog();
 
-            redaction.Title = "Redaction";
-            redaction.Tag = "Redaction-" + redaction.ID;
-            redaction.Color = Word.WdColor.wdColorDarkRed;
+            if (saveFileDialog1.FileName != "")
+            {
+                bool fileAvailable = true;
+                FileInfo file = new FileInfo(saveFileDialog1.FileName);
+                if (file.Exists == true)
+                {
+                    try
+                    {
+                        using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                        {
+                            stream.Close();
+                            fileAvailable = true;
+                        }
+                    }
+                    catch (IOException)
+                    {
+                        //the file is unavailable because it is:
+                        //still being written to
+                        //or being processed by another thread
+                        //or does not exist (has already been processed)
+                        fileAvailable = false;
+                        MessageBox.Show("File is open in another window or program. Please close the file and try again.");
 
-            redaction.Range.HighlightColorIndex = Word.WdColorIndex.wdBlack;
-            redaction.Range.Font.ColorIndex = Word.WdColorIndex.wdWhite;
+                    }
+                }
+                if (fileAvailable)
+                {
+                    bool successful = true;
+
+                    var doc = CloneDocument(_app.ActiveDocument);
+                    successful = ApplyRedactions(_app);
+                    successful = ApplyRedactionsFooter(_app);
+                    successful = ApplyRedactionsEndNote(_app);
+                    successful = ApplyRedactionImageFloat(_app);
+
+                    successful = ApplyRedactionsSpecialTables(_app);
+                    //successful = ApplyRedactionsChart(_app);
+
+
+                    if (successful)
+                    {
+                        _app.ActiveDocument.ExportAsFixedFormat(saveFileDialog1.FileName, Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true, IncludeDocProps: false, KeepIRM: false, DocStructureTags: false, BitmapMissingFonts: true, UseISO19005_1: false);
+                    }
+                    else { MessageBox.Show("There was an error redacting your document.", "Error Redacting Document", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+
+                    doc.Close(WdSaveOptions.wdDoNotSaveChanges);
+                    //MessageBox.Show(
+                    //    text: $"Redacted PDF exported to {saveFileDialog1.FileName}",
+                    //    caption: "Export Complete",
+                    //    buttons: MessageBoxButtons.OK
+                    //    );
+                }
+            }
         }
-        #endregion
-        public void MarkRedactions()
+
+        public static bool ApplyRedactions(Word.Application _app)
         {
-            MarkRedactionsText();
-        }
+            bool successful = true;
+            Word.Document doc = null;
+            Word.ContentControls contentControls = null;
+            Word.ContentControl contentControl = null;
 
-        public void MarkRedactions(RedactionType type)
+            //string controlsList = string.Empty;
+
+            try
+            {
+                doc = _app.ActiveDocument;
+                contentControls = doc.ContentControls;
+                for (int i = 1; i <= contentControls.Count; i++)
+                {
+                    contentControl = contentControls[i];
+
+                    if (contentControl.Title == "Redaction")
+                    {
+                        for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                        {
+                            contentControl.Range.ContentControls[j].LockContents = false;
+                        }
+
+                        contentControl.Range.Font.Fill.Transparency = 1;
+                        for (int j = 1; j <= contentControl.Range.Hyperlinks.Count; j++)
+                        {
+                            contentControl.Range.Hyperlinks[j].Delete();
+                        }
+                        for (int j = 1; j <= contentControl.Range.InlineShapes.Count; j++)
+                        {
+                            contentControl.Range.InlineShapes[j].PictureFormat.Brightness = 0f;
+                        }
+
+                        if (contentControl.Range.Font.Fill.Transparency != 1)
+                        {
+                            successful = false;
+                        }
+
+                    }
+
+                    if (contentControl != null) Marshal.ReleaseComObject(contentControl);
+                }
+            }
+            finally
+            {
+
+                if (contentControls != null) Marshal.ReleaseComObject(contentControls);
+                if (doc != null) Marshal.ReleaseComObject(doc);
+            }
+            return successful;
+        }
+        public static bool ApplyRedactionsFooter(Word.Application _app)
         {
-            
+            bool successful = true;
+            Word.Document doc = null;
+            Word.ContentControls contentControls = null;
+            Word.ContentControl contentControl = null;
 
+            try
+            {
+                doc = _app.ActiveDocument;
+
+                for (int footNote = 1; footNote <= doc.Footnotes.Count; footNote++)   ///////////////////////////////Footnote content controls
+                {
+                    contentControls = doc.Footnotes[footNote].Range.ContentControls;
+                    for (int i = 1; i <= contentControls.Count; i++)
+                    {
+                        contentControl = contentControls[i];
+
+                        if (contentControl.Title == "Redaction")
+                        {
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = false;
+                            }
+
+                            contentControl.Range.Font.Fill.Transparency = 1;
+
+                            if (contentControl.Range.Font.Fill.Transparency != 1)
+                            {
+                                successful = false;
+                            }
+                        }
+
+                        if (contentControl != null) Marshal.ReleaseComObject(contentControl);
+                    }
+                }
+            }
+            finally
+            {
+
+                if (contentControls != null) Marshal.ReleaseComObject(contentControls);
+                if (doc != null) Marshal.ReleaseComObject(doc);
+            }
+            return successful;
         }
-
-
-        
-
-        public void RedactRedactions()
+        public static bool ApplyRedactionsEndNote(Word.Application _app)
         {
-            RedactRedactionsText();
+            bool successful = true;
+            Word.Document doc = null;
+            Word.ContentControls contentControls = null;
+            Word.ContentControl contentControl = null;
+
+            try
+            {
+                doc = _app.ActiveDocument;
+
+                for (int endNote = 1; endNote <= doc.Endnotes.Count; endNote++)   ///////////////////////////////Endnote content controls
+                {
+                    contentControls = doc.Endnotes[endNote].Range.ContentControls;
+                    for (int i = 1; i <= contentControls.Count; i++)
+                    {
+                        contentControl = contentControls[i];
+
+                        if (contentControl.Title == "Redaction")
+                        {
+                            for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
+                            {
+                                contentControl.Range.ContentControls[j].LockContents = false;
+                            }
+
+                            contentControl.Range.Font.Fill.Transparency = 1;
+
+                            if (contentControl.Range.Font.Fill.Transparency != 1)
+                            {
+                                successful = false;
+                            }
+                        }
+
+                        if (contentControl != null) Marshal.ReleaseComObject(contentControl);
+                    }
+                }
+            }
+            finally
+            {
+
+                if (contentControls != null) Marshal.ReleaseComObject(contentControls);
+                if (doc != null) Marshal.ReleaseComObject(doc);
+            }
+            return successful;
+        }
+        public static bool ApplyRedactionImageFloat(Word.Application _app)
+        {
+            bool successful = true;
+            var ShapesFloat = _app.ActiveDocument.Shapes;
+            for (int shape = 1; shape <= ShapesFloat.Count; shape++)
+            {
+                var redaction = ShapesFloat[shape];
+                if (redaction.Title.StartsWith("R-pic") && redaction.HasChart == MsoTriState.msoFalse)
+                {
+                    redaction.PictureFormat.Brightness = 0f;
+
+                    if (redaction.PictureFormat.Brightness != 0f)
+                    {
+                        successful = false;
+                    }
+                }
+            }
+            return successful;
+        }
+        private static bool ApplyRedactionsSpecialTables(Word.Application app)
+        {
+            bool successful = true;
+            Word.Document doc = app.ActiveDocument;
+
+            foreach (TableOfContents toc in doc.TablesOfContents)
+            {
+                toc.Update();
+                toc.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
+                {
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                    {
+                        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                    }
+                }
+            }
+
+            foreach (TableOfAuthorities toa in doc.TablesOfAuthorities)
+            {
+                toa.Update();
+                toa.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
+                {
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                    {
+                        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                    }
+                }
+            }
+
+            foreach (TableOfFigures tof in doc.TablesOfFigures)
+            {
+                tof.Update();
+                tof.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
+                {
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                    {
+                        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                    }
+                }
+            }
+
+            foreach (Index index in doc.Indexes)
+            {
+                index.Update();
+                index.Range.Select();
+                for (int i = 1; i <= app.Selection.Words.Count; i++)
+                {
+                    var word = app.Selection.Words[i];
+                    if (word.HighlightColorIndex == WdColorIndex.wdBlack)
+                    {
+                        app.Selection.Words[i].Font.Fill.Transparency = 1;
+                    }
+                }
+            }
+
+            return successful;
         }
 
-        public void ClearRedactionList()
-        {
-            redactions.Clear();
-        }
     }
 }
 

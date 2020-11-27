@@ -10,7 +10,6 @@ using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Tools.Ribbon;
 using Tools.Exhibit;
 using Tools.RedactionTool;
-using Ribbon = Ribbon_0._0._1;
 using Tools.Simple;
 using LitKit1.Controls.AnsResControls;
 using Tools.Response;
@@ -56,7 +55,7 @@ namespace LitKit1
                 {
                     /// consider RelationshipsHideTable ImageMSO
                     _app.UndoRecord.StartCustomRecord("Mark Redaction");
-                    Ribbon.Redactions.MarkRedaction(_app);
+                    Redactions.MarkRedaction(_app);
                     _app.UndoRecord.EndCustomRecord();
                 }
                 catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #207"); }
@@ -68,7 +67,7 @@ namespace LitKit1
             _app.UndoRecord.StartCustomRecord("Mark Redaction");
             try
             {
-                Ribbon.Redactions.UnmarkRedactions(_app);
+                Redactions.UnmarkRedactions(_app);
             }
             catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #209"); }
             _app.UndoRecord.EndCustomRecord();
@@ -83,7 +82,8 @@ namespace LitKit1
                 ContentControls contentControls = null;
                 ContentControl contentControl = null;
 
-                for (int k = 1; k <= 10; k++) // loops k times just to ensure it ran on all content controls
+
+                for (int k = 1; k <= 10; k++) // loops k times just to ensure it ran on all content controls TODO: figure out how to put a while loop here instead
                 {
                     contentControls = Globals.ThisAddIn.Application.ActiveDocument.ContentControls;
                     if (contentControls.Count > 0)
@@ -102,9 +102,9 @@ namespace LitKit1
                     }
                 }
 
-                Ribbon.Redactions.UnmarkRedactionsFooter(_app);
-                Ribbon.Redactions.UnmakrRedactionsEndNote(_app);
-                Ribbon.Redactions.UnmarkRedactionImageFloatAll(_app);
+                Redactions.UnmarkRedactionsFooter(_app);
+                Redactions.UnmakrRedactionsEndNote(_app);
+                Redactions.UnmarkRedactionImageFloatAll(_app);
 
                 _app.UndoRecord.EndCustomRecord();
             }
@@ -120,7 +120,7 @@ namespace LitKit1
             {
                 try
                 {
-                    Ribbon.Redactions.SaveRedactedPDF(_app);
+                    Redactions.SaveRedactedPDF(_app);
                     Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
                 }
                 catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #211"); }
