@@ -13,6 +13,8 @@ namespace LitKit1.Controls.RedactionControls
 {
     public partial class ctrlConfidentialMarker : UserControl
     {
+        public string Marker { get; private set; }
+        public bool Aborted { get; private set; }
         public ctrlConfidentialMarker()
         {
             InitializeComponent();
@@ -24,55 +26,55 @@ namespace LitKit1.Controls.RedactionControls
 
         private void Confidential_Click(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = Confidential.Text;
+            Marker = Confidential.Text;
             this.FindForm().Close();
         }
 
         private void HighlyConfidential_Click(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = HighlyConfidential.Text;
+            Marker = HighlyConfidential.Text;
             this.FindForm().Close();
         }
 
         private void AttorneysEyes_Click(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = AttorneysEyes.Text;
+            Marker = AttorneysEyes.Text;
             this.FindForm().Close();
         }
 
         private void FiledUnderSeal_Click(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = FiledUnderSeal.Text;
+            Marker = FiledUnderSeal.Text;
             this.FindForm().Close();
         }
 
         private void InCamera_Click(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = InCamera.Text;
+            Marker = InCamera.Text;
             this.FindForm().Close();
         }
 
         private void PersonalInfo_Click(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = PersonalInfo.Text;
+            Marker = PersonalInfo.Text;
             this.FindForm().Close();
         }
 
         private void HealthInfo_Click(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = HealthInfo.Text;
+            Marker = HealthInfo.Text;
             this.FindForm().Close();
         }
 
         private void ProtectiveOrder_Click(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = ProtectiveOrder.Text;
+            Marker = ProtectiveOrder.Text;
             this.FindForm().Close();
         }
 
         private void ProtectedInformation_Click(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = ProtectedInformation.Text;
+            Marker = ProtectedInformation.Text;
             this.FindForm().Close();
         }
 
@@ -80,7 +82,7 @@ namespace LitKit1.Controls.RedactionControls
         {
             ConfidentialityLabel_other = OtherLabel_txt.Text;
 
-            Redactions.ConfidentialityLabel = ConfidentialityLabel_other;
+            Marker = ConfidentialityLabel_other;
             this.FindForm().Close();
         }
 
@@ -91,20 +93,20 @@ namespace LitKit1.Controls.RedactionControls
 
         private void NoLabel_Click(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = " ";
+            Marker = " ";
             this.FindForm().Close();
         }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = null;
-            Redactions.cancel = true;
+            Marker = null;
+            Aborted = true;
             this.FindForm().Close();
         }
 
         private void FiledUnderSeal_Click_1(object sender, EventArgs e)
         {
-            Redactions.ConfidentialityLabel = FiledUnderSeal.Text;
+            Marker = FiledUnderSeal.Text;
             this.FindForm().Close();
         }
 

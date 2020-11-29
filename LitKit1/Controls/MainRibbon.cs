@@ -55,7 +55,7 @@ namespace LitKit1
                 {
                     /// consider RelationshipsHideTable ImageMSO
                     _app.UndoRecord.StartCustomRecord("Mark Redaction");
-                    Redactions.MarkRedaction(_app);
+                    Redactions.Mark(_app.Selection);
                     _app.UndoRecord.EndCustomRecord();
                 }
                 catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #207"); }
@@ -67,7 +67,8 @@ namespace LitKit1
             _app.UndoRecord.StartCustomRecord("Mark Redaction");
             try
             {
-                Redactions.UnmarkRedactions(_app);
+                Redactions.UnMark(_app.Selection.Range);
+                //Redactions.UnMarkImagesFloat(_app.Selection.Range);
             }
             catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #209"); }
             _app.UndoRecord.EndCustomRecord();
@@ -79,32 +80,10 @@ namespace LitKit1
             {
                 _app.UndoRecord.StartCustomRecord("Redactions Cleared");
 
-                ContentControls contentControls = null;
-                ContentControl contentControl = null;
-
-
                 for (int k = 1; k <= 10; k++) // loops k times just to ensure it ran on all content controls TODO: figure out how to put a while loop here instead
                 {
-                    contentControls = Globals.ThisAddIn.Application.ActiveDocument.ContentControls;
-                    if (contentControls.Count > 0)
-                    {
-                        for (int i = 1; i <= contentControls.Count; i++)
-                        {
-                            contentControl = contentControls[i];
-                            if (contentControl.Title == "Redaction")
-                            {
-                                contentControl.Range.Font.ColorIndex = WdColorIndex.wdAuto;
-                                contentControl.Range.HighlightColorIndex = WdColorIndex.wdNoHighlight;
-                                contentControl.Delete(false);
-                            }
-                            if (contentControl != null) Marshal.ReleaseComObject(contentControl);
-                        }
-                    }
+                    Redactions.UnMarkAll(_app.ActiveDocument);
                 }
-
-                Redactions.UnmarkRedactionsFooter(_app);
-                Redactions.UnmakrRedactionsEndNote(_app);
-                Redactions.UnmarkRedactionImageFloatAll(_app);
 
                 _app.UndoRecord.EndCustomRecord();
             }
@@ -142,20 +121,15 @@ namespace LitKit1
                     frm.ControlBox = false;
                     ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker();
 
-                    Redactions redactions = new Redactions(_app);
 
                     frm.Controls.Add(confidentialMarker);
                     confidentialMarker.Visible = true;
 
                     frm.ShowDialog();
 
-                    if (Redactions.cancel)
+                    if (!confidentialMarker.Aborted)
                     {
-
-                    }
-                    else
-                    {
-                        redactions.SaveUnRedactedPDF();
+                        Redactions.SaveUnredactedPDF(_app.ActiveDocument, confidentialMarker.Marker);
 
                         Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
                     }
