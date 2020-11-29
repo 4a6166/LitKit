@@ -274,32 +274,9 @@ namespace Tools.RedactionTool
                 if (saveFile.Path != null && saveFile.FileAvailable)
                 {
                     var doc = CloneDocument(document);
-                    {
-                        //ContentControls contentControls = null;
-                        //Word.ContentControl contentControl = null;
 
-
-                        //for (int k = 1; k <= 10; k++) // loops k times just to ensure it ran on all content controls
-                        //{
-                        //    contentControls = doc.ContentControls;
-                        //    if (contentControls.Count > 0)
-                        //    {
-                        //        for (int i = 1; i <= contentControls.Count; i++)
-                        //        {
-                        //            contentControl = contentControls[i];
-                        //            if (contentControl.Title == "Redaction")
-                        //            {
-                        //                contentControl.Range.Font.ColorIndex = WdColorIndex.wdAuto;
-                        //                contentControl.Range.HighlightColorIndex = highlight;
-                        //                contentControl.Delete(false);
-                        //            }
-                        //            if (contentControl != null) Marshal.ReleaseComObject(contentControl);
-                        //        }
-                        //    }
-                        //}
-
-                        UnMarkAll(doc, highlight);
-                    }
+                    UnMarkAll(doc, highlight);
+                    
                     saveFile.FileMarking = ConfidentialityLabel;
 
                     // makes the file marking the same font as the document or Times New Roman
@@ -311,95 +288,39 @@ namespace Tools.RedactionTool
 
                     doc.Close(WdSaveOptions.wdDoNotSaveChanges);
                 }
-
             }
-
         }
 
         public static void UnMarkAll(Document doc, WdColorIndex highlight = WdColorIndex.wdNoHighlight)
         {
-            //foreach (Range story in doc.StoryRanges)
-            //{
-            //    UnMark(story, highlight);
-            //}
-
-            UnMark(doc.StoryRanges[WdStoryType.wdMainTextStory]);
-
-            UnMark(doc.StoryRanges[WdStoryType.wdFootnotesStory]);
-            UnMark(doc.StoryRanges[WdStoryType.wdEndnotesStory]);
-
-            UnMark(doc.StoryRanges[WdStoryType.wdFirstPageFooterStory]);
-            UnMark(doc.StoryRanges[WdStoryType.wdFirstPageHeaderStory]);
-            UnMark(doc.StoryRanges[WdStoryType.wdEvenPagesFooterStory]);
-            UnMark(doc.StoryRanges[WdStoryType.wdEvenPagesHeaderStory]);
-
-            UnMark(doc.StoryRanges[WdStoryType.wdPrimaryFooterStory]);
-            UnMark(doc.StoryRanges[WdStoryType.wdPrimaryHeaderStory]);
-
-            UnMark(doc.StoryRanges[WdStoryType.wdTextFrameStory]);
-
-            UnMark(doc.StoryRanges[WdStoryType.wdCommentsStory]);
-            UnMark(doc.StoryRanges[WdStoryType.wdEndnoteContinuationNoticeStory]);
-            UnMark(doc.StoryRanges[WdStoryType.wdEndnoteContinuationSeparatorStory]);
-            UnMark(doc.StoryRanges[WdStoryType.wdEndnoteSeparatorStory]);
-            UnMark(doc.StoryRanges[WdStoryType.wdFootnoteContinuationNoticeStory]);
-            UnMark(doc.StoryRanges[WdStoryType.wdFootnoteContinuationSeparatorStory]);
-            UnMark(doc.StoryRanges[WdStoryType.wdFootnoteSeparatorStory]);
-
-
-        }
-
-        private static void AddConfidentialityHeader(SaveFile saveFile, Document doc, string headerfont = "times new roman")
-        {
-            if (doc.Sections.First.Range.Font.Name != null)
+            foreach (Range story in doc.StoryRanges)
             {
-                headerfont = doc.Sections.First.Range.Font.Name;
-            }
-
-            // marks the header with "confidential," updated to add a floating text box to the header rather than replace the header text
-            foreach (Section section in doc.Sections)
-            {
-                var header = section.Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Shapes.AddTextbox(
-                    Microsoft.Office.Core.MsoTextOrientation.msoTextOrientationHorizontal,
-                    doc.PageSetup.PageWidth - 525,
-                    10,
-                    500,
-                    20);
-                header.TextFrame.TextRange.Text = saveFile.FileMarking.ToUpper();
-
-                header.TextFrame.TextRange.Font.Name = headerfont;
-
-                header.TextFrame.TextRange.Font.Size = 12;
-                header.TextFrame.TextRange.Font.Bold = -1;
-
-                header.Line.Visible = Microsoft.Office.Core.MsoTriState.msoFalse;
-                header.TextFrame.TextRange.HighlightColorIndex = WdColorIndex.wdWhite;
-                header.TextFrame.TextRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+                UnMark(story, highlight);
             }
         }
 
         public static void Mark(Selection selection)
         {
-            try
+            bool successful = false;
+            string UnsupportedTypes = "";
+
+            if (!HasUnsupportedType(selection, out UnsupportedTypes))
             {
-                if (selection.ShapeRange.Count > 0)
+                try
                 {
-                    bool success = MarkImageFloat(selection);
+                    if (selection.ShapeRange.Count > 0) { successful = MarkImageFloat(selection); }
+                    else successful = MarkInline(selection);
                 }
-                else if (selection.InlineShapes.Count > 0)
+                catch
                 {
-                    bool success = MarkImageInline(selection);
+                    successful = false;
                 }
-                else if (selection.Text != "" && selection.Text.Length > 1)
-                {
-                    bool success = MarkText(selection);
-                }
-            }
-            catch
-            {
-                throw new Exception("Error marking item for redaction.");
             }
 
+            if (!successful)
+            {
+                MessageBox.Show("Please first select an item or range to mark for redaction. "+UnsupportedTypes);
+            }
         }
 
         public static void UnMark(Range range, WdColorIndex highlight = WdColorIndex.wdNoHighlight)
@@ -416,26 +337,26 @@ namespace Tools.RedactionTool
                 if (contentControls.Count < 1 && range.ParentContentControl != null)
                 {
                     contentControl = range.ParentContentControl;
-                    bool success = UnMarkInLine(contentControl, highlight);
+                    successful = UnMarkInLine(contentControl, highlight);
                 }
                 else //removes marks for all redactions within a selection
                 {
-                    for (int i = 1; i <= contentControls.Count; i++)
+                    foreach(ContentControl cc in contentControls)
                     {
-                        contentControl = contentControls[i];
-                        successful = UnMarkInLine(contentControl, highlight);
+                        successful = UnMarkInLine(cc, highlight);
                     }
                 }
+
+                successful = UnMarkImagesFloat(range);
+
             }
-            // releases all selected content controls
-            finally
+            catch // releases all selected content controls
             {
                 if (contentControls != null) Marshal.ReleaseComObject(contentControls);
                 if (range != null) Marshal.ReleaseComObject(range);
             }
 
 
-            successful = UnMarkImagesFloat(range);
             //UnmarkRedactionsChart();
         }
 
@@ -447,9 +368,9 @@ namespace Tools.RedactionTool
         #endregion
 
         #region Mark Redactions
-        private static bool MarkText(Selection selection)
+        private static bool MarkInline(Selection selection)
         {
-            if (selection.Text != "" && selection.Text.Length > 1)
+            if (selection.InlineShapes.Count > 0 || selection.Text.Length > 1)
             {
 
                 var redaction = selection.ContentControls.Add(Word.WdContentControlType.wdContentControlRichText);
@@ -555,52 +476,25 @@ namespace Tools.RedactionTool
         /// <returns></returns>
         public static bool UnMarkImagesFloat(Range range)
         {
-            //TODO: Need to fix. range.ShapeRange keeps throwing an error. May not be able to get shapes from range.
-            
-            try
-            { 
-                for (int shape = 1; shape <= range.ShapeRange.Count; shape++)
-                {
-                    var redaction = range.ShapeRange[shape];
-                    if (redaction.Title.StartsWith("R-pic"))
-                    {
-                        redaction.Title = redaction.ID.ToString();
-                        redaction.AlternativeText = redaction.Title;
-
-                        redaction.PictureFormat.ColorType = MsoPictureColorType.msoPictureAutomatic;
-                        redaction.PictureFormat.Brightness = 0.5f;
-                    }
-                }
-
-                return true;
-
-            }
-            catch
+            foreach (Word.Shape shape in range.ShapeRange)
             {
-                return false;
+                if (shape.Title.StartsWith("R-pic"))
+                {
+                    shape.Title = shape.ID.ToString();
+                    shape.AlternativeText = shape.Title;
+
+                    shape.PictureFormat.ColorType = MsoPictureColorType.msoPictureAutomatic;
+                    shape.PictureFormat.Brightness = 0.5f;
+                }
             }
-            
+
+            return true;
         }
         /// <summary>
         /// Unmarks all floating images in a document
         /// </summary>
         /// <param name="document">Should be the active document</param>
         /// <returns></returns>
-        private static bool UnMarkImagesFloat(Document document)
-        {
-            var ShapesFloat = document.Shapes;
-            for (int shape = 1; shape <= ShapesFloat.Count; shape++)
-            {
-                var redaction = ShapesFloat[shape];
-                if (redaction.Title.StartsWith("R-pic") && redaction.HasChart == MsoTriState.msoFalse)
-                {
-                    redaction.PictureFormat.Brightness = 0.5f;
-                    redaction.PictureFormat.ColorType = MsoPictureColorType.msoPictureAutomatic;
-                }
-
-            }
-            return true;
-        }
         private static bool UnMarkChart()
         {
             throw new NotImplementedException();
@@ -812,6 +706,77 @@ namespace Tools.RedactionTool
 
             return fileToRedact;
         }
+
+        private static void AddConfidentialityHeader(SaveFile saveFile, Document doc, string headerfont = "times new roman")
+        {
+            if (doc.Sections.First.Range.Font.Name != null)
+            {
+                headerfont = doc.Sections.First.Range.Font.Name;
+            }
+
+            // marks the header with "confidential," updated to add a floating text box to the header rather than replace the header text
+            foreach (Section section in doc.Sections)
+            {
+                var header = section.Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Shapes.AddTextbox(
+                    Microsoft.Office.Core.MsoTextOrientation.msoTextOrientationHorizontal,
+                    doc.PageSetup.PageWidth - 525,
+                    10,
+                    500,
+                    20);
+                header.TextFrame.TextRange.Text = saveFile.FileMarking.ToUpper();
+
+                header.TextFrame.TextRange.Font.Name = headerfont;
+
+                header.TextFrame.TextRange.Font.Size = 12;
+                header.TextFrame.TextRange.Font.Bold = -1;
+
+                header.Line.Visible = Microsoft.Office.Core.MsoTriState.msoFalse;
+                header.TextFrame.TextRange.HighlightColorIndex = WdColorIndex.wdWhite;
+                header.TextFrame.TextRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+            }
+        }
+
+        private static bool HasUnsupportedType(Selection selection, out string UnsupportedTypes)
+        {
+            //TODO: add textboxes, etc
+
+            UnsupportedTypes = "Items currently not supporting redaction include: " +
+                                "Text Boxes" + ", " +
+                                "SmartArt" + ", " +
+                                "Charts" + ", " +
+                                "Diagrams" + ", " +
+                                "Icons" + ", " +
+                                "3D Models";
+            bool hasUnsupportedType = false;
+
+            foreach (InlineShape inlineShape in selection.InlineShapes)
+            {
+                if (
+                    inlineShape.HasSmartArt != MsoTriState.msoFalse ||
+                    inlineShape.HasChart != MsoTriState.msoFalse
+                    )
+                {
+                    hasUnsupportedType = true;
+                }
+
+            }
+
+            foreach (Word.Shape shape in selection.ShapeRange)
+            {
+                if (hasUnsupportedType
+                    || shape.HasSmartArt != MsoTriState.msoFalse
+                    || shape.HasChart != MsoTriState.msoFalse
+                    //|| shape.HasDiagram != MsoTriState.msoFalse
+                    //|| shape.HasDiagramNode != MsoTriState.msoFalse
+                    )
+                {
+                    hasUnsupportedType = true;
+                }
+            }
+
+            return hasUnsupportedType;
+        }
+
 
         #endregion
 

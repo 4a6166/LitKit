@@ -122,5 +122,10 @@ namespace LitKit1.Controls.RedactionControls
                 OtherLabel.PerformClick();
             }
         }
+
+        private void ctrlConfidentialMarker_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

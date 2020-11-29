@@ -80,10 +80,7 @@ namespace LitKit1
             {
                 _app.UndoRecord.StartCustomRecord("Redactions Cleared");
 
-                for (int k = 1; k <= 10; k++) // loops k times just to ensure it ran on all content controls TODO: figure out how to put a while loop here instead
-                {
-                    Redactions.UnMarkAll(_app.ActiveDocument);
-                }
+                Redactions.UnMarkAll(_app.ActiveDocument);
 
                 _app.UndoRecord.EndCustomRecord();
             }
@@ -101,6 +98,10 @@ namespace LitKit1
                 {
                     Redactions.SaveRedactedPDF(_app);
                     Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
+                }
+                catch (ArgumentException)
+                {
+
                 }
                 catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #211"); }
             }
@@ -127,14 +128,23 @@ namespace LitKit1
 
                     frm.ShowDialog();
 
-                    if (!confidentialMarker.Aborted)
+                    if (confidentialMarker.Aborted)
+                    {
+
+                    }
+                    else 
                     {
                         Redactions.SaveUnredactedPDF(_app.ActiveDocument, confidentialMarker.Marker);
 
                         Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
                     }
                 }
-                catch {/* MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212");*/ }
+                catch (ArgumentException)
+                {
+                    
+                }
+                catch
+                { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212"); }
             }
         }
 

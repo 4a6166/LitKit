@@ -247,7 +247,7 @@
             this.Controls.Add(this.OtherLabel_txt);
             this.Name = "ctrlConfidentialMarker";
             this.Size = new System.Drawing.Size(761, 487);
-            this.Click += new System.EventHandler(this.ProtectiveOrder_Click);
+            this.Load += new System.EventHandler(this.ctrlConfidentialMarker_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
