@@ -99,7 +99,7 @@ namespace LitKit1
                     Redactions.SaveRedactedPDF(_app);
                     Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
                 }
-                catch (ArgumentException)
+                catch (ArgumentException) //For if the save file dialog is cancelled
                 {
 
                 }

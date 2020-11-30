@@ -235,35 +235,47 @@ namespace Tools.RedactionTool
 
             if (saveFile.Path != null && saveFile.FileAvailable)
             {
-                bool successful = true;
-
                 var doc = CloneDocument(_app.ActiveDocument);
-                while (successful)
+
+                try
                 {
-                    foreach (Range story in doc.StoryRanges)
+                    var successful = ApplyRedactions(doc);
+
+                    if (successful)
                     {
-                        successful = RedactInLine(story);
-                        successful = RedactImageFloat(story);
+                        doc.ExportAsFixedFormat(saveFile.Path, Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true, IncludeDocProps: false, KeepIRM: false, DocStructureTags: false, BitmapMissingFonts: true, UseISO19005_1: false);
+
+                        //MessageBox.Show(
+                        //    text: $"Redacted PDF exported to {saveFileDialog1.FileName}",
+                        //    caption: "Export Complete",
+                        //    buttons: MessageBoxButtons.OK
+                        //    );
                     }
-
-                    successful = RedactSpecialTables(_app);
-                    //successful = RedactCharts();
+                    else { MessageBox.Show("There was an error redacting your document.", "Error Redacting Document", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
-
-                if (successful)
+                finally
                 {
-                    doc.ExportAsFixedFormat(saveFile.Path, Word.WdExportFormat.wdExportFormatPDF, OpenAfterExport: true, IncludeDocProps: false, KeepIRM: false, DocStructureTags: false, BitmapMissingFonts: true, UseISO19005_1: false);
+                    doc.Close(WdSaveOptions.wdDoNotSaveChanges);
                 }
-                else { MessageBox.Show("There was an error redacting your document.", "Error Redacting Document", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-
-                doc.Close(WdSaveOptions.wdDoNotSaveChanges);
-                //MessageBox.Show(
-                //    text: $"Redacted PDF exported to {saveFileDialog1.FileName}",
-                //    caption: "Export Complete",
-                //    buttons: MessageBoxButtons.OK
-                //    );
-
             }
+        }
+
+        private static bool ApplyRedactions(Document doc)
+        {
+            bool InLineSuccess = false;
+            bool ImageFloatSuccess = false;
+            bool SpecialTablesSuccess = false;
+
+            foreach (Range story in doc.StoryRanges)
+            {
+                InLineSuccess = RedactInLine(story);
+                ImageFloatSuccess = RedactImageFloat(story);
+            }
+
+            SpecialTablesSuccess = RedactSpecialTables(doc);
+            //successful = RedactCharts();
+
+            return (InLineSuccess && ImageFloatSuccess && SpecialTablesSuccess);
         }
 
         public static void SaveUnredactedPDF(Document document, string ConfidentialityLabel, WdColorIndex highlight = WdColorIndex.wdNoHighlight) //leave non static so it can be called once 
@@ -290,6 +302,32 @@ namespace Tools.RedactionTool
                 }
             }
         }
+        public static void UnMark(Range range, WdColorIndex highlight = WdColorIndex.wdNoHighlight)
+        {
+            bool successful = false;
+            Word.ContentControls contentControls = null;
+            Word.ContentControl contentControl = null;
+
+            contentControls = range.ContentControls;
+
+            // selects parent CC and removes marks for redaction
+            if (contentControls.Count < 1 && range.ParentContentControl != null)
+            {
+                contentControl = range.ParentContentControl;
+                successful = UnMarkInLine(contentControl, highlight);
+            }
+            else //removes marks for all redactions within a selection
+            {
+                foreach (ContentControl cc in contentControls)
+                {
+                    successful = UnMarkInLine(cc, highlight);
+                }
+            }
+
+            successful = UnMarkImagesFloat(range);
+
+            //UnmarkRedactionsChart();
+        }
 
         public static void UnMarkAll(Document doc, WdColorIndex highlight = WdColorIndex.wdNoHighlight)
         {
@@ -297,6 +335,8 @@ namespace Tools.RedactionTool
             {
                 UnMark(story, highlight);
             }
+
+            UpdateTables(doc);
         }
 
         public static void Mark(Selection selection)
@@ -323,42 +363,6 @@ namespace Tools.RedactionTool
             }
         }
 
-        public static void UnMark(Range range, WdColorIndex highlight = WdColorIndex.wdNoHighlight)
-        {
-            bool successful = false;
-            Word.ContentControls contentControls = null;
-            Word.ContentControl contentControl = null;
-
-            try
-            {
-                contentControls = range.ContentControls;
-
-                // selects parent CC and removes marks for redaction
-                if (contentControls.Count < 1 && range.ParentContentControl != null)
-                {
-                    contentControl = range.ParentContentControl;
-                    successful = UnMarkInLine(contentControl, highlight);
-                }
-                else //removes marks for all redactions within a selection
-                {
-                    foreach(ContentControl cc in contentControls)
-                    {
-                        successful = UnMarkInLine(cc, highlight);
-                    }
-                }
-
-                successful = UnMarkImagesFloat(range);
-
-            }
-            catch // releases all selected content controls
-            {
-                if (contentControls != null) Marshal.ReleaseComObject(contentControls);
-                if (range != null) Marshal.ReleaseComObject(range);
-            }
-
-
-            //UnmarkRedactionsChart();
-        }
 
         public static List<IRedaction> GetAll(Application _app)
         {
@@ -469,11 +473,6 @@ namespace Tools.RedactionTool
             return true;
         }
 
-        /// <summary>
-        /// Unmarks all floating images in the selection
-        /// </summary>
-        /// <param name="selection"></param>
-        /// <returns></returns>
         public static bool UnMarkImagesFloat(Range range)
         {
             foreach (Word.Shape shape in range.ShapeRange)
@@ -490,11 +489,6 @@ namespace Tools.RedactionTool
 
             return true;
         }
-        /// <summary>
-        /// Unmarks all floating images in a document
-        /// </summary>
-        /// <param name="document">Should be the active document</param>
-        /// <returns></returns>
         private static bool UnMarkChart()
         {
             throw new NotImplementedException();
@@ -504,19 +498,13 @@ namespace Tools.RedactionTool
         #region Process Redactions
         private static bool RedactInLine(Range range)
         {
+            var text = range.Text;
             bool successful = true;
-            Word.ContentControls contentControls = null;
-            Word.ContentControl contentControl = null;
-
-            //string controlsList = string.Empty;
 
             try
             {
-                contentControls = range.ContentControls;
-                for (int i = 1; i <= contentControls.Count; i++)
+                foreach(ContentControl contentControl in range.ContentControls)
                 {
-                    contentControl = contentControls[i];
-
                     if (contentControl.Title == "Redaction")
                     {
                         for (var j = 1; j <= contentControl.Range.ContentControls.Count; j++)
@@ -529,22 +517,15 @@ namespace Tools.RedactionTool
                         successful = RemoveHyperlinks(contentControl.Range);
 
                         successful = RedactInlineImage(contentControl.Range);
-
-                        if (contentControl.Range.Font.Fill.Transparency != 1)
-                        {
-                            successful = false;
-                        }
-
                     }
 
-                    if (contentControl != null) Marshal.ReleaseComObject(contentControl);
+                    //if (contentControl != null) Marshal.ReleaseComObject(contentControl);
                 }
             }
             finally
             {
-
-                if (contentControls != null) Marshal.ReleaseComObject(contentControls);
-                if (range != null) Marshal.ReleaseComObject(range);
+                //if (range.ContentControls != null) Marshal.ReleaseComObject(range.ContentControls);
+                //if (range != null) Marshal.ReleaseComObject(range);
             }
             return successful;
         }
@@ -569,32 +550,32 @@ namespace Tools.RedactionTool
 
         private static bool RedactImageFloat(Range range)
         {
-            bool successful = true;
-            RemoveHyperlinks(range);
 
-            var ShapesFloat = range.ShapeRange;
-            for (int shape = 1; shape <= ShapesFloat.Count; shape++)
+            foreach (Word.Shape shape in range.ShapeRange)
             {
-                var redaction = ShapesFloat[shape];
-                if (redaction.Title.StartsWith("R-pic") && redaction.HasChart == MsoTriState.msoFalse)
+                if (shape.Title.StartsWith("R-pic"))
                 {
-                    redaction.PictureFormat.Brightness = 0f;
 
-                    if (redaction.PictureFormat.Brightness != 0f)
+                    shape.Title = shape.ID.ToString();
+                    shape.AlternativeText = shape.Title;
+
+                    shape.PictureFormat.Brightness = 0f;
+                    try //shape.Hyperlink does not evaluate as null but if not present, any method used throws an exception.
                     {
-                        successful = false;
+                        shape.Hyperlink.Delete();
                     }
+                    catch { }
                 }
             }
-            return successful;
+
+            return true;
         }
 
-        private static bool RedactSpecialTables(Word.Application app)
+        private static bool RedactSpecialTables(Document document)
         {
             bool successful = true;
-            Word.Document doc = app.ActiveDocument;
 
-            foreach (TableOfContents toc in doc.TablesOfContents)
+            foreach (TableOfContents toc in document.TablesOfContents)
             {
                 toc.Update();
                 for (int i = 1; i <= toc.Range.Words.Count; i++)
@@ -608,7 +589,7 @@ namespace Tools.RedactionTool
                 }
             }
 
-            foreach (TableOfAuthorities toa in doc.TablesOfAuthorities)
+            foreach (TableOfAuthorities toa in document.TablesOfAuthorities)
             {
                 toa.Update();
                 for (int i = 1; i <= toa.Range.Words.Count; i++)
@@ -622,7 +603,7 @@ namespace Tools.RedactionTool
                 }
             }
 
-            foreach (TableOfFigures tof in doc.TablesOfFigures)
+            foreach (TableOfFigures tof in document.TablesOfFigures)
             {
                 tof.Update();
                 for (int i = 1; i <= tof.Range.Words.Count; i++)
@@ -636,7 +617,7 @@ namespace Tools.RedactionTool
                 }
             }
 
-            foreach (Index index in doc.Indexes)
+            foreach (Index index in document.Indexes)
             {
                 index.Update();
                 for (int i = 1; i <= index.Range.Words.Count; i++)
