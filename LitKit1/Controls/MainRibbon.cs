@@ -33,11 +33,23 @@ namespace LitKit1
 
             btnInsertNBS.SuperTip = NBSSuperTip();
 
-            licenseIsValid = LicenseChecker.LicenseIsValid();
+            //licenseIsValid = LicenseChecker.LicenseIsValid(); //Removed here because an expired lic may cause Word to be unstable
             //licenseIsValid = true;
         }
 
-        private bool licenseIsValid;
+        private bool licenseIsValid = false;
+        private bool checkLicenseIsValid()
+        {
+            if(!licenseIsValid)
+            {
+                try
+                {
+                    licenseIsValid = LicenseChecker.LicenseIsValid();
+                }
+                catch { }
+            }
+            return licenseIsValid;
+        }
         private void ShowLicenseNotValidMessage()
         {
             MessageBox.Show("Your Prelimine LitKit License key is not valid. Please contact your IT administrator or Prelimine for a new license.") ;
@@ -47,7 +59,7 @@ namespace LitKit1
     #region Redactions
         private void markRedact_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -90,7 +102,7 @@ namespace LitKit1
 
         private void redactedPDF_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -110,7 +122,7 @@ namespace LitKit1
 
         private void unredactedPDF_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -153,7 +165,7 @@ namespace LitKit1
     #region Citations
         private void CitationsTool_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -204,7 +216,7 @@ namespace LitKit1
 
         private void btnPinCite_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -223,7 +235,7 @@ namespace LitKit1
 
         private void btnRemovePinCite_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -241,7 +253,7 @@ namespace LitKit1
 
         private void IndexOfExhibits_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -265,7 +277,7 @@ namespace LitKit1
         private void ResponseTool_Click(object sender, RibbonControlEventArgs e)
         {
 
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -298,7 +310,7 @@ namespace LitKit1
 
         private void ResponseCustomize_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -319,7 +331,7 @@ namespace LitKit1
 
         private void UnItalicizeLatin_Click_1(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -336,7 +348,7 @@ namespace LitKit1
 
         private void btnLatin_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -370,7 +382,7 @@ namespace LitKit1
 
         private void btnInsertNBS_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -387,7 +399,7 @@ namespace LitKit1
 
         private void btnSmrtQuotes_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -404,7 +416,7 @@ namespace LitKit1
 
         private void btnDoubleSpace_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -421,7 +433,7 @@ namespace LitKit1
 
         private void btnSingleSpace_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -438,7 +450,7 @@ namespace LitKit1
 
         private void btnBlockQuotes_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -455,7 +467,7 @@ namespace LitKit1
 
         private void btnOxfordComma_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -472,7 +484,7 @@ namespace LitKit1
 
         private void btnRemoveOxfordComma_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -489,7 +501,7 @@ namespace LitKit1
 
         private void btnBlockTranscript_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -511,7 +523,7 @@ namespace LitKit1
 
         private void btnInLineTranscript_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -580,7 +592,7 @@ namespace LitKit1
             #endregion
         private void ClipboardButton_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -591,7 +603,7 @@ namespace LitKit1
         private void btnKeepWithNext_Click(object sender, RibbonControlEventArgs e)
         {
 
-            if (!licenseIsValid)
+            if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
@@ -716,6 +728,47 @@ namespace LitKit1
 
 
             _app.UndoRecord.EndCustomRecord();
+        }
+
+        private void btnHighlightedPDF_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (!checkLicenseIsValid())
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                try
+                {
+                    ///////// Services.RedactionTool.Redactions lead-in
+                    frmPopup frm = new frmPopup();
+                    frm.Text = "Create Unredacted PDF";
+                    frm.ControlBox = false;
+                    ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker();
+
+
+                    frm.Controls.Add(confidentialMarker);
+                    confidentialMarker.Visible = true;
+
+                    frm.ShowDialog();
+
+                    if (confidentialMarker.Aborted)
+                    {
+
+                    }
+                    else
+                    {
+                        Redactions.SaveUnredactedPDF(_app.ActiveDocument, confidentialMarker.Marker, confidentialMarker.Highlight);
+
+                        Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
+                    }
+                }
+                catch (ArgumentException)
+                {
+
+                }
+                catch
+                { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212"); }
+            }
+
         }
     }
 

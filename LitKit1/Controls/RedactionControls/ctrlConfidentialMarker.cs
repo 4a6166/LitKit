@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tools.RedactionTool;
+using Microsoft.Office.Interop.Word;
 
 namespace LitKit1.Controls.RedactionControls
 {
     public partial class ctrlConfidentialMarker : UserControl
     {
         public string Marker { get; private set; }
+        public WdColorIndex Highlight = WdColorIndex.wdYellow; //TODO: add form for user to choose highlight color, if necessary
         public bool Aborted { get; private set; }
         public ctrlConfidentialMarker()
         {
