@@ -26,6 +26,9 @@ namespace LitKit1.Controls
             else this.Text = "Insert transcript text as a Block quote.";
 
             this._app = Globals.ThisAddIn.Application;
+
+            this.txtTranscriptText.MouseDown += new MouseEventHandler(this.txtTranscriptText_MouseDown);
+            
         }
 
         Word.Application _app;
@@ -48,6 +51,34 @@ namespace LitKit1.Controls
                 transcript.PasteAsBlockQuote(txtTranscriptText.Text);
             }
             this.Close();
+        }
+
+        private void txtTranscriptText_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPaste_Click(object sender, EventArgs e)
+        {
+            string copiedText = Clipboard.GetText(TextDataFormat.UnicodeText);
+            txtTranscriptText.SelectedText = copiedText;
+        }
+
+        private void frmTranscript_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtTranscriptText_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Right:
+                    {
+                        contextMenuStrip1.Show(this, new Point(e.X, e.Y));
+                        break;
+                    }
+            }
         }
     }
 
