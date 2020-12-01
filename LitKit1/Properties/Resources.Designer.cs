@@ -103,6 +103,36 @@ namespace LitKit1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap CreateHighlightedPDF_32px_PrelimEdit {
+            get {
+                object obj = ResourceManager.GetObject("CreateHighlightedPDF_32px_PrelimEdit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap CreateHighlightedPDF_32px_PrelimEdit2 {
+            get {
+                object obj = ResourceManager.GetObject("CreateHighlightedPDF_32px_PrelimEdit2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap CreateHighlightedPDF_32px_PrelimEdit3 {
+            get {
+                object obj = ResourceManager.GetObject("CreateHighlightedPDF_32px_PrelimEdit3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap CreatePDF_16px {
             get {
                 object obj = ResourceManager.GetObject("CreatePDF_16px", resourceCulture);

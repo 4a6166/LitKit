@@ -438,6 +438,7 @@
     <None Include="Resources\LegalSymbol_32px.png" />
     <None Include="Resources\KeepWithNext_16px.png" />
     <None Include="Resources\AddPincite_32px.png" />
+    <None Include="Resources\CreateHighlightedPDF_32px_PrelimEdit3.png" />
     <Content Include="Resources\PilcrowLone1_B.ico" />
   </ItemGroup>
   <ItemGroup>
