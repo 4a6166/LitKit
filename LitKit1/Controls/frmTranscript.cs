@@ -27,8 +27,7 @@ namespace LitKit1.Controls
 
             this._app = Globals.ThisAddIn.Application;
 
-            this.txtTranscriptText.MouseDown += new MouseEventHandler(this.txtTranscriptText_MouseDown);
-            
+            this.txtTranscriptText.ContextMenuStrip = contextMenuStrip1;
         }
 
         Word.Application _app;
@@ -69,17 +68,18 @@ namespace LitKit1.Controls
 
         }
 
-        private void txtTranscriptText_MouseDown(object sender, MouseEventArgs e)
-        {
-            switch (e.Button)
-            {
-                case MouseButtons.Right:
-                    {
-                        contextMenuStrip1.Show(this, new Point(e.X, e.Y));
-                        break;
-                    }
-            }
-        }
+        //private void txtTranscriptText_MouseDown(object sender, MouseEventArgs e)
+        //{
+        //    switch (e.Button)
+        //    {
+        //        case MouseButtons.Right:
+        //            {
+        //                contextMenuStrip1.Show(this, new Point(e.X, e.Y));
+        //                break;
+        //            }
+        //    }
+        //      // then add /* this.txtTranscriptText.MouseDown += new MouseEventHandler(this.txtTranscriptText_MouseDown); */ to the form load
+        //}
     }
 
 }
