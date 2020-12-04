@@ -16,31 +16,42 @@ namespace Tools.Simple
     {
         public static void AddSpace(Word.Application _app)
         {
-            _app.ActiveDocument.Select();
-            _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
-
-            int sentenceCount = 0;
-            foreach (Range rng in _app.ActiveDocument.StoryRanges)
+            DialogResult mb = DialogResult.Yes;
+            if (_app.ActiveDocument.TrackRevisions == true && _app.ActiveDocument.Revisions.Count > 0)
             {
-                sentenceCount += rng.Sentences.Count;
+                mb = MessageBox.Show("This action requires that track changes be off. Do you want to accept any currently tracked changes now?.", "Accept Tracked Changes", MessageBoxButtons.YesNo);
             }
-            var warning = System.Windows.Forms.MessageBox.Show($"Sentences found: {sentenceCount}" + Environment.NewLine + "This may take a while. Do you want to proceed?", "Two Spaces Between Sentences", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-
-            if (warning == DialogResult.OK)
+            if (mb == DialogResult.Yes)
             {
-                _app.Application.System.Cursor = WdCursorType.wdCursorWait;
+                _app.ActiveDocument.Select();
+                _app.ActiveDocument.AcceptAllRevisions();
+                _app.ActiveDocument.TrackRevisions = false;
 
-                var layoutType = _app.ActiveWindow.View.Type;
+                _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
 
-                // Iterates through all the Story Ranges (header, footer, footnotes, end notes, etc. if they are present in the document.
-                foreach (Range story in _app.ActiveDocument.StoryRanges)
+                int sentenceCount = 0;
+                foreach (Range rng in _app.ActiveDocument.StoryRanges)
                 {
-                    DoubleSpace(story);
+                    sentenceCount += rng.Sentences.Count;
                 }
-                _app.ActiveWindow.View.Type = layoutType;
+                var warning = System.Windows.Forms.MessageBox.Show($"Sentences found: {sentenceCount}" + Environment.NewLine + "This may take a while. Do you want to proceed?", "Two Spaces Between Sentences", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 
-                _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
-            }
+                if (warning == DialogResult.OK)
+                {
+                    _app.Application.System.Cursor = WdCursorType.wdCursorWait;
+
+                    var layoutType = _app.ActiveWindow.View.Type;
+
+                    // Iterates through all the Story Ranges (header, footer, footnotes, end notes, etc. if they are present in the document.
+                    foreach (Range story in _app.ActiveDocument.StoryRanges)
+                    {
+                        DoubleSpace(story);
+                    }
+                    _app.ActiveWindow.View.Type = layoutType;
+
+                    _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
+                }
+            } 
         }
 
         private static void DoubleSpace(Range rng)
@@ -99,19 +110,31 @@ namespace Tools.Simple
 
         public static void RemoveSpace(Word.Application _app)
         {
-            _app.ActiveDocument.Select();
-            _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
-
-            _app.Application.System.Cursor = WdCursorType.wdCursorWait;
-            var layoutType = _app.ActiveWindow.View.Type;
-
-            foreach (Range story in _app.ActiveDocument.StoryRanges)
+            DialogResult mb = DialogResult.Yes;
+            if (_app.ActiveDocument.TrackRevisions == true && _app.ActiveDocument.Revisions.Count > 0)
             {
-                SingleSpace(story);
+                mb = MessageBox.Show("This action requires that track changes be off. Do you want to accept any currently tracked changes now?.", "Accept Tracked Changes", MessageBoxButtons.YesNo);
             }
-            _app.ActiveWindow.View.Type = layoutType;
+            if (mb == DialogResult.Yes)
+            {
 
-            _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
+                _app.ActiveDocument.Select();
+                _app.ActiveDocument.AcceptAllRevisions();
+                _app.ActiveDocument.TrackRevisions = false;
+
+                _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
+
+                _app.Application.System.Cursor = WdCursorType.wdCursorWait;
+                var layoutType = _app.ActiveWindow.View.Type;
+
+                foreach (Range story in _app.ActiveDocument.StoryRanges)
+                {
+                    SingleSpace(story);
+                }
+                _app.ActiveWindow.View.Type = layoutType;
+
+                _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
+            }
         }
 
         private static void SingleSpace(Range rng)

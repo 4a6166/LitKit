@@ -1,5 +1,6 @@
 ﻿using Microsoft.Office.Interop.Word;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
 
 
@@ -13,42 +14,54 @@ namespace Tools.Simple
         static readonly string nbs = "\u00A0";
         public static void Insert(Word.Application _app)
         {
-            _app.Application.System.Cursor = WdCursorType.wdCursorWait;
-
-            _app.ActiveDocument.Select();
-            var rng = _app.Selection.Range;
-
-            _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
-
-
-            InsertSpaceAfterText(rng);
-            InsertSpaceBeforeText(rng);
-            FixLawyerEllipses(rng);
-
-            if (_app.ActiveDocument.Footnotes.Count > 0)
+            DialogResult mb = DialogResult.Yes;
+            if (_app.ActiveDocument.TrackRevisions == true && _app.ActiveDocument.Revisions.Count > 0)
             {
-                foreach (Footnote footnote in _app.ActiveDocument.Footnotes)
-                {
-                    rng = footnote.Range;
-                    InsertSpaceAfterText(rng);
-                    InsertSpaceBeforeText(rng);
-                    FixLawyerEllipses(rng);
-                }
+                mb = MessageBox.Show("This action requires that track changes be off. Do you want to accept any currently tracked changes now?.", "Accept Tracked Changes", MessageBoxButtons.YesNo);
             }
-
-            if (_app.ActiveDocument.Endnotes.Count >0)
+            if (mb == DialogResult.Yes)
             {
-                foreach(Endnote endnote in _app.ActiveDocument.Endnotes)
-                {
-                    rng = endnote.Range;
-                    InsertSpaceAfterText(rng);
-                    InsertSpaceBeforeText(rng);
-                    FixLawyerEllipses(rng);
 
+                _app.Application.System.Cursor = WdCursorType.wdCursorWait;
+
+                _app.ActiveDocument.Select();
+                _app.ActiveDocument.AcceptAllRevisions();
+                _app.ActiveDocument.TrackRevisions = false;
+
+                var rng = _app.Selection.Range;
+
+                _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
+
+
+                InsertSpaceAfterText(rng);
+                InsertSpaceBeforeText(rng);
+                FixLawyerEllipses(rng);
+
+                if (_app.ActiveDocument.Footnotes.Count > 0)
+                {
+                    foreach (Footnote footnote in _app.ActiveDocument.Footnotes)
+                    {
+                        rng = footnote.Range;
+                        InsertSpaceAfterText(rng);
+                        InsertSpaceBeforeText(rng);
+                        FixLawyerEllipses(rng);
+                    }
                 }
-            }
+
+                if (_app.ActiveDocument.Endnotes.Count > 0)
+                {
+                    foreach (Endnote endnote in _app.ActiveDocument.Endnotes)
+                    {
+                        rng = endnote.Range;
+                        InsertSpaceAfterText(rng);
+                        InsertSpaceBeforeText(rng);
+                        FixLawyerEllipses(rng);
+
+                    }
+                }
 
                 _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
+            }
         }
 
         private static void InsertSpaceAfterText(Range rng)
