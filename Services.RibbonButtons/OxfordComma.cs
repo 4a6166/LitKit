@@ -1,5 +1,6 @@
 ﻿using Microsoft.Office.Interop.Word;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Word = Microsoft.Office.Interop.Word;
 
 
@@ -79,5 +80,10 @@ namespace Tools.Simple
             return result;
         }
 
+        //https://regex101.com/
+        static Regex hasOxfordMatch = new Regex(@"\w+, \w+, and ");
+        static Regex noOxfordMatch = new Regex(@"\w+, \w+ and ");
+        static Regex noOxfordMatchDeep = new Regex(@"((?:[\w'-]+,\s+)+(?!which|when|where|who|whom|that|whether|if)(?:[\w'-]+\s){0,2}[\w'-]+)(\s+(?:and|or)\s+[\w'-]+)");
+        static Regex hasOxfordMatchDeep = new Regex(@"((?:[\w'-]+,\s+)+(?!which|when|where|who|whom|that|whether|if)(?:[\w'-]+\s){0,2}[\w'-]+,)(\s+(?:and|or)\s+[\w'-]+)");
     }
 }
