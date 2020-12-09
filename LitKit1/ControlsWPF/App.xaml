@@ -1,0 +1,31 @@
+﻿<Application x:Class="LitKit1.ControlsWPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LitKit1.ControlsWPF"
+             mc:Ignorable="d" 
+             StartupUri="Base.xaml"> 
+    
+    <!--Change Startup URI to first XAML holding other XAML-->
+    
+    <Application.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Arial"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Arial"/>
+        </Style>
+        
+        
+    </Application.Resources>
+</Application>

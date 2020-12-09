@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
@@ -130,6 +131,7 @@ namespace Tools.Simple
                 foreach (Range story in _app.ActiveDocument.StoryRanges)
                 {
                     SingleSpace(story);
+                    
                 }
                 _app.ActiveWindow.View.Type = layoutType;
 
@@ -527,5 +529,78 @@ namespace Tools.Simple
             "P.C.",
 
         };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Regex
+        private static Regex singleSpaceMatch = new Regex(singleSpaceString());
+        private static Regex punctuationAfterChars = new Regex("(?<=[a-zA-Z][a-z])[.!?'\"]+");
+        private static Regex AcronymsThreeLetters = new Regex(@"\b(?:[a-z]*[A-Z][a-z]*){2,}");
+
+        private static void AddSpace(Range range)
+        {
+            for(int i = 1; i <= range.Sentences.Count; i++)
+            {
+                bool run = noAbbreviationEnding(range.Sentences[i]);
+                if(run)
+                {
+                    range.Sentences[i].InsertAfter(" ");
+                }
+            }
+        }
+
+        private static bool noAbbreviationEnding(Range range) ///////////////////////////////////////////////////////////////////////////
+        {
+            int valid = 0;
+            foreach (string s in abbreviations)
+            {
+                if(range.Text.EndsWith(s+". ") || range.Text.EndsWith(s+"\". ") )
+                {
+                    valid++;
+                }
+
+            }
+            if (valid == 0)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        private static string singleSpaceString() //captures the abbreviation as well as the period
+        {
+            string Regex = "[a-zA-Z]+\\b[\".?!]+\\W";
+
+            foreach(var s in abbreviations)
+            {
+                Regex = "(?!" + s + ")" + Regex;
+            }
+
+            Regex = "\\b" + Regex;
+            return Regex;
+        }
+
+        private static void RegexReplaceSingle(Range range)
+        {
+            Find findObject = range.Find;
+            findObject.ClearFormatting();
+            findObject.Replacement.ClearFormatting();
+            findObject.Replacement.Font.Italic = -1;
+
+            findObject.Execute(FindText: @"\<i\>*{1,}\<i\>", Replace: WdReplace.wdReplaceAll) ;
+        }
+
+        #endregion
     }
 }

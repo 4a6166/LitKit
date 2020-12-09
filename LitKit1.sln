@@ -23,6 +23,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{05E94A1C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.License", "Services.License\Services.License.csproj", "{F7DFE3B3-C6A5-4692-8561-86AFBD093478}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ControlsWPF", "ControlsWPF", "{3618707E-3863-439C-A1AE-64A930C862F7}"
+	ProjectSection(SolutionItems) = preProject
+		LitKit1\Controls\UserControl1.xaml = LitKit1\Controls\UserControl1.xaml
+		LitKit1\Controls\UserControl1.xaml.cs = LitKit1\Controls\UserControl1.xaml.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

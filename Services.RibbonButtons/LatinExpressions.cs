@@ -56,6 +56,7 @@ namespace Tools.Simple
         public static List<string> Expressions = new List<string>()
         {
             "id.",
+            "Id.",
             "supra",
             "infra",
 

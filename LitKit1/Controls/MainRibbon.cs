@@ -15,6 +15,9 @@ using LitKit1.Controls.AnsResControls;
 using Tools.Response;
 using Services.Licensing;
 using System.IO;
+using System.Windows.Forms.Integration;
+
+
 
 namespace LitKit1
 {
@@ -714,18 +717,22 @@ namespace LitKit1
 
             _app.UndoRecord.StartCustomRecord("Test Button Stuff");
 
-            //_app.Selection.Find.Execute("{PINCITE}");
+            ControlsWPF.HoldingForm holdingForm = new ControlsWPF.HoldingForm();
 
-            //Range range = _app.Selection.Range;
-            //if (range.Text.Contains("{PINCITE}"))
-            //{
-            //    range.ContentControls.Add(WdContentControlType.wdContentControlRichText, range);
-            //}
+            #region Add WPF
+            {
+                ElementHost host = new ElementHost();
+                host.Dock = DockStyle.Fill;
 
-            //lgdfsadljfghkjsh{PINCITE}sdfdsaf
+                ControlsWPF.Loading loading = new ControlsWPF.Loading();
 
-            new Pincite(_app).InsertPinciteCC(_app.Selection.ContentControls[1]);
+                host.Child = loading;
 
+                holdingForm.Controls.Add(host);
+            }
+            #endregion
+
+            holdingForm.Show();
 
             _app.UndoRecord.EndCustomRecord();
         }

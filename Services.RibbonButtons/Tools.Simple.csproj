@@ -78,6 +78,11 @@
   <ItemGroup>
     <None Include="sn.pfx" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Dictionaries\LatinDict.txt" />
+    <Content Include="Dictionaries\NBSDict.txt" />
+    <Content Include="Dictionaries\SentenceSpacingDict.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 2020.2</PostBuildEvent>

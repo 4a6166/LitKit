@@ -297,6 +297,11 @@ namespace Tools.Response
                 result = result.Replace("[verb2]", response.Verbs[1, Plural[respondingPlural]]);
                 result = result.Replace("[verb3]", response.Verbs[2, Plural[respondingPlural]]);
             }
+            else //custom responses will create a null response
+            {
+                result = text.Replace("[Responding]", respondingParty);
+                result = result.Replace("[Propounding]", propoundingParty);
+            }
 
             return result;
         }

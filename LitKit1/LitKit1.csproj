@@ -131,6 +131,8 @@
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="Rhino.Licensing, Version=1.2.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <HintPath>..\packages\Rhino.Licensing.1.2\lib\net40\Rhino.Licensing.dll</HintPath>
     </Reference>
@@ -143,11 +145,14 @@
     <Reference Include="System.IO.Log" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Tools.v4.0.Framework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -195,6 +200,19 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="ControlsWPF\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\HoldingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlsWPF\HoldingForm.Designer.cs">
+      <DependentUpon>HoldingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\SolutionBrushes.cs" />
+    <Compile Include="ControlsWPF\Loading.xaml.cs">
+      <DependentUpon>Loading.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AnsResControls\ctrlAnsResCustomize.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -284,6 +302,9 @@
     </Compile>
     <Compile Include="Controls\RedactionControls\ctrlConfidentialMarker.Designer.cs">
       <DependentUpon>ctrlConfidentialMarker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Base.xaml.cs">
+      <DependentUpon>Base.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -467,6 +488,21 @@
       <Name>Tools.Simple</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="ControlsWPF\App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Base.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Loading.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

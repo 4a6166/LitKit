@@ -208,8 +208,9 @@ namespace LitKit1.Controls.AnsResControls
             "RESPONSE TO REQUEST FOR PRODUCTION OF DOCUMENTS",
             "ANSWER TO PARAGRAPH",
             "RESPONSE TO RFA",
-            "RESPOSNSE TO RFP",
-            "RESPONSE TO REQUEST FOR PRODUCTION"
+            "RESPONSE TO RFP",
+            "RESPONSE TO REQUEST FOR PRODUCTION",
+            "RESPONSE TO DOCUMENT REQUEST"
         };
 
         private string GetParaNumbers(string text, Word.Paragraph paragraph)
@@ -220,6 +221,7 @@ namespace LitKit1.Controls.AnsResControls
                 int languageEndLength;
                 foreach (string language in ParaNumberLanguages)
                 {
+                    
                     if (text.Length < language.Length + 15)
                     {
                         languageEndLength = text.Length - 1;
@@ -421,6 +423,11 @@ namespace LitKit1.Controls.AnsResControls
                 text = "\""+response.Name +"\"";
             }
             toolTip.SetToolTip(listBox1, $"Insert language for the {text} Response option into the document");
+        }
+
+        private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
