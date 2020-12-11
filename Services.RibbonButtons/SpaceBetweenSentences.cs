@@ -25,7 +25,11 @@ namespace Tools.Simple
             if (mb == DialogResult.Yes)
             {
                 _app.ActiveDocument.Select();
-                _app.ActiveDocument.AcceptAllRevisions();
+                try
+                {
+                    _app.ActiveDocument.AcceptAllRevisions();
+                }
+                catch { }
                 _app.ActiveDocument.TrackRevisions = false;
 
                 _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
@@ -55,57 +59,108 @@ namespace Tools.Simple
             } 
         }
 
-        private static void DoubleSpace(Range rng)
+        public static void DoubleSpace(Range range) //TODO: Still does not correctly add spaces to sentences that contain a content control. Works fine with sentences where the ". " is followed by a CC.
         {
-            #region Code used in Beta
-            //string oneSpace = " ";
-            //string twoSpaces = "  ";
-            //string threeSpaces = "   ";
-            //string quote = "\"";
-
-            //foreach (var symbol in Symbols)
-            //{
-            //    rng.Find.Execute(FindText: symbol + oneSpace, ReplaceWith: symbol + twoSpaces, Replace: WdReplace.wdReplaceAll);
-            //    rng.Find.Execute(FindText: symbol + threeSpaces, ReplaceWith: symbol + twoSpaces, Replace: WdReplace.wdReplaceAll);
-
-            //    rng.Find.Execute(FindText: symbol + quote + oneSpace, ReplaceWith: symbol + quote + twoSpaces, Replace: WdReplace.wdReplaceAll);
-            //    rng.Find.Execute(FindText: symbol + quote + threeSpaces, ReplaceWith: symbol + quote + twoSpaces, Replace: WdReplace.wdReplaceAll);
-            //}
-
-
-            //foreach (var text in abbreviations)
-            //{
-            //    rng.Find.Execute(FindText: " " + text + "  ", ReplaceWith: " " + text + " ", MatchCase: true, Replace: WdReplace.wdReplaceAll);
-            //}
-
-            //for (int i = 0; i <= 9; i++)
-            //{
-            //    rng.Find.Execute(FindText: $"No.  {i}", ReplaceWith: $"No. {i}", Replace: WdReplace.wdReplaceAll);
-            //}
-
-            //rng.Find.Execute(FindText: "id." + twoSpaces + "at", ReplaceWith: "id." + oneSpace + "at", MatchCase: true, Replace: WdReplace.wdReplaceAll);
-            //rng.Find.Execute(FindText: "Id." + twoSpaces + "at", ReplaceWith: "Id." + oneSpace + "at", MatchCase: true, Replace: WdReplace.wdReplaceAll);
-            #endregion
-
-            for (int i = 1; i < rng.Sentences.Count; i++)
+            string regString = ")(\\!|\\?|\\.)\"*( )(?! )";
+            foreach (string s in abbreviations)
             {
-                var sent = rng.Sentences[i].Text;
-                bool dontReplace = false;
-
-                for (int j = 0; j < abbreviations.Count; j++)
+                var sReplaced = "";
+                if (s.Contains("."))
                 {
-                    if (sent.EndsWith(abbreviations[j] + " ") || sent.EndsWith(", ") || sent.EndsWith("  "))
+                    sReplaced = s.Replace(".", @"\.");
+                }
+                else sReplaced = s;
+
+                if (sReplaced.EndsWith(@"\."))
+                {
+                    regString = @"|\b" + sReplaced.Substring(0, sReplaced.Length - 2) + regString;
+                }
+                else regString = "|" + sReplaced + regString;
+            }
+            regString = @"(?<!" + regString.Substring(1);
+            Regex regex = new Regex(regString);
+            //@"(?<!Mr|Mrs)(\!|\?|\.)( )(?! )");
+
+
+            foreach (Paragraph paragraph in range.Paragraphs)
+            {
+
+                if (paragraph.Range.ContentControls.Count < 1)
+                {
+
+                    var location = paragraph.Range;
+                    //_app.ActiveDocument.StoryRanges[WdStoryType.wdMainTextStory];
+
+                    var matches = regex.Matches(location.Text);
+
+                    List<int> indexList = new List<int>();
+                    int indexShift = 0;
+                    for (int i = 0; i < matches.Count; i++)
                     {
-                        dontReplace = true;
+                        var matchStart = matches[i].Groups[2].Index;
+
+                        indexList.Add(matchStart);
+                    }
+
+                    for (int i = 0; i < indexList.Count; i++)
+                    {
+                        Range replaceRange = range.Document.Range(paragraph.Range.Start + indexList[i] + indexShift, paragraph.Range.Start + indexList[i] + indexShift);
+                        //_app.ActiveDocument.Range(indexList[i] + indexShift, indexList[i] + indexShift);
+                        //range.Move(WdUnits.wdCharacter, indexList[i] + indexShift);
+                        replaceRange.InsertAfter(" ");
+                        indexShift++;
                     }
                 }
-                if (!dontReplace && !String.IsNullOrWhiteSpace(sent) && !rng.Sentences[i].Text.EndsWith("\r"))
+                else
                 {
-                    rng.Sentences[i].Select();
-                    rng.Application.Selection.InsertAfter(" ");
+                    for (int i = 1; i <= paragraph.Range.Sentences.Count; i++)
+                    {
+                        var sentence = paragraph.Range.Sentences[i];
 
+                        if (sentence.ContentControls.Count < 1)
+                        {
+
+
+                            var location = paragraph.Range.Sentences[i];
+                            //_app.ActiveDocument.StoryRanges[WdStoryType.wdMainTextStory];
+
+                            var matches = regex.Matches(location.Text);
+
+                            List<int> indexList = new List<int>();
+                            int indexShift = 0;
+                            for (int j = 0; j < matches.Count; j++)
+                            {
+                                var matchStart = matches[j].Groups[2].Index;
+
+                                indexList.Add(matchStart);
+                            }
+
+                            for (int j = 0; j < indexList.Count; j++)
+                            {
+                                int rangeStart = sentence.Start + indexList[j] + indexShift;
+                                Range replaceRange = range.Document.Range(rangeStart, rangeStart);
+                                //_app.ActiveDocument.Range(indexList[i] + indexShift, indexList[i] + indexShift);
+                                //range.Move(WdUnits.wdCharacter, indexList[i] + indexShift);
+                                replaceRange.InsertAfter(" ");
+                                indexShift++;
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                var find = sentence.Find;
+                                find.ClearFormatting();
+                                find.Replacement.ClearFormatting();
+                                find.Text = @"(.)";
+                                find.Replacement.Text = @"^& ";
+
+                                find.Execute(Replace: WdReplace.wdReplaceAll);
+                            }
+                            catch { };
+                        }
+                    }
                 }
-
             }
         }
 
@@ -120,7 +175,10 @@ namespace Tools.Simple
             {
 
                 _app.ActiveDocument.Select();
-                _app.ActiveDocument.AcceptAllRevisions();
+                try
+                {
+                    _app.ActiveDocument.AcceptAllRevisions();
+                }catch { }
                 _app.ActiveDocument.TrackRevisions = false;
 
                 _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
@@ -139,30 +197,19 @@ namespace Tools.Simple
             }
         }
 
-        private static void SingleSpace(Range rng)
+        private static void SingleSpace(Range range)
         {
-            string oneSpace = " ";
-            string twoSpaces = "  ";
-            string threeSpaces = "   ";
-            string quote = "\"";
+            var find = range.Find;
+            find.ClearFormatting();
+            find.Replacement.ClearFormatting();
+            find.MatchWildcards = true;
 
-            foreach (var symbol in Symbols)
-            {
-                rng.Find.Execute(FindText: symbol + twoSpaces, ReplaceWith: symbol + oneSpace, Replace: WdReplace.wdReplaceAll);
-                rng.Find.Execute(FindText: symbol + threeSpaces, ReplaceWith: symbol + oneSpace, Replace: WdReplace.wdReplaceAll);
-
-                rng.Find.Execute(FindText: symbol + quote + twoSpaces, ReplaceWith: symbol + quote + oneSpace, Replace: WdReplace.wdReplaceAll);
-                rng.Find.Execute(FindText: symbol + quote + threeSpaces, ReplaceWith: symbol + quote + oneSpace, Replace: WdReplace.wdReplaceAll);
-            }
-
+            find.Text = @"[ ]{2,3}";
+            find.Replacement.Text = @" ";
+            find.Execute(Replace: WdReplace.wdReplaceAll);
         }
 
-        private static readonly List<string> Symbols = new List<string>()
-        {
-            ".",
-            "?",
-            "!",
-        };
+
         private static readonly List<string> abbreviations = new List<string>()
         {
             #region name prefix/suffix
@@ -544,62 +591,13 @@ namespace Tools.Simple
 
 
         #region Regex
-        private static Regex singleSpaceMatch = new Regex(singleSpaceString());
         private static Regex punctuationAfterChars = new Regex("(?<=[a-zA-Z][a-z])[.!?'\"]+");
         private static Regex AcronymsThreeLetters = new Regex(@"\b(?:[a-z]*[A-Z][a-z]*){2,}");
 
-        private static void AddSpace(Range range)
-        {
-            for(int i = 1; i <= range.Sentences.Count; i++)
-            {
-                bool run = noAbbreviationEnding(range.Sentences[i]);
-                if(run)
-                {
-                    range.Sentences[i].InsertAfter(" ");
-                }
-            }
-        }
+        
 
-        private static bool noAbbreviationEnding(Range range) ///////////////////////////////////////////////////////////////////////////
-        {
-            int valid = 0;
-            foreach (string s in abbreviations)
-            {
-                if(range.Text.EndsWith(s+". ") || range.Text.EndsWith(s+"\". ") )
-                {
-                    valid++;
-                }
 
-            }
-            if (valid == 0)
-            {
-                return true;
-            }
-            else return false;
-        }
 
-        private static string singleSpaceString() //captures the abbreviation as well as the period
-        {
-            string Regex = "[a-zA-Z]+\\b[\".?!]+\\W";
-
-            foreach(var s in abbreviations)
-            {
-                Regex = "(?!" + s + ")" + Regex;
-            }
-
-            Regex = "\\b" + Regex;
-            return Regex;
-        }
-
-        private static void RegexReplaceSingle(Range range)
-        {
-            Find findObject = range.Find;
-            findObject.ClearFormatting();
-            findObject.Replacement.ClearFormatting();
-            findObject.Replacement.Font.Italic = -1;
-
-            findObject.Execute(FindText: @"\<i\>*{1,}\<i\>", Replace: WdReplace.wdReplaceAll) ;
-        }
 
         #endregion
     }

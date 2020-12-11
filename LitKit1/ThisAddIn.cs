@@ -1,4 +1,11 @@
-﻿using System.Collections.Generic;
+﻿/* 
+ * © Copyright 2021, Prelimine LLC., All rights reserved. 
+ * Use and reproduction of code contained in the associated program and DLLs are subject to the applicable license agreement.
+ */
+
+
+
+using System.Collections.Generic;
 using Word = Microsoft.Office.Interop.Word;
 using Microsoft.Office.Interop.Word;
 using LitKit1.Controls.ExhibitControls;

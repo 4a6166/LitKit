@@ -16,8 +16,9 @@ using Tools.Response;
 using Services.Licensing;
 using System.IO;
 using System.Windows.Forms.Integration;
-
-
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace LitKit1
 {
@@ -161,6 +162,46 @@ namespace LitKit1
                 catch
                 { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212"); }
             }
+        }
+        private void btnHighlightedPDF_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (!checkLicenseIsValid())
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                try
+                {
+                    ///////// Services.RedactionTool.Redactions lead-in
+                    frmPopup frm = new frmPopup();
+                    frm.Text = "Create Unredacted PDF";
+                    frm.ControlBox = false;
+                    ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker();
+
+
+                    frm.Controls.Add(confidentialMarker);
+                    confidentialMarker.Visible = true;
+
+                    frm.ShowDialog();
+
+                    if (confidentialMarker.Aborted)
+                    {
+
+                    }
+                    else
+                    {
+                        Redactions.SaveUnredactedPDF(_app.ActiveDocument, confidentialMarker.Marker, confidentialMarker.Highlight);
+
+                        Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
+                    }
+                }
+                catch (ArgumentException)
+                {
+
+                }
+                catch
+                { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212"); }
+            }
+           
         }
 
         #endregion
@@ -715,7 +756,23 @@ namespace LitKit1
         private void Test_Button_Click(object sender, RibbonControlEventArgs e)
         {
 
-            _app.UndoRecord.StartCustomRecord("Test Button Stuff");
+            _app.UndoRecord.StartCustomRecord("Test Action");
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            {
+                //OpenWPFLoadingBar();
+                SpaceBetweenSentences.DoubleSpace(_app.ActiveDocument.StoryRanges[WdStoryType.wdMainTextStory]);
+            }
+
+            stopwatch.Stop();
+            MessageBox.Show("Time: " + stopwatch.Elapsed);
+            _app.UndoRecord.EndCustomRecord();
+
+        }
+
+        private ControlsWPF.HoldingForm OpenWPFLoadingBar()
+        {
 
             ControlsWPF.HoldingForm holdingForm = new ControlsWPF.HoldingForm();
 
@@ -732,49 +789,26 @@ namespace LitKit1
             }
             #endregion
 
-            holdingForm.Show();
+            holdingForm.AutoSize = true;
+            //holdingForm.Show();
+            return holdingForm;
 
-            _app.UndoRecord.EndCustomRecord();
         }
 
-        private void btnHighlightedPDF_Click(object sender, RibbonControlEventArgs e)
+
+        private void FindCCOffset(Range range)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
-            {
-                try
-                {
-                    ///////// Services.RedactionTool.Redactions lead-in
-                    frmPopup frm = new frmPopup();
-                    frm.Text = "Create Unredacted PDF";
-                    frm.ControlBox = false;
-                    ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker();
+            Regex regex = new Regex(@". ");
 
+            var matches1 = regex.Matches(range.Text);
 
-                    frm.Controls.Add(confidentialMarker);
-                    confidentialMarker.Visible = true;
+            var matchesIndex = matches1[1].Index;
+            Range range1 = _app.ActiveDocument.Range(matchesIndex, matchesIndex);
 
-                    frm.ShowDialog();
+            var CCr = range.ContentControls[1].Range;
+            var ccrStart = CCr.Start;
+            var ccrEnd = CCr.End;
 
-                    if (confidentialMarker.Aborted)
-                    {
-
-                    }
-                    else
-                    {
-                        Redactions.SaveUnredactedPDF(_app.ActiveDocument, confidentialMarker.Marker, confidentialMarker.Highlight);
-
-                        Globals.ThisAddIn.Application.ActiveDocument.UndoClear();
-                    }
-                }
-                catch (ArgumentException)
-                {
-
-                }
-                catch
-                { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212"); }
-            }
 
         }
     }
