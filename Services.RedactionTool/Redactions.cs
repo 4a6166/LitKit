@@ -357,7 +357,7 @@ namespace Tools.RedactionTool
                 }
             }
 
-            if (!successful)
+            if (HasUnsupportedType(selection, out UnsupportedTypes)) /*(!successful)*/
             {
                 MessageBox.Show("Please first select an item or range to mark for redaction. "+UnsupportedTypes);
             }

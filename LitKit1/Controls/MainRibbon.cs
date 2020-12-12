@@ -27,18 +27,25 @@ namespace LitKit1
         public Microsoft.Office.Interop.Word.Application _app; //This is necessary for passing ThisAddIn.Application to the Services project
         public CustomXMLParts XMLParts => Globals.ThisAddIn.Application.ActiveDocument.CustomXMLParts;
 
+        private ToggleToolSelected toggleToolSelected;
+
+
         // Set designer properties of tab: ContorlID Type: Custom, Position: AfterOfficeId TabHome
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             /// may have to export to XML to add an image to the shrunken button groups. More here: https://stackoverflow.com/questions/45805664/how-to-set-icon-for-resized-buttom-group-in-excel-ribbon and https://docs.microsoft.com/en-us/windows/win32/windowsribbon/windowsribbon-templates
             _app = Globals.ThisAddIn.Application;
 
-            //MessageBox.Show(ClassLibrary1.Class1.test());
-
             btnInsertNBS.SuperTip = NBSSuperTip();
+
+            toggleToolSelected = ToggleToolSelected.None;
+            _app.WindowSelectionChange += new ApplicationEvents4_WindowSelectionChangeEventHandler(Application_WindowSelectionChange); 
+            //Event handler for selecting text after clicking a button. To use: add case to Application_WindowSelectionChange, add option to ToggleToolSelected enum, and have toggle set toggleToolSelected to the new enum option 
+
 
             //licenseIsValid = LicenseChecker.LicenseIsValid(); //Removed here because an expired lic may cause Word to be unstable
             //licenseIsValid = true;
+
         }
 
         private bool licenseIsValid = false;
@@ -67,6 +74,7 @@ namespace LitKit1
             { ShowLicenseNotValidMessage(); }
             else
             {
+
                 try
                 {
                     /// consider RelationshipsHideTable ImageMSO
@@ -75,6 +83,7 @@ namespace LitKit1
                     _app.UndoRecord.EndCustomRecord();
                 }
                 catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #207"); }
+
             }
         }
 
@@ -792,7 +801,7 @@ namespace LitKit1
 
             {
                 //OpenWPFLoadingBar();
-                SpaceBetweenSentences.DoubleSpace(_app.ActiveDocument.StoryRanges[WdStoryType.wdMainTextStory]);
+                
             }
 
             stopwatch.Stop();
@@ -800,6 +809,63 @@ namespace LitKit1
             _app.UndoRecord.EndCustomRecord();
 
         }
+
+        #region Test Toggle Events
+
+        private void TestToggleSelected(object sender, RibbonControlEventArgs e)
+        {
+
+            Cursor.Current = Cursors.WaitCursor;
+            if (TestToggleButton1.Checked)
+            {
+                toggleToolSelected = ToggleToolSelected.Test;
+            }
+            else toggleToolSelected = ToggleToolSelected.None;
+
+        }
+        private void Application_WindowSelectionChange(Selection Sel)
+        {
+            switch (toggleToolSelected)
+            {
+                case (ToggleToolSelected.None):
+                    break;
+
+                case (ToggleToolSelected.Test):
+                    Sel.Range.HighlightColorIndex = WdColorIndex.wdBlue;
+                    break;
+
+                case (ToggleToolSelected.MarkRedaction):
+                    _app.UndoRecord.StartCustomRecord("Mark Redaction");
+                    Redactions.Mark(_app.Selection);
+                    _app.UndoRecord.EndCustomRecord();
+                    break;
+
+                case (ToggleToolSelected.UnMarkRedaction):
+                    break;
+
+                case (ToggleToolSelected.AddCitation):
+                    break;
+
+                case (ToggleToolSelected.AddResponse):
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private enum ToggleToolSelected
+        {
+            None,
+            Test,
+            MarkRedaction,
+            UnMarkRedaction,
+            AddCitation,
+            AddResponse,
+
+        }
+
+        #endregion
 
         private ControlsWPF.HoldingForm OpenWPFLoadingBar()
         {
@@ -842,5 +908,32 @@ namespace LitKit1
 
         }
 
+        private void tglMarkRedaction_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (!checkLicenseIsValid())
+            {
+                tglMarkRedaction.Checked = false;
+                ShowLicenseNotValidMessage();
+            }
+            else
+            {
+                if (_app.Selection.Text.Length > 1 && tglMarkRedaction.Checked)
+                {
+                    try
+                    {
+                        _app.UndoRecord.StartCustomRecord("Mark Redaction");
+                        Redactions.Mark(_app.Selection);
+                        _app.UndoRecord.EndCustomRecord();
+                    }
+                    catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #207"); }
+                    finally { tglMarkRedaction.Checked = false; }
+                }
+                else if (tglMarkRedaction.Checked)
+                {
+                    toggleToolSelected = ToggleToolSelected.MarkRedaction;
+                }
+                else toggleToolSelected = ToggleToolSelected.None;
+            }
+        }
     }
 }
