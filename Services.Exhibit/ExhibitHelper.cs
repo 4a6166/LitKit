@@ -371,8 +371,15 @@ namespace Tools.Exhibit
             List<ContentControl> ccs = GetAllCitesFromDoc();
             foreach (ContentControl cc in ccs)
             {
+                cc.LockContents = false;
+                foreach (ContentControl pincite in cc.Range.ContentControls)
+                {
+                    pincite.Delete(false);
+                }
+
                 cc.Delete(false);
             }
+
         }
         public void RemoveSelectedCitesFromDoc(Word.Selection Selection)
         {
@@ -381,6 +388,11 @@ namespace Tools.Exhibit
             {
                 if (cc.Tag.Contains("Exhibit:") || cc.Tag.Contains("Cite:"))
                 {
+                    cc.LockContents = false;
+                    foreach (ContentControl pincite in cc.Range.ContentControls)
+                    {
+                        pincite.Delete(false);
+                    }
                     cc.Delete(false);
                 }
             }

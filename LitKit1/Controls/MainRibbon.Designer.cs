@@ -65,9 +65,11 @@
             this.btnHighlightedPDF = this.Factory.CreateRibbonButton();
             this.grpCitationsTool = this.Factory.CreateRibbonGroup();
             this.btnExhibitTool = this.Factory.CreateRibbonButton();
+            this.menu6 = this.Factory.CreateRibbonMenu();
             this.btnPinCite = this.Factory.CreateRibbonButton();
             this.btnRemovePinCite = this.Factory.CreateRibbonButton();
             this.btnIndexOfExhibits = this.Factory.CreateRibbonButton();
+            this.btnRemoveCiteLocks = this.Factory.CreateRibbonButton();
             this.testExhibits = this.Factory.CreateRibbonButton();
             this.grpAnsRes = this.Factory.CreateRibbonGroup();
             this.splitbtnResposeTool = this.Factory.CreateRibbonSplitButton();
@@ -354,9 +356,9 @@
             ribbonDialogLauncherImpl3.Visible = false;
             this.grpCitationsTool.DialogLauncher = ribbonDialogLauncherImpl3;
             this.grpCitationsTool.Items.Add(this.btnExhibitTool);
-            this.grpCitationsTool.Items.Add(this.btnPinCite);
-            this.grpCitationsTool.Items.Add(this.btnRemovePinCite);
+            this.grpCitationsTool.Items.Add(this.menu6);
             this.grpCitationsTool.Items.Add(this.btnIndexOfExhibits);
+            this.grpCitationsTool.Items.Add(this.btnRemoveCiteLocks);
             this.grpCitationsTool.Items.Add(this.testExhibits);
             this.grpCitationsTool.Label = "Citations";
             this.grpCitationsTool.Name = "grpCitationsTool";
@@ -371,6 +373,15 @@
             this.btnExhibitTool.ShowImage = true;
             this.btnExhibitTool.SuperTip = "Display the LitKit Citations Tool";
             this.btnExhibitTool.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CitationsTool_Click);
+            // 
+            // menu6
+            // 
+            this.menu6.Image = global::LitKit1.Properties.Resources.AddPincite_16px;
+            this.menu6.Items.Add(this.btnPinCite);
+            this.menu6.Items.Add(this.btnRemovePinCite);
+            this.menu6.Label = "Pincite";
+            this.menu6.Name = "menu6";
+            this.menu6.ShowImage = true;
             // 
             // btnPinCite
             // 
@@ -403,11 +414,22 @@
     " table will not be updated when Exhibits are moved, edited, or deleted.";
             this.btnIndexOfExhibits.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.IndexOfExhibits_Click);
             // 
+            // btnRemoveCiteLocks
+            // 
+            this.btnRemoveCiteLocks.ImageName = "Lock";
+            this.btnRemoveCiteLocks.Label = "Remove Locks";
+            this.btnRemoveCiteLocks.Name = "btnRemoveCiteLocks";
+            this.btnRemoveCiteLocks.ScreenTip = "Remove Citation Locks";
+            this.btnRemoveCiteLocks.ShowImage = true;
+            this.btnRemoveCiteLocks.SuperTip = "Removes the Content Controls containing citations that have been inserted with th" +
+    "e Citation Tool. The citation text remains in the document but will not be updat" +
+    "ed or refreshed.";
+            this.btnRemoveCiteLocks.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnRemoveCiteLocks_Click);
+            // 
             // testExhibits
             // 
             this.testExhibits.Label = "Add Test Exhibits";
             this.testExhibits.Name = "testExhibits";
-            this.testExhibits.Visible = false;
             this.testExhibits.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AddExhibtsForTest);
             // 
             // grpAnsRes
@@ -724,6 +746,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnTesterFeedback;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup grpInvisibleReminders;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnHighlightedPDF;
+        internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu6;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnRemoveCiteLocks;
     }
 
     partial class ThisRibbonCollection

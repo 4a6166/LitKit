@@ -44,7 +44,7 @@ namespace LitKit1
         private bool licenseIsValid = false;
         private bool checkLicenseIsValid()
         {
-            if(!licenseIsValid)
+            if (!licenseIsValid)
             {
                 try
                 {
@@ -56,11 +56,11 @@ namespace LitKit1
         }
         private void ShowLicenseNotValidMessage()
         {
-            MessageBox.Show("Your Prelimine LitKit License key is not valid. Please contact your IT administrator or Prelimine for a new license.") ;
+            MessageBox.Show("Your Prelimine LitKit License key is not valid. Please contact your IT administrator or Prelimine for a new license.");
         }
 
 
-    #region Redactions
+        #region Redactions
         private void markRedact_Click(object sender, RibbonControlEventArgs e)
         {
             if (!checkLicenseIsValid())
@@ -148,7 +148,7 @@ namespace LitKit1
                     {
 
                     }
-                    else 
+                    else
                     {
                         Redactions.SaveUnredactedPDF(_app.ActiveDocument, confidentialMarker.Marker);
 
@@ -157,7 +157,7 @@ namespace LitKit1
                 }
                 catch (ArgumentException)
                 {
-                    
+
                 }
                 catch
                 { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212"); }
@@ -201,12 +201,12 @@ namespace LitKit1
                 catch
                 { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212"); }
             }
-           
+
         }
 
         #endregion
 
-    #region Citations
+        #region Citations
         private void CitationsTool_Click(object sender, RibbonControlEventArgs e)
         {
             if (!checkLicenseIsValid())
@@ -314,9 +314,39 @@ namespace LitKit1
             }
         }
 
+        private void btnRemoveCiteLocks_Click(object sender, RibbonControlEventArgs e)
+        {
+            _app.UndoRecord.StartCustomRecord();
+
+            try
+            {
+                var helper = new ExhibitHelper(_app);
+                if (_app.Selection.Range.Characters.Count > 2)
+                {
+                    _app.UndoRecord.StartCustomRecord("Remove Exhibits");
+                    helper.RemoveSelectedCitesFromDoc(_app.Selection);
+                    _app.UndoRecord.EndCustomRecord();
+                }
+                else
+                {
+                    DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all citations in the document? The text will remain but will no longer update when adjustments to the Exhibit or References Lists are made.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                    if (result == DialogResult.Yes)
+                    {
+                        _app.UndoRecord.StartCustomRecord("Remove Exhibits");
+                        helper.RemoveAllCitesFromDoc();
+                        _app.UndoRecord.EndCustomRecord();
+                    }
+                }
+            }
+            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #206-C"); }
+
+            _app.UndoRecord.EndCustomRecord();
+        }
+
+
         #endregion
 
-    #region Responses
+        #region Responses
 
         private void ResponseTool_Click(object sender, RibbonControlEventArgs e)
         {
@@ -371,7 +401,7 @@ namespace LitKit1
 
         #endregion
 
-    #region Formatting
+        #region Formatting
 
         private void UnItalicizeLatin_Click_1(object sender, RibbonControlEventArgs e)
         {
@@ -589,51 +619,51 @@ namespace LitKit1
 
         #endregion
 
-    #region Shortcuts
+        #region Shortcuts
 
         #region Insert Symbols Button Click
 
-            private void btnPilcrow_Click(object sender, RibbonControlEventArgs e)
-            {
-                //_app.Selection.TypeText("¶");
-                _app.Selection.InsertSymbol(182);
-            }
+        private void btnPilcrow_Click(object sender, RibbonControlEventArgs e)
+        {
+            //_app.Selection.TypeText("¶");
+            _app.Selection.InsertSymbol(182);
+        }
 
-            private void insertCopyright_Click(object sender, RibbonControlEventArgs e)
-            {
-                Globals.ThisAddIn.Application.Selection.InsertSymbol(0169);
-            }
+        private void insertCopyright_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.Application.Selection.InsertSymbol(0169);
+        }
 
-            private void insertNBS_Click(object sender, RibbonControlEventArgs e)
-            {
-                Globals.ThisAddIn.Application.Selection.InsertSymbol(160);
-            }
-            private void btnNBHyphen_Click(object sender, RibbonControlEventArgs e)
-            {
-                Globals.ThisAddIn.Application.Selection.TypeText("\u2011");
-            }
+        private void insertNBS_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.Application.Selection.InsertSymbol(160);
+        }
+        private void btnNBHyphen_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.Application.Selection.TypeText("\u2011");
+        }
 
-            private void insertTM_Click(object sender, RibbonControlEventArgs e)
-            {
-                Globals.ThisAddIn.Application.Selection.InsertSymbol(0153);
-            }
+        private void insertTM_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.Application.Selection.InsertSymbol(0153);
+        }
 
-            private void insertSectionMark_Click(object sender, RibbonControlEventArgs e)
-            {
-                Globals.ThisAddIn.Application.Selection.InsertSymbol(167);
-            }
+        private void insertSectionMark_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.Application.Selection.InsertSymbol(167);
+        }
 
-            private void insertNDash_Click(object sender, RibbonControlEventArgs e)
-            {
-                Globals.ThisAddIn.Application.Selection.InsertSymbol(0150);
-            }
+        private void insertNDash_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.Application.Selection.InsertSymbol(0150);
+        }
 
-            private void insertMDash_Click(object sender, RibbonControlEventArgs e)
-            {
-                Globals.ThisAddIn.Application.Selection.InsertSymbol(0151);
-            }
+        private void insertMDash_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.Application.Selection.InsertSymbol(0151);
+        }
 
-            #endregion
+        #endregion
         private void ClipboardButton_Click(object sender, RibbonControlEventArgs e)
         {
             if (!checkLicenseIsValid())
@@ -699,7 +729,7 @@ namespace LitKit1
 
         #endregion
 
-    #region Support
+        #region Support
 
         private void CustomerSupport_Click(object sender, RibbonControlEventArgs e)
         {
@@ -811,6 +841,6 @@ namespace LitKit1
 
 
         }
-    }
 
+    }
 }
