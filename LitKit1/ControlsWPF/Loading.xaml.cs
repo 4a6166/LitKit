@@ -16,6 +16,8 @@ namespace LitKit1.ControlsWPF
             InitializeComponent();
         }
 
+
+
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             //BackgroundWorker worker = new BackgroundWorker();

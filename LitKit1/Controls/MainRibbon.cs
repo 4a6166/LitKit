@@ -783,6 +783,65 @@ namespace LitKit1
 
         #endregion
 
+        #region Toggle Events
+
+        private void TestToggleSelected(object sender, RibbonControlEventArgs e)
+        {
+
+            Cursor.Current = Cursors.WaitCursor;
+            if (TestToggleButton1.Checked)
+            {
+                toggleToolSelected = ToggleToolSelected.Test;
+            }
+            else toggleToolSelected = ToggleToolSelected.None;
+
+        }
+        private void Application_WindowSelectionChange(Selection Sel)
+        {
+            switch (toggleToolSelected)
+            {
+                case (ToggleToolSelected.None):
+                    break;
+
+                case (ToggleToolSelected.Test):
+                    Sel.Range.HighlightColorIndex = WdColorIndex.wdBlue;
+                    break;
+
+                case (ToggleToolSelected.MarkRedaction):
+                    _app.UndoRecord.StartCustomRecord("Mark Redaction");
+                    Redactions.Mark(_app.Selection);
+                    _app.UndoRecord.EndCustomRecord();
+                    tglMarkRedaction.Checked = false;
+                    toggleToolSelected = ToggleToolSelected.None;
+                    break;
+
+                case (ToggleToolSelected.UnMarkRedaction):
+                    break;
+
+                case (ToggleToolSelected.AddCitation):
+                    break;
+
+                case (ToggleToolSelected.AddResponse):
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private enum ToggleToolSelected
+        {
+            None,
+            Test,
+            MarkRedaction,
+            UnMarkRedaction,
+            AddCitation,
+            AddResponse,
+
+        }
+
+        #endregion
+
         #region Support
 
         private void CustomerSupport_Click(object sender, RibbonControlEventArgs e)
@@ -845,8 +904,14 @@ namespace LitKit1
             stopwatch.Start();
 
             {
-                //OpenWPFLoadingBar();
-                
+                //Thread t = new Thread(new ThreadStart(OpenWPFLoadingBar));
+                //t.Start();
+                var frm = OpenWPFLoadingBar();
+                frm.Show();
+                //btnDoubleSpace_Click(sender, e);
+                MessageBox.Show("Test", "Test", MessageBoxButtons.OKCancel);
+                frm.Close();
+                //t.Abort();
             }
 
             stopwatch.Stop();
@@ -855,67 +920,10 @@ namespace LitKit1
 
         }
 
-        #region Toggle Events
-
-        private void TestToggleSelected(object sender, RibbonControlEventArgs e)
-        {
-
-            Cursor.Current = Cursors.WaitCursor;
-            if (TestToggleButton1.Checked)
-            {
-                toggleToolSelected = ToggleToolSelected.Test;
-            }
-            else toggleToolSelected = ToggleToolSelected.None;
-
-        }
-        private void Application_WindowSelectionChange(Selection Sel)
-        {
-            switch (toggleToolSelected)
-            {
-                case (ToggleToolSelected.None):
-                    break;
-
-                case (ToggleToolSelected.Test):
-                    Sel.Range.HighlightColorIndex = WdColorIndex.wdBlue;
-                    break;
-
-                case (ToggleToolSelected.MarkRedaction):
-                    _app.UndoRecord.StartCustomRecord("Mark Redaction");
-                    Redactions.Mark(_app.Selection);
-                    _app.UndoRecord.EndCustomRecord();
-                    tglMarkRedaction.Checked = false;
-                    toggleToolSelected = ToggleToolSelected.None;
-                    break;
-
-                case (ToggleToolSelected.UnMarkRedaction):
-                    break;
-
-                case (ToggleToolSelected.AddCitation):
-                    break;
-
-                case (ToggleToolSelected.AddResponse):
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        private enum ToggleToolSelected
-        {
-            None,
-            Test,
-            MarkRedaction,
-            UnMarkRedaction,
-            AddCitation,
-            AddResponse,
-
-        }
-
-        #endregion
 
         private ControlsWPF.HoldingForm OpenWPFLoadingBar()
         {
+            
 
             ControlsWPF.HoldingForm holdingForm = new ControlsWPF.HoldingForm();
 
