@@ -238,7 +238,7 @@ namespace LitKit1
                 else if (tglMarkRedaction.Checked)
                 {
                     toggleToolSelected = ToggleToolSelected.MarkRedaction;
-                    //ChangeCursor_MarkRedaction(sender, (EventArgs) e);
+                    ChangeCursor_MarkRedaction(sender, (EventArgs)e);
                 }
                 else
                 {
@@ -250,8 +250,9 @@ namespace LitKit1
 
         private void ChangeCursor_MarkRedaction(object sender, EventArgs e)
         {
-            Cursor.Current = new Cursor(@"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\Redact Cursor.cur");
-
+            string c = @"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\Redact Cursor.cur";
+            Cursor.Current = new Cursor(c);
+            //Input.Mouse.SetCursor(new Input.Cursor(c));
             
         }
 
@@ -854,7 +855,7 @@ namespace LitKit1
 
         }
 
-        #region Test Toggle Events
+        #region Toggle Events
 
         private void TestToggleSelected(object sender, RibbonControlEventArgs e)
         {
@@ -882,6 +883,8 @@ namespace LitKit1
                     _app.UndoRecord.StartCustomRecord("Mark Redaction");
                     Redactions.Mark(_app.Selection);
                     _app.UndoRecord.EndCustomRecord();
+                    tglMarkRedaction.Checked = false;
+                    toggleToolSelected = ToggleToolSelected.None;
                     break;
 
                 case (ToggleToolSelected.UnMarkRedaction):

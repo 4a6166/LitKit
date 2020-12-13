@@ -379,28 +379,43 @@ namespace Tools.RedactionTool
         #region Mark Redactions
         private static bool MarkInline(Selection selection)
         {
-            if (selection.InlineShapes.Count > 0 || selection.Text.Length > 1)
+            //bool hasRedactionAlready = false;
+            foreach (ContentControl cc in selection.ContentControls)
             {
-
-                var redaction = selection.ContentControls.Add(Word.WdContentControlType.wdContentControlRichText);
-
-                redaction.Title = "Redaction";
-                redaction.Tag = "R-" + redaction.ID;
-                redaction.Color = Word.WdColor.wdColorDarkRed;
-
-                for (var i = 1; i <= redaction.Range.ContentControls.Count; i++)
+                if (cc.Tag.StartsWith("R-"))
                 {
-                    redaction.Range.ContentControls[i].LockContents = false;
+                    UnMarkInLine(cc);
+
                 }
+            }
+            
 
-                redaction.Range.HighlightColorIndex = Word.WdColorIndex.wdBlack;
-                redaction.Range.Font.ColorIndex = Word.WdColorIndex.wdWhite;
-
-                for (var i = 1; i <= redaction.Range.ContentControls.Count; i++)
+            if (selection.ParentContentControl == null || !selection.ParentContentControl.Tag.StartsWith("R-"))
+            {
+                if (selection.InlineShapes.Count > 0 || selection.Text.Length > 1)
                 {
-                    redaction.Range.ContentControls[i].LockContents = true;
+
+                    var redaction = selection.ContentControls.Add(Word.WdContentControlType.wdContentControlRichText);
+
+                    redaction.Title = "Redaction";
+                    redaction.Tag = "R-" + redaction.ID;
+                    redaction.Color = Word.WdColor.wdColorDarkRed;
+
+                    for (var i = 1; i <= redaction.Range.ContentControls.Count; i++)
+                    {
+                        redaction.Range.ContentControls[i].LockContents = false;
+                    }
+
+                    redaction.Range.HighlightColorIndex = Word.WdColorIndex.wdBlack;
+                    redaction.Range.Font.ColorIndex = Word.WdColorIndex.wdWhite;
+
+                    for (var i = 1; i <= redaction.Range.ContentControls.Count; i++)
+                    {
+                        redaction.Range.ContentControls[i].LockContents = true;
+                    }
+                    return true;
                 }
-                return true;
+                else return false;
             }
             else return false;
         }
