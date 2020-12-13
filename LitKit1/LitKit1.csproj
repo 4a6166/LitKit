@@ -433,6 +433,9 @@
     <None Include="Resources\Group.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Redact Cursor.cur">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Resources\RemovePincite_32px.png" />
     <None Include="Resources\Support_16px.png" />
     <None Include="Resources\ShowHideFMarks_16px.png" />
@@ -460,6 +463,8 @@
     <None Include="Resources\KeepWithNext_16px.png" />
     <None Include="Resources\AddPincite_32px.png" />
     <None Include="Resources\CreateHighlightedPDF_32px_PrelimEdit3.png" />
+    <Content Include="Resources\outline_border_color_black_18dp.png" />
+    <Content Include="Resources\outline_border_color_black_36dp.png" />
     <Content Include="Resources\PilcrowLone1_B.ico" />
   </ItemGroup>
   <ItemGroup>

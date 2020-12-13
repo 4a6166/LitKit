@@ -331,12 +331,17 @@ namespace Tools.RedactionTool
 
         public static void UnMarkAll(Document doc, WdColorIndex highlight = WdColorIndex.wdNoHighlight)
         {
-            foreach (Range story in doc.StoryRanges)
-            {
-                UnMark(story, highlight);
-            }
+            var confirm = MessageBox.Show("This action will remove all the marked redactions in the document. Continue with removing all redaction marks?", "Confirm", MessageBoxButtons.OKCancel);
 
-            UpdateTables(doc);
+            if (confirm == DialogResult.OK)
+            {
+                foreach (Range story in doc.StoryRanges)
+                {
+                    UnMark(story, highlight);
+                }
+
+                UpdateTables(doc);
+            }
         }
 
         public static void Mark(Selection selection)

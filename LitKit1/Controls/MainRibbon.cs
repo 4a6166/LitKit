@@ -19,6 +19,7 @@ using System.Windows.Forms.Integration;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Threading;
+using Input = System.Windows.Input;
 
 namespace LitKit1
 {
@@ -29,7 +30,6 @@ namespace LitKit1
 
         private ToggleToolSelected toggleToolSelected;
 
-
         // Set designer properties of tab: ContorlID Type: Custom, Position: AfterOfficeId TabHome
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
@@ -39,9 +39,11 @@ namespace LitKit1
             btnInsertNBS.SuperTip = NBSSuperTip();
 
             toggleToolSelected = ToggleToolSelected.None;
+
             _app.WindowSelectionChange += new ApplicationEvents4_WindowSelectionChangeEventHandler(Application_WindowSelectionChange); 
             //Event handler for selecting text after clicking a button. To use: add case to Application_WindowSelectionChange, add option to ToggleToolSelected enum, and have toggle set toggleToolSelected to the new enum option 
 
+            
 
             //licenseIsValid = LicenseChecker.LicenseIsValid(); //Removed here because an expired lic may cause Word to be unstable
             //licenseIsValid = true;
@@ -212,6 +214,48 @@ namespace LitKit1
             }
 
         }
+
+        private void tglMarkRedaction_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (!checkLicenseIsValid())
+            {
+                tglMarkRedaction.Checked = false;
+                ShowLicenseNotValidMessage();
+            }
+            else
+            {
+                if (_app.Selection.Text.Length > 1 && tglMarkRedaction.Checked)
+                {
+                    try
+                    {
+                        _app.UndoRecord.StartCustomRecord("Mark Redaction");
+                        Redactions.Mark(_app.Selection);
+                        _app.UndoRecord.EndCustomRecord();
+                    }
+                    catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #207"); }
+                    finally { tglMarkRedaction.Checked = false;  }
+                }
+                else if (tglMarkRedaction.Checked)
+                {
+                    toggleToolSelected = ToggleToolSelected.MarkRedaction;
+                    //ChangeCursor_MarkRedaction(sender, (EventArgs) e);
+                }
+                else
+                {
+                    toggleToolSelected = ToggleToolSelected.None;
+                }
+            }
+        }
+
+
+        private void ChangeCursor_MarkRedaction(object sender, EventArgs e)
+        {
+            Cursor.Current = new Cursor(@"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\Redact Cursor.cur");
+
+            
+        }
+
+
 
         #endregion
 
@@ -908,32 +952,7 @@ namespace LitKit1
 
         }
 
-        private void tglMarkRedaction_Click(object sender, RibbonControlEventArgs e)
-        {
-            if (!checkLicenseIsValid())
-            {
-                tglMarkRedaction.Checked = false;
-                ShowLicenseNotValidMessage();
-            }
-            else
-            {
-                if (_app.Selection.Text.Length > 1 && tglMarkRedaction.Checked)
-                {
-                    try
-                    {
-                        _app.UndoRecord.StartCustomRecord("Mark Redaction");
-                        Redactions.Mark(_app.Selection);
-                        _app.UndoRecord.EndCustomRecord();
-                    }
-                    catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #207"); }
-                    finally { tglMarkRedaction.Checked = false; }
-                }
-                else if (tglMarkRedaction.Checked)
-                {
-                    toggleToolSelected = ToggleToolSelected.MarkRedaction;
-                }
-                else toggleToolSelected = ToggleToolSelected.None;
-            }
-        }
     }
+
+
 }
