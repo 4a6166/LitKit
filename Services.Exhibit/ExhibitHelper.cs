@@ -279,19 +279,67 @@ namespace Tools.Exhibit
                 }
 
                 {
-                    try
-                    {
-                        string[] anchors = new string[] { "<i>", "</i>" };
-                        var TextParts = cite.Range.Text.Split(anchors, StringSplitOptions.None);
+                    //try
+                    //{
+                    //    string[] anchors = new string[] { "<i>", "</i>" };
+                    //    var TextParts = cite.Range.Text.Split(anchors, StringSplitOptions.None);
 
-                        Range rng = cite.Range;
-                        rng.Start = rng.Start + TextParts[0].Length;
-                        rng.End = rng.Start + TextParts[1].Length + 7;
-                        rng.Text = TextParts[1];
-                        rng.Font.Italic = -1;
+                    //    Range rng = cite.Range;
+                    //    rng.Start = rng.Start + TextParts[0].Length;
+                    //    rng.End = rng.Start + TextParts[1].Length + 7;
+                    //    rng.Text = TextParts[1];
+                    //    rng.Font.Italic = -1;
+                    //}
+                    //catch
+                    //{ }
+                    
+                    var find = cite.Range.Find;
+                    find.MatchWildcards = true;
+
+                    {
+                        //Bold **&**
+                        find.ClearFormatting();
+                        find.Replacement.ClearFormatting();
+
+                        find.Text = @"\*\*(*)\*\*";
+                        find.Replacement.Text = @"\1";
+                        find.Replacement.Font.Bold = -1;
+                        find.Execute(Replace: WdReplace.wdReplaceAll);
                     }
-                    catch
-                    { }
+                    {
+                        //Italics //&//
+                        find.ClearFormatting();
+                        find.Replacement.ClearFormatting();
+
+                        find.Text = @"\/\/(*)\/\/";
+                        find.Replacement.Text = @"\1";
+                        find.Replacement.Font.Italic = -1;
+                        find.Execute(Replace: WdReplace.wdReplaceAll);
+                    }
+                    {
+                        //Underline __&__
+                        find.ClearFormatting();
+                        find.Replacement.ClearFormatting();
+
+                        find.Text = @"\_\_(*)\_\_";
+                        find.Replacement.Text = @"\1";
+                        find.Replacement.Font.Underline = WdUnderline.wdUnderlineSingle;
+                        find.Execute(Replace: WdReplace.wdReplaceAll);
+                    }
+                    {
+                        //BoldItalics */&/*
+                        find.ClearFormatting();
+                        find.Replacement.ClearFormatting();
+
+                        find.Text = @"\*\/(*)\/\*";
+                        find.Replacement.Text = @"\1";
+                        find.Replacement.Font.Italic = -1;
+                        find.Replacement.Font.Bold = -1;
+                        find.Execute(Replace: WdReplace.wdReplaceAll);
+                    }
+
+
+
                 }
 
                 IDsForFormatChoice.Add(citeID);

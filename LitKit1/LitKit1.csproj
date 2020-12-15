@@ -203,6 +203,12 @@
     <Compile Include="ControlsWPF\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteBlock.xaml.cs">
+      <DependentUpon>CiteBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteFlyout.xaml.cs">
+      <DependentUpon>CiteFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlsWPF\HoldingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -502,6 +508,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlsWPF\Base.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

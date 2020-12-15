@@ -120,4 +120,15 @@
   <data name="label4.Text" xml:space="preserve">
     <value>Note: Changes to citations are not displayed in the document until citation information is refreshed from the Exhibits panel. The Long Citation format is used for the first occurance of a cite in the document. Following cites use the Short Citation format. To have the format remain identical for both citations, leave the Short Citation Text field empty.</value>
   </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Placeholder Key
+{PINCITE} = Placeholder for any added Pincites
+\u00A0 = Non-breaking Space
+
+To add properties surround text with these characters:
+Bold:    **    Two asterisks
+Italics:    //    Two backslashes
+Underline:    __    Two underscores
+Example: One word will be **bold** in this sentence.</value>
+  </data>
 </root>

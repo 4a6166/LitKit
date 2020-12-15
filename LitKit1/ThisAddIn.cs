@@ -19,7 +19,10 @@ namespace LitKit1
     {
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-             
+            log4net.Config.XmlConfigurator.Configure();
+            log.Info("New session started ***********"); // Logs stored in C:\Users\[user]\AppData\Roaming\Prelimine\LitKit-log
+
+
             try { AddTaskPanes(Application.ActiveDocument); }
             catch { }
 
@@ -30,9 +33,11 @@ namespace LitKit1
 
         }
 
-
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private void AddTaskPanes(Word.Document doc)
         {
+            log.Info("AddTaskPane run start");
+
             ClearTaskPanes(doc.ActiveWindow);
             AddExhibitControlMain(doc.ActiveWindow);
             AddAnsResControlMain(doc.ActiveWindow);
@@ -41,6 +46,8 @@ namespace LitKit1
 
         public void AddExhibitControlMain(object window)
         {
+            log.Info("AddExhibitControlMain run start");
+
             ExhibitMain = new ctrlExhibitMain();
             ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Citations Tool", window);
             ExhibitMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -58,6 +65,8 @@ namespace LitKit1
 
         public void AddAnsResControlMain(object window)
         {
+            log.Info("AddAnsResControlMain run start");
+
             AnsResMain = new ctrlAnsResMain();
             AnsResTaskPane = this.CustomTaskPanes.Add(AnsResMain, "LitKit Response Tool", window);
             AnsResMain.Dock = System.Windows.Forms.DockStyle.Fill;

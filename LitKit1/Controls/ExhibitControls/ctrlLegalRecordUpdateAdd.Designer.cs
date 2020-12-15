@@ -143,13 +143,11 @@
             // label8
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label8.Location = new System.Drawing.Point(140, 735);
+            this.label8.Location = new System.Drawing.Point(140, 678);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(357, 69);
+            this.label8.Size = new System.Drawing.Size(357, 126);
             this.label8.TabIndex = 23;
-            this.label8.Text = "Placeholder Key\r\n{PINCITE} = Placeholder for any added Pincites\r\n\\u00A0 = Non-bre" +
-    "aking Space\r\nTagging text with <i> at the beginning and </i> at the end Italiciz" +
-    "e it\r\n";
+            this.label8.Text = resources.GetString("label8.Text");
             this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // ctrlLegalRecordUpdateAdd

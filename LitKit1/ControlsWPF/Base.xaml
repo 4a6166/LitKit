@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:LitKit1.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="400">
-    <Grid>
-            
-    </Grid>
+
+        <Canvas x:Name="MainCanvas"></Canvas>
+
+
 </UserControl>

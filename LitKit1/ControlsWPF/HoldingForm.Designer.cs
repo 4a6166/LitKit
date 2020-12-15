@@ -34,9 +34,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(406, 57);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(120, 23);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "HoldingForm";
+            this.ShowIcon = false;
+            this.TopMost = true;
             this.ResumeLayout(false);
 
         }

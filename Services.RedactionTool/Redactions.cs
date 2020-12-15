@@ -15,6 +15,8 @@ namespace Tools.RedactionTool
 {
     public class Redactions : BaseService
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public event RedactionCalledDelegate RedactionCalled;
 
         private readonly Application _app;
@@ -353,19 +355,27 @@ namespace Tools.RedactionTool
             {
                 try
                 {
-                    if (selection.ShapeRange.Count > 0) { successful = MarkImageFloat(selection); }
+                    if (selection.ShapeRange.Count > 0) 
+                    { 
+                        successful = MarkImageFloat(selection);
+                    }
                     else successful = MarkInline(selection);
+
                 }
                 catch
                 {
                     successful = false;
                 }
-            }
 
-            if (HasUnsupportedType(selection, out UnsupportedTypes)) /*(!successful)*/
-            {
-                MessageBox.Show("Please first select an item or range to mark for redaction. "+UnsupportedTypes);
+                log.Info("Redaction Mark: successful = " + successful);
+
             }
+            else if (HasUnsupportedType(selection, out UnsupportedTypes)) 
+            {
+                log.Info("Redaction Mark: selection has unsupported types.");
+
+                MessageBox.Show("Please first select an item or range to mark for redaction. "+UnsupportedTypes);
+            } 
         }
 
 

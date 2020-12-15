@@ -20,11 +20,14 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Threading;
 using Input = System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace LitKit1
 {
     public partial class MainRibbon
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public Microsoft.Office.Interop.Word.Application _app; //This is necessary for passing ThisAddIn.Application to the Services project
         public CustomXMLParts XMLParts => Globals.ThisAddIn.Application.ActiveDocument.CustomXMLParts;
 
@@ -55,12 +58,14 @@ namespace LitKit1
         {
             if (!licenseIsValid)
             {
+                log.Info("License Check started.");
                 try
                 {
                     licenseIsValid = LicenseChecker.LicenseIsValid();
                 }
                 catch { }
             }
+
             return licenseIsValid;
         }
         private void ShowLicenseNotValidMessage()
@@ -212,7 +217,6 @@ namespace LitKit1
                 catch
                 { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #212"); }
             }
-
         }
 
         private void tglMarkRedaction_Click(object sender, RibbonControlEventArgs e)
@@ -787,7 +791,7 @@ namespace LitKit1
 
         private void TestToggleSelected(object sender, RibbonControlEventArgs e)
         {
-
+            
             Cursor.Current = Cursors.WaitCursor;
             if (TestToggleButton1.Checked)
             {
@@ -843,7 +847,6 @@ namespace LitKit1
         #endregion
 
         #region Support
-
         private void CustomerSupport_Click(object sender, RibbonControlEventArgs e)
         {
             string link = "mailto://support@prelimine.com";
@@ -903,16 +906,10 @@ namespace LitKit1
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            {
-                //Thread t = new Thread(new ThreadStart(OpenWPFLoadingBar));
-                //t.Start();
-                var frm = OpenWPFLoadingBar();
-                frm.Show();
-                //btnDoubleSpace_Click(sender, e);
-                MessageBox.Show("Test", "Test", MessageBoxButtons.OKCancel);
-                frm.Close();
-                //t.Abort();
-            }
+            var b = new ControlsWPF.Citation.CiteBlock();
+            var frm = new ControlsWPF.HoldingForm(b);
+            frm.Show();
+
 
             stopwatch.Stop();
             MessageBox.Show("Time: " + stopwatch.Elapsed);
@@ -921,30 +918,7 @@ namespace LitKit1
         }
 
 
-        private ControlsWPF.HoldingForm OpenWPFLoadingBar()
-        {
-            
-
-            ControlsWPF.HoldingForm holdingForm = new ControlsWPF.HoldingForm();
-
-            #region Add WPF
-            {
-                ElementHost host = new ElementHost();
-                host.Dock = DockStyle.Fill;
-
-                ControlsWPF.Loading loading = new ControlsWPF.Loading();
-
-                host.Child = loading;
-
-                holdingForm.Controls.Add(host);
-            }
-            #endregion
-
-            holdingForm.AutoSize = true;
-            //holdingForm.Show();
-            return holdingForm;
-
-        }
+        
 
 
         private void FindCCOffset(Range range)
