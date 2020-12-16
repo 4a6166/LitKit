@@ -209,6 +209,9 @@
     <Compile Include="ControlsWPF\Citation\CiteBlock.xaml.cs">
       <DependentUpon>CiteBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteDeleteAreYouSure.xaml.cs">
+      <DependentUpon>CiteDeleteAreYouSure.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlsWPF\Citation\CiteFlyout.xaml.cs">
       <DependentUpon>CiteFlyout.xaml</DependentUpon>
     </Compile>
@@ -538,6 +541,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlsWPF\Citation\CiteBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteDeleteAreYouSure.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

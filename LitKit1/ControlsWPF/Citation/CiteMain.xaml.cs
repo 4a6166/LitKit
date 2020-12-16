@@ -32,9 +32,10 @@ namespace LitKit1.ControlsWPF.Citation
             for (int i = 0; i < 15; i++)
             {
                 Exhibit exhibit = new Exhibit("Test Exhibit " + i, "ABC0000" + i);
-                CiteBlock citeBlock = new CiteBlock(exhibit);
+                CiteBlock citeBlock = new CiteBlock(exhibit, CiteBlockStackPanel);
+                citeBlock.HorizontalAlignment = HorizontalAlignment.Stretch;
                 CiteBlockStackPanel.Children.Add(citeBlock);
-        }
+            }
         }
     }
 }

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LitKit1.ControlsWPF"
              mc:Ignorable="d" 
-             StartupUri="Base.xaml"> 
+             StartupUri="CiteMain.xaml"> 
     
     <!--Change Startup URI to first XAML holding other XAML-->
     
@@ -15,7 +15,8 @@
         </Style>
 
         <Style TargetType="Button">
-            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Background" Value="BlueViolet"/>
         </Style>
 
         <Style TargetType="Label">
