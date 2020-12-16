@@ -14,16 +14,6 @@ namespace LitKit1.ControlsWPF.Citation
             InitializeComponent();
         }
 
-        private void StackPanel_MouseEnter(object sender, MouseEventArgs e)
-        {
-            TextDelete.Visibility = Visibility.Visible;
-        }
-
-        private void StackPanel_MouseLeave(object sender, MouseEventArgs e)
-        {
-            TextDelete.Visibility = Visibility.Collapsed;
-        }
-
         private void StackPanel_MouseEnter_1(object sender, MouseEventArgs e)
         {
             TextEdit.Visibility = Visibility.Visible;
@@ -44,5 +34,14 @@ namespace LitKit1.ControlsWPF.Citation
             TextInsert.Visibility = Visibility.Collapsed;
         }
 
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            TextDelete.Visibility = Visibility.Visible;
+        }
+
+        private void Grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            TextDelete.Visibility = Visibility.Collapsed;
+        }
     }
 }

@@ -6,23 +6,26 @@
              xmlns:app="LitKit1.ControlsWPF.App"
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Citation"
              mc:Ignorable="d" 
-             d:DesignHeight="62" d:DesignWidth="350">
+             d:DesignHeight="53" d:DesignWidth="350" MouseDoubleClick="UserControl_MouseDoubleClick">
     <Grid x:Name="MainGrid" Background="WhiteSmoke" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1"/>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="1"/>
+            <RowDefinition Height="22" />
+            <RowDefinition Height="21"/>
+            <RowDefinition Height="Auto"/>
+            <!--<RowDefinition Height=".5"/>-->
         </Grid.RowDefinitions>
-        <Border Grid.Column="1" Grid.RowSpan="3" Width="auto" Height="auto" Margin="2,1,0,1" BorderThickness="1" CornerRadius="10, 10, 10, 10" BorderBrush="DarkGreen" Background="DarkGreen" />
-        <TextBlock Height="auto"  Grid.Column="2" Grid.ColumnSpan="1" Grid.Row="1" Text="Citation Reference Name" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="4,2,0,2" TextTrimming="CharacterEllipsis"/>
-        <TextBlock Height="auto" HorizontalAlignment="Left" Grid.Column="2" Grid.ColumnSpan="1" Grid.Row="2" Text="Exhibit 1, Example Long Cite Text for and Exhibit" FontWeight="Light" Margin="2" TextTrimming="CharacterEllipsis"/>
-        <local:CiteFlyout x:Name="Flyout" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" />
+        <Border x:Name="CiteTypeIndicator" Grid.Column="1" Grid.RowSpan="3" Width="auto" Height="auto" Margin="2,1,0,1" BorderThickness="1" CornerRadius="3" BorderBrush="DarkGreen" Background="DarkGreen" />
+        <TextBlock x:Name="CiteRefName" Height="auto"  Grid.Column="2" Grid.ColumnSpan="1" Grid.Row="1" Text="Citation Reference py" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Margin="4,2,0,2" TextTrimming="CharacterEllipsis"/>
+        <TextBlock x:Name="CiteLongExample" Height="auto" HorizontalAlignment="Left" Grid.Column="2" Grid.ColumnSpan="1" Grid.Row="2" Text="Exhibit 1, Example Long Cite Text for and Exhibit" FontWeight="Light" Margin="2,2,0,2" TextTrimming="CharacterEllipsis" Width="187"/>
+        <TextBlock x:Name="CiteCount" Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Text="0" FontSize="30" FontWeight="Bold" Foreground="SlateGray" HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <TextBlock Grid.Column="3" Grid.Row="2" Text="Cites in Document" FontSize="6" Foreground="SlateGray" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <local:CiteFlyout x:Name="Flyout" Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Height="auto" Width="100" Visibility="Collapsed"/>
     </Grid>
 </UserControl>

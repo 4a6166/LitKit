@@ -203,11 +203,26 @@
     <Compile Include="ControlsWPF\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteAdd.xaml.cs">
+      <DependentUpon>CiteAdd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlsWPF\Citation\CiteBlock.xaml.cs">
       <DependentUpon>CiteBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="ControlsWPF\Citation\CiteFlyout.xaml.cs">
       <DependentUpon>CiteFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteFormat.xaml.cs">
+      <DependentUpon>CiteFormat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteMain.xaml.cs">
+      <DependentUpon>CiteMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\HoldingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlsWPF\HoldingControl.Designer.cs">
+      <DependentUpon>HoldingControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ControlsWPF\HoldingForm.cs">
       <SubType>Form</SubType>
@@ -424,13 +439,19 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8-plus-math-60.png" />
+    <Resource Include="Resources\icons8-plus-math-60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8-pencil-drawing-64.png" />
+    <Resource Include="Resources\icons8-pencil-drawing-64.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8-delete-64.png" />
+    <Resource Include="Resources\icons8-delete-64.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-refresh-64.png" />
@@ -472,6 +493,7 @@
     <None Include="Resources\KeepWithNext_16px.png" />
     <None Include="Resources\AddPincite_32px.png" />
     <None Include="Resources\CreateHighlightedPDF_32px_PrelimEdit3.png" />
+    <Content Include="ControlsWPF\Citation\icons8-delete-64.png" />
     <Content Include="Resources\outline_border_color_black_18dp.png" />
     <Content Include="Resources\outline_border_color_black_36dp.png" />
     <Content Include="Resources\PilcrowLone1_B.ico" />
@@ -511,11 +533,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ControlsWPF\Citation\CiteAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ControlsWPF\Citation\CiteBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlsWPF\Citation\CiteFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteFormat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

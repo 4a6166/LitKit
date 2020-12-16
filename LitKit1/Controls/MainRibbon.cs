@@ -906,10 +906,17 @@ namespace LitKit1
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var b = new ControlsWPF.Citation.CiteBlock();
-            var frm = new ControlsWPF.HoldingForm(b);
-            frm.Show();
+            var b = new ControlsWPF.Citation.CiteMain();
 
+            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+            if (!ActivePane.Visible)
+            {
+                ActivePane.Visible = true;
+            }
+            else
+            {
+                ActivePane.Visible = false;
+            }
 
             stopwatch.Stop();
             MessageBox.Show("Time: " + stopwatch.Elapsed);

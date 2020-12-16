@@ -2,6 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Tools.Exhibit;
+using Word = Microsoft.Office.Interop.Word;
 
 namespace LitKit1.ControlsWPF.Citation
 {
@@ -10,11 +12,18 @@ namespace LitKit1.ControlsWPF.Citation
     /// </summary>
     public partial class CiteBlock : UserControl
     {
-        public CiteBlock()
+        public Exhibit exhibit { get; private set; }
+        public Word.Application _app { get; private set; }
+
+        public CiteBlock(Exhibit exhibit)
         {
+            this.exhibit = exhibit;
+            this._app = Globals.ThisAddIn.Application;
+
             InitializeComponent();
             Flyout.Visibility = Visibility.Collapsed;
         }
+
 
         static BrushConverter bc = new BrushConverter();
         Brush GridSelectedBrush = (Brush) bc.ConvertFrom("#00FFFF00"); //Does not work.
@@ -31,5 +40,9 @@ namespace LitKit1.ControlsWPF.Citation
             Flyout.Visibility = Visibility.Collapsed;
         }
 
+        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            _app.Selection.TypeText(exhibit.Description);
+        }
     }
 }

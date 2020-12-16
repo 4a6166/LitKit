@@ -5,24 +5,35 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Citation"
              mc:Ignorable="d" 
-             d:DesignHeight="60" d:DesignWidth="150">
+             d:DesignHeight="40" d:DesignWidth="100">
     <Grid>
-        <Border x:Name="Flyout" MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Width="140" BorderThickness="1" BorderBrush="LightGray" CornerRadius="10, 0, 0, 10" Background="LightGray" Visibility="Visible">
-            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-                <StackPanel Orientation="Vertical" Width="40" Margin="2" MouseEnter="StackPanel_MouseEnter" MouseLeave="StackPanel_MouseLeave">
-                    <Ellipse x:Name="EllipseDelete" Fill="DarkGreen" MinHeight="25" Height="auto" Stretch="Fill"/>
-                    <TextBlock x:Name="TextDelete" Text="Delete" HorizontalAlignment="Center" Visibility="Collapsed"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Width="40" Margin="2" MouseEnter="StackPanel_MouseEnter_1" MouseLeave="StackPanel_MouseLeave_1">
-                    <Ellipse x:Name="EllipseEdit" Fill="DarkGreen" MinHeight="25" Height="auto">
-                        <!--<Image Source="TBD"/>-->
-                    </Ellipse>
-                    <TextBlock x:Name="TextEdit" Text="Edit" HorizontalAlignment="Center" Visibility="Collapsed"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Width="40" Margin="2" MouseEnter="StackPanel_MouseEnter_2" MouseLeave="StackPanel_MouseLeave_2">
-                    <Ellipse x:Name="EllipseInsert" Fill="DarkGreen" MinHeight="25" Height="auto" Stretch="UniformToFill"/>
-                    <TextBlock x:Name="TextInsert" Text="Insert" HorizontalAlignment="Center" Visibility="Collapsed"/>
-                </StackPanel>
+        <Border x:Name="Flyout" MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Width="auto" Height="36" BorderThickness="1" BorderBrush="LightGray" CornerRadius="10,0, 0, 10" Background="LightGray" Visibility="Visible">
+            <StackPanel  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,-1,-1,-1">
+                <Grid x:Name="GridDelete" Width="25" Margin="2" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/LitKit;component/Resources/icons8-delete-64.png" />
+                    <!--To get image to show, but set properties to "Resource" and "Copy if newer"-->
+                    <TextBlock x:Name="TextDelete" Grid.Row="1" Text="Delete" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                </Grid>
+                <Grid x:Name="GridEdit" Width="25" Margin="2" MouseEnter="StackPanel_MouseEnter_1" MouseLeave="StackPanel_MouseLeave_1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="15*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/LitKit;component/Resources/icons8-pencil-drawing-64.png" />
+                    <TextBlock x:Name="TextEdit" Grid.Row="1" Text="Edit" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                </Grid>
+                <Grid x:Name="GridInsert" Width="25" Margin="2" MouseEnter="StackPanel_MouseEnter_2" MouseLeave="StackPanel_MouseLeave_2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/LitKit;component/Resources/icons8-plus-math-60.png" />
+                    <TextBlock x:Name="TextInsert" Grid.Row="1" Text="Insert" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                </Grid>
             </StackPanel>
         </Border>
     </Grid>

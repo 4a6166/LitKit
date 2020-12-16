@@ -48,12 +48,21 @@ namespace LitKit1
         {
             log.Info("AddExhibitControlMain run start");
 
-            ExhibitMain = new ctrlExhibitMain();
+            //ExhibitMain = new ctrlExhibitMain();
+            //ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Citations Tool", window);
+            //ExhibitMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            //ExhibitTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
+            //ExhibitTaskPane.Width = 350;
+
+            //ExhibitPanes.Add(window, ExhibitTaskPane);
+
+
+            // adds WPF to Exhibit panel. Would need to handle everything by adding/removing other WPF controls from the CiteMain.
+            var ExhibitMain = new ControlsWPF.HoldingControl(new ControlsWPF.Citation.CiteMain());
             ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Citations Tool", window);
             ExhibitMain.Dock = System.Windows.Forms.DockStyle.Fill;
             ExhibitTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
             ExhibitTaskPane.Width = 350;
-            
 
             ExhibitPanes.Add(window, ExhibitTaskPane);
         }
@@ -103,7 +112,7 @@ namespace LitKit1
         }
         private void Application_DocumentClose(Word.Document doc, ref bool Cancel)
         {
-            ClearTaskPanes(doc.ActiveWindow);
+            //ClearTaskPanes(doc.ActiveWindow);  /*Causes panes to not be loadable if doc is closed then cancelled on save.*/
             Cancel = false;
         }
 
