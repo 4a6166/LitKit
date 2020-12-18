@@ -21,20 +21,71 @@ namespace LitKit1.ControlsWPF.Citation
     /// </summary>
     public partial class CiteMain : UserControl
     {
+        List<Exhibit> Citations;
+
         public CiteMain()
         {
             InitializeComponent();
+            this.Citations = new List<Exhibit>();
             AddTestExhibits();
+
+            AddSearchBar();
+            AddCitesToPanel();
         }
+
+        private void AddSearchBar()
+        {
+            Controls.SearchBar searchBar = new Controls.SearchBar(CiteBlockStackPanel);
+            Grid.SetColumn(searchBar, 1);
+            Grid.SetColumnSpan(searchBar, 2);
+            Grid.SetRow(searchBar, 1);
+            searchBar.HorizontalAlignment = HorizontalAlignment.Stretch;
+            searchBar.VerticalAlignment = VerticalAlignment.Top;
+            MainGrid.Children.Add(searchBar);
+        }
+
+        public void AddCitesToPanel()
+        {
+            foreach (Exhibit citation in Citations)
+            {
+                CiteBlock citeBlock = new CiteBlock(citation, CiteBlockStackPanel, 0, 1);
+                citeBlock.HorizontalAlignment = HorizontalAlignment.Stretch;
+                CiteBlockStackPanel.Children.Add(citeBlock);
+            }
+        }
+
 
         public void AddTestExhibits()
         {
-            for (int i = 0; i < 15; i++)
+            Exhibit exhibita = new Exhibit("2014.06.26 Risinger Deposition that took place on 6/26/2014", "DEF000001");
+            Citations.Add(exhibita);
+
+            for (int i = 0; i < 5; i++)
             {
                 Exhibit exhibit = new Exhibit("Test Exhibit " + i, "ABC0000" + i);
-                CiteBlock citeBlock = new CiteBlock(exhibit, CiteBlockStackPanel);
-                citeBlock.HorizontalAlignment = HorizontalAlignment.Stretch;
-                CiteBlockStackPanel.Children.Add(citeBlock);
+                exhibit.CiteType = CiteType.Exhibit;
+                Citations.Add(exhibit);
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                Exhibit exhibit = new Exhibit("Test Legal Cite " + i, "ABC0000" + i);
+                exhibit.CiteType = CiteType.Legal;
+                Citations.Add(exhibit);
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                Exhibit exhibit = new Exhibit("Test Record Cite " + i, "ABC0000" + i);
+                exhibit.CiteType = CiteType.Record;
+                Citations.Add(exhibit);
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                Exhibit exhibit = new Exhibit("Test Other Cite " + i, "ABC0000" + i);
+                exhibit.CiteType = CiteType.Other;
+                Citations.Add(exhibit);
             }
         }
     }

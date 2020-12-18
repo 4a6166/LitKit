@@ -47,6 +47,8 @@ namespace Tools.Exhibit
         public string Description { get; set; }
         public string BatesNumber { get; set; }
 
+        public CiteType CiteType { get; set; }
+
         
     }
 }

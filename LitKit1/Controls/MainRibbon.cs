@@ -907,11 +907,21 @@ namespace LitKit1
             stopwatch.Start();
 
             var b = new ControlsWPF.Citation.CiteMain();
+            b.Width = 100;
+
+
+            var holding = new ControlsWPF.HoldingControl(b);
+            holding.Dock = System.Windows.Forms.DockStyle.Fill;
 
             Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
+            ActivePane.Control.Controls.Clear();
+            ActivePane.Control.Controls.Add(holding);
+            
+            
             if (!ActivePane.Visible)
             {
                 ActivePane.Visible = true;
+                
             }
             else
             {

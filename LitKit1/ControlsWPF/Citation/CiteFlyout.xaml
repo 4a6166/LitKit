@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <Style TargetType="Button">
             <EventSetter Event="MouseEnter" Handler="ShowButtonText"/>
+            <EventSetter Event="MouseLeave" Handler="HideButtonText"/>
             <Setter Property="ClickMode" Value="Release"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
@@ -17,6 +18,7 @@
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="BorderBrush" Value="Transparent"/>
                 </Trigger>
+                
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
@@ -37,14 +39,14 @@
                     </Grid>
                 </Button>
                 <Button x:Name="btnEdit" Click="btnEdit_Click">
-                <Grid x:Name="GridEdit" Width="25" Margin="2" MouseEnter="StackPanel_MouseEnter_1" MouseLeave="StackPanel_MouseLeave_1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="15*"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-                    <Image Source="/LitKit;component/Resources/icons8-pencil-drawing-64.png" />
-                    <TextBlock x:Name="TextEdit" Grid.Row="1" Text="Edit" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
-                </Grid>
+                    <Grid x:Name="GridEdit" Width="25" Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Source="/LitKit;component/Resources/icons8-pencil-drawing-64.png" />
+                        <TextBlock x:Name="TextEdit" Grid.Row="1" Text="Edit" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                    </Grid>
                 </Button>
                 <Button x:Name="btnInsert" Click="btnInsert_Click">
                     <Grid  Width="25" Margin="2" >

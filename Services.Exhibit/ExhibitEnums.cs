@@ -52,8 +52,11 @@ namespace Tools.Exhibit
     public enum CiteType
     {
         None,
-        Exhibit,
+        Exhibit, 
         LegalOrRecordCitation,
+        Legal,
+        Record,
+        Other,
     }
 
 

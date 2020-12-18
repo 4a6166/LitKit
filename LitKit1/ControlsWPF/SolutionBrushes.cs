@@ -21,21 +21,17 @@ namespace LitKit1.ControlsWPF
         public static Brush Primary_MidRed = (Brush)new BrushConverter().ConvertFromString("#d9ab9f");
         public static Brush Primary_LightRed = (Brush)new BrushConverter().ConvertFromString("#e8c9c3");
 
+        public static Brush RecordCite = (Brush)new BrushConverter().ConvertFromString("#ffadad");
+        public static Brush Cite2 = (Brush)new BrushConverter().ConvertFromString("#ffd6a5");
+        public static Brush Cite3 = (Brush)new BrushConverter().ConvertFromString("#fdffb6");
+        public static Brush Exhibit = (Brush)new BrushConverter().ConvertFromString("#caffbf");
+        public static Brush Cite5 = (Brush)new BrushConverter().ConvertFromString("#9bf6ff");
+        public static Brush Cite6 = (Brush)new BrushConverter().ConvertFromString("#a0c4ff");
+        public static Brush LegalCite = (Brush)new BrushConverter().ConvertFromString("#bdb2ff");
+        public static Brush Cite8 = (Brush)new BrushConverter().ConvertFromString("#ffc6ff");
+        public static Brush OtherCite = (Brush)new BrushConverter().ConvertFromString("#fffffc");
 
-        public static Brush Blue_Darkest = (Brush)new BrushConverter().ConvertFromString("#5285ba");
-        public static Brush Blue_Dark = (Brush)new BrushConverter().ConvertFromString("#6090c0");
-        public static Brush Blue_Mid = (Brush)new BrushConverter().ConvertFromString("#7fa5cc");
-        public static Brush Blue_Light = (Brush)new BrushConverter().ConvertFromString("#bbd0e4");
 
-        public static Brush Red_Darkest = (Brush)new BrushConverter().ConvertFromString("#d65634");
-        public static Brush Red_Dark = (Brush)new BrushConverter().ConvertFromString("#dc7f65");
-        public static Brush Red_Mid = (Brush)new BrushConverter().ConvertFromString("#e1a493");
-        public static Brush Red_Light = (Brush)new BrushConverter().ConvertFromString("#e5c2b8");
-
-        public static Brush Orange_Darkest = (Brush)new BrushConverter().ConvertFromString("#5285ba");
-        public static Brush Orange_Dark = (Brush)new BrushConverter().ConvertFromString("#6090c0");
-        public static Brush Orange_Mid = (Brush)new BrushConverter().ConvertFromString("#7fa5cc");
-        public static Brush Orange_Light = (Brush)new BrushConverter().ConvertFromString("#bbd0e4");
 
     }
 

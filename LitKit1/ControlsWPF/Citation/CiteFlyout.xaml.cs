@@ -23,6 +23,8 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void StackPanel_MouseEnter_1(object sender, MouseEventArgs e)
         {
+            btnEdit.Background = Brushes.Transparent;
+            btnEdit.BorderBrush = Brushes.Transparent;
             TextEdit.Visibility = Visibility.Visible;
         }
 
@@ -58,13 +60,21 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void ShowButtonText(object sender, MouseEventArgs e)
         {
-            
             var button = (Button)sender;
             button.BorderBrush = Brushes.Transparent;
             button.Background = Brushes.Transparent;
 
             var grid = (Grid)button.Content;
             grid.Children[1].Visibility = Visibility.Visible;
+        }
+        private void HideButtonText(object sender, MouseEventArgs e)
+        {
+            var button = (Button)sender;
+            button.BorderBrush = Brushes.Transparent;
+            button.Background = Brushes.Transparent;
+
+            var grid = (Grid)button.Content;
+            grid.Children[1].Visibility = Visibility.Collapsed;
         }
 
         private void btnInsert_Click(object sender, RoutedEventArgs e)

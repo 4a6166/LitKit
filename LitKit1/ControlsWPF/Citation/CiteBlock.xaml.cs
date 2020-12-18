@@ -7,18 +7,21 @@ using Word = Microsoft.Office.Interop.Word;
 
 namespace LitKit1.ControlsWPF.Citation
 {
-    /// <summary>
-    /// Interaction logic for CiteBlock.xaml
-    /// </summary>
     public partial class CiteBlock : UserControl
     {
+        #region Attributes
         public Exhibit exhibit { get; private set; }
+        public string CiteFormat { get; private set; }
+        public int citeCountInt { get; set; }
+        public Brush TypeIndicatorColor { get; set; }
         public Word.Application _app { get; private set; }
 
         public StackPanel StackPanelParent { get; private set; }
         public CiteFlyout Flyout { get; private set; }
 
-        public CiteBlock(Exhibit exhibit, StackPanel Parent)
+        #endregion
+
+        public CiteBlock(Exhibit exhibit, StackPanel Parent, int citeCount, int ExhibitNumber=1)
         {
             this.exhibit = exhibit;
             this._app = Globals.ThisAddIn.Application;
@@ -26,6 +29,18 @@ namespace LitKit1.ControlsWPF.Citation
 
             InitializeComponent();
             this.Flyout = AddFlyout();
+            CiteRefName.Text = exhibit.Description;
+            CiteFormat = @"Exhibit {INDEX}, {DESC} {PINCITE}({BATES})";
+            CiteLongExample.Text = ExhibitFormatter.FormatCite(exhibit, CiteFormat, NumberingOptions.Numbers, 1, ExhibitNumber);
+
+
+            this.citeCountInt = citeCount;
+            this.CiteCount.Text = citeCount.ToString();
+
+            setTypeIndicatorColor();
+            CiteTypeIndicator.BorderBrush = TypeIndicatorColor;
+            setTypeIndicatorFill();
+
         }
 
         private CiteFlyout AddFlyout()
@@ -42,8 +57,39 @@ namespace LitKit1.ControlsWPF.Citation
             return flyout;
         }
 
-        static BrushConverter bc = new BrushConverter();
-        Brush GridSelectedBrush = (Brush) bc.ConvertFrom("#00FFFF00"); //Does not work.
+        private void setTypeIndicatorColor()
+        {
+            switch (exhibit.CiteType)
+            {
+                case CiteType.Exhibit:
+                    TypeIndicatorColor = SolutionBrushes.Exhibit;
+                    break;
+                case CiteType.Legal:
+                    TypeIndicatorColor = SolutionBrushes.LegalCite;
+                    break;
+                case CiteType.Record:
+                    TypeIndicatorColor = SolutionBrushes.RecordCite;
+                    break;
+                case CiteType.Other:
+                    TypeIndicatorColor = SolutionBrushes.OtherCite;
+                    break;
+                default:
+                    TypeIndicatorColor = SolutionBrushes.OtherCite;
+                    break;
+            }
+        }
+
+        private void setTypeIndicatorFill()
+        {
+            if (citeCountInt > 0)
+            {
+                CiteTypeIndicator.Background = TypeIndicatorColor;
+            }
+            else
+            { 
+                CiteTypeIndicator.Background = Brushes.Transparent; 
+            }
+        }
 
         private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {

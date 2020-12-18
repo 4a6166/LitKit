@@ -330,6 +330,9 @@
     <Compile Include="ControlsWPF\Base.xaml.cs">
       <DependentUpon>Base.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SearchBar.xaml.cs">
+      <DependentUpon>SearchBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -466,6 +469,12 @@
     <None Include="Resources\Group.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\clear-thumb.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\search-thumb.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <EmbeddedResource Include="Resources\Redact Cursor.cur">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -561,6 +570,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlsWPF\Loading.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SearchBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,11 +8,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="53" d:DesignWidth="350" Margin="2">
 
-        <Grid x:Name="MainGrid" Background="WhiteSmoke" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
+    <Grid x:Name="MainGrid" Background="WhiteSmoke" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -22,13 +22,13 @@
             <RowDefinition Height="Auto"/>
             <!--<RowDefinition Height=".5"/>-->
         </Grid.RowDefinitions>
-        <Border x:Name="CiteTypeIndicator" Grid.Column="1" Grid.RowSpan="3" Width="auto" Height="auto" Margin="2,1,0,1" BorderThickness="0" CornerRadius="3" BorderBrush="Transparent" Background="DarkGreen" />
+        <Border x:Name="CiteTypeIndicator" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Width="auto" Height="auto" Margin="-1,1,0,1" BorderThickness="2.5" CornerRadius="3" BorderBrush="DarkGreen" Background="DarkGreen" />
         <TextBlock x:Name="CiteRefName" 
                    Height="auto"  
                    Grid.Column="2" Grid.ColumnSpan="1" 
                    Grid.Row="1" 
                    Text="Long Description" 
-                   FontSize="12" FontWeight="Bold" 
+                   FontSize="13" FontWeight="Heavy"
                    Margin="4,2,0,2" 
                    TextTrimming="CharacterEllipsis"/>
         <TextBlock x:Name="CiteLongExample" 
@@ -37,11 +37,20 @@
                    Height="auto" Width="187" Margin="2,2,0,2"
                    HorizontalAlignment="Left" 
                    Text="Exhibit 1, Example Long Cite Text for and Exhibit" 
-                   FontWeight="Light" FontSize="10"
+                   FontWeight="Light" FontSize="10" 
                    TextTrimming="CharacterEllipsis"
                      />
-        <TextBlock x:Name="CiteCount" Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Text="0" FontSize="30" FontWeight="Bold" Foreground="SlateGray" HorizontalAlignment="Center" VerticalAlignment="Top" />
-        <TextBlock Grid.Column="3" Grid.Row="2" Text="Cites in Document" FontSize="8" Foreground="SlateGray" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <TextBlock x:Name="CiteCount" 
+                   Grid.Column="3" 
+                   Grid.Row="1" Grid.RowSpan="2" 
+                   Text="0" 
+                   FontSize="25" FontWeight="Bold" Foreground="SlateGray" 
+                   HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <TextBlock 
+            Grid.Column="3" 
+            Grid.Row="2" 
+            Text="Cites in Document" FontSize="9" Foreground="SlateGray" 
+            HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
     </Grid>
     
     <!--Reorganize so single button contains everything but the flyout and has the double click to insert method. Have it collapse when the "Are you sure you want to Delete" flyout appears-->
