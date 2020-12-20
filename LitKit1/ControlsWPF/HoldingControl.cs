@@ -7,13 +7,13 @@ namespace LitKit1.ControlsWPF
 {
     public partial class HoldingControl : UserControl
     {
-        public HoldingControl(WPF.UserControl WPF)
+        public HoldingControl()
         {
             InitializeComponent();
-            AddWPF(WPF);
+
         }
 
-        private void AddWPF(WPF.UserControl WPF)
+        public void AddWPF(WPF.UserControl WPF)
         {
 
             ElementHost host = new ElementHost();

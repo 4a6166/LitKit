@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TESTToolsCitation.cs" />
     <Compile Include="ExhibitFormatter.cs" />
     <Compile Include="LegalRecordCites.cs" />
     <Compile Include="Pincite.cs" />

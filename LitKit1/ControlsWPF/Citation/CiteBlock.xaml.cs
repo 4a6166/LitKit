@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Tools.Exhibit;
+using Tools.Citation;
 using Word = Microsoft.Office.Interop.Word;
 
 namespace LitKit1.ControlsWPF.Citation
@@ -10,7 +10,7 @@ namespace LitKit1.ControlsWPF.Citation
     public partial class CiteBlock : UserControl
     {
         #region Attributes
-        public Exhibit exhibit { get; private set; }
+        public Tools.Exhibit.Citation citation { get; private set; }
         public string CiteFormat { get; private set; }
         public int citeCountInt { get; set; }
         public Brush TypeIndicatorColor { get; set; }
@@ -21,17 +21,16 @@ namespace LitKit1.ControlsWPF.Citation
 
         #endregion
 
-        public CiteBlock(Exhibit exhibit, StackPanel Parent, int citeCount, int ExhibitNumber=1)
+        public CiteBlock(Tools.Exhibit.Citation citation, string LongExampleText, StackPanel Parent, int citeCount, int ExhibitNumber=1)
         {
-            this.exhibit = exhibit;
+            this.citation = citation;
             this._app = Globals.ThisAddIn.Application;
             this.StackPanelParent = Parent;
 
             InitializeComponent();
             this.Flyout = AddFlyout();
-            CiteRefName.Text = exhibit.Description;
-            CiteFormat = @"Exhibit {INDEX}, {DESC} {PINCITE}({BATES})";
-            CiteLongExample.Text = ExhibitFormatter.FormatCite(exhibit, CiteFormat, NumberingOptions.Numbers, 1, ExhibitNumber);
+            CiteRefName.Text = citation.LongDescription;
+            CiteLongExample.Text = LongExampleText;
 
 
             this.citeCountInt = citeCount;
@@ -59,18 +58,18 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void setTypeIndicatorColor()
         {
-            switch (exhibit.CiteType)
+            switch (citation.CiteType)
             {
-                case CiteType.Exhibit:
+                case Tools.Exhibit.CiteTypea.Exhibit:
                     TypeIndicatorColor = SolutionBrushes.Exhibit;
                     break;
-                case CiteType.Legal:
+                case Tools.Exhibit.CiteTypea.Legal:
                     TypeIndicatorColor = SolutionBrushes.LegalCite;
                     break;
-                case CiteType.Record:
+                case Tools.Exhibit.CiteTypea.Record:
                     TypeIndicatorColor = SolutionBrushes.RecordCite;
                     break;
-                case CiteType.Other:
+                case Tools.Exhibit.CiteTypea.Other:
                     TypeIndicatorColor = SolutionBrushes.OtherCite;
                     break;
                 default:
@@ -105,7 +104,7 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            _app.Selection.TypeText(exhibit.Description);
+            _app.Selection.TypeText(citation.LongDescription);
         }
     }
 }

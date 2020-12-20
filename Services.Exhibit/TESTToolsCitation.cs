@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tools.Citation
+namespace Tools.Exhibit
 {
+    /// <summary>
+    /// Test since Tools.Citation did not work. Expected issue: downgrading from Framework 4.8
+    /// </summary>
     public class Citation
     {
         public string ID { get; private set; }
@@ -16,7 +19,7 @@ namespace Tools.Citation
         /// </summary>
         public string ReferenceName { get; set; }
 
-        public CiteType CiteType { get; set; }
+        public CiteTypea CiteType { get; set; }
 
         /// <summary>
         /// To be inserted with the long cite
@@ -34,7 +37,7 @@ namespace Tools.Citation
         public string OtherIdentifier { get; set; }
         #endregion
 
-        public Citation(string ID, CiteType CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName="")
+        public Citation(string ID, CiteTypea CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName="")
         {
             this.ID = ID;
             this.ReferenceName = ReferenceName;
@@ -44,7 +47,7 @@ namespace Tools.Citation
             this.CiteType = CiteType;
         }
 
-        public Citation (CiteType CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName = "")
+        public Citation (CiteTypea CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName = "")
         {
             this.ID = Guid.NewGuid().ToString();
             this.ReferenceName = ReferenceName;
@@ -64,7 +67,7 @@ namespace Tools.Citation
     }
 
     [Flags]
-    public enum CiteType
+    public enum CiteTypea
     {
         None = 0,
         Exhibit = 1,

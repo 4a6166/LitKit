@@ -58,8 +58,8 @@ namespace LitKit1
 
 
             // adds WPF to Exhibit panel. Would need to handle everything by adding/removing other WPF controls from the CiteMain.
-            var ExhibitMain = new ControlsWPF.HoldingControl(new ControlsWPF.Citation.CiteMain());
-            ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Citations Tool", window);
+            var ExhibitMain = new ControlsWPF.HoldingControl();
+            ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Citation Tool", window);
             ExhibitMain.Dock = System.Windows.Forms.DockStyle.Fill;
             ExhibitTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
             ExhibitTaskPane.Width = 350;

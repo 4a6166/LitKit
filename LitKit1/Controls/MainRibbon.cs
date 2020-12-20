@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using LitKit1.Controls;
 using LitKit1.Controls.RedactionControls;
@@ -12,15 +11,11 @@ using Tools.Exhibit;
 using Tools.RedactionTool;
 using Tools.Simple;
 using LitKit1.Controls.AnsResControls;
-using Tools.Response;
 using Services.Licensing;
 using System.IO;
-using System.Windows.Forms.Integration;
 using System.Text.RegularExpressions;
+using Tools.Citation;
 using System.Collections.Generic;
-using System.Threading;
-using Input = System.Windows.Input;
-using System.Collections.ObjectModel;
 
 namespace LitKit1
 {
@@ -300,20 +295,25 @@ namespace LitKit1
 
         private void AddExhibtsForTest(object sender, RibbonControlEventArgs e)
         {
-            ExhibitRepository repository = new ExhibitRepository(_app);
+            //ExhibitRepository repository = new ExhibitRepository(_app);
 
-            if (repository.GetExhibits().Count() == 0)
-            {
-                repository.AddExhibit("A" + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            }
+            //if (repository.GetExhibits().Count() == 0)
+            //{
+            //    repository.AddExhibit("A" + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            //}
 
-            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            //repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            //repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            //repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+            //repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
 
-            frmToast toast = new frmToast(_app.ActiveWindow);
-            toast.OpenToast("Test Exhibits Added", "Remove before production.", 1000);
+            //frmToast toast = new frmToast(_app.ActiveWindow);
+            //toast.OpenToast("Test Exhibits Added", "Remove before production.", 1000);
+
+            CiteHelper helper = new CiteHelper(_app);
+            helper.repository.AddTestCitations();
+            MessageBox.Show("Test Citations Added");
+
         }
 
         private void btnPinCite_Click(object sender, RibbonControlEventArgs e)
@@ -903,33 +903,41 @@ namespace LitKit1
         {
 
             _app.UndoRecord.StartCustomRecord("Test Action");
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            //var stopwatch = new Stopwatch();
+            //stopwatch.Start();
 
-            var b = new ControlsWPF.Citation.CiteMain();
-            b.Width = 100;
-
-
-            var holding = new ControlsWPF.HoldingControl(b);
-            holding.Dock = System.Windows.Forms.DockStyle.Fill;
 
             Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
-            ActivePane.Control.Controls.Clear();
-            ActivePane.Control.Controls.Add(holding);
-            
-            
+            var ctrl = (ControlsWPF.HoldingControl)ActivePane.Control;
+
             if (!ActivePane.Visible)
             {
                 ActivePane.Visible = true;
-                
+
             }
             else
             {
                 ActivePane.Visible = false;
             }
 
-            stopwatch.Stop();
-            MessageBox.Show("Time: " + stopwatch.Elapsed);
+            var b = new ControlsWPF.Citation.CiteMain();
+            ctrl.AddWPF(b);
+
+            var citeExample = new Tools.Exhibit.Citation(Tools.Exhibit.CiteTypea.Exhibit, "Long Desc Example");
+            var citeExampleList = new List<Tools.Exhibit.Citation>()
+            {
+                citeExample,
+                citeExample,
+                citeExample
+            };
+
+            b.AddCitesToPanel(citeExampleList);
+
+
+
+
+            //stopwatch.Stop();
+            //MessageBox.Show("Time: " + stopwatch.Elapsed);
             _app.UndoRecord.EndCustomRecord();
 
         }
