@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Citations xmlns="Prelimine Litkit Citation Tool">
+  <Format xmlns="">
+    <Intro>Exhibit</Intro>
+    <Long>{INTRO} {INDEX}, {DESC}</Long>
+    <Short>{INTRO} {INDEX}</Short>
+    <IndexStyle>Numbers</IndexStyle>
+    <IndexStart>1</IndexStart>
+    <Parentheses>False</Parentheses>
+    <IdCite>True</IdCite>
+  </Format>
+  <Citation xmlns="">
+    <ID>4cfee769-2333-42d8-bbe1-7e65e1961f7c</ID>
+    <RefName>An Example Exhibit</RefName>
+    <Type>Exhibit</Type>
+    <Long>This is an example of a long description {PIN}</Long>
+    <Short>{PIN} Short Desc</Short>
+    <OtherID>978742a49976200ae5b1c1c2</OtherID>
+  </Citation>
+  <Citation>
+    <ID>4cfee769-2333-42d8-bbe1-7e65e1961f71</ID>
+    <RefName>An Example Legal Cite</RefName>
+    <Type>Legal</Type>
+    <Long>This is an example of a Legal cite long description {PIN}</Long>
+    <Short>{PIN} Short legal desc</Short>
+    <OtherID>978742a49976200ae5b1c1d1</OtherID>
+  </Citation>
+</Citations>
