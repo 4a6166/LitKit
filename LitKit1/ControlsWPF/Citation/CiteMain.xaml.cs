@@ -25,18 +25,18 @@ namespace LitKit1.ControlsWPF.Citation
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        Application _app;
-        //CiteHelper helper;
-        //CitationRepository repository;        
+        public Application _app { get; private set; }
+        public CiteHelper helper { get; private set; }
+        public CitationRepository repository { get; private set; }
 
         public CiteMain()
         {
             log.Debug("CiteMain started");
 
             this._app = Globals.ThisAddIn.Application;
-            
-            //this.helper = new CiteHelper(_app);
-            //this.repository = helper.repository;
+
+            this.helper = new CiteHelper(_app);
+            this.repository = helper.repository;
 
 
             InitializeComponent();
@@ -44,11 +44,9 @@ namespace LitKit1.ControlsWPF.Citation
             
             AddSearchBar();
 
-            //var test = TestCites();
-            //log.Debug("Test Cites Created");
+            repository.AddTestCitations();
+            AddCitesToPanel(repository.Citations);
 
-            //AddCitesToPanel(test);
-            //log.Debug("Test Cites added to the panel");
         }
 
         private void AddSearchBar()
@@ -59,15 +57,15 @@ namespace LitKit1.ControlsWPF.Citation
             Grid.SetRow(searchBar, 1);
             searchBar.HorizontalAlignment = HorizontalAlignment.Stretch;
             searchBar.VerticalAlignment = VerticalAlignment.Top;
-            MainGrid.Children.Add(searchBar);
+            SearchStackPanel.Children.Insert(0,searchBar);
         }
 
-        public void AddCitesToPanel(List<Tools.Exhibit.Citation> citations)
+        public void AddCitesToPanel(List<Tools.Citation.Citation> citations)
         {
-            foreach (Tools.Exhibit.Citation citation in citations)
+            foreach (Tools.Citation.Citation citation in citations)
             {
                 string LongExample = citation.CiteType.ToString() + " 1, "+citation.LongDescription;  //repository.CiteFormatting.FormatCiteText(citation, CitePlacementType.Long, null, 1);
-                CiteBlock citeBlock = new CiteBlock(citation, LongExample, CiteBlockStackPanel, 0, 1);
+                CiteBlock citeBlock = new CiteBlock(this, CiteBlockStackPanel, citation, LongExample, 0, 1);
                 citeBlock.HorizontalAlignment = HorizontalAlignment.Stretch;
                 CiteBlockStackPanel.Children.Add(citeBlock);
             }
@@ -76,6 +74,7 @@ namespace LitKit1.ControlsWPF.Citation
 
         public List<Tools.Citation.Citation>TestCites()
         {
+            log.Debug("Test Cites Created");
             List<Tools.Citation.Citation> citations = new List<Tools.Citation.Citation>();
 
             Tools.Citation.Citation citationFirst = new Tools.Citation.Citation("TESTID1", CiteType.Other, "Test First Citation LongDescription");

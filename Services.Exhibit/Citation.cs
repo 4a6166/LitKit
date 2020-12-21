@@ -4,11 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tools.Exhibit
+namespace Tools.Citation
 {
-    /// <summary>
-    /// Test since Tools.Citation did not work. Expected issue: downgrading from Framework 4.8
-    /// </summary>
     public class Citation
     {
         public string ID { get; private set; }
@@ -19,7 +16,7 @@ namespace Tools.Exhibit
         /// </summary>
         public string ReferenceName { get; set; }
 
-        public CiteTypea CiteType { get; set; }
+        public CiteType CiteType { get; set; }
 
         /// <summary>
         /// To be inserted with the long cite
@@ -37,7 +34,7 @@ namespace Tools.Exhibit
         public string OtherIdentifier { get; set; }
         #endregion
 
-        public Citation(string ID, CiteTypea CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName="")
+        public Citation(string ID, CiteType CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName="")
         {
             this.ID = ID;
             this.ReferenceName = ReferenceName;
@@ -47,7 +44,7 @@ namespace Tools.Exhibit
             this.CiteType = CiteType;
         }
 
-        public Citation (CiteTypea CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName = "")
+        public Citation (CiteType CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName = "")
         {
             this.ID = Guid.NewGuid().ToString();
             this.ReferenceName = ReferenceName;
@@ -65,48 +62,4 @@ namespace Tools.Exhibit
 
          
     }
-
-    [Flags]
-    public enum CiteTypea
-    {
-        None = 0,
-        Exhibit = 1,
-        Legal = 2,
-        Record = 4,
-        Other = 8,
-
-        All = Exhibit | Legal | Record | Other,
-        Outside = Legal | Record | Other,
-    }
-
-    [Flags]
-    public enum ExhibitIndexStyle
-    {
-        Empty = 0,
-        Numbers = 1,
-        Letters = 2,
-        Roman = 4,
-    }
-
-    [Flags]
-    public enum FormatNode
-    {
-        Intro = 1,
-        Long = 2,
-        Short = 4,
-        IndexStyle = 8,
-        IndexStart = 16,
-        Parentheses = 32,
-        IdCite = 64
-    }
-
-    [Flags]
-    public enum CitePlacementType
-    {
-        None = 0,
-        Long = 1,
-        Short = 2,
-        Id = 4
-    }
-
 }

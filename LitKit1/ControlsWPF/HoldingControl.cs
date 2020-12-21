@@ -10,7 +10,12 @@ namespace LitKit1.ControlsWPF
         public HoldingControl()
         {
             InitializeComponent();
+        }
 
+        public HoldingControl(WPF.UserControl WPF)
+        {
+            InitializeComponent();
+            AddWPF(WPF);
         }
 
         public void AddWPF(WPF.UserControl WPF)

@@ -7,22 +7,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="40" d:DesignWidth="100">
     <UserControl.Resources>
-        <Style TargetType="Button">
+        <Style TargetType="{x:Type Button}">
             <EventSetter Event="MouseEnter" Handler="ShowButtonText"/>
             <EventSetter Event="MouseLeave" Handler="HideButtonText"/>
-            <Setter Property="ClickMode" Value="Release"/>
+            <Setter Property="Opacity" Value="1"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
-            <Style.Triggers>
+            <!--<Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Button.Opacity" Value="1" />
+                    <Setter Property="Button.Background" Value="Transparent" />
+                    <Setter Property="Button.BorderBrush" Value="Transparent"/>
                 </Trigger>
-                
-            </Style.Triggers>
+            </Style.Triggers>-->
         </Style>
     </UserControl.Resources>
-    <Grid>
+            <Grid>
         <Border x:Name="Flyout" MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Width="auto" Height="36" BorderThickness="1" BorderBrush="LightGray" CornerRadius="10,0, 0, 10" Background="LightGray" Visibility="Visible">
             <StackPanel  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,-1,-1,-1">
                 <Button x:Name="btnDelete" Click="btnDelete_Click">

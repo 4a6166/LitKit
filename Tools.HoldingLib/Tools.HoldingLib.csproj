@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2DD16283-7256-4DB0-8494-65074C6AD1E0}</ProjectGuid>
+    <ProjectGuid>{413E09F6-2767-410C-B0AB-1AE86C43FBDA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tools.Citation</RootNamespace>
-    <AssemblyName>Tools.Citation</AssemblyName>
+    <RootNamespace>Tools.HoldingLib</RootNamespace>
+    <AssemblyName>Tools.HoldingLib</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,15 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,31 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Citation.cs" />
-    <Compile Include="CitationEnums.cs" />
-    <Compile Include="CitationRepository.cs" />
-    <Compile Include="CiteFormatting.cs" />
-    <Compile Include="CiteHelper.cs" />
-    <Compile Include="CitePositionReference.cs" />
+    <Compile Include="CitationReference.cs" />
+    <Compile Include="Exhibit.cs" />
+    <Compile Include="ExhibitEnums.cs" />
+    <Compile Include="ExhibitFormatter.cs" />
+    <Compile Include="ExhibitHelper.cs" />
+    <Compile Include="ExhibitIndex.cs" />
+    <Compile Include="ExhibitRepository.cs" />
+    <Compile Include="LegalRecordCites.cs" />
+    <Compile Include="Pincite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Services.Base\Services.Base.csproj">
-      <Project>{a6acc4d7-446c-44a8-950c-93bdebc5fee1}</Project>
-      <Name>Services.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Services.License\Services.License.csproj">
-      <Project>{f7dfe3b3-c6a5-4692-8561-86afbd093478}</Project>
-      <Name>Services.License</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CitationsCustomXMLFrame.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

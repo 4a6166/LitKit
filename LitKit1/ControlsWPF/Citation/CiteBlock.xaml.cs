@@ -10,24 +10,31 @@ namespace LitKit1.ControlsWPF.Citation
     public partial class CiteBlock : UserControl
     {
         #region Attributes
-        public Tools.Exhibit.Citation citation { get; private set; }
+        public Tools.Citation.Citation citation { get; private set; }
         public string CiteFormat { get; private set; }
         public int citeCountInt { get; set; }
         public Brush TypeIndicatorColor { get; set; }
         public Word.Application _app { get; private set; }
 
+        public CiteMain CiteMain { get; private set; }
         public StackPanel StackPanelParent { get; private set; }
         public CiteFlyout Flyout { get; private set; }
 
+
+
         #endregion
 
-        public CiteBlock(Tools.Exhibit.Citation citation, string LongExampleText, StackPanel Parent, int citeCount, int ExhibitNumber=1)
+        public CiteBlock(CiteMain citeMain, StackPanel Parent, Tools.Citation.Citation citation, string LongExampleText, int citeCount, int ExhibitNumber=1)
         {
             this.citation = citation;
             this._app = Globals.ThisAddIn.Application;
+            this.CiteMain = citeMain;
             this.StackPanelParent = Parent;
 
             InitializeComponent();
+            this.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+
             this.Flyout = AddFlyout();
             CiteRefName.Text = citation.LongDescription;
             CiteLongExample.Text = LongExampleText;
@@ -44,9 +51,9 @@ namespace LitKit1.ControlsWPF.Citation
 
         private CiteFlyout AddFlyout()
         {
-            var flyout = new CiteFlyout(this, StackPanelParent);
-            Grid.SetColumn(flyout, 3);
-            Grid.SetRow(flyout, 1);
+            var flyout = new CiteFlyout(this, StackPanelParent, CiteMain);
+            Grid.SetColumn(flyout, 1);
+            Grid.SetRow(flyout, 0);
             Grid.SetRowSpan(flyout, 2);
             flyout.Width = 100;
             flyout.Visibility = Visibility.Collapsed;
@@ -60,16 +67,16 @@ namespace LitKit1.ControlsWPF.Citation
         {
             switch (citation.CiteType)
             {
-                case Tools.Exhibit.CiteTypea.Exhibit:
+                case Tools.Citation.CiteType.Exhibit:
                     TypeIndicatorColor = SolutionBrushes.Exhibit;
                     break;
-                case Tools.Exhibit.CiteTypea.Legal:
+                case Tools.Citation.CiteType.Legal:
                     TypeIndicatorColor = SolutionBrushes.LegalCite;
                     break;
-                case Tools.Exhibit.CiteTypea.Record:
+                case Tools.Citation.CiteType.Record:
                     TypeIndicatorColor = SolutionBrushes.RecordCite;
                     break;
-                case Tools.Exhibit.CiteTypea.Other:
+                case Tools.Citation.CiteType.Other:
                     TypeIndicatorColor = SolutionBrushes.OtherCite;
                     break;
                 default:
@@ -92,19 +99,24 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainGrid.Background = Brushes.LightSlateGray;
+            MainGrid.Background = SolutionBrushes.Primary_LightGrey;
             Flyout.Visibility = Visibility.Visible;
         }
 
         private void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
-            MainGrid.Background = Brushes.WhiteSmoke;
+            MainGrid.Background = SolutionBrushes.RibbonBackground; //#f3f2f1
             Flyout.Visibility = Visibility.Collapsed;
         }
 
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             _app.Selection.TypeText(citation.LongDescription);
+        }
+
+        private void CiteButton_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CiteMain.helper.InsertCiteAtSelection(citation);
         }
     }
 }

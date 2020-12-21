@@ -58,16 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TESTToolsCitation.cs" />
-    <Compile Include="ExhibitFormatter.cs" />
-    <Compile Include="LegalRecordCites.cs" />
-    <Compile Include="Pincite.cs" />
-    <Compile Include="Exhibit.cs" />
-    <Compile Include="ExhibitEnums.cs" />
-    <Compile Include="ExhibitHelper.cs" />
-    <Compile Include="ExhibitIndex.cs" />
-    <Compile Include="ExhibitRepository.cs" />
-    <Compile Include="CitationReference.cs" />
+    <Compile Include="Citation.cs" />
+    <Compile Include="CitationEnums.cs" />
+    <Compile Include="CitationRepository.cs" />
+    <Compile Include="CiteFormatting.cs" />
+    <Compile Include="CiteHelper.cs" />
+    <Compile Include="CitePositionReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +75,9 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="sn.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CitationsCustomXMLFrame.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -42,7 +42,7 @@ namespace Tools.Citation
         private void FrameCustomXMLDoc()
         {
             //TODO: make string embedded  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            string CitationFrame = new StreamReader(@"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\Tools.Citation\CitationsCustomXMLFrame.xml", Encoding.UTF8).ReadToEnd();
+            string CitationFrame = new StreamReader(@"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\Services.Exhibit\CitationsCustomXMLFrame.xml", Encoding.UTF8).ReadToEnd();
             _app.ActiveDocument.CustomXMLParts.Add(CitationFrame);
         }
 
@@ -227,10 +227,25 @@ namespace Tools.Citation
 
         public void AddTestCitations()
         {
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 5; i++)
             {
-                AddCitation(new Citation(i.ToString(), CiteType.Exhibit, "Long Description "+i, "Short "+i));
-            }           
+                AddCitation(new Citation(i.ToString(), CiteType.Exhibit, "Long Description " + i, "Short " + i));
+            }
+
+            for (int i = 1; i <= 5; i++)
+            {
+                AddCitation(new Citation(i.ToString(), CiteType.Legal, "Long Description " + i, "Short " + i));
+            }
+
+            for (int i = 1; i <= 5; i++)
+            {
+                AddCitation(new Citation(i.ToString(), CiteType.Record, "Long Description " + i, "Short " + i));
+            }
+
+            for (int i = 1; i <= 5; i++)
+            {
+                AddCitation(new Citation(i.ToString(), CiteType.Other, "Long Description " + i, "Short " + i));
+            }
         }
     }
 }

@@ -8,7 +8,6 @@
 using System.Collections.Generic;
 using Word = Microsoft.Office.Interop.Word;
 using Microsoft.Office.Interop.Word;
-using LitKit1.Controls.ExhibitControls;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Core;
 using LitKit1.Controls.AnsResControls;
@@ -17,6 +16,21 @@ namespace LitKit1
 {
     public partial class ThisAddIn
     {
+        public Microsoft.Office.Tools.CustomTaskPane CitationTaskPane;
+        /// <summary>
+        /// Needed to get the correct Citation Pane for each document window. 
+        /// </summary>
+        public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> CitationPanes = new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
+
+
+        public ctrlAnsResMain AnsResMain;
+        public Microsoft.Office.Tools.CustomTaskPane AnsResTaskPane;
+        /// <summary>
+        /// Needed to get the correct Answer/Response Pane for each document window. Call Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow]; and ActivePane.Control.Controls.Clear(); when trying to update the controls for a pane.
+        /// </summary>
+        public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> AnsResPanes = new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
+
+
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             log4net.Config.XmlConfigurator.Configure();
@@ -39,38 +53,24 @@ namespace LitKit1
             log.Info("AddTaskPane run start");
 
             ClearTaskPanes(doc.ActiveWindow);
-            AddExhibitControlMain(doc.ActiveWindow);
+            AddCitationControlMain(doc.ActiveWindow);
             AddAnsResControlMain(doc.ActiveWindow);
 
         }
 
-        public void AddExhibitControlMain(object window)
+        public void AddCitationControlMain(object window)
         {
-            log.Info("AddExhibitControlMain run start");
+            log.Info("AddCitationControlMain run start");
 
-            //ExhibitMain = new ctrlExhibitMain();
-            //ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Citations Tool", window);
-            //ExhibitMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            //ExhibitTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
-            //ExhibitTaskPane.Width = 350;
+            var CitationMain = new ControlsWPF.HoldingControl(new ControlsWPF.Citation.CiteMain());
+            CitationTaskPane = this.CustomTaskPanes.Add(CitationMain, "LitKit Citation Tool", window);
+            CitationMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            CitationTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
+            CitationTaskPane.Width = 350;
 
-            //ExhibitPanes.Add(window, ExhibitTaskPane);
-
-
-            // adds WPF to Exhibit panel. Would need to handle everything by adding/removing other WPF controls from the CiteMain.
-            var ExhibitMain = new ControlsWPF.HoldingControl();
-            ExhibitTaskPane = this.CustomTaskPanes.Add(ExhibitMain, "LitKit Citation Tool", window);
-            ExhibitMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            ExhibitTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
-            ExhibitTaskPane.Width = 350;
-
-            ExhibitPanes.Add(window, ExhibitTaskPane);
+            CitationPanes.Add(window, CitationTaskPane);
         }
 
-        /// <summary>
-        /// Needed to get the correct Exhibit Pane for each document window. Call Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow]; and ActivePane.Control.Controls.Clear(); when trying to update the controls for a pane.
-        /// </summary>
-        public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> ExhibitPanes = new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
 
         public void AddAnsResControlMain(object window)
         {
@@ -85,21 +85,7 @@ namespace LitKit1
             AnsResPanes.Add(window, AnsResTaskPane);
         }
 
-        /// <summary>
-        /// Needed to get the correct Answer/Response Pane for each document window. Call Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow]; and ActivePane.Control.Controls.Clear(); when trying to update the controls for a pane.
-        /// </summary>
-        public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> AnsResPanes= new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
 
-        #region Adding Task Pane Controls
-
-        public ctrlExhibitMain ExhibitMain;
-        public Microsoft.Office.Tools.CustomTaskPane ExhibitTaskPane;
-
-        public ctrlAnsResMain AnsResMain;
-        public Microsoft.Office.Tools.CustomTaskPane AnsResTaskPane;
-        // Need to call AnsResPanes.Controls.Control.Visible = true;
-        
-        #endregion
 
         private void Application_DocumentOpen(Word.Document Doc)
         {

@@ -11,12 +11,14 @@ namespace LitKit1.ControlsWPF.Citation
     /// </summary>
     public partial class CiteFlyout : UserControl
     {
-        CiteBlock parentCiteBlock;
-        StackPanel parentStackPanel;
-        public CiteFlyout(CiteBlock ParentCiteBlock, StackPanel ParentStackPanel)
+        public CiteBlock parentCiteBlock { get; private set; }
+        public StackPanel parentStackPanel { get; private set; }
+        public CiteMain CiteMain { get; private set; }
+        public CiteFlyout(CiteBlock ParentCiteBlock, StackPanel ParentStackPanel, CiteMain citeMain)
         {
             this.parentCiteBlock = ParentCiteBlock;
             this.parentStackPanel = ParentStackPanel;
+            this.CiteMain = citeMain;
             InitializeComponent();
 
         }
@@ -53,16 +55,30 @@ namespace LitKit1.ControlsWPF.Citation
             TextDelete.Visibility = Visibility.Collapsed;
         }
 
+
+
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            //CiteMain.helper.DeleteCite(parentCiteBlock.citation);
             parentStackPanel.Children.Remove(parentCiteBlock);
         }
+        private void btnInsert_Click(object sender, RoutedEventArgs e)
+        {
+            CiteMain.helper.InsertCiteAtSelection(parentCiteBlock.citation);
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            //CiteMain.helper.EditCite(parentCiteBlock.citation);
+
+        }
+
 
         private void ShowButtonText(object sender, MouseEventArgs e)
         {
             var button = (Button)sender;
-            button.BorderBrush = Brushes.Transparent;
-            button.Background = Brushes.Transparent;
+            //button.BorderBrush = Brushes.Transparent;
+            //button.Background = Brushes.Transparent;
 
             var grid = (Grid)button.Content;
             grid.Children[1].Visibility = Visibility.Visible;
@@ -70,21 +86,12 @@ namespace LitKit1.ControlsWPF.Citation
         private void HideButtonText(object sender, MouseEventArgs e)
         {
             var button = (Button)sender;
-            button.BorderBrush = Brushes.Transparent;
-            button.Background = Brushes.Transparent;
+            //button.BorderBrush = Brushes.Transparent;
+            //button.Background = Brushes.Transparent;
 
             var grid = (Grid)button.Content;
             grid.Children[1].Visibility = Visibility.Collapsed;
         }
 
-        private void btnInsert_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnEdit_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

@@ -22,7 +22,7 @@ namespace Tools.Citation
         public ExhibitIndexStyle ExhibitIndexStyle { get; set; }
         public int ExhibitIndexStart { get; set; }
 
-        public bool hasSurroundingParentheses { get;  set; }
+        public bool hasSurroundingParentheses { get; set; }
 
         public bool hasIdCite { get; set; }
 
@@ -128,11 +128,11 @@ namespace Tools.Citation
             return result;
         }
 
-        public string FormatCiteText(Citation citation, CitePlacementType placementType, Range LeadingForId, int Index =0, bool hasPincite = false)
+        public string FormatCiteText(Citation citation, CitePlacementType placementType, Range LeadingForId, int Index = 0, bool hasPincite = false)
         {
             string result = "";
             string description = "";
-            
+
             switch (placementType)
             {
                 case CitePlacementType.Long:
@@ -146,7 +146,7 @@ namespace Tools.Citation
                 case CitePlacementType.Id:
                     if (hasIdCite)
                     {
-                        result = FormatIdCite(LeadingForId)+"{PINCITE}";
+                        result = FormatIdCite(LeadingForId) + "{PINCITE}";
                     }
                     else
                     {
@@ -175,15 +175,20 @@ namespace Tools.Citation
                         break;
                 }
 
-                result = IntroRegex.Replace(result, ExhibitIntro);
-                result = NumRegex.Replace(result, indexString);
+                result = IntroRegex.Replace(result, ExhibitIntro+" ");
+                result = NumRegex.Replace(result, indexString+", ");
+            }
+            else
+            {
+                result = IntroRegex.Replace(result, "");
+                result = NumRegex.Replace(result, "");
             }
 
             result = DescRegex.Replace(result, description);
             result = OtherIDRegex.Replace(result, citation.OtherIdentifier);
             result = RefNameRegex.Replace(result, citation.ReferenceName);
 
-            if(!hasPincite)
+            if (!hasPincite)
             {
                 result = PinciteRegex.Replace(result, "");
             }

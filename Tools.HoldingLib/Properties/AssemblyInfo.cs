@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DeleteMe")]
+[assembly: AssemblyTitle("Tools.HoldingLib")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HP Inc.")]
-[assembly: AssemblyProduct("DeleteMe")]
+[assembly: AssemblyProduct("Tools.HoldingLib")]
 [assembly: AssemblyCopyright("Copyright © HP Inc. 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f0572436-6cb9-49db-8910-5aeaae3323d0")]
+[assembly: Guid("413e09f6-2767-410c-b0ab-1ae86c43fbda")]
 
 // Version information for an assembly consists of the following four values:
 //

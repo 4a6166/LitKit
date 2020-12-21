@@ -261,15 +261,11 @@
     <Compile Include="Controls\AnsResControls\ctrlAnsResView.Designer.cs">
       <DependentUpon>ctrlAnsResView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.cs" />
     <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.Designer.cs">
       <DependentUpon>ctrlExhibitFormat.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.cs" />
     <Compile Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.Designer.cs">
       <DependentUpon>ctrlExhibitFormatCustom.cs</DependentUpon>
     </Compile>
@@ -279,21 +275,15 @@
     <Compile Include="Controls\ExhibitControls\ctrlExhibitMain.Designer.cs">
       <DependentUpon>ctrlExhibitMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlExhibitView.cs" />
     <Compile Include="Controls\ExhibitControls\ctrlExhibitView.Designer.cs">
       <DependentUpon>ctrlExhibitView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.cs" />
     <Compile Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.Designer.cs">
       <DependentUpon>ctrlExhibitUpdateAdd.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.cs" />
     <Compile Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.Designer.cs">
       <DependentUpon>ctrlLegalRecordUpdateAdd.cs</DependentUpon>
     </Compile>
@@ -326,9 +316,6 @@
     </Compile>
     <Compile Include="Controls\RedactionControls\ctrlConfidentialMarker.Designer.cs">
       <DependentUpon>ctrlConfidentialMarker.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ControlsWPF\Base.xaml.cs">
-      <DependentUpon>Base.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SearchBar.xaml.cs">
       <DependentUpon>SearchBar.xaml</DependentUpon>
@@ -515,9 +502,9 @@
       <Project>{a6acc4d7-446c-44a8-950c-93bdebc5fee1}</Project>
       <Name>Services.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services.Exhibit\Tools.Exhibit.csproj">
+    <ProjectReference Include="..\Services.Exhibit\Tools.Citation.csproj">
       <Project>{82857471-938d-409a-9c09-b147d287c706}</Project>
-      <Name>Tools.Exhibit</Name>
+      <Name>Tools.Citation</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services.License\Services.License.csproj">
       <Project>{f7dfe3b3-c6a5-4692-8561-86afbd093478}</Project>
@@ -535,13 +522,13 @@
       <Project>{e0783a21-83f7-4ff3-afc4-4c1eaf167c2d}</Project>
       <Name>Tools.Simple</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tools.HoldingLib\Tools.HoldingLib.csproj">
+      <Project>{413e09f6-2767-410c-b0ab-1ae86c43fbda}</Project>
+      <Name>Tools.HoldingLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="ControlsWPF\App.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ControlsWPF\Base.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

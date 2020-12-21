@@ -446,7 +446,7 @@
             // 
             this.testExhibits.Label = "Add Test Exhibits";
             this.testExhibits.Name = "testExhibits";
-            this.testExhibits.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AddExhibtsForTest);
+            this.testExhibits.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AddTestCitations);
             // 
             // grpAnsRes
             // 

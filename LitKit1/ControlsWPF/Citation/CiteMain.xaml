@@ -17,7 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="63"/>
             <RowDefinition Height="45*"/>
-            <RowDefinition Height="100*"/>
+            <RowDefinition Height="200*"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
@@ -31,7 +31,8 @@
             HorizontalScrollBarVisibility="Disabled">
             <StackPanel x:Name="CiteBlockStackPanel" 
                         HorizontalAlignment="Left" 
-                        VerticalAlignment="Top"/>
+                        VerticalAlignment="Top"
+                        />
         </ScrollViewer>
         <Border x:Name="CiteAddedBorder"
                 Grid.Column="1" Grid.ColumnSpan="2" 
@@ -41,8 +42,15 @@
                 Visibility="Collapsed">
             <local:CiteAdd/>
         </Border>
-        <local:CiteFormat HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Visibility="Collapsed" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-
+        <!--<local:CiteFormat HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Visibility="Collapsed" Grid.ColumnSpan="2" Grid.RowSpan="2"/>-->
+        <StackPanel x:Name="SearchStackPanel"  Orientation="Vertical"  Grid.Column="1" Grid.ColumnSpan="2" Height="26" Grid.Row="1" Width="auto" HorizontalAlignment="Center" >
+            
+            <StackPanel x:Name="CiteTypeStackPanel" Orientation="Horizontal" VerticalAlignment="Center">
+                <Rectangle Fill="Green" Height="20" Width="60" Margin="3"/>
+                <Rectangle Fill="Green" Height="20" Width="60" Margin="3"/>
+                <Rectangle Fill="Green" Height="20" Width="60" Margin="3"/>
+            </StackPanel>
+        </StackPanel>
 
 
 

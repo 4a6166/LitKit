@@ -16,12 +16,14 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Tools.Citation;
 using System.Collections.Generic;
+using Services.Base;
 
 namespace LitKit1
 {
     public partial class MainRibbon
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 
         public Microsoft.Office.Interop.Word.Application _app; //This is necessary for passing ThisAddIn.Application to the Services project
         public CustomXMLParts XMLParts => Globals.ThisAddIn.Application.ActiveDocument.CustomXMLParts;
@@ -53,7 +55,7 @@ namespace LitKit1
         {
             if (!licenseIsValid)
             {
-                log.Info("License Check started.");
+                Log.Info("License Check started.");
                 try
                 {
                     licenseIsValid = LicenseChecker.LicenseIsValid();
@@ -268,16 +270,7 @@ namespace LitKit1
             {
                 try
                 {
-                    //AddExhibtsForTest();
-
-                    ctrlExhibitView exhibitCtrl = new ctrlExhibitView();
-                    Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
-                    ActivePane.Control.Controls.Clear();
-                    //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
-
-                    ActivePane.Control.Controls.Add(exhibitCtrl);
-                    //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
-                    exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+                    Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
 
                     if (!ActivePane.Visible)
                     {
@@ -287,118 +280,105 @@ namespace LitKit1
                     {
                         ActivePane.Visible = false;
                     }
-                    //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
                 }
-                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #201"); }
+                catch 
+                {
+                    Log.Error("Error loading/showing Active Citation Pane");
+                    ErrorHandling.ShowErrorMessage();
+                }
             }
         }
 
-        private void AddExhibtsForTest(object sender, RibbonControlEventArgs e)
+        private void AddTestCitations(object sender, RibbonControlEventArgs e)
         {
-            //ExhibitRepository repository = new ExhibitRepository(_app);
+            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
 
-            //if (repository.GetExhibits().Count() == 0)
-            //{
-            //    repository.AddExhibit("A" + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            //}
-
-            //repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            //repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            //repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            //repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-
-            //frmToast toast = new frmToast(_app.ActiveWindow);
-            //toast.OpenToast("Test Exhibits Added", "Remove before production.", 1000);
-
-            CiteHelper helper = new CiteHelper(_app);
-            helper.repository.AddTestCitations();
-            MessageBox.Show("Test Citations Added");
 
         }
 
         private void btnPinCite_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
-            {
-                try
-                {
-                    _app.UndoRecord.StartCustomRecord("Add Pincite");
+            //if (!checkLicenseIsValid())
+            //{ ShowLicenseNotValidMessage(); }
+            //else
+            //{
+            //    try
+            //    {
+            //        _app.UndoRecord.StartCustomRecord("Add Pincite");
 
-                    new Pincite(_app).AddPincite(_app.Selection);
-                    Globals.ThisAddIn.ReturnFocus();
+            //        new Pincite(_app).AddPincite(_app.Selection);
+            //        Globals.ThisAddIn.ReturnFocus();
 
-                    _app.UndoRecord.EndCustomRecord();
-                }
-                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #204"); }
-            }
+            //        _app.UndoRecord.EndCustomRecord();
+            //    }
+            //    catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #204"); }
+            //}
         }
 
         private void btnRemovePinCite_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
-            {
-                try
-                {
-                    _app.UndoRecord.StartCustomRecord("Remove Pincite");
+            //if (!checkLicenseIsValid())
+            //{ ShowLicenseNotValidMessage(); }
+            //else
+            //{
+            //    try
+            //    {
+            //        _app.UndoRecord.StartCustomRecord("Remove Pincite");
 
-                    new Pincite(_app).RemovePinCite(_app.Selection);
+            //        new Pincite(_app).RemovePinCite(_app.Selection);
 
-                    _app.UndoRecord.EndCustomRecord();
-                }
-                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #205"); }
-            }
+            //        _app.UndoRecord.EndCustomRecord();
+            //    }
+            //    catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #205"); }
+            //}
         }
 
         private void IndexOfExhibits_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
-            {
-                try
-                {
-                    _app.UndoRecord.StartCustomRecord("Exhibit Index");
+            //if (!checkLicenseIsValid())
+            //{ ShowLicenseNotValidMessage(); }
+            //else
+            //{
+            //    try
+            //    {
+            //        _app.UndoRecord.StartCustomRecord("Exhibit Index");
 
-                    new ExhibitIndex(_app).InsertExhibitIndex();
-                    Globals.ThisAddIn.ReturnFocus();
+            //        new ExhibitIndex(_app).InsertExhibitIndex();
+            //        Globals.ThisAddIn.ReturnFocus();
 
-                    _app.UndoRecord.EndCustomRecord();
-                }
-                catch { MessageBox.Show("Please select an editable range."); }
-            }
+            //        _app.UndoRecord.EndCustomRecord();
+            //    }
+            //    catch { MessageBox.Show("Please select an editable range."); }
+            //}
         }
 
         private void btnRemoveCiteLocks_Click(object sender, RibbonControlEventArgs e)
         {
-            _app.UndoRecord.StartCustomRecord();
+            //_app.UndoRecord.StartCustomRecord();
 
-            try
-            {
-                var helper = new ExhibitHelper(_app);
-                if (_app.Selection.Range.Characters.Count > 2)
-                {
-                    _app.UndoRecord.StartCustomRecord("Remove Exhibits");
-                    helper.RemoveSelectedCitesFromDoc(_app.Selection);
-                    _app.UndoRecord.EndCustomRecord();
-                }
-                else
-                {
-                    DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all citations in the document? The text will remain but will no longer update when adjustments to the Exhibit or References Lists are made.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
-                    if (result == DialogResult.Yes)
-                    {
-                        _app.UndoRecord.StartCustomRecord("Remove Exhibits");
-                        helper.RemoveAllCitesFromDoc();
-                        _app.UndoRecord.EndCustomRecord();
-                    }
-                }
-            }
-            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #206-C"); }
+            //try
+            //{
+            //    var helper = new ExhibitHelper(_app);
+            //    if (_app.Selection.Range.Characters.Count > 2)
+            //    {
+            //        _app.UndoRecord.StartCustomRecord("Remove Exhibits");
+            //        helper.RemoveSelectedCitesFromDoc(_app.Selection);
+            //        _app.UndoRecord.EndCustomRecord();
+            //    }
+            //    else
+            //    {
+            //        DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all citations in the document? The text will remain but will no longer update when adjustments to the Exhibit or References Lists are made.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            //        if (result == DialogResult.Yes)
+            //        {
+            //            _app.UndoRecord.StartCustomRecord("Remove Exhibits");
+            //            helper.RemoveAllCitesFromDoc();
+            //            _app.UndoRecord.EndCustomRecord();
+            //        }
+            //    }
+            //}
+            //catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #206-C"); }
 
-            _app.UndoRecord.EndCustomRecord();
+            //_app.UndoRecord.EndCustomRecord();
         }
 
 
@@ -903,41 +883,15 @@ namespace LitKit1
         {
 
             _app.UndoRecord.StartCustomRecord("Test Action");
-            //var stopwatch = new Stopwatch();
-            //stopwatch.Start();
-
-
-            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
-            var ctrl = (ControlsWPF.HoldingControl)ActivePane.Control;
-
-            if (!ActivePane.Visible)
-            {
-                ActivePane.Visible = true;
-
-            }
-            else
-            {
-                ActivePane.Visible = false;
-            }
-
-            var b = new ControlsWPF.Citation.CiteMain();
-            ctrl.AddWPF(b);
-
-            var citeExample = new Tools.Exhibit.Citation(Tools.Exhibit.CiteTypea.Exhibit, "Long Desc Example");
-            var citeExampleList = new List<Tools.Exhibit.Citation>()
-            {
-                citeExample,
-                citeExample,
-                citeExample
-            };
-
-            b.AddCitesToPanel(citeExampleList);
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
 
 
 
-            //stopwatch.Stop();
-            //MessageBox.Show("Time: " + stopwatch.Elapsed);
+
+            stopwatch.Stop();
+            MessageBox.Show("Time: " + stopwatch.Elapsed);
             _app.UndoRecord.EndCustomRecord();
 
         }

@@ -108,7 +108,7 @@ namespace Tools.Citation
 
             PosRefList = PosRefList.OrderBy(n => n.DocumentReferencePoint).ToList();
             var CCList = new List<ContentControl>();
-            foreach(CitePositionReference positionReference in PosRefList)
+            foreach (CitePositionReference positionReference in PosRefList)
             {
                 CCList.Add(positionReference.contentControl);
             }
@@ -147,16 +147,16 @@ namespace Tools.Citation
             var contentControlIndex = OrderedCiteContentControls.IndexOf(contentControl);
 
             List<string> TagsTrimmed = new List<string>();
-            for (int i = 0; i<contentControlIndex; i++)
+            for (int i = 0; i < contentControlIndex; i++)
             {
                 var CCCiteID = GetCitationIDFromContentControl(OrderedCiteContentControls[i]);
                 TagsTrimmed.Add(CCCiteID);
             }
 
-            if(TagsTrimmed.Last() == InputCiteID)
+            if (TagsTrimmed.Last() == InputCiteID)
             {
                 return CitePlacementType.Id;
-            } 
+            }
             else if (TagsTrimmed.Contains(InputCiteID))
             {
                 return CitePlacementType.Short;
@@ -200,7 +200,7 @@ namespace Tools.Citation
         public ContentControl FindCiteCCInRange(Range range)
         {
             //List<ContentControl> contentControls = new List<ContentControl>();
-            var CCs = (List<ContentControl>) range.ContentControls;
+            var CCs = (List<ContentControl>)range.ContentControls;
             //foreach (ContentControl CC in CCs)
             //{
             //    contentControls.Add(CC);
@@ -214,7 +214,7 @@ namespace Tools.Citation
 
         public void SetContentControlTag(ContentControl contentControl, Citation citation, bool HasPincite)
         {
-            contentControl.Tag = "CITE:" + citation.CiteType.ToString() + "|"+citation.ID+"|" + HasPincite.ToString();
+            contentControl.Tag = "CITE:" + citation.CiteType.ToString() + "|" + citation.ID + "|" + HasPincite.ToString();
         }
 
         public void SetPinciteCCTag(ContentControl PinCC)
@@ -227,8 +227,10 @@ namespace Tools.Citation
 
             ContentControl CC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
             SetContentControlTag(CC, citation, false);
+            CC.Title = citation.CiteType.ToString() + ": " + citation.LongDescription;
+            CC.Color = WdColor.wdColorRed;
 
-            CitePlacementType placementType = GetCitePlacementTypeFromDoc(CC);
+            CitePlacementType placementType = CitePlacementType.Long /* GetCitePlacementTypeFromDoc(CC)*/;
 
             Range LeadingForId = CC.Range;
 
@@ -281,7 +283,7 @@ namespace Tools.Citation
         public void UpdateCiteContentControls()
         {
             log.Info("Updating all Cite Content Controls in " + _app.ActiveDocument.FullName);
-            
+
             var allCites = GetAllCitesFromDoc_Unordered(CiteType.All);
             foreach (ContentControl cc in allCites)
             {

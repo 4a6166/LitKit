@@ -2,8 +2,8 @@
 <Citations xmlns="Prelimine Litkit Citation Tool">
   <Format xmlns="">
     <Intro>Exhibit</Intro>
-    <Long>{INTRO} {INDEX}, {DESC}</Long>
-    <Short>{INTRO} {INDEX}</Short>
+    <Long>{INTRO}{INDEX}{DESC}</Long>
+    <Short>{INTRO}{INDEX}</Short>
     <IndexStyle>Numbers</IndexStyle>
     <IndexStart>1</IndexStart>
     <Parentheses>False</Parentheses>

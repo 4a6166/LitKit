@@ -36,7 +36,7 @@ namespace Tools.Simple
 
 
 
-            var fill = 0;
+            //var fill = 0;
 
             //HomeTab > EditReplace
             //Home > Editing > Replace
