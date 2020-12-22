@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace LitKit1.ControlsWPF
+namespace Citation
 {
     static class SolutionBrushes
     {

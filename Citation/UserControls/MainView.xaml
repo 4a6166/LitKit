@@ -1,4 +1,5 @@
-﻿<UserControl     x:Class="Citation.UserControls.MainView"
+﻿<UserControl xmlns:UserControls="clr-namespace:Citation.UserControls"      
+             x:Class="Citation.UserControls.MainView"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,7 +8,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="400">
     <UserControl.Resources>
-        
+        <Brush x:Key="CiteTypeBrush_Exhibit">#136F63</Brush>
+        <Brush x:Key="CiteTypeBrush_LegalCite">#3F88C5</Brush>
+        <Brush x:Key="CiteTypeBrush_RecordCite">#D00000</Brush>
+        <Brush x:Key="CiteTypeBrush_OtherCite">#FFBA08</Brush>
+        <Brush x:Key="CiteTypeBrush_Extra">#032B43</Brush>
     </UserControl.Resources>
     <Grid Margin="2">
         <Grid.ColumnDefinitions>
@@ -19,29 +24,74 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical">
-                <CommonControls1:SearchBar Width="auto"/>
+            
+<!--########################################-->
+            <!--Search Grid-->
+<!--########################################-->
+            <Grid x:Name="SearchGrid"
+                    MaxHeight="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchLabel"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        Grid.ColumnSpan="2"
+                        Text="Search"
+                        Foreground="Gray"
+                        />
+
+                <TextBox x:Name="SearchTextBox"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                             Background="Transparent"
+                        TextChanged="TextBox_TextChanged"
+                        GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" KeyDown="SearchTextBox_KeyDown" 
+                        />
+                <Button x:Name="SearchIconButton"
+                        Grid.Column="1"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Right"
+                        Margin="0" Click="SearchButton_Click">
+                    <UniformGrid>
+                        <Image x:Name="imgMagGlass" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Visibility="Visible"
+                    Source="/WPF.CommonControls;component/Resources/search-thumb.png" />
+                        <Image x:Name="imgClear"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Visibility="Collapsed"
+                    Source="/WPF.CommonControls;component/Resources/clear-thumb.png" />
+                    </UniformGrid>
+                </Button>
+            </Grid>
             <StackPanel Orientation="Horizontal">
 
                 <Button x:Name="btnAllCites" Click="btnAllCites_Click"
                     Margin=".5">
-                <Label Content="All"/>
-            </Button>
-            <Button x:Name="btnExhibit" Click="btnExhibit_Click"
+                    <Label Content="All"/>
+                </Button>
+                <Button x:Name="btnExhibit" Click="btnExhibit_Click"
                     Margin=".5">
-                <Label Content="Exhibits"/>
-            </Button>
-            <Button x:Name="btnRecord" Click="btnRecord_Click"
+                    <Label Content="Exhibits"/>
+                </Button>
+                <Button x:Name="btnRecord" Click="btnRecord_Click"
                     Margin=".5">
-                <Label Content="Record Cites"/>
-            </Button>
-            <Button x:Name="btnLegal" Click="btnLegal_Click"
+                    <Label Content="Record Cites"/>
+                </Button>
+                <Button x:Name="btnLegal" Click="btnLegal_Click"
                     Margin=".5">
-                <Label Content="Legal Cites"/>
-            </Button>
-            <Button x:Name="btnOther" Click="btnOther_Click"
+                    <Label Content="Legal Cites"/>
+                </Button>
+                <Button x:Name="btnOther" Click="btnOther_Click"
                     Margin=".5">
-                <Label Content="Other Cites"/>
-            </Button>
+                    <Label Content="Other Cites"/>
+                </Button>
             </StackPanel>
 
         </StackPanel>
@@ -57,16 +107,41 @@
                         <Grid MinWidth="250" MaxWidth="1000" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="{Binding CiteType, Mode=OneWay}" FontWeight="Bold"/>
-                            <Label Grid.Row="1" Content="{Binding LongDescription}"/>
-                            <StackPanel Grid.RowSpan="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Name="citeType" Grid.Column="1" Grid.Row="0" Content="{Binding CiteType, Mode=OneWay}" FontWeight="Bold"/>
+                                <Label Grid.Column="1" Grid.Row="1" Content="{Binding LongDescription}"/>
+                                <Border Grid.Column="0" Grid.RowSpan="2" Width="5">
+                                    <Border.Style>
+                                        <Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CiteType}" Value="Exhibit">
+                                                    <Setter Property="Border.Background" Value="{StaticResource CiteTypeBrush_Exhibit}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CiteType}" Value="Legal">
+                                                    <Setter Property="Border.Background" Value="{StaticResource CiteTypeBrush_LegalCite}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CiteType}" Value="Record">
+                                                    <Setter Property="Border.Background" Value="{StaticResource CiteTypeBrush_RecordCite}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CiteType}" Value="Other">
+                                                    <Setter Property="Border.Background" Value="{StaticResource CiteTypeBrush_OtherCite}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                            </Grid>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Button x:Name="btnAdd"
                                         Width="50"
                                         Margin="1"
@@ -82,7 +157,7 @@
                                 <Button x:Name="btnDelete" 
                                         Width="50"
                                         Margin="1"
-                                        Click="Button_Click" >
+                                        Click="btnDelete_Click" >
                                     <Label Content="Delete"/>
                                 </Button>
                             </StackPanel>
@@ -91,52 +166,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Label Grid.Column="1" Grid.Row="0" Content="Citation List Box"/>
-        <ListBox x:Name="CitationListBox" Grid.Column="1" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="Focusable" Value="False"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="DarkGray" BorderThickness=".5">
-                        <Grid MinWidth="250" MaxWidth="1000" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <!--<ColumnDefinition Width="1"/>-->
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="{Binding CiteType, Mode=OneWay}" FontWeight="Bold"/>
-                            <Label Grid.Row="1" Content="{Binding LongDescription}"/>
-                            <StackPanel Grid.RowSpan="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button x:Name="btnAdd"
-                                        Width="50"
-                                        Margin="1"
-                                        Click="btnAdd_Click">
-                                    <Label Content="Insert"/>
-                                </Button>
-                                <Button x:Name="btnEdit" 
-                                        Width="50"
-                                        Margin="1"
-                                        Click="btnEdit_Click">
-                                    <Label Content="Edit"/>
-                                </Button>
-                                <Button x:Name="btnDelete" 
-                                        Width="50"
-                                        Margin="1"
-                                        Click="Button_Click" >
-                                    <Label Content="Delete"/>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
     </Grid>
 </UserControl>

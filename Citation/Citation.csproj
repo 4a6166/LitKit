@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SolutionBrushes.cs" />
     <Compile Include="TESTResources\Cite.cs" />
     <Compile Include="TESTResources\CiteRepository.cs" />
     <Compile Include="UserControls\InvisibleButton.xaml.cs">
@@ -127,6 +128,16 @@
       <Project>{c6c02a61-9cdf-49fa-847d-3be155529e47}</Project>
       <Name>WPF.CommonControls</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\clear-thumb.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\search-thumb.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

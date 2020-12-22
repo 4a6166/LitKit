@@ -87,14 +87,16 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void setTypeIndicatorFill()
         {
-            if (citeCountInt > 0)
-            {
-                CiteTypeIndicator.Background = TypeIndicatorColor;
-            }
-            else
-            { 
-                CiteTypeIndicator.Background = Brushes.Transparent; 
-            }
+            CiteTypeIndicator.Background = TypeIndicatorColor;
+
+            //if (citeCountInt > 0)
+            //{
+            //    CiteTypeIndicator.Background = TypeIndicatorColor;
+            //}
+            //else
+            //{ 
+            //    CiteTypeIndicator.Background = Brushes.Transparent; 
+            //}
         }
 
         private void Grid_MouseEnter(object sender, MouseEventArgs e)

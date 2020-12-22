@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Citation"
         xmlns:UserControls="clr-namespace:Citation.UserControls" x:Class="Citation.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="400">
+        Title="MainWindow" Height="600" Width="405">
     <Grid>
         <UserControls:MainView/>
 

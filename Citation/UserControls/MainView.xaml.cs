@@ -26,15 +26,15 @@ namespace Citation.UserControls
 
         private CiteRepository repository;
 
+        private string SearchText;
+
         public MainView()
         {
             repository = new CiteRepository();
             InitializeComponent();
 
             CitesListView.ItemsSource = citations;
-            CitationListBox.ItemsSource = citations;
             SetCitations("All");
-            //this.DataContext = citations;
         }
 
         private void SetCitations(string CiteType)
@@ -59,22 +59,26 @@ namespace Citation.UserControls
                     }
                 }
             }
-
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            var proceed = MessageBox.Show("This will remove all citations from the document. Do you want to proceed?","Confirm", MessageBoxButton.YesNo);
 
-            Button button = (Button)e.Source;
-            var parentStackPanel = VisualTreeHelper.GetParent(button);
-            var parentGrid = VisualTreeHelper.GetParent(parentStackPanel);
-            var parentBorder = VisualTreeHelper.GetParent(parentGrid);
-            ContentPresenter parent = (ContentPresenter) VisualTreeHelper.GetParent(parentBorder);
-            Cite cite = (Cite) parent.Content;
+            if (proceed == MessageBoxResult.Yes)
+            {
+                Button button = (Button)e.Source;
+                var parentStackPanel = VisualTreeHelper.GetParent(button);
+                var parentGrid = VisualTreeHelper.GetParent(parentStackPanel);
+                var parentBorder = VisualTreeHelper.GetParent(parentGrid);
+                ContentPresenter parent = (ContentPresenter)VisualTreeHelper.GetParent(parentBorder);
+                Cite cite = (Cite)parent.Content;
 
-            citations.Remove(cite);
-            
-            //repository.RemoveCiteFromDB;
+                citations.Remove(cite);
+
+                //repository.RemoveCiteFromDB;
+                //DocumentInteractionLayer Remove all mentions of cite
+            }
 
         }
 
@@ -87,7 +91,9 @@ namespace Citation.UserControls
             ContentPresenter parent = (ContentPresenter)VisualTreeHelper.GetParent(parentBorder);
             Cite cite = (Cite)parent.Content;
 
-            cite.LongDescription = "Updated Long Desc";
+            
+
+            cite.LongDescription = "[Updated] "+cite.LongDescription;
 
             //repository.UpdateCiteInDB;
         }
@@ -131,5 +137,56 @@ namespace Citation.UserControls
         {
             SetCitations("Other");
         }
+
+
+        #region Search Bar
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                SearchText = SearchTextBox.Text;
+                if (SearchText != "")
+                {
+                    imgMagGlass.Visibility = Visibility.Collapsed;
+                    imgClear.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    imgMagGlass.Visibility = Visibility.Visible;
+                    imgClear.Visibility = Visibility.Collapsed;
+                }
+            }
+            catch { };
+
+        }
+
+        private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SearchLabel.Visibility = Visibility.Collapsed;
+        }
+
+        private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (SearchText == "")
+            {
+                SearchLabel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            //SearchText = "";
+            SearchTextBox.Text = "";
+            SearchLabel.Visibility = Visibility.Visible;
+        }
+
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                //Search
+            }
+        }
+        #endregion
     }
 }
