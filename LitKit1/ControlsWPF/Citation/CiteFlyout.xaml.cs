@@ -11,6 +11,8 @@ namespace LitKit1.ControlsWPF.Citation
     /// </summary>
     public partial class CiteFlyout : UserControl
     {
+        private CiteBlock _viewModel = null;
+
         public CiteBlock parentCiteBlock { get; private set; }
         public StackPanel parentStackPanel { get; private set; }
         public CiteMain CiteMain { get; private set; }
@@ -20,6 +22,9 @@ namespace LitKit1.ControlsWPF.Citation
             this.parentStackPanel = ParentStackPanel;
             this.CiteMain = citeMain;
             InitializeComponent();
+
+            _viewModel = (CiteBlock)this.Resources["citeBlock"];
+
 
         }
 
