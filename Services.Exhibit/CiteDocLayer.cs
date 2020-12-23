@@ -8,7 +8,7 @@ using Microsoft.Office.Interop.Word;
 namespace Tools.Citation
 {
     /// <summary>
-    /// Handles interactions between the document and the database
+    /// Handles interactions between the document display and the database
     /// </summary>
     public class CiteHelper
     {

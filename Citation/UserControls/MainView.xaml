@@ -42,7 +42,7 @@
                         Foreground="Gray"
                         />
 
-                <TextBox x:Name="SearchTextBox"
+                <TextBox x:Name="SearchTextBox" 
                         VerticalAlignment="Stretch"
                         VerticalContentAlignment="Center"
                         Grid.ColumnSpan="2"

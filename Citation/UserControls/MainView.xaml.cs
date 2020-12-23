@@ -149,14 +149,28 @@ namespace Citation.UserControls
                 {
                     imgMagGlass.Visibility = Visibility.Collapsed;
                     imgClear.Visibility = Visibility.Visible;
+
+                    var searchBox = (TextBox)sender;
+
+                    var _citations = citations.Where(n => n.LongDescription.Contains(searchBox.Text)).ToList();
+                    citations.Clear();
+
+                    foreach (Cite cite in _citations)
+                    {
+                        citations.Add(cite);
+                    }
                 }
                 else
                 {
                     imgMagGlass.Visibility = Visibility.Visible;
                     imgClear.Visibility = Visibility.Collapsed;
+
+                    SetCitations("All");
                 }
             }
             catch { };
+
+
 
         }
 
@@ -184,9 +198,22 @@ namespace Citation.UserControls
         {
             if (e.Key == Key.Return)
             {
-                //Search
+                var searchBox = (TextBox)sender;
+
+                var _citations = citations.Where(n => n.LongDescription.Contains(searchBox.Text)).ToList();
+                citations.Clear();
+
+                foreach (Cite cite in _citations)
+                {
+                    citations.Add(cite);
+                }
             }
         }
         #endregion
+
+        private void SearchTextBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
