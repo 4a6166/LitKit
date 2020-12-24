@@ -35,7 +35,7 @@
             <Grid>
         <Border x:Name="Flyout" MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Width="auto" Height="36" BorderThickness="1" BorderBrush="LightGray" CornerRadius="10,0, 0, 10" Background="LightGray" Visibility="Visible">
             <StackPanel  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,-1,-1,-1">
-                <Button x:Name="btnDelete" Click="btnDelete_Click">
+                <Button x:Name="btnDelete" Click="btnDelete_Click" Mouse.MouseEnter="ShowButtonText" Mouse.MouseLeave="HideButtonText">
                     <Grid x:Name="GridDelete" Width="25" Margin="0" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25*"/>
@@ -46,7 +46,7 @@
                         <TextBlock x:Name="TextDelete" Grid.Row="1" Text="Delete" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
                 </Button>
-                <Button x:Name="btnEdit" Click="btnEdit_Click" Mouse.MouseEnter="ShowButtonText" >
+                <Button x:Name="btnEdit" Click="btnEdit_Click" Mouse.MouseEnter="ShowButtonText" Mouse.MouseLeave="HideButtonText">
                     <Grid x:Name="GridEdit" Width="25" Margin="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="15*"/>
@@ -56,7 +56,7 @@
                         <TextBlock x:Name="TextEdit" Grid.Row="1" Text="Edit" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
                 </Button>
-                <Button x:Name="btnInsert" Click="btnInsert_Click">
+                <Button x:Name="btnInsert" Click="btnInsert_Click" Mouse.MouseEnter="ShowButtonText" Mouse.MouseLeave="HideButtonText">
                     <Grid  Width="25" Margin="2" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25*"/>

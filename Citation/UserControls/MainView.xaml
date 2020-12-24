@@ -1,5 +1,5 @@
-﻿<UserControl xmlns:UserControls="clr-namespace:Citation.UserControls"      
-             x:Class="Citation.UserControls.MainView"
+﻿<UserControl xmlns:UserControls="clr-namespace:WPF.Citation.UserControls"      
+             x:Class="WPF.Citation.UserControls.MainView"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -73,24 +73,41 @@
             <StackPanel Orientation="Horizontal">
 
                 <Button x:Name="btnAllCites" Click="btnAllCites_Click"
+                        
                     Margin=".5">
-                    <Label Content="All"/>
+                    <Label Content="All Cites"/>
                 </Button>
                 <Button x:Name="btnExhibit" Click="btnExhibit_Click"
                     Margin=".5">
-                    <Label Content="Exhibits"/>
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_Exhibit}"
+                            Opacity=".4" Margin="-1"/>
+                        <Label Content="Exhibits"/>
+                    </Grid>
                 </Button>
                 <Button x:Name="btnRecord" Click="btnRecord_Click"
                     Margin=".5">
-                    <Label Content="Record Cites"/>
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_RecordCite}"
+                                Opacity=".4" Margin="-1"/>
+                        <Label Content="Record Cites"/>
+                    </Grid>
                 </Button>
                 <Button x:Name="btnLegal" Click="btnLegal_Click"
                     Margin=".5">
-                    <Label Content="Legal Cites"/>
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_LegalCite}"
+                                Opacity=".4" Margin="-1"/>
+                        <Label Content="Legal Cites"/>
+                    </Grid>
                 </Button>
                 <Button x:Name="btnOther" Click="btnOther_Click"
                     Margin=".5">
-                    <Label Content="Other Cites"/>
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_OtherCite}"
+                                Opacity=".4" Margin="-1"/>
+                        <Label Content="Other Cites"/>
+                    </Grid>
                 </Button>
             </StackPanel>
 

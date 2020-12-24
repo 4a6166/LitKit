@@ -261,7 +261,7 @@
             this.MainTab.Groups.Add(grpShortcuts);
             this.MainTab.Groups.Add(this.grpSupport);
             this.MainTab.Groups.Add(this.grpInvisibleReminders);
-            this.MainTab.Label = "LitKit (beta)";
+            this.MainTab.Label = "LitKit";
             this.MainTab.Name = "MainTab";
             this.MainTab.Position = this.Factory.RibbonPosition.BeforeOfficeId("TabReviewWord");
             // 

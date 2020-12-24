@@ -14,9 +14,11 @@ using LitKit1.Controls.AnsResControls;
 using Services.Licensing;
 using System.IO;
 using System.Text.RegularExpressions;
-using Tools.Citation;
+//using Tools.Citation;
 using System.Collections.Generic;
 using Services.Base;
+using LitKit1.ControlsWPF;
+using _cite = WPF.Citation.UserControls;
 
 namespace LitKit1
 {
@@ -271,6 +273,15 @@ namespace LitKit1
                 try
                 {
                     Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
+
+                    HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
+
+                    if (holdingControl.WPFUserControl == null)
+                    {
+                        ControlsWPF.Citation.CiteMain cm = new ControlsWPF.Citation.CiteMain();
+
+                        holdingControl.AddWPF(cm);
+                    }
 
                     if (!ActivePane.Visible)
                     {

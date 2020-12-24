@@ -209,9 +209,6 @@
     <Compile Include="ControlsWPF\Citation\CiteBlock.xaml.cs">
       <DependentUpon>CiteBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ControlsWPF\Citation\CiteDeleteAreYouSure.xaml.cs">
-      <DependentUpon>CiteDeleteAreYouSure.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ControlsWPF\Citation\CiteFlyout.xaml.cs">
       <DependentUpon>CiteFlyout.xaml</DependentUpon>
     </Compile>
@@ -221,22 +218,14 @@
     <Compile Include="ControlsWPF\Citation\CiteMain.xaml.cs">
       <DependentUpon>CiteMain.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWPF\Citation\ViewModels\CiteMainVM.cs" />
     <Compile Include="ControlsWPF\HoldingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ControlsWPF\HoldingControl.Designer.cs">
       <DependentUpon>HoldingControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ControlsWPF\HoldingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ControlsWPF\HoldingForm.Designer.cs">
-      <DependentUpon>HoldingForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="ControlsWPF\SolutionBrushes.cs" />
-    <Compile Include="ControlsWPF\Loading.xaml.cs">
-      <DependentUpon>Loading.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\AnsResControls\ctrlAnsResCustomize.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -335,9 +324,6 @@
     <Compile Include="Controls\MainRibbon.Designer.cs">
       <DependentUpon>MainRibbon.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ControlsWPF\HoldingForm.resx">
-      <DependentUpon>HoldingForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResCustomize.resx">
       <DependentUpon>ctrlAnsResCustomize.cs</DependentUpon>
     </EmbeddedResource>
@@ -498,6 +484,10 @@
     <Content Include="Resources\PilcrowLone1_B.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Citation\WPF.Citation.csproj">
+      <Project>{b961eaf3-a1b3-4166-9c60-64e8c97d1adc}</Project>
+      <Name>WPF.Citation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services.Base\Services.Base.csproj">
       <Project>{a6acc4d7-446c-44a8-950c-93bdebc5fee1}</Project>
       <Name>Services.Base</Name>
@@ -540,10 +530,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ControlsWPF\Citation\CiteDeleteAreYouSure.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ControlsWPF\Citation\CiteFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -553,10 +539,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlsWPF\Citation\CiteMain.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ControlsWPF\Loading.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,53 +14,54 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Citation.TESTResources;
+using Citation.ViewModels;
 
-namespace Citation.UserControls
+
+namespace WPF.Citation.UserControls
 {
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
     public partial class MainView : UserControl
     {
-        private ObservableCollection<Cite> citations = new ObservableCollection<Cite>();
+        #region Properties
+        public MainViewVM ViewModel { get; private set; } 
+
+        private ObservableCollection<Cite> citationsAll;
+
+/// <summary>
+        /// Binding property for the List View, separated from all tp allow for filtering
+        /// </summary>
+        private ObservableCollection<Cite> citationsVisible = new ObservableCollection<Cite>();
 
         private CiteRepository repository;
 
         private string SearchText;
 
+        #endregion
+
         public MainView()
         {
-            repository = new CiteRepository();
+            ViewModel = new MainViewVM();
+
+            repository = ViewModel.Repository;
             InitializeComponent();
-
-            CitesListView.ItemsSource = citations;
-            SetCitations("All");
+            LoadCitations();
+            
+            CitesListView.ItemsSource = citationsVisible;
         }
 
-        private void SetCitations(string CiteType)
+        private void LoadCitations()
         {
-            citations.Clear();
+            citationsAll = ViewModel.Citations;
+            foreach (Cite cite in citationsAll)
+            {
+                citationsVisible.Add(cite);
+            }
 
-            var cites = repository.GetCites();
-            if (CiteType == "All")
-            {
-                foreach (Cite cite in cites)
-                {
-                    citations.Add(cite);
-                }
-            }
-            else
-            {
-                foreach (Cite cite in cites)
-                {
-                    if (cite.CiteType == CiteType)
-                    {
-                        citations.Add(cite);
-                    }
-                }
-            }
         }
 
+        #region Flyout Buttons
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             var proceed = MessageBox.Show("This will remove all citations from the document. Do you want to proceed?","Confirm", MessageBoxButton.YesNo);
@@ -74,7 +75,7 @@ namespace Citation.UserControls
                 ContentPresenter parent = (ContentPresenter)VisualTreeHelper.GetParent(parentBorder);
                 Cite cite = (Cite)parent.Content;
 
-                citations.Remove(cite);
+                citationsVisible.Remove(cite);
 
                 //repository.RemoveCiteFromDB;
                 //DocumentInteractionLayer Remove all mentions of cite
@@ -113,65 +114,93 @@ namespace Citation.UserControls
 
         }
 
+
+        #endregion
+
+        #region CiteListFilter
+        private void FilterCiteList(string CiteType)
+        {
+            //ObservableCollection<Cite> c = citationsVisible;
+
+            citationsVisible.Clear();
+
+            if (CiteType == "All")
+            {
+                foreach (Cite cite in citationsAll)
+                {
+                    citationsVisible.Add(cite);
+                }
+            }
+            else
+            {
+                foreach (Cite cite in citationsAll)
+                {
+                    if (cite.CiteType == CiteType)
+                    {
+                        citationsVisible.Add(cite);
+                    }
+                }
+            }
+        }
+
         private void btnAllCites_Click(object sender, RoutedEventArgs e)
         {
-            SetCitations("All");
+            SearchTextBox.Text = "";
+            FilterCiteList("All");
         }
 
         private void btnExhibit_Click(object sender, RoutedEventArgs e)
         {
-            SetCitations("Exhibit");
+            SearchTextBox.Text = "";
+            FilterCiteList("Exhibit");
         }
 
         private void btnRecord_Click(object sender, RoutedEventArgs e)
         {
-            SetCitations("Record");
+            SearchTextBox.Text = "";
+            FilterCiteList("Record");
         }
 
         private void btnLegal_Click(object sender, RoutedEventArgs e)
         {
-            SetCitations("Legal");
+            SearchTextBox.Text = "";
+            FilterCiteList("Legal");
         }
 
         private void btnOther_Click(object sender, RoutedEventArgs e)
         {
-            SetCitations("Other");
+            SearchTextBox.Text = "";
+            FilterCiteList("Other");
         }
 
+        #endregion
 
         #region Search Bar
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            try
+            SearchText = SearchTextBox.Text;
+            if (SearchText != "")
             {
-                SearchText = SearchTextBox.Text;
-                if (SearchText != "")
+                imgMagGlass.Visibility = Visibility.Collapsed;
+                imgClear.Visibility = Visibility.Visible;
+
+                var searchBox = (TextBox)sender;
+
+                var _citations = citationsVisible.Where(n => n.LongDescription.Contains(searchBox.Text)).ToList();
+                citationsVisible.Clear();
+
+                foreach (Cite cite in _citations)
                 {
-                    imgMagGlass.Visibility = Visibility.Collapsed;
-                    imgClear.Visibility = Visibility.Visible;
-
-                    var searchBox = (TextBox)sender;
-
-                    var _citations = citations.Where(n => n.LongDescription.Contains(searchBox.Text)).ToList();
-                    citations.Clear();
-
-                    foreach (Cite cite in _citations)
-                    {
-                        citations.Add(cite);
-                    }
-                }
-                else
-                {
-                    imgMagGlass.Visibility = Visibility.Visible;
-                    imgClear.Visibility = Visibility.Collapsed;
-
-                    SetCitations("All");
+                    citationsVisible.Add(cite);
                 }
             }
-            catch { };
+            else
+            {
+                imgMagGlass.Visibility = Visibility.Visible;
+                imgClear.Visibility = Visibility.Collapsed;
 
-
-
+                FilterCiteList("All");
+            }
         }
 
         private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -200,12 +229,12 @@ namespace Citation.UserControls
             {
                 var searchBox = (TextBox)sender;
 
-                var _citations = citations.Where(n => n.LongDescription.Contains(searchBox.Text)).ToList();
-                citations.Clear();
+                var _citations = citationsVisible.Where(n => n.LongDescription.Contains(searchBox.Text)).ToList();
+                citationsVisible.Clear();
 
                 foreach (Cite cite in _citations)
                 {
-                    citations.Add(cite);
+                    citationsVisible.Add(cite);
                 }
             }
         }

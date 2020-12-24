@@ -1,30 +1,31 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Forms.Integration;
-using WPF = System.Windows.Controls;
+using System.Windows.Controls;
 
 
 namespace LitKit1.ControlsWPF
 {
-    public partial class HoldingControl : UserControl
+    public partial class HoldingControl : System.Windows.Forms.UserControl
     {
+        public System.Windows.Controls.UserControl WPFUserControl;
         public HoldingControl()
         {
             InitializeComponent();
         }
 
-        public HoldingControl(WPF.UserControl WPF)
+        public HoldingControl(System.Windows.Controls.UserControl _WPF)
         {
             InitializeComponent();
-            AddWPF(WPF);
+            AddWPF(_WPF);
         }
 
-        public void AddWPF(WPF.UserControl WPF)
+        public void AddWPF(System.Windows.Controls.UserControl _WPF)
         {
-
+            WPFUserControl = _WPF;
             ElementHost host = new ElementHost();
             host.Dock = DockStyle.Fill;
 
-            host.Child = WPF;
+            host.Child = _WPF;
 
             this.Controls.Add(host);
             this.AutoSize = true;

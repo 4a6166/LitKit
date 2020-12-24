@@ -5,8 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Citation"
              xmlns:Controls="clr-namespace:LitKit1.Controls" x:Class="LitKit1.ControlsWPF.Citation.CiteMain"
+    xmlns:vm="clr-namespace:Citation.ViewModels;assembly=Citation"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300">
+    <UserControl.Resources>
+        <!--<vm:MainViewVM/>-->
+        <Brush x:Key="CiteTypeBrush_Exhibit">#136F63</Brush>
+        <Brush x:Key="CiteTypeBrush_LegalCite">#3F88C5</Brush>
+        <Brush x:Key="CiteTypeBrush_RecordCite">#D00000</Brush>
+        <Brush x:Key="CiteTypeBrush_OtherCite">#FFBA08</Brush>
+        <Brush x:Key="CiteTypeBrush_Extra">#032B43</Brush>
+    </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -42,14 +51,94 @@
                 Visibility="Collapsed">
             <local:CiteAdd/>
         </Border>
-        <!--<local:CiteFormat HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Visibility="Collapsed" Grid.ColumnSpan="2" Grid.RowSpan="2"/>-->
-        <StackPanel x:Name="SearchStackPanel"  Orientation="Vertical"  Grid.Column="1" Grid.ColumnSpan="2" Height="26" Grid.Row="1" Width="auto" HorizontalAlignment="Center" >
-            
-            <StackPanel x:Name="CiteTypeStackPanel" Orientation="Horizontal" VerticalAlignment="Center">
-                <Rectangle Fill="Green" Height="20" Width="60" Margin="3"/>
-                <Rectangle Fill="Green" Height="20" Width="60" Margin="3"/>
-                <Rectangle Fill="Green" Height="20" Width="60" Margin="3"/>
-            </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Vertical">
+
+            <!--########################################-->
+            <!--Search Grid-->
+            <!--########################################-->
+            <Grid x:Name="SearchGrid"
+                    MaxHeight="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchLabel"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        Grid.ColumnSpan="2"
+                        Text="Search"
+                        Foreground="Gray"
+                        />
+
+                <TextBox x:Name="SearchTextBox" 
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                             Background="Transparent"
+                        TextChanged="TextBox_TextChanged"
+                        GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" KeyDown="SearchTextBox_KeyDown" 
+                        />
+                <Button x:Name="SearchIconButton"
+                        Grid.Column="1"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Right"
+                        Margin="0" Click="SearchButton_Click">
+                    <UniformGrid>
+                        <Image x:Name="imgMagGlass" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Visibility="Visible"
+                    Source="/LitKit;component/Resources/search-thumb.png" />
+                        <Image x:Name="imgClear"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Visibility="Collapsed"
+                    Source="/LitKit;component/Resources/clear-thumb.png" />
+                    </UniformGrid>
+                </Button>
+            </Grid>
+                <WrapPanel FlowDirection="RightToLeft">
+                <Button x:Name="btnAllCites" Click="btnAllCites_Click"
+                        
+                    Margin=".5">
+                    <Label Content="All Cites"/>
+                </Button>
+                <Button x:Name="btnExhibit" Click="btnExhibit_Click"
+                    Margin=".5">
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_Exhibit}"
+                            Opacity=".4" Margin="-1"/>
+                        <Label Content="Exhibits"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="btnRecord" Click="btnRecord_Click"
+                    Margin=".5">
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_RecordCite}"
+                                Opacity=".4" Margin="-1"/>
+                        <Label Content="Record Cites"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="btnLegal" Click="btnLegal_Click"
+                    Margin=".5">
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_LegalCite}"
+                                Opacity=".4" Margin="-1"/>
+                        <Label Content="Legal Cites"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="btnOther" Click="btnOther_Click"
+                    Margin=".5">
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_OtherCite}"
+                                Opacity=".4" Margin="-1"/>
+                        <Label Content="Other Cites"/>
+                    </Grid>
+                </Button>
+                </WrapPanel>
+
         </StackPanel>
 
 

@@ -11,6 +11,7 @@ using Microsoft.Office.Interop.Word;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Core;
 using LitKit1.Controls.AnsResControls;
+using Citation.UserControls;
 
 namespace LitKit1
 {
@@ -62,7 +63,8 @@ namespace LitKit1
         {
             log.Info("AddCitationControlMain run start");
 
-            var CitationMain = new ControlsWPF.HoldingControl(new ControlsWPF.Citation.CiteMain());
+            var CitationMain = new ControlsWPF.HoldingControl();
+                /*new ControlsWPF.HoldingControl(new ControlsWPF.Citation.CiteMain());*/
             CitationTaskPane = this.CustomTaskPanes.Add(CitationMain, "LitKit Citation Tool", window);
             CitationMain.Dock = System.Windows.Forms.DockStyle.Fill;
             CitationTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
