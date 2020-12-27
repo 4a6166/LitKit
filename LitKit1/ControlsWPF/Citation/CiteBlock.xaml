@@ -6,7 +6,7 @@
              xmlns:app="LitKit1.ControlsWPF.App"
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Citation"
              mc:Ignorable="d" 
-             d:DesignHeight="45" d:DesignWidth="500" Margin="1.5">
+             d:DesignHeight="45" d:DesignWidth="350" Margin="1.5">
 
     <UserControl.Resources>
         <Style TargetType="{x:Type Button}">
@@ -20,24 +20,50 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Brush x:Key="CiteTypeBrush_Exhibit">#136F63</Brush>
+        <Brush x:Key="CiteTypeBrush_LegalCite">#3F88C5</Brush>
+        <Brush x:Key="CiteTypeBrush_RecordCite">#D00000</Brush>
+        <Brush x:Key="CiteTypeBrush_OtherCite">#FFBA08</Brush>
+        <Brush x:Key="CiteTypeBrush_Extra">#032B43</Brush>
+
     </UserControl.Resources>
     <Grid x:Name="MainGrid" Background="#f3f2f1" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100*"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition MinWidth="150" />
+            <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="21"/>
             <RowDefinition Height="16" />
         </Grid.RowDefinitions>
+        <TextBlock x:Name="CiteCount" 
+                   Grid.Column="1" 
+                   Grid.Row="0" 
+                   Text="0" 
+                   FontSize="22" FontWeight="Bold" Foreground="SlateGray" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Margin="0,0,0,-1"/>
+        <TextBlock 
+            Grid.Column="1" 
+            Grid.Row="1" 
+            Text="Times Cited" FontSize="9" Foreground="SlateGray" 
+            HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Button x:Name="CiteButton"
                 Grid.Column="0"
                 Grid.RowSpan ="2"
                 BorderThickness ="0"
                 Margin="0,0,0,0"
-                Width="10000" 
+                Width="1000" 
                 HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick">
-            <!--    ////////////////////////////////////////////////////////////// MAking this button very long allows it to take up as much space as necessary in the stackpanel, but it just hides the excess under the other controls. TODO-->
+            <Button.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add a New Citation to the Citation List"/>
+                    <MenuItem Header="Insert Current Citation at Cursor" /> <!--TBD set click-->
+                    <MenuItem Header="Edit Current Citation Description"/>
+                    <MenuItem Header="Delete Citation from List and Document"/>
+                </ContextMenu>
+            </Button.ContextMenu>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0" >
                 <Border x:Name="CiteTypeIndicator" 
                         Grid.Column="0" 
@@ -45,8 +71,8 @@
                         Width="5" Height="auto" 
                         Margin="0,0,0,0" 
                         BorderThickness="2" 
-                        BorderBrush="DarkGreen" 
-                        Background="Transparent" />
+                        BorderBrush="{StaticResource CiteTypeBrush_Extra}" 
+                        Background="{StaticResource CiteTypeBrush_Extra}"/>
                 <StackPanel>
                     <TextBlock x:Name="CiteRefName" 
                    Grid.Column="1"
@@ -67,21 +93,7 @@
                 </StackPanel>
             </StackPanel>
         </Button>
-        <TextBlock x:Name="CiteCount" 
-                   Grid.Column="1" 
-                   Grid.Row="0" 
-                   Text="0" 
-                   FontSize="22" FontWeight="Bold" Foreground="SlateGray" 
-                   HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Margin="0,0,0,-1"/>
-        <TextBlock 
-            Grid.Column="1" 
-            Grid.Row="1" 
-            Text="Cites in Document" FontSize="9" Foreground="SlateGray" 
-            HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
     </Grid>
-
-    <!--Reorganize so single button contains everything but the flyout and has the double click to insert method. Have it collapse when the "Are you sure you want to Delete" flyout appears-->
 
 </UserControl>

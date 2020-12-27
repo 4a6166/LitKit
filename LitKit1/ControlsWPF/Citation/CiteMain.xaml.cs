@@ -244,5 +244,100 @@ namespace LitKit1.ControlsWPF.Citation
         }
         #endregion
 
+        private void SBStackPlanelImageDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (SBDropDownBorder.ContextMenu.IsOpen)
+            {
+                SBDropDownBorder.ContextMenu.IsOpen = false;
+            }
+            else SBDropDownBorder.ContextMenu.IsOpen = true;
+        }
+
+        private void SBStackPlanelImage_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //TODO: open new cite panel
+
+            if (SBStackPlanelImage.Opacity == 1)
+            { 
+                SBStackPlanelImage.Opacity = .5; 
+            }
+            else SBStackPlanelImage.Opacity = 1;
+        }
+
+        private void SBStackPlanelImage_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void SBPanelImage_MouseEnter(object sender, MouseEventArgs e)
+        {
+            AddCiteLabel.Visibility = Visibility.Visible;
+            SBDropDownBorder.Visibility = Visibility.Visible;
+            //SBPanelImage.Background = Brushes.DimGray;
+            SBStackPlanelImageDropDown.Opacity = 1;
+        }
+
+        private void SBPanelImage_MouseLeave(object sender, MouseEventArgs e)
+        {
+            AddCiteLabel.Visibility = Visibility.Collapsed;
+            SBDropDownBorder.Visibility = Visibility.Collapsed;
+            //SBPanelImage.Background = Brushes.LightGray;
+            SBStackPlanelImageDropDown.Opacity = .5;
+        }
+
+        private void RefreshBorder_MouseEnter(object sender, MouseEventArgs e)
+        {
+            RefreshLabel.Visibility = Visibility.Visible;
+        }
+
+        private void RefreshBorder_MouseLeave(object sender, MouseEventArgs e)
+        {
+            RefreshLabel.Visibility = Visibility.Collapsed;
+        }
+
+        private void SBDropDownBorder_MouseEnter(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void ExhibitDragDropImageDropDown_MouseEnter(object sender, MouseEventArgs e)
+        {
+            IntroDragAndDrop.ContextMenu.IsOpen = true;
+        }
+
+        private void ExhibitDragDropImageDropDown_MouseLeave(object sender, MouseEventArgs e)
+        {
+            IntroDragAndDrop.ContextMenu.IsOpen = false;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ExhibitIntroLabel.Content = "Exhibit";
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            ExhibitIntroLabel.Content = "Ex.";
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            ExhibitIntroLabel.Content = "Exh.";
+        }
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
+            ExhibitIntroLabel.Content = "Appendix";
+        }
+
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        {
+            ExhibitIntroLabel.Content = "Appx.";
+        }
+
+        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        {
+            ExhibitIntroLabel.Content = "Tab";
+        }
     }
 }

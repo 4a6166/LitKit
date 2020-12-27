@@ -7,7 +7,6 @@ using LitKit1.Controls.RedactionControls;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Tools.Ribbon;
-using Tools.Exhibit;
 using Tools.RedactionTool;
 using Tools.Simple;
 using LitKit1.Controls.AnsResControls;
@@ -15,10 +14,8 @@ using Services.Licensing;
 using System.IO;
 using System.Text.RegularExpressions;
 //using Tools.Citation;
-using System.Collections.Generic;
 using Services.Base;
 using LitKit1.ControlsWPF;
-using _cite = WPF.Citation.UserControls;
 
 namespace LitKit1
 {

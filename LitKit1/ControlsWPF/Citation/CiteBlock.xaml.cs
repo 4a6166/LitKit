@@ -52,9 +52,11 @@ namespace LitKit1.ControlsWPF.Citation
         private CiteFlyout AddFlyout()
         {
             var flyout = new CiteFlyout(this, StackPanelParent, CiteMain);
-            Grid.SetColumn(flyout, 1);
+            Grid.SetColumn(flyout, 0);
+            Grid.SetColumnSpan(flyout, 2);
             Grid.SetRow(flyout, 0);
             Grid.SetRowSpan(flyout, 2);
+            flyout.HorizontalAlignment = HorizontalAlignment.Right;
             flyout.Width = 100;
             flyout.Visibility = Visibility.Collapsed;
 
@@ -119,6 +121,11 @@ namespace LitKit1.ControlsWPF.Citation
         private void CiteButton_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             CiteMain.helper.InsertCiteAtSelection(citation);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

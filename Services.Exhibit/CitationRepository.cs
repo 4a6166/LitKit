@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Tools.Citation
@@ -41,9 +42,33 @@ namespace Tools.Citation
 
         private void FrameCustomXMLDoc()
         {
-            //TODO: make string embedded  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            string CitationFrame = new StreamReader(@"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\Services.Exhibit\CitationsCustomXMLFrame.xml", Encoding.UTF8).ReadToEnd();
-            _app.ActiveDocument.CustomXMLParts.Add(CitationFrame);
+
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            String Root = Directory.GetCurrentDirectory();
+            string path = string.Empty;
+
+            try // For debugging
+            {
+                path = Root + @"\" +@"CitationsCustomXMLFrame.xml";
+            }
+            catch { }
+            //try //For user testing
+            //{
+            //    string Parent = Directory.GetCurrentDirectory() + @"\..\";
+            //    var Dirs = Directory.EnumerateDirectories(Parent);
+
+            //    string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
+
+            //    path = Rootdll + @"\CitationsCustomXMLFrame.xml";
+            //}
+            //catch { }
+
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(path);
+
+            _app.ActiveDocument.CustomXMLParts.Add(xmlDocument.OuterXml);
+
+
         }
 
         #region Formatting

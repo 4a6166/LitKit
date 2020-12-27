@@ -51,6 +51,7 @@ namespace WPF.Citation.UserControls
             CitesListView.ItemsSource = citationsVisible;
         }
 
+
         private void LoadCitations()
         {
             citationsAll = ViewModel.Citations;
@@ -244,5 +245,36 @@ namespace WPF.Citation.UserControls
         {
 
         }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (SBStackPlanelImage.Opacity == 1)
+            {
+                SBStackPlanelImage.Opacity = .5;
+            }
+            else SBStackPlanelImage.Opacity = 1;
+        }
+
+        private void SBStackPlanelImageDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SBStackPlanelImageDropDown.ContextMenu.IsOpen = true;
+        }
+
+        private void Border_MouseEnter(object sender, MouseEventArgs e)
+        {
+            SBPanelImage.Background = Brushes.LightGray;
+            SBPanelImage.BorderBrush = Brushes.DimGray;
+            SBDropDownBorder.Background = Brushes.LightGray;
+            SBDropDownBorder.BorderBrush = Brushes.DimGray;
+        }
+
+        private void Border_MouseLeave(object sender, MouseEventArgs e)
+        {
+            SBPanelImage.Background = Brushes.Transparent;
+            SBPanelImage.BorderBrush = Brushes.Transparent;
+            SBDropDownBorder.Background = Brushes.Transparent;
+            SBDropDownBorder.BorderBrush = Brushes.Transparent;
+        }
+
     }
 }

@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Citation"
              xmlns:Controls="clr-namespace:LitKit1.Controls" x:Class="LitKit1.ControlsWPF.Citation.CiteMain"
     xmlns:vm="clr-namespace:Citation.ViewModels;assembly=Citation"
-             mc:Ignorable="d" 
+    xmlns:dd="urn:gong-wpf-dragdrop" xmlns:numeric="http://gu.se/NumericInput"
+    mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300">
     <UserControl.Resources>
         <!--<vm:MainViewVM/>-->
@@ -24,16 +25,489 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="63"/>
-            <RowDefinition Height="45*"/>
-            <RowDefinition Height="200*"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="5"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+
         </Grid.RowDefinitions>
+
+        <!--############################################-->
+        <!-- Cite Format Expander-->
+        <!--############################################-->
+        <Grid
+            VerticalAlignment="Bottom"
+            Background="Transparent"
+            Grid.Column="0" Grid.ColumnSpan="4"
+            Grid.Row="3">
+            <Border 
+                Margin="3,3,3,0"
+                Background="LightGray" CornerRadius="15,15,0,0">
+                <Expander x:Name="CitationFormattingExpander" Header="Citation Formatting" 
+                          FontWeight="DemiBold"
+                  Margin="5,5,5,5" 
+                  IsExpanded="True"
+                      >
+                    <StackPanel Orientation="Vertical"
+                                Margin="0,15,0,0"
+                        MaxHeight="620" Height="auto">
+                        <Label FontStyle="Italic" FontWeight="Normal" Margin="0,0,0,15" 
+                               Content="Drag the pieces to adjust Exhibit formatting"/>
+                        <!--https://github.com/punker76/gong-wpf-dragdrop/wiki/Usage-->
+                        <Label Content="Long Cite Formatting"/>
+                        <ListBox x:Name="DragAndDropListBox"
+                                 Width="auto"
+                                 Margin="0,0,0,15"
+                                 dd:DragDrop.IsDragSource="True"
+                                 dd:DragDrop.IsDropTarget="True" >
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <Border x:Name="IntroDragAndDrop"
+                                    Background="{StaticResource CiteTypeBrush_LegalCite}"
+                                    Opacity=".4"
+                                    CornerRadius="5"
+                                    >
+                                <Border.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Exhibit" Click="MenuItem_Click"/>
+                                        <MenuItem Header="Ex." Click="MenuItem_Click_1"/>
+                                        <MenuItem Header="Exh." Click="MenuItem_Click_2"/>
+                                        <MenuItem Header="Appendix" Click="MenuItem_Click_3"/>
+                                        <MenuItem Header="Appx." Click="MenuItem_Click_4"/>
+                                        <MenuItem Header="Tab" Click="MenuItem_Click_5"/>
+                                    </ContextMenu>
+                                </Border.ContextMenu>
+                                <StackPanel Orientation="Horizontal"
+                                            >
+                                    <Label x:Name="ExhibitIntroLabel"
+                                           Content="Exhibit"/>
+                                    <Grid x:Name="ExhibitDragDropImageDropDown"
+                                          MouseEnter="ExhibitDragDropImageDropDown_MouseEnter" MouseLeave="ExhibitDragDropImageDropDown_MouseLeave">
+                                        <Image  
+                                           Width="10"
+                                           Height="10"
+                                            Margin="0,0,2,0"
+                                           HorizontalAlignment="left"
+                                           VerticalAlignment="Center"
+                                            Source="C:\Users\Jake\Downloads\droparrow.png"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <Border x:Name="IndexDragAndDrop"
+                                    Opacity=".4"
+                                    Background="{StaticResource CiteTypeBrush_Exhibit}"
+                                    CornerRadius="5">
+                                <Label Content="#"/>
+                            </Border>
+                            <Border x:Name="PinDragAndDrop"
+                                    Background="{StaticResource CiteTypeBrush_RecordCite}"
+                                    Opacity=".4"
+                                    CornerRadius="5">
+                                <Label Content="PIN"/>
+                            </Border>
+                            <Border x:Name="OpenParenDragAndDrop"
+                                    Background="{StaticResource CiteTypeBrush_Extra}"
+                                    Opacity=".4"
+                                    CornerRadius="5">
+                                <Label Content="("/>
+                            </Border>
+                            <Border x:Name="DescriptionDragAndDrop"
+                                    Background="{StaticResource CiteTypeBrush_OtherCite}"
+                                    Opacity=".4"
+                                    CornerRadius="5">
+                                <Label Content="Description"/>
+                            </Border>
+                            <Border x:Name="CloseParenDragAndDrop"
+                                    Background="{StaticResource CiteTypeBrush_Extra}"
+                                    Opacity=".4"
+                                    CornerRadius="5">
+                                <Label Content=")"/>
+                            </Border>
+                        </ListBox>
+                        <Label 
+                            Content="Short Cite Formatting"/>
+                        <ListBox x:Name="DragAndDropListBoxShort"
+                                 Width="auto"
+                                 Margin="0,0,0,15"
+                                 dd:DragDrop.IsDragSource="True"
+                                 dd:DragDrop.IsDropTarget="True" >
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <Border x:Name="IntroDragAndDropShort"
+                                    Background="{StaticResource CiteTypeBrush_LegalCite}"
+                                    CornerRadius="5"
+                                    >
+                                <Border.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Exhibit" Click="MenuItem_Click"/>
+                                        <MenuItem Header="Ex." Click="MenuItem_Click_1"/>
+                                        <MenuItem Header="Exh." Click="MenuItem_Click_2"/>
+                                        <MenuItem Header="Appendix" Click="MenuItem_Click_3"/>
+                                        <MenuItem Header="Appx." Click="MenuItem_Click_4"/>
+                                        <MenuItem Header="Tab" Click="MenuItem_Click_5"/>
+                                    </ContextMenu>
+                                </Border.ContextMenu>
+                                <StackPanel Orientation="Horizontal"
+                                            >
+                                    <Label x:Name="ExhibitIntroLabelShort"
+                                        Content="Exhibit"/>
+                                    <Grid x:Name="ExhibitDragDropImageDropDownShort"
+                                          MouseEnter="ExhibitDragDropImageDropDown_MouseEnter" MouseLeave="ExhibitDragDropImageDropDown_MouseLeave">
+                                        <Image  
+                                           Width="10"
+                                           Height="10"
+                                            Margin="0,0,2,0"
+                                           HorizontalAlignment="left"
+                                           VerticalAlignment="Center"
+                                            Source="C:\Users\Jake\Downloads\droparrow.png"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <Border x:Name="IndexDragAndDropShort"
+                                    Background="{StaticResource CiteTypeBrush_Exhibit}"
+                                    CornerRadius="5">
+                                <Label Content="#"/>
+                            </Border>
+                            <Border x:Name="PinDragAndDropShort"
+                                    Background="{StaticResource CiteTypeBrush_RecordCite}"
+                                    CornerRadius="5">
+                                <Label Content="PIN"/>
+                            </Border>
+                            <Border x:Name="OpenParenDragAndDropShort"
+                                    Background="{StaticResource CiteTypeBrush_Extra}"
+                                    CornerRadius="5">
+                                <Label Content="("/>
+                            </Border>
+                            <Border x:Name="DescriptionDragAndDropShort"
+                                    Background="{StaticResource CiteTypeBrush_OtherCite}"
+                                    CornerRadius="5">
+                                <Label Content="Description"/>
+                            </Border>
+                            <Border x:Name="CloseParenDragAndDropShort"
+                                    Background="{StaticResource CiteTypeBrush_Extra}"
+                                    CornerRadius="5">
+                                <Label Content=")"/>
+                            </Border>
+                        </ListBox>
+
+                        <CheckBox x:Name="IdCheckBox" 
+                                  Margin="0,0,0,15" HorizontalAlignment="Center"
+                                  IsChecked="True"
+                                  >
+                            <TextBlock>
+                                <TextBlock.Inlines>
+                                    <Run Text="Use "/>
+                                    <Run FontStyle="Italic" Text="Id."/>
+                                    <Run Text=" to represent repeated citations"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
+                        </CheckBox>
+                        <!--https://github.com/GuOrg/Gu.Wpf.NumericInput/blob/master/README.md#1-samples-->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Label Content="Index Starts at"/>
+                            <numeric:SpinnerDecorator x:Name="IndexStartNumUpDown"
+                                MinWidth="50">
+                                <!--<numeric:DoubleBox Value="1" 
+                                                   CanValueBeNull="{Binding CanValueBeNull}"
+                                                   ValidationTrigger="PropertyChanged"
+                                                   MaxValue="10000"
+                                                   MinValue="1"
+                                                   NumberStyles="AllowLeadingSign"
+                                                   RegexPattern="\1\d+(\.2\d+)"
+                                                   StringFormat="#,0"
+                                                   DecimalDigits="0"
+                                                   AllowSpinners="True"
+                                                   SpinUpdateMode="PropertyChanged"
+                                                   Increment="{Binding Increment}"  
+                                                   />-->
+                                <numeric:IntBox Value="1"
+                                                ValidationTrigger="PropertyChanged"
+                                                CanValueBeNull="False"
+                                                StringFormat="#,0"
+                                                MinValue="1"
+                                                AllowSpinners="True"
+                                                SpinUpdateMode="PropertyChanged"
+                                                Increment="{Binding Increment}"
+                                                />
+                            </numeric:SpinnerDecorator>
+                        </StackPanel>
+                        <UniformGrid>
+                            <Button x:Name="UpdateFormatting"
+                                    Margin="5">
+                                <Label Content="Update Formatting"/>
+                            </Button>
+                            <Button x:Name="FormattingCancel"
+                                    Margin="5">
+                                <Label Content="Cancel"/>
+                            </Button>
+                        </UniformGrid>
+                    </StackPanel>
+                </Expander>
+            </Border>
+        </Grid>
+
+
+        <!--############################################-->
+        <!-- Add Cite Expander-->
+        <!--############################################-->
+        <!--<Grid
+            VerticalAlignment="Bottom"
+            Background="Transparent"
+            Grid.Column="0" Grid.ColumnSpan="4"
+            Grid.Row="3">
+            <Border 
+                Margin="3,3,3,0"
+                Background="LightGray" CornerRadius="15,15,0,0">
+                <Expander x:Name="AddCitationExpander" Header="Add a Citation" 
+                          FontWeight="DemiBold"
+                  Margin="5,5,5,5" 
+                  IsExpanded="True"
+                      >
+                    <StackPanel Orientation="Vertical"
+                        MaxHeight="620" Height="auto">
+                        <StackPanel x:Name="Format_TypeGrid"
+                                    Orientation="Horizontal"
+                                    Margin="0,10,0,0">
+                            <Label Content="Citation Type"/>
+                            <ComboBox x:Name="Format_TypeComboBox"
+                                      VerticalAlignment="Center"
+                                      IsEditable="False" SelectedIndex="0"
+                                HorizontalAlignment="Right" Width="120">
+                                <ComboBoxItem IsSelected="True" Content="Exhibit"/>
+                                <ComboBoxItem Content="Legal Cite"/>
+                                <ComboBoxItem Content="Record Cite"/>
+                                <ComboBoxItem Content="Other"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel x:Name="Format_LongDescription"
+                                    Margin="0,10,0,0"
+                                    Orientation="Vertical">
+                            <Label Content="Long Description"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="Format_LongDescriptionExhibitLabel"
+                                       Visibility="Collapsed"
+                                    Content="Exhibit 1,"/>
+                                <TextBox x:Name="Format_LongDescriptionTextBox" 
+                                         Grid.Column="2"
+                                         VerticalContentAlignment="Center"
+                                         Text="Example of a Long Description"/>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel x:Name="Format_ShortDescription"
+                                    Margin="0,10,0,0"
+                                    Orientation="Vertical">
+                            <Label Content="Short Description"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="Format_ShortDescriptionExhibitLabel"
+                                       Visibility="Collapsed"
+                                    Content="Exhibit 1,"/>
+                                <TextBox x:Name="Format_ShortDescriptionTextBox" 
+                                         Grid.Column="2"
+                                         VerticalContentAlignment="Center"
+                                         Text="Example of a Short Description"/>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel x:Name="Format_OtherIdentifier"
+                                    Margin="0,10,0,0"
+                                    Orientation="Vertical">
+                            <Label Content="Other Identifier"/>
+                            <TextBox x:Name="Format_OtherIdentifierTextBox" 
+                                         Grid.Column="2"
+                                         VerticalContentAlignment="Center"
+                                         Text="Bates No. AB000000123"/>
+                            <TextBlock 
+                                Foreground="DarkSlateGray"
+                                TextWrapping="Wrap"
+                                TextAlignment="Center"
+                                FontWeight="Normal"
+                                Text="This information will not appear when the citation is inserted in the document."/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btnAddCitation"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="left"
+                                    Margin="10"
+                                    Width="100">
+                                <Grid>
+                                    <Label Content="Add Citation"/>
+                                </Grid>
+                            </Button>
+                            <Button x:Name="btnDoNotAddCitation"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Margin="10"
+                                    Width="100">
+                                <Grid>
+                                    <Label Content="Cancel"/>
+                                </Grid>
+                            </Button>
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2"
+                           Margin="5,40,5,5"
+                                   VerticalAlignment="Bottom">
+                            <TextBlock 
+                            Margin="0,0,0,5" FontWeight="Normal" TextWrapping="WrapWithOverflow" TextAlignment="Center">
+                                <TextBlock.Inlines>
+                                    <Run Text="The "/>
+                                    <Run FontStyle="Italic" FontWeight="DemiBold" Text="Long Description"/>
+                                    <Run Text=" is used the first time a citiation is referenced in the document. Subsequent citations use the "/>
+                                    <Run FontStyle="Italic" FontWeight="DemiBold" Text="Short Description."/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
+                            <TextBlock 
+                            Margin="0,0,0,0" FontWeight="Normal" TextWrapping="WrapWithOverflow" TextAlignment="Center">
+                                <TextBlock.Inlines>
+                                    <Run Text="You may add "/>
+                                    <Run FontWeight="Bold" Text="Bold"/>
+                                    <Run Text=", "/>
+                                    <Run FontStyle="Italic" Text="Italic"/>
+                                    <Run Text=", or "/>
+                                    <Run TextDecorations="Underline" Text="Underline"/>
+                                    <Run Text="formatting to Long or Short Descriptions using the below table:"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
+                            <Grid Width="200" Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Center"
+                                    FontWeight="Bold" Text="Bold"/>
+                                <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Center"
+                                       Text="**Text**"/>
+                                <TextBlock Grid.Column="0" Grid.Row="1" TextAlignment="Center"
+                                    FontStyle="Italic" Text="Italic"/>
+                                <TextBlock Grid.Column="1" Grid.Row="1" TextAlignment="Center"
+                                       Text="//Text//"/>
+                                <TextBlock Grid.Column="0" Grid.Row="2" TextAlignment="Center"
+                                    TextDecorations="Underline" Text="Underline"/>
+                                <TextBlock Grid.Column="1" Grid.Row="2" TextAlignment="Center"
+                                       Text="__Text__"/>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+            </Border>
+        </Grid>-->
+
+
+        <!--############################################-->
+        <!--Top Panel-->
+        <!--############################################-->
+        <UniformGrid
+            Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+            Height="50"
+            Margin="5,10,5,5"
+            Columns="2">
+
+            <!--########################################-->
+            <!--Split Button - Stack panel-->
+            <!--########################################-->
+            <Grid HorizontalAlignment="Left" Height="30">
+                <Border x:Name="SBPanelImage" 
+                        Background="LightGray"
+                        CornerRadius="15"
+                        MouseEnter="SBPanelImage_MouseEnter" MouseLeave="SBPanelImage_MouseLeave">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="SBStackPlanelImage"
+                           Margin="2,2,0,2"
+                            MouseDown="SBStackPlanelImage_MouseDown_1"
+                            Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png" HorizontalAlignment="Left" Width="26">
+                        </Image>
+                        <Label x:Name="AddCiteLabel"
+                            Grid.Column="1" 
+                            VerticalAlignment="Center"
+                            Margin="0,0,5,0"
+                            Visibility="Collapsed"
+                               Content="Add a New Cite"/>
+                        <Border x:Name="SBDropDownBorder" 
+                                Grid.Column="2"
+                        BorderThickness=".5" 
+                                Margin="5"
+                        HorizontalAlignment="Center"
+                        MouseDown="SBStackPlanelImageDropDown_MouseDown" 
+                                Visibility="Collapsed">
+                            <Border.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Add New Citation to List">
+                                        <MenuItem.Icon>
+                                            <Image 
+                                            Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="Add Exhibit Index to Document"></MenuItem>
+                                    <MenuItem Header="Batch Add Citations"></MenuItem>
+                                    <MenuItem Header="Export Citations"></MenuItem>
+                                </ContextMenu>
+                            </Border.ContextMenu>
+                            <Image x:Name="SBStackPlanelImageDropDown"
+                                   Width="12"
+                                   VerticalAlignment="Center"
+                                   Opacity="1"
+                                   Source="C:\Users\Jake\Downloads\droparrow.png">
+                                </Image>
+                        </Border>
+
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Grid>
+                <Border x:Name="RefreshBorder"
+                        Background="LightGray"
+                        CornerRadius="15" HorizontalAlignment="Right"
+                        Width="auto" Height="30"
+                    MouseEnter="RefreshBorder_MouseEnter"
+                    MouseLeave="RefreshBorder_MouseLeave">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Image x:Name="RefreshImg"
+                               Margin="2"
+                            Source="/LitKit;component/Resources/icons8-refresh-64.png"/>-->
+                        <Rectangle Margin="5" Fill="Black" Height="20" Width="20"/>
+                        <Label x:Name="RefreshLabel"
+                               Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                            Content="Refresh" Visibility="Collapsed"
+                               MouseEnter="RefreshBorder_MouseEnter" MouseLeave="RefreshBorder_MouseLeave"/>
+
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </UniformGrid>
 
         <ScrollViewer 
             Grid.Column="1" Grid.ColumnSpan="2" 
-            Grid.Row="2" 
+            Grid.Row="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             VerticalScrollBarVisibility="Auto" 
@@ -52,8 +526,8 @@
             <local:CiteAdd/>
         </Border>
 
-        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Vertical">
 
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Vertical">
             <!--########################################-->
             <!--Search Grid-->
             <!--########################################-->
@@ -99,47 +573,49 @@
                     </UniformGrid>
                 </Button>
             </Grid>
-                <WrapPanel FlowDirection="RightToLeft">
-                <Button x:Name="btnAllCites" Click="btnAllCites_Click"
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Height="35">
+                <WrapPanel FlowDirection="LeftToRight">
+                    <Button x:Name="btnAllCites" Click="btnAllCites_Click"
                         
                     Margin=".5">
-                    <Label Content="All Cites"/>
-                </Button>
-                <Button x:Name="btnExhibit" Click="btnExhibit_Click"
+                        <Label Content="All Cites"/>
+                    </Button>
+                    <Button x:Name="btnExhibit" Click="btnExhibit_Click"
                     Margin=".5">
-                    <Grid>
-                        <Border Background="{StaticResource CiteTypeBrush_Exhibit}"
+                        <Grid>
+                            <Border Background="{StaticResource CiteTypeBrush_Exhibit}"
                             Opacity=".4" Margin="-1"/>
-                        <Label Content="Exhibits"/>
-                    </Grid>
-                </Button>
-                <Button x:Name="btnRecord" Click="btnRecord_Click"
+                            <Label Content="Exhibits"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btnRecord" Click="btnRecord_Click"
                     Margin=".5">
-                    <Grid>
-                        <Border Background="{StaticResource CiteTypeBrush_RecordCite}"
+                        <Grid>
+                            <Border Background="{StaticResource CiteTypeBrush_RecordCite}"
                                 Opacity=".4" Margin="-1"/>
-                        <Label Content="Record Cites"/>
-                    </Grid>
-                </Button>
-                <Button x:Name="btnLegal" Click="btnLegal_Click"
+                            <Label Content="Record"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btnLegal" Click="btnLegal_Click"
                     Margin=".5">
-                    <Grid>
-                        <Border Background="{StaticResource CiteTypeBrush_LegalCite}"
+                        <Grid>
+                            <Border Background="{StaticResource CiteTypeBrush_LegalCite}"
                                 Opacity=".4" Margin="-1"/>
-                        <Label Content="Legal Cites"/>
-                    </Grid>
-                </Button>
-                <Button x:Name="btnOther" Click="btnOther_Click"
+                            <Label Content="Legal"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btnOther" Click="btnOther_Click"
                     Margin=".5">
-                    <Grid>
-                        <Border Background="{StaticResource CiteTypeBrush_OtherCite}"
+                        <Grid>
+                            <Border Background="{StaticResource CiteTypeBrush_OtherCite}"
                                 Opacity=".4" Margin="-1"/>
-                        <Label Content="Other Cites"/>
-                    </Grid>
-                </Button>
+                            <Label Content="Other"/>
+                        </Grid>
+                    </Button>
                 </WrapPanel>
-
+            </ScrollViewer>
         </StackPanel>
+
 
 
 

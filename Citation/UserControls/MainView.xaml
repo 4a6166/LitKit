@@ -23,11 +23,67 @@
             <RowDefinition Height="auto" />
             <RowDefinition/>
         </Grid.RowDefinitions>
+
+
+        
         <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical">
+            <Expander Grid.Column="0" Header="Citation Formatting" 
+                  HorizontalAlignment="Left" Margin="10,10,0,0" 
+                  Grid.Row="3" VerticalAlignment="Top" Width="260" Grid.ColumnSpan="2"
+                  IsExpanded="True"
+                      >
+                <Grid Background="#FFE5E5E5" Height="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Some Text"/>
+                    <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
+                               TextWrapping="Wrap"
+                               Text="orem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse viverra neque vel tristique mollis. Aenean et varius ipsum, in scelerisque tortor. Morbi pharetra massa ligula, accumsan interdum quam elementum blandit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent lacus enim, pharetra in nisi id, interdum semper lorem. Quisque elementum dolor a pulvinar feugiat. In condimentum nulla sed neque egestas, eget feugiat nunc finibus. Donec et malesuada arcu. Donec et bibendum odio, ut dignissim metus. Aenean iaculis mollis magna id porttitor. Integer id lacinia magna. In hac habitasse platea dictumst. Sed maximus, orci ac pellentesque feugiat, justo turpis ullamcorper ligula, quis consequat ante enim sed elit. Cras a dolor posuere, tincidunt tellus et, congue enim. Morbi a diam neque. Nullam auctor vestibulum est nec feugiat. Quisque aliquet nunc ac sem porttitor laoreet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia luctus nulla nec rutrum. Quisque blandit ipsum vitae dui lobortis ornare. Nunc at laoreet tortor, non porta ex. Nunc varius orci enim, in tristique massa pulvinar vestibulum. Cras hendrerit viverra nunc, vitae cursus urna molestie non. Nunc condimentum purus a nunc tincidunt, eget lacinia felis molestie. Nullam euismod, augue sit amet volutpat condimentum, orci quam ultrices leo, quis ultricies sapien augue et sapien. Vivamus tincidunt tellus quis odio efficitur, vel scelerisque augue convallis. Donec ut scelerisque odio. Aliquam erat volutpat. Nulla quis tincidunt quam. Nunc tempor nisl at dui vulputate, et mattis diam commodo. In non odio ac metus semper suscipit. Aenean ac hendrerit urna. Aliquam ut ligula a nulla eleifend sollicitudin. Maecenas eu luctus diam. Vivamus lobortis eget elit in placerat. Nulla luctus vitae nisi quis consequat. Proin porttitor, leo eget malesuada molestie, metus nulla maximus lectus, sit amet iaculis libero massa id lectus. Duis lectus magna, interdum luctus sem rutrum, lobortis fermentum urna. Curabitur id interdum ex. Etiam vel varius tortor, nec malesuada est. Quisque quam augue, pharetra sit amet ultricies non, elementum a ante. Quisque a venenatis lacus. Aliquam interdum enim non tortor gravida, quis finibus dolor eleifend. In ut mi ligula. Quisque dictum quam nec lacus dictum faucibus. Aliquam lorem purus, luctus id diam ac, auctor gravida magna. In ac felis at diam vehicula interdum vitae quis turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean a lacinia nulla, vel rhoncus eros. Vivamus hendrerit lorem quis massa semper, eu euismod mauris aliquam. Morbi quis laoreet est. Integer aliquet, tellus id fermentum dignissim, tortor est scelerisque metus, sit amet mattis justo quam a mauris. Sed nec massa faucibus mauris consectetur auctor. In sollicitudin est vitae erat vehicula, ac cursus dolor rhoncus. Pellentesque eu sollicitudin est, sit amet imperdiet eros. Sed purus quam, vestibulum ut euismod vel, tincidunt ac augue. Curabitur eu felis in mi euismod fringilla."/>
+                    <Rectangle Fill="Black" Height="100" Width="100"/>
+                </Grid>
+            </Expander>
+
+            <!--########################################
+            Split Button - Stack panel
+            ########################################-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Border x:Name="SBPanelImage" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
+                <Image x:Name="SBStackPlanelImage"
+                            MouseDown="Image_MouseDown"
+                            Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png">
+                </Image>
+                </Border>
+                <Border x:Name="SBDropDownBorder" BorderThickness=".5" MouseDown="SBStackPlanelImageDropDown_MouseDown" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
+                <Image x:Name="SBStackPlanelImageDropDown"
+                       Height="15"
+                       VerticalAlignment="Bottom"
+                       Source="C:\Users\Jake\Downloads\droparrow.png">
+                        <Image.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add New Citation to List">
+                                    <MenuItem.Icon>
+                                        <Image 
+                                            Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem Header="Add Exhibit Index to Document"></MenuItem>
+                                <MenuItem Header="Batch Add Citations"></MenuItem>
+                                <MenuItem Header="Export Citations"></MenuItem>
+                            </ContextMenu>
+                        </Image.ContextMenu>
+                    </Image>
+                </Border>
+            </StackPanel>
+
+
+
             
-<!--########################################-->
-            <!--Search Grid-->
-<!--########################################-->
+            <!--########################################
+            Search Grid
+########################################-->
             <Grid x:Name="SearchGrid"
                     MaxHeight="20">
                 <Grid.ColumnDefinitions>
@@ -183,5 +239,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+
     </Grid>
 </UserControl>
