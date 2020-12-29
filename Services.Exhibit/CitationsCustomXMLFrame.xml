@@ -2,12 +2,14 @@
 <Citations xmlns="Prelimine Litkit Citation Tool">
   <Format xmlns="">
     <Intro>Exhibit</Intro>
-    <Long>{INTRO}{INDEX}{DESC}</Long>
-    <Short>{INTRO}{INDEX}</Short>
+    <Long>{{INTRO}}{{INDEX}}{{,}}{{DESC}}{{(}}{{PIN}}{{)}}{{Some free text}}{{Other Free Text}}</Long>
+    <Short>{{INTRO}}{{INDEX}}</Short>
     <IndexStyle>Numbers</IndexStyle>
     <IndexStart>1</IndexStart>
     <Parentheses>False</Parentheses>
     <IdCite>True</IdCite>
+    <FT>Free Text 1</FT>
+    <FT>Free Text 2</FT>
   </Format>
 </Citations>
 

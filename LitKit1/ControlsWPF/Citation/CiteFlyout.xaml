@@ -41,7 +41,8 @@
                             <RowDefinition Height="25*"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <Image Source="/LitKit;component/Resources/icons8-delete-64.png" />
+                        <!--<Image Source="/LitKit;component/Resources/icons8-delete-64.png" />-->
+                        <Image Source="/LitKit;component/Resources/icons8-delete1.png" />
                         <!--To get image to show, but set properties to "Resource" and "Copy if newer"-->
                         <TextBlock x:Name="TextDelete" Grid.Row="1" Text="Delete" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
@@ -62,7 +63,9 @@
                             <RowDefinition Height="25*"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <Image Source="/LitKit;component/Resources/icons8-plus-math-60.png" />
+                        <!--<Image Source="/LitKit;component/Resources/icons8-insert1.png" />-->
+                        <Image Source="/LitKit;component/Resources/icons8-insert3.2.png" />
+
                         <TextBlock x:Name="TextInsert" Grid.Row="1" Text="Insert" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
                 </Button>

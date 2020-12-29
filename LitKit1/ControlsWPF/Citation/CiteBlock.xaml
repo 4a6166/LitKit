@@ -6,7 +6,8 @@
              xmlns:app="LitKit1.ControlsWPF.App"
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Citation"
              mc:Ignorable="d" 
-             d:DesignHeight="45" d:DesignWidth="350" Margin="1.5">
+             d:DesignHeight="45" d:DesignWidth="350" Margin="1.5"
+             DataContext="{Binding}">
 
     <UserControl.Resources>
         <Style TargetType="{x:Type Button}">
@@ -40,7 +41,7 @@
         <TextBlock x:Name="CiteCount" 
                    Grid.Column="1" 
                    Grid.Row="0" 
-                   Text="0" 
+                   Text="{Binding InsertedCount}" 
                    FontSize="22" FontWeight="Bold" Foreground="SlateGray" 
                    HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Margin="0,0,0,-1"/>
@@ -55,7 +56,7 @@
                 BorderThickness ="0"
                 Margin="0,0,0,0"
                 Width="1000" 
-                HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick">
+                HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick" Click="CiteButton_Click">
             <Button.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add a New Citation to the Citation List"/>
@@ -65,19 +66,20 @@
                 </ContextMenu>
             </Button.ContextMenu>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0" >
-                <Border x:Name="CiteTypeIndicator" 
+                <Border x:Name="CiteTypeIndicator"
                         Grid.Column="0" 
                         Grid.RowSpan="2" 
                         Width="5" Height="auto" 
                         Margin="0,0,0,0" 
                         BorderThickness="2" 
                         BorderBrush="{StaticResource CiteTypeBrush_Extra}" 
-                        Background="{StaticResource CiteTypeBrush_Extra}"/>
+                        Background="{StaticResource CiteTypeBrush_Extra}">
+                </Border>
                 <StackPanel>
                     <TextBlock x:Name="CiteRefName" 
                    Grid.Column="1"
                    Grid.Row="0" 
-                   Text="Long Description" 
+                   Text="{Binding LongDescription}" 
                    FontSize="11" FontWeight="Heavy"
                    Margin="4,2,0,2" 
                    TextTrimming="CharacterEllipsis"/>
@@ -86,13 +88,19 @@
                    Grid.Row="2" 
                    Height="auto" Margin="4,2,0,2"
                    HorizontalAlignment="Left" 
-                   Text="Exhibit 1, Example Long Cite Text for and Exhibit" 
+                   Text="{Binding LongCiteExample}" 
                    FontWeight="Light" FontSize="10" 
                    TextTrimming="CharacterEllipsis"
                      />
                 </StackPanel>
             </StackPanel>
         </Button>
+        <local:CiteFlyout x:Name="Flyout"
+                          Visibility="Collapsed"
+            Grid.ColumnSpan="2"
+            Grid.RowSpan="2"
+            />
+
 
     </Grid>
 

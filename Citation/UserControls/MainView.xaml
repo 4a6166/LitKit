@@ -168,7 +168,10 @@
             </StackPanel>
 
         </StackPanel>
-        <ListView x:Name="CitesListView" Grid.Row="1" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ListView x:Name="CitesListView" Grid.Row="1" 
+                  SelectionMode="Single" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  MouseEnter="CitesListView_MouseEnter" MouseLeave="CitesListView_MouseLeave">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Focusable" Value="False"/>
