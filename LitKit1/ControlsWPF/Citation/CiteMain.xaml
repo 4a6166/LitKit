@@ -10,14 +10,14 @@
     mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300">
     <UserControl.Resources>
-        <!--<vm:MainViewVM/>-->
+        <vm:MainViewVM x:Key="mainView"/>
         <Brush x:Key="CiteTypeBrush_Exhibit">#136F63</Brush>
         <Brush x:Key="CiteTypeBrush_LegalCite">#3F88C5</Brush>
         <Brush x:Key="CiteTypeBrush_RecordCite">#D00000</Brush>
         <Brush x:Key="CiteTypeBrush_OtherCite">#FFBA08</Brush>
         <Brush x:Key="CiteTypeBrush_Extra">#032B43</Brush>
     </UserControl.Resources>
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="1*"/>
@@ -480,19 +480,6 @@
                             <Label Content="Index Starts at"/>
                             <numeric:SpinnerDecorator x:Name="IndexStartNumUpDown"
                                 MinWidth="40" Width="auto" >
-                                <!--<numeric:DoubleBox Value="1" 
-                                                   CanValueBeNull="{Binding CanValueBeNull}"
-                                                   ValidationTrigger="PropertyChanged"
-                                                   MaxValue="10000"
-                                                   MinValue="1"
-                                                   NumberStyles="AllowLeadingSign"
-                                                   RegexPattern="\1\d+(\.2\d+)"
-                                                   StringFormat="#,0"
-                                                   DecimalDigits="0"
-                                                   AllowSpinners="True"
-                                                   SpinUpdateMode="PropertyChanged"
-                                                   Increment="{Binding Increment}"  
-                                                   />-->
                                 <numeric:IntBox Value="1"
                                                 ValidationTrigger="PropertyChanged"
                                                 CanValueBeNull="False"
@@ -766,7 +753,8 @@
                         CornerRadius="15" HorizontalAlignment="Right"
                         Width="auto" Height="30"
                     MouseEnter="RefreshBorder_MouseEnter"
-                    MouseLeave="RefreshBorder_MouseLeave">
+                    MouseLeave="RefreshBorder_MouseLeave"
+                        MouseUp="RefreshBorder_MouseUp">
                     <StackPanel Orientation="Horizontal">
                         <Image x:Name="RefreshImg"
                                Margin="2"
@@ -787,12 +775,13 @@
             VerticalAlignment="Stretch"
             VerticalScrollBarVisibility="Auto" 
             HorizontalScrollBarVisibility="Disabled">-->
-        <ListView x:Name="CiteBlockStackPanel" 
+        <ListView x:Name="CiteBlockStackPanel" ItemsSource="{Binding Citations}"
                         Grid.Column="1" Grid.ColumnSpan="2" 
                         Grid.Row="2"
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Top"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Visibility="Visible" SourceUpdated="CiteBlockStackPanel_SourceUpdated">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <local:CiteBlock>
