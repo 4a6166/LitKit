@@ -10,42 +10,11 @@ namespace LitKit1.ControlsWPF.Citation
 {
     public partial class CiteBlock : UserControl
     {
-        public CiteType citeType { get; set; }
-        public Brush TypeIndicatorColor { get; set; }
-
         public CiteBlock()
         {
             
             InitializeComponent();
 
-            setTypeIndicatorColor();
-            CiteTypeIndicator.BorderBrush = TypeIndicatorColor;
-            CiteTypeIndicator.Background = TypeIndicatorColor;
-
-        }
-
-        private void setTypeIndicatorColor()
-        {
-            //    var type = ColorHolder.Text;
-
-            //    switch (type.ToString())
-            //    {
-            //        case "Exhibit":
-            //            TypeIndicatorColor = SolutionBrushes.Exhibit;
-            //            break;
-            //        case "Legal":
-            //            TypeIndicatorColor = SolutionBrushes.LegalCite;
-            //            break;
-            //        case "Record":
-            //            TypeIndicatorColor = SolutionBrushes.RecordCite;
-            //            break;
-            //        case "Other":
-            //            TypeIndicatorColor = SolutionBrushes.OtherCite;
-            //            break;
-            //        default:
-            //            TypeIndicatorColor = SolutionBrushes.OtherCite;
-            //            break;
-            //    }
         }
 
 

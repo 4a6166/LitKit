@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:app="LitKit1.ControlsWPF.App"
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Citation"
+             xmlns:Converters="clr-namespace:LitKit1.ControlsWPF.Citation.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="45" d:DesignWidth="350" Margin="1.5"
              DataContext="{Binding}">
@@ -27,6 +28,8 @@
         <Brush x:Key="CiteTypeBrush_RecordCite">#D00000</Brush>
         <Brush x:Key="CiteTypeBrush_OtherCite">#FFBA08</Brush>
         <Brush x:Key="CiteTypeBrush_Extra">#032B43</Brush>
+
+        <Converters:CiteTypeColorConverter x:Key="citeTypeConverter" />
 
     </UserControl.Resources>
     <Grid x:Name="MainGrid" Background="#f3f2f1" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" HorizontalAlignment="Stretch">
@@ -72,8 +75,8 @@
                         Width="5" Height="auto" 
                         Margin="0,0,0,0" 
                         BorderThickness="2" 
-                        BorderBrush="{StaticResource CiteTypeBrush_Extra}" 
-                        Background="{StaticResource CiteTypeBrush_Extra}">
+                        BorderBrush="{Binding CiteType, Converter={StaticResource citeTypeConverter}}" 
+                        Background="{Binding CiteType, Converter={StaticResource citeTypeConverter}}">
                 </Border>
                 <StackPanel>
                     <TextBlock x:Name="CiteRefName" 

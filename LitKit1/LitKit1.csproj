@@ -224,6 +224,7 @@
     <Compile Include="ControlsWPF\Citation\CiteMain.xaml.cs">
       <DependentUpon>CiteMain.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWPF\Citation\Converters\CiteTypeColorConverter.cs" />
     <Compile Include="ControlsWPF\Citation\ViewModels\CiteMainVM.cs" />
     <Compile Include="ControlsWPF\HoldingControl.cs">
       <SubType>UserControl</SubType>
