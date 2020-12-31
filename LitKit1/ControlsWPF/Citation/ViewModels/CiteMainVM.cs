@@ -100,11 +100,16 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         public void DeleteCite(Tools.Citation.Citation citation)
         {
-            System.Windows.Forms.MessageBox.Show("Selected Citation: " + citation.ID);
+            var mb = System.Windows.Forms.MessageBox.Show("Are you sure you want to delete this citation from the document?", "Confirm", System.Windows.Forms.MessageBoxButtons.OKCancel);
+            if (mb == System.Windows.Forms.DialogResult.OK)
+            {
 
-            //_repository.DeleteCitation(citation);
-            //LoadCitationsFromRepo();
-            //_docLayer.RefreshDocCites();
+                System.Windows.Forms.MessageBox.Show("Selected Citation: " + citation.ID);
+
+                //_repository.DeleteCitation(citation);
+                //LoadCitationsFromRepo();
+                //_docLayer.RefreshDocCites();
+            }
         }
     }
 }

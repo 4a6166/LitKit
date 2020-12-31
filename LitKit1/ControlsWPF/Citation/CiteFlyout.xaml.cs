@@ -24,13 +24,10 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var mb = System.Windows.Forms.MessageBox.Show("Are you sure you want to delete this citation from the document?", "Confirm",System.Windows.Forms.MessageBoxButtons.OKCancel);
-            if (mb == System.Windows.Forms.DialogResult.OK)
-            {
-                var cite = (Tools.Citation.Citation)DataContext;
+            var cite = (Tools.Citation.Citation)DataContext;
 
-                ViewModel.DeleteCite(cite);
-            }
+            ViewModel.DeleteCite(cite);
+
         }
         private void btnInsert_Click(object sender, RoutedEventArgs e)
         {
