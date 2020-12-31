@@ -778,13 +778,17 @@
         <ListView x:Name="CiteBlockStackPanel" ItemsSource="{Binding Citations}"
                         Grid.Column="1" Grid.ColumnSpan="2" 
                         Grid.Row="2"
-                        HorizontalAlignment="Left" 
-                        VerticalAlignment="Top"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   Visibility="Visible" SourceUpdated="CiteBlockStackPanel_SourceUpdated">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="Control">
+                    <Setter Property="Focusable" Value="False"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <local:CiteBlock>
+                    <local:CiteBlock DataContext="{Binding}">
                         <!--<Style>
                             <Style.Triggers>
                                 <Trigger Property="{Binding CiteType}" Value="Exhibit">
