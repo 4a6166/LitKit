@@ -80,7 +80,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         public void InsertCite(Tools.Citation.Citation citation)
         {
-            //System.Windows.Forms.MessageBox.Show("Selected Citation: "+citation.ID);
+            System.Windows.Forms.MessageBox.Show("Selected Citation: " + citation.ID);
 
 
             //_docLayer.InsertCiteAtSelection(citation);
@@ -100,7 +100,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         public void DeleteCite(Tools.Citation.Citation citation)
         {
-            Citations.Remove(citation);
+            System.Windows.Forms.MessageBox.Show("Selected Citation: " + citation.ID);
 
             //_repository.DeleteCitation(citation);
             //LoadCitationsFromRepo();

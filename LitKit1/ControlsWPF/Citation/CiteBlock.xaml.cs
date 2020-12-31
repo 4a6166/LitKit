@@ -10,12 +10,10 @@ namespace LitKit1.ControlsWPF.Citation
 {
     public partial class CiteBlock : UserControl
     {
-        Tools.Citation.Citation citation;
+        //Tools.Citation.Citation citation;
         CiteMainVM ViewModel;
          public CiteBlock()
         {
-
-            citation = (Tools.Citation.Citation)DataContext;
             
             ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
 
@@ -36,7 +34,8 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void CiteButton_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ViewModel.InsertCite(citation);
+            var cite = (Tools.Citation.Citation)DataContext;
+            ViewModel.InsertCite(cite);
         }
 
         private void CiteButton_Click(object sender, RoutedEventArgs e)

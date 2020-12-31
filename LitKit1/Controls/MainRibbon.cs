@@ -273,11 +273,14 @@ namespace LitKit1
             {
                 try
                 {
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
+
                     Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
 
                     HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
 
-                    if (/*holdingControl.WPFUserControl == null || */holdingControl.Controls.Count<1)
+                    if (holdingControl.WPFUserControl == null)
                     {
                         citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
 
@@ -294,6 +297,8 @@ namespace LitKit1
                     {
                         ActivePane.Visible = false;
                     }
+
+                    stopwatch.Stop();
                 }
                 catch 
                 {
