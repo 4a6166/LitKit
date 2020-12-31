@@ -1,146 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tools.Citation
 {
-    public class Citation : INotifyPropertyChanged
+    public class Citation
     {
-        #region private properties
-        string _ID;
-        string _ReferenceName;
-        CiteType _CiteType;
-        string _LongDescription;
-        string _ShortDescription;
-        string _OtherIdentifier;
-        int _InsertedCount;
-        string _LongCiteExample;
-
-        #endregion
-        public string ID 
-        {
-            get
-            {
-                return _ID;
-            }
-            private set
-            {
-                _ID = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("ID"));
-            }
-        }
+        public string ID { get; private set; }
 
         #region User to enter
         /// <summary>
         /// To be used as a quick reference name
         /// </summary>
-        public string ReferenceName
-        {
-            get
-            {
-                return _ReferenceName;
-            }
-            private set
-            {
-                _ReferenceName = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("ReferenceName"));
-            }
-        }
+        public string ReferenceName { get; set; }
 
-        public CiteType CiteType
-        {
-            get
-            {
-                return _CiteType;
-            }
-            private set
-            {
-                _CiteType = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("CiteType"));
-            }
-        }
+        public CiteType CiteType { get; set; }
 
         /// <summary>
-        /// To be inserted with the long cite or, for Exhibits, the short cite
+        /// To be inserted with the long cite
         /// </summary>
-        public string LongDescription
-        {
-            get
-            {
-                return _LongDescription;
-            }
-            private set
-            {
-                _LongDescription = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("LongDescription"));
-            }
-        }
+        public string LongDescription { get; set; }
 
         /// <summary>
-        /// To be inserted with the short cite for other than Exhibit
+        /// To be inserted with the short cite
         /// </summary>
-        public string ShortDescription
-        {
-            get
-            {
-                return _ShortDescription;
-            }
-            private set
-            {
-                _ShortDescription = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("ShortDescription"));
-            }
-        }
+        public string ShortDescription { get; set; }
 
         /// <summary>
         /// Not to be inserted into the document (eg. Bates no.)
         /// </summary>
-        public string OtherIdentifier
-        {
-            get
-            {
-                return _OtherIdentifier;
-            }
-            private set
-            {
-                _OtherIdentifier = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("OtherIdentifier"));
-            }
-        }
+        public string OtherIdentifier { get; set; }
 
         #endregion
 
-
         #region For Cite Block
         //TODO/////////////////////////////////////////////////////////////////////////////////////////////////////
-        public int InsertedCount
-        {
-            get
-            {
-                return _InsertedCount;
-            }
-            private set
-            {
-                _InsertedCount = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("InsertedCount"));
-            }
-        }
+        public string InsertedCount { get; set; }
 
-        public string LongCiteExample
-        {
-            get
-            {
-                return _LongCiteExample;
-            }
-            set
-            {
-                _LongCiteExample = value;
-                OnPropertyChanged("LongCiteExample");
-            }
-        }
+        public string LongCiteExample { get; set; }
+
+        public string CiteTypeText { get; set; }
 
         #endregion
 
@@ -153,9 +54,10 @@ namespace Tools.Citation
             this.OtherIdentifier = OtherIdentifier;
             this.CiteType = CiteType;
 
-            InsertedCount = 1;
+            InsertedCount = "1";
             SetExampleCite();
 
+            CiteTypeText = CiteType.ToString();
         }
 
         public Citation (CiteType CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName = "")
@@ -167,15 +69,10 @@ namespace Tools.Citation
             this.OtherIdentifier = OtherIdentifier;
             this.CiteType = CiteType;
 
-            InsertedCount = 1;
+            InsertedCount = "1";
             SetExampleCite();
-        }
 
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-        public void OnPropertyChanged(string name)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
+            CiteTypeText = CiteType.ToString();
         }
 
         public string GetCCTag()

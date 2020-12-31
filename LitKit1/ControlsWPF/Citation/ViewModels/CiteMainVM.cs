@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +8,7 @@ using Tools.Citation;
 
 namespace LitKit1.ControlsWPF.Citation.ViewModels
 {
-    public class CiteMainVM : INotifyPropertyChanged
+    public class CiteMainVM
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -18,10 +16,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         private CitationRepository _repository;
         private Tools.Citation.Citation _selectedCite;
         private ObservableCollection<Tools.Citation.Citation> _citations;
-        /// <summary>
-        /// Binding property for the List View, separated from all tp allow for filtering
-        /// </summary>
-
+        
         #endregion
 
         #region Public properties
@@ -69,16 +64,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             _repository = new CitationRepository(_app);
             _repository.AddTestCitations();
             _citations = ListToObservableCollection(_repository.Citations);
-
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string name)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
-
-
 
         #region Data Transformation
 
@@ -95,6 +81,10 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         #endregion
 
 
+        /// <summary>
+        /// Binding property for the List View, separated from all tp allow for filtering
+        /// </summary>
+        public ObservableCollection<Tools.Citation.Citation> citationsVisible = new ObservableCollection<Tools.Citation.Citation>();
 
     }
 }
