@@ -7,7 +7,9 @@
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Citation"
              xmlns:Converters="clr-namespace:LitKit1.ControlsWPF.Citation.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="45" d:DesignWidth="350" Margin="1.5">
+             d:DesignHeight="45" d:DesignWidth="350" Margin="1.5"
+             DataContext="{Binding}">
+
     <UserControl.Resources>
         <Style TargetType="{x:Type Button}">
             <!-- Default Values -->
@@ -28,7 +30,6 @@
         <Brush x:Key="CiteTypeBrush_Extra">#032B43</Brush>
 
         <Converters:CiteTypeColorConverter x:Key="citeTypeConverter" />
-        <Converters:CitePasser x:Key="CitePasser"/>
 
     </UserControl.Resources>
     <Grid x:Name="MainGrid" Background="#f3f2f1" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" HorizontalAlignment="Stretch">
@@ -58,12 +59,11 @@
                 BorderThickness ="0"
                 Margin="0,0,0,0"
                 Width="1000" 
-                HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick">
+                HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick" Click="CiteButton_Click">
             <Button.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add a New Citation to the Citation List"/>
-                    <MenuItem Header="Insert Current Citation at Cursor" />
-                    <!--TBD set click-->
+                    <MenuItem Header="Insert Current Citation at Cursor" /> <!--TBD set click-->
                     <MenuItem Header="Edit Current Citation Description"/>
                     <MenuItem Header="Delete Citation from List and Document"/>
                 </ContextMenu>
@@ -98,56 +98,13 @@
                 </StackPanel>
             </StackPanel>
         </Button>
-        
-        
-      <!--####################################-->
-        <!--Flyout-->
-      <!--####################################-->
-
-        <Grid x:Name="Flyout"
-            Visibility="Collapsed"
+        <local:CiteFlyout x:Name="Flyout"
+                          Visibility="Collapsed"
             Grid.ColumnSpan="2"
-            Grid.RowSpan="2">
-            <Border MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Width="auto" Height="36" BorderThickness="1" BorderBrush="LightGray" CornerRadius="10,0, 0, 10" Background="LightGray" Visibility="Visible">
-                <StackPanel  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,-1,-1,-1">
-                    <Button x:Name="btnDelete" Click="btnDelete_Click" Mouse.MouseEnter="ShowButtonText" Mouse.MouseLeave="HideButtonText">
-                        <Grid x:Name="GridDelete" Width="25" Margin="0" >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="25*"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <!--<Image Source="/LitKit;component/Resources/icons8-delete-64.png" />-->
-                            <Image Source="/LitKit;component/Resources/icons8-delete1.png" />
-                            <!--To get image to show, but set properties to "Resource" and "Copy if newer"-->
-                            <TextBlock x:Name="TextDelete" Grid.Row="1" Text="Delete" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
-                        </Grid>
-                    </Button>
-                    <Button x:Name="btnEdit" Click="btnEdit_Click" Mouse.MouseEnter="ShowButtonText" Mouse.MouseLeave="HideButtonText">
-                        <Grid x:Name="GridEdit" Width="25" Margin="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="15*"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <Image Source="/LitKit;component/Resources/icons8-pencil-drawing-64.png" />
-                            <TextBlock x:Name="TextEdit" Grid.Row="1" Text="Edit" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
-                        </Grid>
-                    </Button>
-                    <Button x:Name="btnInsert" Click="btnInsert_Click" Mouse.MouseEnter="ShowButtonText" Mouse.MouseLeave="HideButtonText">
-                        <Grid  Width="25" Margin="2" >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="25*"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <!--<Image Source="/LitKit;component/Resources/icons8-insert1.png" />-->
-                            <Image Source="/LitKit;component/Resources/icons8-insert3.2.png" />
+            Grid.RowSpan="2"
+            />
 
-                            <TextBlock x:Name="TextInsert" Grid.Row="1" Text="Insert" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
-                        </Grid>
-                    </Button>
-                </StackPanel>
-            </Border>
-        </Grid>
 
-        <TextBox x:Name="citeID" Text="{Binding LongDescription, RelativeSource={RelativeSource AncestorType=UserControl}}" Visibility="Collapsed" />
     </Grid>
+
 </UserControl>

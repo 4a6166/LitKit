@@ -24,6 +24,39 @@ namespace LitKit1.ControlsWPF.Citation
         }
 
 
+        private void StackPanel_MouseEnter_1(object sender, MouseEventArgs e)
+        {
+            btnEdit.Background = Brushes.Transparent;
+            btnEdit.BorderBrush = Brushes.Transparent;
+            TextEdit.Visibility = Visibility.Visible;
+        }
+
+        private void StackPanel_MouseLeave_1(object sender, MouseEventArgs e)
+        {
+            TextEdit.Visibility = Visibility.Collapsed;
+        }
+
+        private void StackPanel_MouseEnter_2(object sender, MouseEventArgs e)
+        {
+            TextInsert.Visibility = Visibility.Visible;
+        }
+
+        private void StackPanel_MouseLeave_2(object sender, MouseEventArgs e)
+        {
+            TextInsert.Visibility = Visibility.Collapsed;
+        }
+
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            TextDelete.Visibility = Visibility.Visible;
+        }
+
+        private void Grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            TextDelete.Visibility = Visibility.Collapsed;
+        }
+
+
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
