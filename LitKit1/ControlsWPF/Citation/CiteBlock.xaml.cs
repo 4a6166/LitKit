@@ -10,11 +10,9 @@ namespace LitKit1.ControlsWPF.Citation
 {
     public partial class CiteBlock : UserControl
     {
-        //Tools.Citation.Citation citation;
         CiteMainVM ViewModel;
          public CiteBlock()
         {
-            
             ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
 
             InitializeComponent();
@@ -38,8 +36,43 @@ namespace LitKit1.ControlsWPF.Citation
             ViewModel.InsertCite(cite);
         }
 
-        private void CiteButton_Click(object sender, RoutedEventArgs e)
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            var cite = (Tools.Citation.Citation)DataContext;
+
+            //parentList.Remove(citation);
         }
+        private void btnInsert_Click(object sender, RoutedEventArgs e)
+        {
+            var cite = (Tools.Citation.Citation)DataContext;
+
+            //CiteMain.helper.InsertCiteAtSelection(parentCiteBlock.citation);
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var cite = (Tools.Citation.Citation)DataContext;
+
+            //CiteMain.helper.EditCite(parentCiteBlock.citation);
+        }
+
+
+        private void ShowButtonText(object sender, MouseEventArgs e)
+        {
+            var button = (Button)sender;
+
+            var grid = (Grid)button.Content;
+            grid.Children[1].Visibility = Visibility.Visible;
+        }
+        private void HideButtonText(object sender, MouseEventArgs e)
+        {
+            var button = (Button)sender;
+
+            var grid = (Grid)button.Content;
+            grid.Children[1].Visibility = Visibility.Collapsed;
+        }
+
+
     }
 }

@@ -9,7 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="45" d:DesignWidth="350" Margin="1.5"
              >
-
     <UserControl.Resources>
         <Style TargetType="{x:Type Button}">
             <!-- Default Values -->
@@ -30,6 +29,7 @@
         <Brush x:Key="CiteTypeBrush_Extra">#032B43</Brush>
 
         <Converters:CiteTypeColorConverter x:Key="citeTypeConverter" />
+        <Converters:CitePasser x:Key="CitePasser"/>
 
     </UserControl.Resources>
     <Grid x:Name="MainGrid" 
@@ -60,11 +60,12 @@
                 BorderThickness ="0"
                 Margin="0,0,0,0"
                 Width="1000" 
-                HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick" >
+                HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick">
             <Button.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add a New Citation to the Citation List"/>
-                    <MenuItem Header="Insert Current Citation at Cursor" /> <!--TBD set click-->
+                    <MenuItem Header="Insert Current Citation at Cursor" />
+                    <!--TBD set click-->
                     <MenuItem Header="Edit Current Citation Description"/>
                     <MenuItem Header="Delete Citation from List and Document"/>
                 </ContextMenu>
@@ -102,10 +103,7 @@
         <local:CiteFlyout x:Name="Flyout" DataContext="{Binding}"
                           Visibility="Collapsed"
             Grid.ColumnSpan="2"
-            Grid.RowSpan="2"
-            />
-
-
+            Grid.RowSpan="2">
+            
     </Grid>
-
 </UserControl>
