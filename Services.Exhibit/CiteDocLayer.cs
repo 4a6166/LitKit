@@ -10,14 +10,14 @@ namespace Tools.Citation
     /// <summary>
     /// Handles interactions between the document display and the database
     /// </summary>
-    public class CiteHelper
+    public class CiteDocLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public Application _app { get; private set; }
         public CitationRepository repository { get; private set; }
 
-        public CiteHelper(Application application)
+        public CiteDocLayer(Application application)
         {
             this._app = application;
             this.repository = new CitationRepository(_app);

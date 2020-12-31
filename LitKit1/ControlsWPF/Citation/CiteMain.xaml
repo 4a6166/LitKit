@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Citation"
-             xmlns:Controls="clr-namespace:LitKit1.Controls" x:Class="LitKit1.ControlsWPF.Citation.CiteMain"
+             xmlns:Controls="clr-namespace:LitKit1.Controls"
+             xmlns:Converters="clr-namespace:LitKit1.ControlsWPF.Citation.Converters"
+    x:Class="LitKit1.ControlsWPF.Citation.CiteMain"
     xmlns:vm="clr-namespace:Citation.ViewModels;assembly=Citation"
     xmlns:dd="urn:gong-wpf-dragdrop" xmlns:numeric="http://gu.se/NumericInput"
     mc:Ignorable="d" 
@@ -31,6 +33,213 @@
             <RowDefinition Height="Auto"/>
 
         </Grid.RowDefinitions>
+
+        <!--############################################-->
+        <!--Top Panel-->
+        <!--############################################-->
+        <UniformGrid
+            Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+            Height="50"
+            Margin="5,10,5,5"
+            Columns="2">
+
+            <!--########################################-->
+            <!--Split Button - Stack panel-->
+            <!--########################################-->
+            <Grid HorizontalAlignment="Left" Height="30">
+                <Border x:Name="SBPanelImage" 
+                        Background="LightGray"
+                        CornerRadius="15"
+                        MouseEnter="SBPanelImage_MouseEnter" MouseLeave="SBPanelImage_MouseLeave">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid MouseUp="Grid_MouseUp">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="SBStackPlanelImage"
+                                   Margin="2,2,2,2"
+                                    Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png" HorizontalAlignment="Left" Width="26">
+                            </Image>
+                            <Label x:Name="AddCiteLabel"
+                                Grid.Column="1" 
+                                VerticalAlignment="Center"
+                                Margin="0,0,5,0"
+                                Visibility="Collapsed"
+                               Content="Add a New Cite"/>
+                        </Grid>
+                        <Border x:Name="SBDropDownBorder" 
+                                Grid.Column="2"
+                                HorizontalAlignment="Center"
+                                MouseDown="SBStackPlanelImageDropDown_MouseDown" 
+                                Visibility="Collapsed">
+                            <Border.ContextMenu>
+                                <ContextMenu Opened="ContextMenu_Opened" Closed="ContextMenu_Closed">
+                                    <MenuItem Header="Add New Citation to List">
+                                        <MenuItem.Icon>
+                                            <Image 
+                                                Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="Add Exhibit Index to Document"></MenuItem>
+                                    <MenuItem Header="Batch Add Citations"></MenuItem>
+                                    <MenuItem Header="Export Citations"></MenuItem>
+                                </ContextMenu>
+                            </Border.ContextMenu>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Fill="Black" Opacity=".2" Width="2"
+                                           Height="22" Margin="2,0,0,0"/>
+                                <Image x:Name="SBStackPlanelImageDropDown"
+                                   Width="12"
+                                   Margin="3,5,7,0"
+                                   VerticalAlignment="Center"
+                                   Opacity="1"
+                                   Source="C:\Users\Jake\Downloads\droparrow.png">
+                                </Image>
+                            </StackPanel>
+                        </Border>
+
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Grid>
+                <Border x:Name="RefreshBorder"
+                        Background="LightGray"
+                        CornerRadius="15" HorizontalAlignment="Right"
+                        Width="auto" Height="30"
+                    MouseEnter="RefreshBorder_MouseEnter"
+                    MouseLeave="RefreshBorder_MouseLeave"
+                        MouseUp="RefreshBorder_MouseUp">
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="RefreshImg"
+                               Margin="2"
+                            Source="/LitKit;component/Resources/icons8-refresh-64.png"/>
+                        <Label x:Name="RefreshLabel"
+                               Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                            Content="Update Citations" Visibility="Collapsed"
+                               />
+
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </UniformGrid>
+
+        <!--########################################-->
+        <!--Search Stack-->
+        <!--########################################-->
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Vertical">
+            <!--########################################-->
+            <!--Search Grid-->
+            <!--########################################-->
+            <Grid x:Name="SearchGrid"
+                    MaxHeight="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchLabel"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        Grid.ColumnSpan="2"
+                        Text="Search"
+                        Foreground="Gray"
+                        />
+
+                <TextBox x:Name="SearchTextBox" 
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                             Background="Transparent"
+                        TextChanged="TextBox_TextChanged"
+                        GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" KeyDown="SearchTextBox_KeyDown" 
+                        />
+                <Button x:Name="SearchIconButton"
+                        Grid.Column="1"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Right"
+                        Margin="0" Click="SearchButton_Click">
+                    <UniformGrid>
+                        <Image x:Name="imgMagGlass" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Visibility="Visible"
+                    Source="/LitKit;component/Resources/search-thumb.png" />
+                        <Image x:Name="imgClear"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Visibility="Collapsed"
+                    Source="/LitKit;component/Resources/clear-thumb.png" />
+                    </UniformGrid>
+                </Button>
+            </Grid>
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Height="35">
+                <WrapPanel FlowDirection="LeftToRight">
+                    <Button x:Name="btnAllCites" Click="btnAllCites_Click"
+                        
+                    Margin=".5">
+                        <Label Content="All Cites"/>
+                    </Button>
+                    <Button x:Name="btnExhibit" Click="btnExhibit_Click"
+                    Margin=".5">
+                        <Grid>
+                            <Border Background="{StaticResource CiteTypeBrush_Exhibit}"
+                            Opacity=".4" Margin="-1"/>
+                            <Label Content="Exhibits"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btnRecord" Click="btnRecord_Click"
+                    Margin=".5">
+                        <Grid>
+                            <Border Background="{StaticResource CiteTypeBrush_RecordCite}"
+                                Opacity=".4" Margin="-1"/>
+                            <Label Content="Record"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btnLegal" Click="btnLegal_Click"
+                    Margin=".5">
+                        <Grid>
+                            <Border Background="{StaticResource CiteTypeBrush_LegalCite}"
+                                Opacity=".4" Margin="-1"/>
+                            <Label Content="Legal"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btnOther" Click="btnOther_Click"
+                    Margin=".5">
+                        <Grid>
+                            <Border Background="{StaticResource CiteTypeBrush_OtherCite}"
+                                Opacity=".4" Margin="-1"/>
+                            <Label Content="Other"/>
+                        </Grid>
+                    </Button>
+                </WrapPanel>
+            </ScrollViewer>
+        </StackPanel>
+
+
+
+        <!--########################################-->
+        <!-- Citation blocks -->
+        <!--########################################-->
+
+        <ListView x:Name="CiteBlockStackPanel" ItemsSource="{Binding Citations}"
+                        Grid.Column="1" Grid.ColumnSpan="2" 
+                        Grid.Row="2"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <local:CiteBlock DataContext="{Binding}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <!--############################################-->
         <!-- Cite Format Expander-->
@@ -672,234 +881,7 @@
         </Grid>-->
 
 
-        <!--############################################-->
-        <!--Top Panel-->
-        <!--############################################-->
-        <UniformGrid
-            Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
-            Height="50"
-            Margin="5,10,5,5"
-            Columns="2">
-
-            <!--########################################-->
-            <!--Split Button - Stack panel-->
-            <!--########################################-->
-            <Grid HorizontalAlignment="Left" Height="30">
-                <Border x:Name="SBPanelImage" 
-                        Background="LightGray"
-                        CornerRadius="15"
-                        MouseEnter="SBPanelImage_MouseEnter" MouseLeave="SBPanelImage_MouseLeave">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid MouseUp="Grid_MouseUp">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image x:Name="SBStackPlanelImage"
-                                   Margin="2,2,2,2"
-                                    Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png" HorizontalAlignment="Left" Width="26">
-                            </Image>
-                            <Label x:Name="AddCiteLabel"
-                                Grid.Column="1" 
-                                VerticalAlignment="Center"
-                                Margin="0,0,5,0"
-                                Visibility="Collapsed"
-                               Content="Add a New Cite"/>
-                        </Grid>
-                        <Border x:Name="SBDropDownBorder" 
-                                Grid.Column="2"
-                                HorizontalAlignment="Center"
-                                MouseDown="SBStackPlanelImageDropDown_MouseDown" 
-                                Visibility="Collapsed">
-                            <Border.ContextMenu>
-                                <ContextMenu Opened="ContextMenu_Opened" Closed="ContextMenu_Closed">
-                                    <MenuItem Header="Add New Citation to List">
-                                        <MenuItem.Icon>
-                                            <Image 
-                                                Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <Separator/>
-                                    <MenuItem Header="Add Exhibit Index to Document"></MenuItem>
-                                    <MenuItem Header="Batch Add Citations"></MenuItem>
-                                    <MenuItem Header="Export Citations"></MenuItem>
-                                </ContextMenu>
-                            </Border.ContextMenu>
-                            <StackPanel Orientation="Horizontal">
-                                <Rectangle Fill="Black" Opacity=".2" Width="2"
-                                           Height="22" Margin="2,0,0,0"/>
-                                <Image x:Name="SBStackPlanelImageDropDown"
-                                   Width="12"
-                                   Margin="3,5,7,0"
-                                   VerticalAlignment="Center"
-                                   Opacity="1"
-                                   Source="C:\Users\Jake\Downloads\droparrow.png">
-                                </Image>
-                            </StackPanel>
-                        </Border>
-
-                    </Grid>
-                </Border>
-            </Grid>
-
-            <Grid>
-                <Border x:Name="RefreshBorder"
-                        Background="LightGray"
-                        CornerRadius="15" HorizontalAlignment="Right"
-                        Width="auto" Height="30"
-                    MouseEnter="RefreshBorder_MouseEnter"
-                    MouseLeave="RefreshBorder_MouseLeave"
-                        MouseUp="RefreshBorder_MouseUp">
-                    <StackPanel Orientation="Horizontal">
-                        <Image x:Name="RefreshImg"
-                               Margin="2"
-                            Source="/LitKit;component/Resources/icons8-refresh-64.png"/>
-                        <Label x:Name="RefreshLabel"
-                               Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"
-                            Content="Update Citations" Visibility="Collapsed"
-                               />
-
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </UniformGrid>
-
-        <!--<ScrollViewer 
-
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            VerticalScrollBarVisibility="Auto" 
-            HorizontalScrollBarVisibility="Disabled">-->
-        <ListView x:Name="CiteBlockStackPanel" ItemsSource="{Binding Citations}"
-                        Grid.Column="1" Grid.ColumnSpan="2" 
-                        Grid.Row="2"
-                        HorizontalAlignment="Left" 
-                        VerticalAlignment="Top"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  Visibility="Visible" SourceUpdated="CiteBlockStackPanel_SourceUpdated">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <local:CiteBlock>
-                        <!--<Style>
-                            <Style.Triggers>
-                                <Trigger Property="{Binding CiteType}" Value="Exhibit">
-                                    <Setter Property="{local:CiteBlock.Background}"  Value="{StaticResource CiteTypeBrush_Exhibit}" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>-->
-                    </local:CiteBlock>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <!--</ScrollViewer>-->
-
-        <!--For adding another citation to the list-->
-        <Border x:Name="CiteAddedBorder"
-                Grid.Column="1" Grid.ColumnSpan="2" 
-                Grid.Row="1" Grid.RowSpan="3" 
-                BorderBrush="Black" BorderThickness="2" 
-                CornerRadius="15, 15, 0, 0" 
-                Visibility="Collapsed">
-            <local:CiteAdd/>
-        </Border>
-
-
-        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Vertical">
-            <!--########################################-->
-            <!--Search Grid-->
-            <!--########################################-->
-            <Grid x:Name="SearchGrid"
-                    MaxHeight="20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBox x:Name="SearchLabel"
-                        VerticalAlignment="Stretch"
-                        VerticalContentAlignment="Center"
-                        Grid.ColumnSpan="2"
-                        Text="Search"
-                        Foreground="Gray"
-                        />
-
-                <TextBox x:Name="SearchTextBox" 
-                        VerticalAlignment="Stretch"
-                        VerticalContentAlignment="Center"
-                        Grid.ColumnSpan="2"
-                        HorizontalAlignment="Stretch"
-                             Background="Transparent"
-                        TextChanged="TextBox_TextChanged"
-                        GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" KeyDown="SearchTextBox_KeyDown" 
-                        />
-                <Button x:Name="SearchIconButton"
-                        Grid.Column="1"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Right"
-                        Margin="0" Click="SearchButton_Click">
-                    <UniformGrid>
-                        <Image x:Name="imgMagGlass" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    Visibility="Visible"
-                    Source="/LitKit;component/Resources/search-thumb.png" />
-                        <Image x:Name="imgClear"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    Visibility="Collapsed"
-                    Source="/LitKit;component/Resources/clear-thumb.png" />
-                    </UniformGrid>
-                </Button>
-            </Grid>
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Height="35">
-                <WrapPanel FlowDirection="LeftToRight">
-                    <Button x:Name="btnAllCites" Click="btnAllCites_Click"
-                        
-                    Margin=".5">
-                        <Label Content="All Cites"/>
-                    </Button>
-                    <Button x:Name="btnExhibit" Click="btnExhibit_Click"
-                    Margin=".5">
-                        <Grid>
-                            <Border Background="{StaticResource CiteTypeBrush_Exhibit}"
-                            Opacity=".4" Margin="-1"/>
-                            <Label Content="Exhibits"/>
-                        </Grid>
-                    </Button>
-                    <Button x:Name="btnRecord" Click="btnRecord_Click"
-                    Margin=".5">
-                        <Grid>
-                            <Border Background="{StaticResource CiteTypeBrush_RecordCite}"
-                                Opacity=".4" Margin="-1"/>
-                            <Label Content="Record"/>
-                        </Grid>
-                    </Button>
-                    <Button x:Name="btnLegal" Click="btnLegal_Click"
-                    Margin=".5">
-                        <Grid>
-                            <Border Background="{StaticResource CiteTypeBrush_LegalCite}"
-                                Opacity=".4" Margin="-1"/>
-                            <Label Content="Legal"/>
-                        </Grid>
-                    </Button>
-                    <Button x:Name="btnOther" Click="btnOther_Click"
-                    Margin=".5">
-                        <Grid>
-                            <Border Background="{StaticResource CiteTypeBrush_OtherCite}"
-                                Opacity=".4" Margin="-1"/>
-                            <Label Content="Other"/>
-                        </Grid>
-                    </Button>
-                </WrapPanel>
-            </ScrollViewer>
-        </StackPanel>
-
-
-
-
     </Grid>
 </UserControl>
+    
+    

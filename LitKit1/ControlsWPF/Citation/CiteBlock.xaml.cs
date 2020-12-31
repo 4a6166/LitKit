@@ -1,18 +1,24 @@
-﻿using System;
+﻿using LitKit1.ControlsWPF.Citation.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Tools.Citation;
-using Word = Microsoft.Office.Interop.Word;
 
 namespace LitKit1.ControlsWPF.Citation
 {
     public partial class CiteBlock : UserControl
     {
-        public CiteBlock()
+        Tools.Citation.Citation citation;
+        CiteMainVM ViewModel;
+         public CiteBlock()
         {
+
+            citation = (Tools.Citation.Citation)DataContext;
             
+            ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
+
             InitializeComponent();
 
         }
@@ -28,18 +34,13 @@ namespace LitKit1.ControlsWPF.Citation
             Flyout.Visibility = Visibility.Collapsed;
         }
 
-        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
         private void CiteButton_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            ViewModel.InsertCite(citation);
         }
 
         private void CiteButton_Click(object sender, RoutedEventArgs e)
         {
-
         }
     }
 }

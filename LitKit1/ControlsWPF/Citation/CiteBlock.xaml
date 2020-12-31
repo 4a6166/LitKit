@@ -8,7 +8,7 @@
              xmlns:Converters="clr-namespace:LitKit1.ControlsWPF.Citation.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="45" d:DesignWidth="350" Margin="1.5"
-             DataContext="{Binding}">
+             >
 
     <UserControl.Resources>
         <Style TargetType="{x:Type Button}">
@@ -32,7 +32,8 @@
         <Converters:CiteTypeColorConverter x:Key="citeTypeConverter" />
 
     </UserControl.Resources>
-    <Grid x:Name="MainGrid" Background="#f3f2f1" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" HorizontalAlignment="Stretch">
+    <Grid x:Name="MainGrid" 
+          Background="#f3f2f1" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="150" />
             <ColumnDefinition Width="60"/>
@@ -59,7 +60,7 @@
                 BorderThickness ="0"
                 Margin="0,0,0,0"
                 Width="1000" 
-                HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick" Click="CiteButton_Click">
+                HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick" >
             <Button.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add a New Citation to the Citation List"/>
@@ -98,7 +99,7 @@
                 </StackPanel>
             </StackPanel>
         </Button>
-        <local:CiteFlyout x:Name="Flyout"
+        <local:CiteFlyout x:Name="Flyout" DataContext="{Binding}"
                           Visibility="Collapsed"
             Grid.ColumnSpan="2"
             Grid.RowSpan="2"

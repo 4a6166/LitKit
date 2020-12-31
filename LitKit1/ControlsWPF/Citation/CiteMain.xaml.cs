@@ -38,7 +38,8 @@ namespace LitKit1.ControlsWPF.Citation
         {
             log.Debug("CiteMain started");
 
-            ViewModel = new CiteMainVM();
+            ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
+            //ViewModel = new CiteMainVM();
 
             this.DataContext = ViewModel;
             InitializeComponent();
@@ -74,6 +75,8 @@ namespace LitKit1.ControlsWPF.Citation
         {
             SearchCiteType = CiteType.All;
             view.Refresh();
+            view.Filter = TextFilter;
+
         }
 
         private void btnExhibit_Click(object sender, RoutedEventArgs e)
@@ -81,6 +84,8 @@ namespace LitKit1.ControlsWPF.Citation
 
             SearchCiteType = CiteType.Exhibit;
             view.Refresh();
+            view.Filter = TextFilter;
+
 
         }
 
@@ -88,18 +93,24 @@ namespace LitKit1.ControlsWPF.Citation
         {
             SearchCiteType = CiteType.Record;
             view.Refresh();
+            view.Filter = TextFilter;
+
         }
 
         private void btnLegal_Click(object sender, RoutedEventArgs e)
         {
             SearchCiteType = CiteType.Legal;
             view.Refresh();
+            view.Filter = TextFilter;
+
         }
 
         private void btnOther_Click(object sender, RoutedEventArgs e)
         {
             SearchCiteType = CiteType.Other;
             view.Refresh();
+            view.Filter = TextFilter;
+
         }
 
         #endregion
@@ -421,29 +432,11 @@ namespace LitKit1.ControlsWPF.Citation
 
         }
 
-        private void CiteBlockStackPanel_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
-            if (CiteBlockStackPanel.Items.Count > 0)
-            {
-                CiteBlockStackPanel.Visibility = Visibility.Visible;
-            }
-            else CiteBlockStackPanel.Visibility = Visibility.Collapsed;
-        }
-
-        private void CiteBlockStackPanelInitialLoad()
-        {
-            if (CiteBlockStackPanel.Items.Count > 0)
-            {
-                CiteBlockStackPanel.Visibility = Visibility.Visible;
-            }
-            else CiteBlockStackPanel.Visibility = Visibility.Collapsed;
-        }
 
         private void RefreshBorder_MouseUp(object sender, MouseButtonEventArgs e)
         {
 
         }
-
 
 
     }

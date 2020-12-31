@@ -16,6 +16,8 @@ using System.Text.RegularExpressions;
 //using Tools.Citation;
 using Services.Base;
 using LitKit1.ControlsWPF;
+using LitKit1.ControlsWPF.Citation.ViewModels;
+using System.Collections.Generic;
 
 namespace LitKit1
 {
@@ -261,6 +263,8 @@ namespace LitKit1
         #endregion
 
         #region Citations
+
+        public Dictionary<Window, CiteMainVM> citeVMDict = new Dictionary<Window, CiteMainVM>();
         private void CitationsTool_Click(object sender, RibbonControlEventArgs e)
         {
             if (!checkLicenseIsValid())
@@ -273,8 +277,10 @@ namespace LitKit1
 
                     HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
 
-                    if (holdingControl.WPFUserControl == null)
+                    if (/*holdingControl.WPFUserControl == null || */holdingControl.Controls.Count<1)
                     {
+                        citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
+
                         ControlsWPF.Citation.CiteMain cm = new ControlsWPF.Citation.CiteMain();
 
                         holdingControl.AddWPF(cm);
@@ -890,22 +896,30 @@ namespace LitKit1
         private void Test_Button_Click(object sender, RibbonControlEventArgs e)
         {
 
-            _app.UndoRecord.StartCustomRecord("Test Action");
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            //_app.UndoRecord.StartCustomRecord("Test Action");
+            //var stopwatch = new Stopwatch();
+            //stopwatch.Start();
 
 
 
 
 
-            stopwatch.Stop();
-            MessageBox.Show("Time: " + stopwatch.Elapsed);
-            _app.UndoRecord.EndCustomRecord();
+            //stopwatch.Stop();
+            //MessageBox.Show("Time: " + stopwatch.Elapsed);
+            //_app.UndoRecord.EndCustomRecord();
+
+            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
+
+            HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
+
+            holdingControl.Controls.Clear();
+
+
 
         }
 
 
-        
+
 
 
         private void FindCCOffset(Range range)

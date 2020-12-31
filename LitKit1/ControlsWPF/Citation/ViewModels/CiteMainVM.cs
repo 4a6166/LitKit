@@ -16,40 +16,22 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         #region Private properties
         private CitationRepository _repository;
+        private CiteDocLayer _docLayer;
+
         private Tools.Citation.Citation _selectedCite;
         private ObservableCollection<Tools.Citation.Citation> _citations;
-        /// <summary>
-        /// Binding property for the List View, separated from all tp allow for filtering
-        /// </summary>
-
         #endregion
 
         #region Public properties
-        public Microsoft.Office.Interop.Word.Application _app
-        {
-            get
-            {
-                return Globals.ThisAddIn.Application;
-            }
-            private set { }
-        }
-        public CitationRepository Repository
-        {
-            get { return _repository; }
-            private set
-            {
-                // Add INotifyChanged code
-                _repository = value;
-            }
-        }
+        public Microsoft.Office.Interop.Word.Application _app;
 
         public Tools.Citation.Citation SelectedCite
         {
             get { return _selectedCite; }
             set
             {
-                // Add INotifyChanged code
                 _selectedCite = value;
+                OnPropertyChanged("SelectedCite");
             }
         }
 
@@ -58,7 +40,6 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             get { return _citations; }
             private set
             {
-                // Add INotifyChanged code
                 _citations = value;
             }
         }
@@ -66,10 +47,12 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         public CiteMainVM()
         {
-            _repository = new CitationRepository(_app);
-            _repository.AddTestCitations();
-            _citations = ListToObservableCollection(_repository.Citations);
+            _app = Globals.ThisAddIn.Application;
 
+            _repository = new CitationRepository(_app);
+            _docLayer = new CiteDocLayer(_app);
+            _repository.AddTestCitations();
+            LoadCitationsFromRepo();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -82,19 +65,46 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         #region Data Transformation
 
-        public ObservableCollection<Tools.Citation.Citation> ListToObservableCollection(List<Tools.Citation.Citation> cites)
+        public void LoadCitationsFromRepo()
         {
             ObservableCollection<Tools.Citation.Citation> observableCites = new ObservableCollection<Tools.Citation.Citation>();
-            foreach (Tools.Citation.Citation cite in cites)
+            foreach (Tools.Citation.Citation cite in _repository.Citations)
             {
                 observableCites.Add(cite);
             }
-            return observableCites;
+            Citations = observableCites;
         }
 
         #endregion
 
 
+        public void InsertCite(Tools.Citation.Citation citation)
+        {
+            //System.Windows.Forms.MessageBox.Show("Selected Citation: "+citation.ID);
 
+
+            //_docLayer.InsertCiteAtSelection(citation);
+            //LoadCitationsFromRepo();
+            //_docLayer.RefreshDocCites();
+        }
+
+        public void EditCite(Tools.Citation.Citation citation)
+        {
+            System.Windows.Forms.MessageBox.Show("Selected Citation: " + citation.ID);
+
+            //_repository.UpdateCitation(citation);
+            //LoadCitationsFromRepo();
+            //_docLayer.RefreshDocCites();
+
+        }
+
+        public void DeleteCite(Tools.Citation.Citation citation)
+        {
+            Citations.Remove(citation);
+
+            //_repository.DeleteCitation(citation);
+            //LoadCitationsFromRepo();
+            //_docLayer.RefreshDocCites();
+        }
     }
 }

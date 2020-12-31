@@ -1,5 +1,5 @@
 ﻿
-using System.Collections.Generic;
+using LitKit1.ControlsWPF.Citation.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,12 +13,12 @@ namespace LitKit1.ControlsWPF.Citation
     public partial class CiteFlyout : UserControl
     {
         Tools.Citation.Citation citation;
-
-        List<Tools.Citation.Citation> parentList;
+        CiteMainVM ViewModel;
 
         public CiteFlyout()
         {
             citation = (Tools.Citation.Citation)DataContext;
+            ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
 
             InitializeComponent();
         }
@@ -60,25 +60,26 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            parentList.Remove(citation);
+            var mb = System.Windows.Forms.MessageBox.Show("Are you sure you want to delete this citation from the document?", "Confirm",System.Windows.Forms.MessageBoxButtons.OKCancel);
+            if (mb == System.Windows.Forms.DialogResult.OK)
+            {
+                ViewModel.DeleteCite(citation);
+            }
         }
         private void btnInsert_Click(object sender, RoutedEventArgs e)
         {
-            //CiteMain.helper.InsertCiteAtSelection(parentCiteBlock.citation);
+            ViewModel.InsertCite(citation);
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            //CiteMain.helper.EditCite(parentCiteBlock.citation);
-
+            ViewModel.EditCite(citation);
         }
 
 
         private void ShowButtonText(object sender, MouseEventArgs e)
         {
             var button = (Button)sender;
-            //button.BorderBrush = Brushes.Transparent;
-            //button.Background = Brushes.Transparent;
 
             var grid = (Grid)button.Content;
             grid.Children[1].Visibility = Visibility.Visible;
@@ -86,8 +87,6 @@ namespace LitKit1.ControlsWPF.Citation
         private void HideButtonText(object sender, MouseEventArgs e)
         {
             var button = (Button)sender;
-            //button.BorderBrush = Brushes.Transparent;
-            //button.Background = Brushes.Transparent;
 
             var grid = (Grid)button.Content;
             grid.Children[1].Visibility = Visibility.Collapsed;
