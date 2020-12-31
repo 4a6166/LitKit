@@ -21,6 +21,7 @@ namespace LitKit1.ControlsWPF.Citation
             InitializeComponent();
         }
 
+
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             var mb = System.Windows.Forms.MessageBox.Show("Are you sure you want to delete this citation from the document?", "Confirm",System.Windows.Forms.MessageBoxButtons.OKCancel);

@@ -9,6 +9,28 @@
              d:DesignHeight="40" d:DesignWidth="100">
     <UserControl.Resources>
 
+        <!--<Style x:Key="ContentPlaceholder" TargetType="Grid">
+            <Setter Property="Background" Value="AliceBlue"/>
+        </Style>
+        <Style x:Key="InvisibleButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Content" Value="{StaticResource ContentPlaceholder}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" Background="Transparent">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Transparent" TargetName="Border" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+
     </UserControl.Resources>
             <Grid>
         <Border x:Name="Flyout" MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Width="auto" Height="36" BorderThickness="1" BorderBrush="LightGray" CornerRadius="10,0, 0, 10" Background="LightGray" Visibility="Visible">
