@@ -29,8 +29,7 @@ namespace LitKit1.ControlsWPF.Citation
 
         #region Properties
         private CiteMainVM ViewModel;
-        CollectionView view;
-        CiteType SearchCiteType = CiteType.All;
+        private string SearchText;
 
         #endregion
 
@@ -40,66 +39,130 @@ namespace LitKit1.ControlsWPF.Citation
 
             ViewModel = new CiteMainVM();
 
+            //LoadCitations();
+
             this.DataContext = ViewModel;
             InitializeComponent();
 
-            view = (CollectionView)CollectionViewSource.GetDefaultView(CiteBlockStackPanel.ItemsSource);
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(CiteBlockStackPanel.ItemsSource);
+            view.Filter = UserFilter;
 
+
+        }
+        //private void LoadCitations()
+        //{
+        //    foreach (Tools.Citation.Citation cite in ViewModel.Citations)
+        //    {
+        //        ViewModel.citationsVisible.Add(cite);
+        //    }
+        //}
+
+        //public void AddCitesToPanel(ObservableCollection<Tools.Citation.Citation> citations)
+        //{
+        //    foreach (Tools.Citation.Citation citation in citations)
+        //    {
+        //        //string LongExample = citation.CiteType.ToString() + " 1, "+citation.LongDescription;  //repository.CiteFormatting.FormatCiteText(citation, CitePlacementType.Long, null, 1);
+        //        //CiteBlock citeBlock = new CiteBlock(this, CiteBlockStackPanel, citation, LongExample, 0, 1);
+        //        //citeBlock.HorizontalAlignment = HorizontalAlignment.Stretch;
+        //        //CiteBlockStackPanel.Children.Add(citeBlock);
+
+        //        string LongExample = citation.CiteType.ToString() + " 1, " + citation.LongDescription;  //repository.CiteFormatting.FormatCiteText(citation, CitePlacementType.Long, null, 1);
+        //        CiteBlock citeBlock = new CiteBlock(this, CiteBlockStackPanel, citation, LongExample, 0, 1);
+        //        citeBlock.HorizontalAlignment = HorizontalAlignment.Stretch;
+        //        CiteBlockStackPanel.Items.Add(citeBlock);
+        //    }
+        //}
+
+
+        public List<Tools.Citation.Citation>TestCites()
+        {
+            log.Debug("Test Cites Created");
+            List<Tools.Citation.Citation> citations = new List<Tools.Citation.Citation>();
+
+            Tools.Citation.Citation citationFirst = new Tools.Citation.Citation("TESTID1", CiteType.Other, "Test First Citation LongDescription");
+            citations.Add(citationFirst);
+
+            for (int i = 0; i< 5; i++)
+            {
+                Tools.Citation.Citation citation = new Tools.Citation.Citation("TESTID"+i.ToString(), CiteType.Exhibit, "Test Long EXHIBIT " +i.ToString());
+                citations.Add(citation);
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                Tools.Citation.Citation citation = new Tools.Citation.Citation("TESTID" + i.ToString(), CiteType.Legal, "Test Long LEGAL " + i.ToString());
+                citations.Add(citation);
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                Tools.Citation.Citation citation = new Tools.Citation.Citation("TESTID" + i.ToString(), CiteType.Record, "Test Long RECORD " + i.ToString());
+                citations.Add(citation);
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                Tools.Citation.Citation citation = new Tools.Citation.Citation("TESTID" + i.ToString(), CiteType.Other, "Test Long OTHER " + i.ToString());
+                citations.Add(citation);
+            }
+
+            return citations;
 
         }
 
         #region CiteListFilter
-
-        private bool TextFilter(object item)
+        private void FilterCiteList(CiteType CiteType)
         {
-            if(SearchCiteType == CiteType.All || SearchCiteType == CiteType.None)
-            {
-                if (String.IsNullOrEmpty(SearchTextBox.Text))
-                    return true;
-                else
-                    return ((item as Tools.Citation.Citation).LongDescription.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+            ////ObservableCollection<Cite> c = citationsVisible;
 
-            }
-            else
-            {
-                if (String.IsNullOrEmpty(SearchTextBox.Text))
-                    return (item as Tools.Citation.Citation).CiteType == SearchCiteType;
-                else
-                    return ((item as Tools.Citation.Citation).LongDescription.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0 && (item as Tools.Citation.Citation).CiteType == SearchCiteType);
-            }
+            //ViewModel.citationsVisible.Clear();
+
+            //if (CiteType == CiteType.All)
+            //{
+            //    foreach (Tools.Citation.Citation cite in ViewModel.Citations)
+            //    {
+            //        ViewModel.citationsVisible.Add(cite);
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (Tools.Citation.Citation cite in ViewModel.Citations)
+            //    {
+            //        if (cite.CiteType == CiteType)
+            //        {
+            //            ViewModel.citationsVisible.Add(cite);
+            //        }
+            //    }
+            //}
         }
-
 
         private void btnAllCites_Click(object sender, RoutedEventArgs e)
         {
-            SearchCiteType = CiteType.All;
-            view.Refresh();
+            SearchTextBox.Text = "";
+            FilterCiteList(CiteType.All);
         }
 
         private void btnExhibit_Click(object sender, RoutedEventArgs e)
         {
-
-            SearchCiteType = CiteType.Exhibit;
-            view.Refresh();
-
+            SearchTextBox.Text = "";
+            FilterCiteList(CiteType.Exhibit);
         }
 
         private void btnRecord_Click(object sender, RoutedEventArgs e)
         {
-            SearchCiteType = CiteType.Record;
-            view.Refresh();
+            SearchTextBox.Text = "";
+            FilterCiteList(CiteType.Record);
         }
 
         private void btnLegal_Click(object sender, RoutedEventArgs e)
         {
-            SearchCiteType = CiteType.Legal;
-            view.Refresh();
+            SearchTextBox.Text = "";
+            FilterCiteList(CiteType.Legal);
         }
 
         private void btnOther_Click(object sender, RoutedEventArgs e)
         {
-            SearchCiteType = CiteType.Other;
-            view.Refresh();
+            SearchTextBox.Text = "";
+            FilterCiteList(CiteType.Other);
         }
 
         #endregion
@@ -107,21 +170,32 @@ namespace LitKit1.ControlsWPF.Citation
         #region Search Bar
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //CollectionViewSource.GetDefaultView(CiteBlockStackPanel.ItemsSource).Refresh();
-            view.Refresh();
-            view.Filter = TextFilter;
 
-            if (SearchTextBox.Text != "")
-            {
-                imgMagGlass.Visibility = Visibility.Collapsed;
-                imgClear.Visibility = Visibility.Visible;
+            CollectionViewSource.GetDefaultView(CiteBlockStackPanel.ItemsSource).Refresh(); 
 
-            }
-            else
-            {
-                imgMagGlass.Visibility = Visibility.Visible;
-                imgClear.Visibility = Visibility.Collapsed;
-            }
+            //SearchText = SearchTextBox.Text;
+            //if (SearchText != "")
+            //{
+            //    imgMagGlass.Visibility = Visibility.Collapsed;
+            //    imgClear.Visibility = Visibility.Visible;
+
+            //    var searchBox = (TextBox)sender;
+
+            //    var _citations = ViewModel.citationsVisible.Where(n => n.LongDescription.Contains(searchBox.Text)).ToList();
+            //    ViewModel.citationsVisible.Clear();
+
+            //    foreach (Tools.Citation.Citation cite in _citations)
+            //    {
+            //        ViewModel.citationsVisible.Add(cite);
+            //    }
+            //}
+            //else
+            //{
+            //    imgMagGlass.Visibility = Visibility.Visible;
+            //    imgClear.Visibility = Visibility.Collapsed;
+
+            //    FilterCiteList(CiteType.All);
+            //}
         }
 
         private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -131,7 +205,7 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (SearchTextBox.Text == "")
+            if (SearchText == "")
             {
                 SearchLabel.Visibility = Visibility.Visible;
             }
@@ -444,7 +518,14 @@ namespace LitKit1.ControlsWPF.Citation
 
         }
 
+        
 
-
+    private bool UserFilter(object item)
+    {
+        if (String.IsNullOrEmpty(SearchTextBox.Text))
+            return true;
+        else
+            return ((item as Tools.Citation.Citation).LongDescription.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
     }
+}
 }
