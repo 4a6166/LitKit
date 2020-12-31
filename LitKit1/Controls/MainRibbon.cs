@@ -267,15 +267,16 @@ namespace LitKit1
         public Dictionary<Window, CiteMainVM> citeVMDict = new Dictionary<Window, CiteMainVM>();
         private void CitationsTool_Click(object sender, RibbonControlEventArgs e)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+
             if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
                 try
                 {
-                    Stopwatch stopwatch = new Stopwatch();
-                    stopwatch.Start();
-
                     Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
 
                     HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
@@ -298,7 +299,6 @@ namespace LitKit1
                         ActivePane.Visible = false;
                     }
 
-                    stopwatch.Stop();
                 }
                 catch 
                 {
@@ -306,6 +306,10 @@ namespace LitKit1
                     ErrorHandling.ShowErrorMessage();
                 }
             }
+
+            stopwatch.Stop();
+            MessageBox.Show("Seconds: " + stopwatch.Elapsed.TotalSeconds);
+
         }
 
         private void AddTestCitations(object sender, RibbonControlEventArgs e)
