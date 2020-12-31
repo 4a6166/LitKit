@@ -46,7 +46,7 @@ namespace Tools.Citation
         None = 0,
         Long = 1,
         Short = 2,
-        Id = 4,
+        Id = 4
     }
 
 }

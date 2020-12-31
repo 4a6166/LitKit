@@ -1,5 +1,4 @@
 ﻿
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,17 +11,22 @@ namespace LitKit1.ControlsWPF.Citation
     /// </summary>
     public partial class CiteFlyout : UserControl
     {
-        Tools.Citation.Citation citation;
+        private CiteBlock _viewModel = null;
 
-        List<Tools.Citation.Citation> parentList;
-
-        public CiteFlyout()
+        public CiteBlock parentCiteBlock { get; private set; }
+        public StackPanel parentStackPanel { get; private set; }
+        public CiteMain CiteMain { get; private set; }
+        public CiteFlyout(CiteBlock ParentCiteBlock, StackPanel ParentStackPanel, CiteMain citeMain)
         {
-            citation = (Tools.Citation.Citation)DataContext;
-
+            this.parentCiteBlock = ParentCiteBlock;
+            this.parentStackPanel = ParentStackPanel;
+            this.CiteMain = citeMain;
             InitializeComponent();
-        }
 
+            _viewModel = (CiteBlock)this.Resources["citeBlock"];
+
+
+        }
 
         private void StackPanel_MouseEnter_1(object sender, MouseEventArgs e)
         {
@@ -60,11 +64,12 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            parentList.Remove(citation);
+            //CiteMain.helper.DeleteCite(parentCiteBlock.citation);
+            parentStackPanel.Children.Remove(parentCiteBlock);
         }
         private void btnInsert_Click(object sender, RoutedEventArgs e)
         {
-            //CiteMain.helper.InsertCiteAtSelection(parentCiteBlock.citation);
+            CiteMain.helper.InsertCiteAtSelection(parentCiteBlock.citation);
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)

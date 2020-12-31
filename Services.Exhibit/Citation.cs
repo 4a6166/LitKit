@@ -32,17 +32,6 @@ namespace Tools.Citation
         /// Not to be inserted into the document (eg. Bates no.)
         /// </summary>
         public string OtherIdentifier { get; set; }
-
-        #endregion
-
-        #region For Cite Block
-        //TODO/////////////////////////////////////////////////////////////////////////////////////////////////////
-        public string InsertedCount { get; set; }
-
-        public string LongCiteExample { get; set; }
-
-        public string CiteTypeText { get; set; }
-
         #endregion
 
         public Citation(string ID, CiteType CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName="")
@@ -53,11 +42,6 @@ namespace Tools.Citation
             this.ShortDescription = ShortDescription;
             this.OtherIdentifier = OtherIdentifier;
             this.CiteType = CiteType;
-
-            InsertedCount = "1";
-            SetExampleCite();
-
-            CiteTypeText = CiteType.ToString();
         }
 
         public Citation (CiteType CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName = "")
@@ -68,11 +52,6 @@ namespace Tools.Citation
             this.ShortDescription = ShortDescription;
             this.OtherIdentifier = OtherIdentifier;
             this.CiteType = CiteType;
-
-            InsertedCount = "1";
-            SetExampleCite();
-
-            CiteTypeText = CiteType.ToString();
         }
 
         public string GetCCTag()
@@ -80,20 +59,7 @@ namespace Tools.Citation
             return "CITE:" + CiteType.ToString() + "|" + ID;
         }
 
-        private void SetExampleCite()
-        {
-            //TODO: update to change exhibit intro and formatting
 
-            switch (CiteType)
-            {
-                case CiteType.Exhibit:
-                    LongCiteExample = $"Exhibit {InsertedCount}, {LongDescription} (ABC00001)";
-                    break;
-                default:
-                    LongCiteExample = CiteType.ToString() + ": " + LongDescription;
-                    break;
-            }
-        }
          
     }
 }

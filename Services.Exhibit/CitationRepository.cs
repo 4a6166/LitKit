@@ -93,7 +93,7 @@ namespace Tools.Citation
             bool HasSurroundingParentheses = bool.Parse(GetFormattingFromDB(FormatNode.Parentheses));
             bool HasIdCite = bool.Parse(GetFormattingFromDB(FormatNode.IdCite));
 
-            CiteFormatting = new CiteFormatting(ExhibitIntro, ExhibitLongFormat, ExhibitShortFormat, ExhibitIndexStyle, ExhibitIndexStart, HasIdCite);
+            CiteFormatting = new CiteFormatting(ExhibitIntro, ExhibitLongFormat, ExhibitShortFormat, ExhibitIndexStyle, ExhibitIndexStart, HasSurroundingParentheses, HasIdCite);
         }
 
         public void UpdateDBFormatting(CiteFormatting formatting)
@@ -106,7 +106,7 @@ namespace Tools.Citation
             FormattingNode.SelectSingleNode("//Short").Text = formatting.ExhibitShortFormat;
             FormattingNode.SelectSingleNode("//IndexStyle").Text = formatting.ExhibitIndexStyle.ToString();
             FormattingNode.SelectSingleNode("//IndexStart").Text = formatting.ExhibitIndexStart.ToString();
-            //FormattingNode.SelectSingleNode("//Parentheses").Text = formatting.hasSurroundingParentheses.ToString();
+            FormattingNode.SelectSingleNode("//Parentheses").Text = formatting.hasSurroundingParentheses.ToString();
             FormattingNode.SelectSingleNode("//IdCite").Text = formatting.hasIdCite.ToString();
         }
         #endregion

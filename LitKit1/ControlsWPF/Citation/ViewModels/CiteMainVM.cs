@@ -10,8 +10,6 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 {
     public class CiteMainVM
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         #region Private properties
         private CitationRepository _repository;
         private Tools.Citation.Citation _selectedCite;
@@ -62,7 +60,6 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         public CiteMainVM()
         {
             _repository = new CitationRepository(_app);
-            _repository.AddTestCitations();
             _citations = ListToObservableCollection(_repository.Citations);
         }
 
@@ -79,12 +76,5 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         }
 
         #endregion
-
-
-        /// <summary>
-        /// Binding property for the List View, separated from all tp allow for filtering
-        /// </summary>
-        public ObservableCollection<Tools.Citation.Citation> citationsVisible = new ObservableCollection<Tools.Citation.Citation>();
-
     }
 }

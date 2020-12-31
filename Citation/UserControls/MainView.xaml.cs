@@ -276,13 +276,5 @@ namespace WPF.Citation.UserControls
             SBDropDownBorder.BorderBrush = Brushes.Transparent;
         }
 
-        private void CitesListView_MouseEnter(object sender, MouseEventArgs e)
-        {
-        }
-
-        private void CitesListView_MouseLeave(object sender, MouseEventArgs e)
-        {
-
-        }
     }
 }

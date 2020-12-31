@@ -50,14 +50,12 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Citation.cs" />
@@ -66,8 +64,6 @@
     <Compile Include="CiteFormatting.cs" />
     <Compile Include="CiteDocLayer.cs" />
     <Compile Include="CitePositionReference.cs" />
-    <Compile Include="Format\ExhibitFormat.cs" />
-    <Compile Include="Format\FormatBlock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
