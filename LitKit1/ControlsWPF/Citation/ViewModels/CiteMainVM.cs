@@ -15,15 +15,22 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #region Private properties
-        private CitationRepository _repository;
+        private CitationRepository _repository ;
         private CiteDocLayer _docLayer;
 
         private Tools.Citation.Citation _selectedCite;
         private ObservableCollection<Tools.Citation.Citation> _citations;
+
+        private ObservableCollection<CiteFormatPiece> _formatList;
         #endregion
 
         #region Public properties
         public Microsoft.Office.Interop.Word.Application _app;
+
+        public CitationRepository Repository
+        {
+            get { return _repository; }
+        }
 
         public Tools.Citation.Citation SelectedCite
         {
@@ -43,6 +50,15 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
                 _citations = value;
             }
         }
+
+        public ObservableCollection<CiteFormatPiece> FormatList
+        {
+            get { return _formatList; }
+            set
+            {
+                _formatList = value;
+            }
+        }
         #endregion
 
         public CiteMainVM()
@@ -53,6 +69,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             _docLayer = new CiteDocLayer(_app);
             _repository.AddTestCitations();
             LoadCitationsFromRepo();
+
+            AddTestFormatBlock();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -61,6 +79,17 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
+
+        private void AddTestFormatBlock()
+        {
+            _formatList = new ObservableCollection<CiteFormatPiece>()
+            {
+                new CiteFormatPiece(CiteFormatPieceType.Intro),
+                new CiteFormatPiece(CiteFormatPieceType.Index),
+                new CiteFormatPiece(CiteFormatPieceType.Comma),
+                new CiteFormatPiece(CiteFormatPieceType.Description),
+            };
+        }
 
 
         #region Data Transformation
@@ -106,10 +135,28 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
                 System.Windows.Forms.MessageBox.Show("Selected Citation: " + citation.ID);
 
-                //_repository.DeleteCitation(citation);
+                Citations.Remove(citation);
+                _repository.DeleteCitation(citation);
                 //LoadCitationsFromRepo();
                 //_docLayer.RefreshDocCites();
             }
+        }
+
+        internal void AddNewCite(Tools.Citation.Citation cite)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void RefreshCites()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void ResetFormatList()
+        {
+            FormatList.Clear();
+            AddTestFormatBlock();
+            OnPropertyChanged("FormatList");
         }
     }
 }

@@ -9,14 +9,14 @@ namespace Tools.Citation
     [Flags]
     public enum CiteType
     {
-        None = 0,
+        //None = 0,
         Exhibit = 1,
         Legal = 2,
         Record = 4,
         Other = 8,
 
-        All = Exhibit | Legal | Record | Other,
-        Outside = Legal | Record | Other,
+        //All = Exhibit | Legal | Record | Other,
+        //Outside = Legal | Record | Other,
     }
 
     [Flags]

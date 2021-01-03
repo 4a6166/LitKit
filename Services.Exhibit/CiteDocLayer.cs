@@ -25,15 +25,14 @@ namespace Tools.Citation
         }
 
         #region Get from doc
-        public List<ContentControl> GetAllCitesFromDoc_Unordered(CiteType citeType = CiteType.All)
+        public List<ContentControl> GetAllCitesFromDoc_Unordered(CiteType citeType)
         {
             List<ContentControl> citationCCs = new List<ContentControl>();
             string type = "";
             // Allows for CiteType.None and CiteType.All to return all Cite types. Is the default case. Else, Function will return only cites of CiteType selected.
-            if (citeType != CiteType.None && citeType != CiteType.All)
-            {
+            
                 type = citeType.ToString();
-            }
+            
             string StartsWithString = "CITE:" + type;
 
 
@@ -55,16 +54,15 @@ namespace Tools.Citation
         /// </summary>
         /// <param name="citeType"></param>
         /// <returns>CitePositionReference contains ContentControl and location reference. Citation = null.</returns>
-        public List<ContentControl> GetCitesFromDoc_Ordered(CiteType citeType = CiteType.All)
+        public List<ContentControl> GetCitesFromDoc_Ordered(CiteType citeType)
         {
             var PosRefList = new List<CitePositionReference>();
 
             string type = "";
             // Allows for CiteType.None and CiteType.All to return all Cite types. Is the default case. Else, Function will return only cites of CiteType selected.
-            if (citeType != CiteType.None && citeType != CiteType.All)
-            {
+
                 type = citeType.ToString();
-            }
+
             string StartsWithString = "CITE:" + type;
 
             foreach (ContentControl contentControl in _app.ActiveDocument.ContentControls)
@@ -143,7 +141,7 @@ namespace Tools.Citation
         public CitePlacementType GetCitePlacementTypeFromDoc(ContentControl contentControl)
         {
             var InputCiteID = GetCitationIDFromContentControl(contentControl);
-            var OrderedCiteContentControls = GetCitesFromDoc_Ordered(CiteType.All);
+            var OrderedCiteContentControls = GetCitesFromDoc_Ordered(CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other);
             var contentControlIndex = OrderedCiteContentControls.IndexOf(contentControl);
 
             List<string> TagsTrimmed = new List<string>();
@@ -165,6 +163,7 @@ namespace Tools.Citation
             {
                 return CitePlacementType.Long;
             }
+
         }
 
         public string GetCitationIDFromContentControl(ContentControl contentControl)
@@ -284,7 +283,7 @@ namespace Tools.Citation
         {
             log.Info("Updating all Cite Content Controls in " + _app.ActiveDocument.FullName);
 
-            var allCites = GetAllCitesFromDoc_Unordered(CiteType.All);
+            var allCites = GetAllCitesFromDoc_Unordered(CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other);
             foreach (ContentControl cc in allCites)
             {
                 var CCCiteID = GetCitationIDFromContentControl(cc);

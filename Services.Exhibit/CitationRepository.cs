@@ -37,7 +37,7 @@ namespace Tools.Citation
                 FrameCustomXMLDoc();
             }
             SetCiteFormatting();
-            Citations = GetCitationsFromDB(CiteType.All);
+            Citations = GetCitationsFromDB(CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other);
         }
 
         private void FrameCustomXMLDoc()
@@ -152,7 +152,7 @@ namespace Tools.Citation
                 {
                     string RefName = cite.SelectSingleNode("RefName").Text;
 
-                    CiteType citeType = CiteType.None;
+                    CiteType citeType = CiteType./*None*/Exhibit;
                     Enum.TryParse(cite.SelectSingleNode("Type").Text, out citeType);
 
                     string longDescription = cite.SelectSingleNode("Long").Text;
@@ -172,7 +172,7 @@ namespace Tools.Citation
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
 
             CustomXMLNodes CiteNodes = customXmlDoc.SelectNodes(CitationRoot);
-            if (Type == CiteType.All)
+            if (Type == (CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other))
             {
                 foreach (CustomXMLNode cite in CiteNodes)
                 {
@@ -180,7 +180,7 @@ namespace Tools.Citation
                     string ID = cite.SelectSingleNode("ID").Text;
                     string RefName = cite.SelectSingleNode("RefName").Text;
 
-                    CiteType citeType = CiteType.None;
+                    CiteType citeType = CiteType./*None*/Exhibit;
                     Enum.TryParse(cite.SelectSingleNode("Type").Text, out citeType);
 
                     string longDescription = cite.SelectSingleNode("Long").Text;
@@ -199,7 +199,7 @@ namespace Tools.Citation
                         string ID = cite.SelectSingleNode("ID").Text;
                         string RefName = cite.SelectSingleNode("RefName").Text;
 
-                        CiteType citeType = CiteType.None;
+                        CiteType citeType = CiteType./*None*/Exhibit;
                         Enum.TryParse(cite.SelectSingleNode("Type").Text, out citeType);
 
                         string longDescription = cite.SelectSingleNode("Long").Text;

@@ -29,7 +29,7 @@ namespace Tools.Citation
             private set
             {
                 _ID = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("ID"));
+                OnPropertyChanged("ID");
             }
         }
 

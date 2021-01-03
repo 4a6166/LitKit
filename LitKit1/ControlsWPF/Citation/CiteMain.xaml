@@ -80,16 +80,20 @@
                                 Visibility="Collapsed">
                             <Border.ContextMenu>
                                 <ContextMenu Opened="ContextMenu_Opened" Closed="ContextMenu_Closed">
-                                    <MenuItem Header="Add New Citation to List">
+                                    <MenuItem Header="Add New Citation to List"
+                                              Click="MenuItem_Click_6">
                                         <MenuItem.Icon>
                                             <Image 
                                                 Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
                                     <Separator/>
-                                    <MenuItem Header="Add Exhibit Index to Document"></MenuItem>
-                                    <MenuItem Header="Batch Add Citations"></MenuItem>
-                                    <MenuItem Header="Export Citations"></MenuItem>
+                                    <MenuItem Header="Add Exhibit Index to Document"
+                                              Click="MenuItem_Click_7"/>
+                                    <MenuItem Header="Batch Add Citations"
+                                              Click="MenuItem_Click_8"/>
+                                    <MenuItem Header="Export Citations"
+                                              Click="MenuItem_Click_9"/>
                                 </ContextMenu>
                             </Border.ContextMenu>
                             <StackPanel Orientation="Horizontal">
@@ -259,414 +263,63 @@
                   IsExpanded="True"
                       >
                     <StackPanel Orientation="Vertical"
-                                Margin="0,15,0,0"
+                                Margin="0,0,0,0"
                         MaxHeight="620" Height="auto">
-                        <Label FontStyle="Italic" FontWeight="Normal" Margin="0,0,0,15" 
-                               Content="Drag the pieces to adjust Exhibit formatting"/>
+                        <TextBlock Margin="0,0,0,15"
+                                   FontSize="10" FontStyle="Italic" FontWeight="Normal"  TextWrapping="WrapWithOverflow" TextAlignment="Center"
+                               Text="Drag to reorder the blocks and adjust Exhibit formatting"/>
                         <!--https://github.com/punker76/gong-wpf-dragdrop/wiki/Usage-->
                         <Label Content="Long Cite Formatting"/>
-                        <ListBox x:Name="DragAndDropListBox"
+                        <Grid Margin="0,0,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ListBox x:Name="DragAndDropListBox" ItemsSource="{Binding FormatList}"
                                  Width="auto"
-                                 Margin="0,0,0,5"
+                                 MinHeight="26" Height="auto"
                                  dd:DragDrop.IsDragSource="True"
                                  dd:DragDrop.IsDropTarget="True" 
-                                 dd:DragDrop.SelectDroppedItems="False">
-                            <ListBox.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem x:Name="ResetLongCite" Header="Reset Formatting" Click="ResetLongCite_Click" />
-                                </ContextMenu>
-                            </ListBox.ContextMenu>
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListBoxItem}">
-                                    <Setter Property="Padding" Value="1,10,2,10"/>
-                                    <Setter Property="Focusable" Value="False"/>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <!--<ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid x:Name="DragDropGrid" DataContext="{Binding}"
-                                          MouseEnter="DragDropGrid_MouseEnter"  MouseLeave="DragDropGrid_MouseLeave">
-                                        <Grid.ContextMenu>
-                                            <ContextMenu ItemsSource="{Binding}"
-                                                Opened="IntroContextMenu_Opened" Closed="IntroContextMenu_Closed">
-                                                <MenuItem x:Name="RemoveFromFormatting" Header="Remove From Formatting"/>
-                                            </ContextMenu>
-                                        </Grid.ContextMenu>
-                                        <Border Background="{Binding}"
-                                        CornerRadius="5" Opacity=".4"/>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label x:Name="DragDropLabel" Content="{Binding}"/>
-                                            <Border x:Name="DropDown"
-                                                Grid.Column="1"
-                                                BorderThickness="1.5,0,0,0"
-                                                Visibility="Collapsed"
-                                                MouseUp="DropDown_MouseDown"
-                                                MouseEnter="DragDropGrid_MouseEnter" MouseLeave="DragDropGrid_MouseLeave">
-                                                <Border.BorderBrush>
-                                                    <SolidColorBrush Opacity=".1" Color="Black"/>
-                                                </Border.BorderBrush>
-                                                <Image  
-                                                   Width="10"
-                                                   Height="10"
-                                                    Margin="2,2,4,0"
-                                                   HorizontalAlignment="left"
-                                                   VerticalAlignment="Center"
-                                                    Source="C:\Users\Jake\Downloads\droparrow.png"/>
-                                            </Border>
-                                        </Grid>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>-->
+                                 dd:DragDrop.SelectDroppedItems="False"
+                                 dd:DragDrop.DropHandler="{Binding}">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}">
+                                        <Setter Property="Padding" Value="1,10,2,10"/>
+                                        <Setter Property="Focusable" Value="False"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:CiteFormatBlock DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
 
-                            <Grid x:Name="IntroDragDropGrid"
-                                  MouseEnter="IntroDragDropGrid_MouseEnter"  MouseLeave="IntroDragDropGrid_MouseLeave"  >
-                                <Grid.ContextMenu>
-                                    <ContextMenu >
-                                        <!--Opened="IntroContextMenu_Opened" Closed="IntroContextMenu_Closed"-->
-                                        <MenuItem Header="Exhibit" Click="MenuItem_Click"/>
-                                        <MenuItem Header="Ex." Click="MenuItem_Click_1"/>
-                                        <MenuItem Header="Exh." Click="MenuItem_Click_2"/>
-                                        <MenuItem Header="Appendix" Click="MenuItem_Click_3"/>
-                                        <MenuItem Header="Appx." Click="MenuItem_Click_4"/>
-                                        <MenuItem Header="Tab" Click="MenuItem_Click_5"/>
+                            </ListBox>
+                            <Button x:Name="LongCiteAddBlock"
+                                Grid.Column="1" Width="20"
+                                VerticalAlignment="Stretch"
+                                Content="+"
+                                Click="LongCiteAddBlock_Click">
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add Exhibit Intro Block" Click="AddIntroBlock_Click"/>
+                                        <MenuItem Header="Add Exhibit Index Block"/>
+                                        <MenuItem Header="Add Description Block"/>
+                                        <MenuItem Header="Add Pincite Placeholder Block"/>
+                                        <MenuItem Header="Add Other Identifier Block"/>
+                                        <MenuItem Header="Add Parentheses Block Group"/>
+                                        <MenuItem Header="Add Comma Block"/>
+                                        <MenuItem Header="Add Custom Text Block"/>
                                     </ContextMenu>
-                                </Grid.ContextMenu>
-                                <Border Background="{StaticResource CiteTypeBrush_LegalCite}"
-                                        CornerRadius="5" Opacity=".4"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label x:Name="IntroLabel" Content="Exhibit"/>
-                                    <Border x:Name="IntroDropDown"
-                                            Grid.Column="1"
-                                            BorderThickness="1.5,0,0,0"
-                                            Visibility="Collapsed"
-                                            MouseUp="IntroDropDown_MouseDown"
-                                  MouseEnter="IntroDragDropGrid_MouseEnter" MouseLeave="IntroDragDropGrid_MouseLeave">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Opacity=".1" Color="Black"/>
-                                        </Border.BorderBrush>
-                                        <Image  
-                                           Width="10"
-                                           Height="10"
-                                            Margin="2,2,4,0"
-                                           HorizontalAlignment="left"
-                                           VerticalAlignment="Center"
-                                            Source="C:\Users\Jake\Downloads\droparrow.png"/>
-                                    </Border>
-                                </Grid>
-                            </Grid>
+                                </Button.ContextMenu>
+                            </Button>
 
-                            <Grid x:Name="IndexDragDropGrid"
-                                  MouseEnter="IndexDragDropGrid_MouseEnter"  MouseLeave="IndexDragDropGrid_MouseLeave"  >
-                                <Grid.ContextMenu>
-                                    <ContextMenu >
-                                        <!--Opened="IndexContextMenu_Opened" Closed="IndexContextMenu_Closed"-->
-                                        <MenuItem Header="Numeric"/>
-                                        <MenuItem Header="Alphabetic"/>
-                                        <MenuItem Header="Roman Numeral"/>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
-                                <Border Background="{StaticResource CiteTypeBrush_Exhibit}"
-                                        CornerRadius="5" Opacity=".4"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Content="#" Margin="2,0"/>
-                                    <Border x:Name="IndexDropDown"
-                                            Grid.Column="1"
-                                            BorderThickness="1.5,0,0,0"
-                                            Visibility="Collapsed"
-                                            MouseUp="IndexDropDown_MouseDown"
-                                  MouseEnter="IndexDragDropGrid_MouseEnter" MouseLeave="IndexDragDropGrid_MouseLeave">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Opacity=".1" Color="Black"/>
-                                        </Border.BorderBrush>
-                                        <Image  
-                                           Width="10"
-                                           Height="10"
-                                            Margin="2,2,4,0"
-                                           HorizontalAlignment="left"
-                                           VerticalAlignment="Center"
-                                            Source="C:\Users\Jake\Downloads\droparrow.png"/>
-                                    </Border>
-                                </Grid>
-                            </Grid>
-
-                            <Grid x:Name="PinDragDropGrid"
-                                  MouseEnter="PinDragDropGrid_MouseEnter"  MouseLeave="PinDragDropGrid_MouseLeave"  >
-                                <Grid.ContextMenu>
-                                    <ContextMenu >
-                                        <!--Opened="PinContextMenu_Opened" Closed="PinContextMenu_Closed"-->
-                                        <MenuItem Header="Remove"/>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
-                                <Border Background="{StaticResource CiteTypeBrush_RecordCite}"
-                                        CornerRadius="5" Opacity=".4"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Content="{}{PIN}"/>
-                                    <Border x:Name="PinDropDown"
-                                            Grid.Column="1"
-                                            BorderThickness="1.5,0,0,0"
-                                            Visibility="Collapsed"
-                                            MouseUp="PinDropDown_MouseDown"
-                                  MouseEnter="PinDragDropGrid_MouseEnter" MouseLeave="PinDragDropGrid_MouseLeave">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Opacity=".1" Color="Black"/>
-                                        </Border.BorderBrush>
-                                        <Image  
-                                           Width="10"
-                                           Height="10"
-                                            Margin="2,2,4,0"
-                                           HorizontalAlignment="left"
-                                           VerticalAlignment="Center"
-                                            Source="C:\Users\Jake\Downloads\droparrow.png"/>
-                                    </Border>
-                                </Grid>
-                            </Grid>
-
-                            <Grid x:Name="OpenParenDragDropGrid"
-                                  MouseEnter="OpenParenDragDropGrid_MouseEnter"  MouseLeave="OpenParenDragDropGrid_MouseLeave"  >
-                                <Grid.ContextMenu>
-                                    <ContextMenu >
-                                        <!--Opened="OpenParenContextMenu_Opened" Closed="OpenParenContextMenu_Closed"-->
-                                        <MenuItem Header="Remove"/>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
-                                <Border Background="{StaticResource CiteTypeBrush_Extra}"
-                                        CornerRadius="5" Opacity=".4"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Content="(" Margin="2,0"/>
-                                    <Border x:Name="OpenParenDropDown"
-                                            Grid.Column="1"
-                                            BorderThickness="1.5,0,0,0"
-                                            Visibility="Collapsed"
-                                            MouseUp="OpenParenDropDown_MouseDown"
-                                  MouseEnter="OpenParenDragDropGrid_MouseEnter" MouseLeave="OpenParenDragDropGrid_MouseLeave">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Opacity=".1" Color="Black"/>
-                                        </Border.BorderBrush>
-                                        <Image  
-                                           Width="10"
-                                           Height="10"
-                                            Margin="2,2,4,0"
-                                           HorizontalAlignment="left"
-                                           VerticalAlignment="Center"
-                                            Source="C:\Users\Jake\Downloads\droparrow.png"/>
-                                    </Border>
-                                </Grid>
-                            </Grid>
-
-                            <Grid x:Name="DescDragDropGrid"
-                                  MouseEnter="DescDragDropGrid_MouseEnter"  MouseLeave="DescDragDropGrid_MouseLeave"  >
-                                <Grid.ContextMenu>
-                                    <ContextMenu >
-                                        <!--Opened="DescContextMenu_Opened" Closed="DescContextMenu_Closed"-->
-                                        <MenuItem Header="Remove"/>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
-                                <Border Background="{StaticResource CiteTypeBrush_OtherCite}"
-                                        CornerRadius="5" Opacity=".4"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Content="Description"/>
-                                    <Border x:Name="DescDropDown"
-                                            Grid.Column="1"
-                                            BorderThickness="1.5,0,0,0"
-                                            Visibility="Collapsed"
-                                            MouseUp="DescDropDown_MouseDown"
-                                  MouseEnter="DescDragDropGrid_MouseEnter" MouseLeave="DescDragDropGrid_MouseLeave">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Opacity=".1" Color="Black"/>
-                                        </Border.BorderBrush>
-                                        <Image  
-                                           Width="10"
-                                           Height="10"
-                                            Margin="2,2,4,0"
-                                           HorizontalAlignment="left"
-                                           VerticalAlignment="Center"
-                                            Source="C:\Users\Jake\Downloads\droparrow.png"/>
-                                    </Border>
-                                </Grid>
-                            </Grid>
-
-                            <Grid x:Name="CloseParenDragDropGrid"
-                                  MouseEnter="CloseParenDragDropGrid_MouseEnter"  MouseLeave="CloseParenDragDropGrid_MouseLeave"  >
-                                <Grid.ContextMenu>
-                                    <ContextMenu >
-                                        <!--Opened="CloseParenContextMenu_Opened" Closed="CloseParenContextMenu_Closed"-->
-                                        <MenuItem Header="Remove"/>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
-                                <Border Background="{StaticResource CiteTypeBrush_Extra}"
-                                        CornerRadius="5" Opacity=".4"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Content=")" Margin="2,0"/>
-                                    <Border x:Name="CloseParenDropDown"
-                                            Grid.Column="1"
-                                            BorderThickness="1.5,0,0,0"
-                                            Visibility="Collapsed"
-                                            MouseUp="CloseParenDropDown_MouseDown"
-                                  MouseEnter="CloseParenDragDropGrid_MouseEnter" MouseLeave="CloseParenDragDropGrid_MouseLeave">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Opacity=".1" Color="Black"/>
-                                        </Border.BorderBrush>
-                                        <Image  
-                                           Width="10"
-                                           Height="10"
-                                            Margin="2,2,4,0"
-                                           HorizontalAlignment="left"
-                                           VerticalAlignment="Center"
-                                            Source="C:\Users\Jake\Downloads\droparrow.png"/>
-                                    </Border>
-                                </Grid>
-                            </Grid>
-
-                            <Grid x:Name="CommaDragDropGrid"
-                                  MouseEnter="CommaDragDropGrid_MouseEnter"  MouseLeave="CommaDragDropGrid_MouseLeave"  >
-                                <Grid.ContextMenu>
-                                    <ContextMenu >
-                                        <!--Opened="CommaContextMenu_Opened" Closed="CommaContextMenu_Closed"-->
-                                        <MenuItem Header="Remove"/>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
-                                <Border Background="{StaticResource CiteTypeBrush_Extra}"
-                                        CornerRadius="5" Opacity=".4"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Content="," Margin="2,0"/>
-                                    <Border x:Name="CommaDropDown"
-                                            Grid.Column="1"
-                                            BorderThickness="1.5,0,0,0"
-                                            Visibility="Collapsed"
-                                            MouseUp="CommaDropDown_MouseDown"
-                                  MouseEnter="CommaDragDropGrid_MouseEnter" MouseLeave="CommaDragDropGrid_MouseLeave">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Opacity=".1" Color="Black"/>
-                                        </Border.BorderBrush>
-                                        <Image  
-                                           Width="10"
-                                           Height="10"
-                                            Margin="2,2,4,0"
-                                           HorizontalAlignment="left"
-                                           VerticalAlignment="Center"
-                                            Source="C:\Users\Jake\Downloads\droparrow.png"/>
-                                    </Border>
-                                </Grid>
-                            </Grid>
-
-                            <Grid x:Name="FreeTextDragDropGrid"
-                                  MouseEnter="FreeTextDragDropGrid_MouseEnter"  MouseLeave="FreeTextDragDropGrid_MouseLeave"  >
-                                <Grid.ContextMenu>
-                                    <ContextMenu >
-                                        <!--Opened="FreeTextContextMenu_Opened" Closed="FreeTextContextMenu_Closed"-->
-                                        <MenuItem Header="Edit Text"/>
-                                        <MenuItem Header="Remove"/>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
-                                <Border Background="LightGray"
-                                        CornerRadius="5" Opacity=".4"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Content="Free Text" Margin="2,0"/>
-                                    <Border x:Name="FreeTextDropDown"
-                                            Grid.Column="1"
-                                            BorderThickness="1.5,0,0,0"
-                                            Visibility="Collapsed"
-                                            MouseUp="FreeTextDropDown_MouseDown"
-                                  MouseEnter="FreeTextDragDropGrid_MouseEnter" MouseLeave="FreeTextDragDropGrid_MouseLeave">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Opacity=".1" Color="Black"/>
-                                        </Border.BorderBrush>
-                                        <Image  
-                                           Width="10"
-                                           Height="10"
-                                            Margin="2,2,4,0"
-                                           HorizontalAlignment="left"
-                                           VerticalAlignment="Center"
-                                            Source="C:\Users\Jake\Downloads\droparrow.png"/>
-                                    </Border>
-                                </Grid>
-                            </Grid>
-
-                            <Grid x:Name="IDTextDragDropGrid"
-                                  MouseEnter="IDTextDragDropGrid_MouseEnter"  MouseLeave="IDTextDragDropGrid_MouseLeave"  >
-                                <Grid.ContextMenu>
-                                    <ContextMenu >
-                                        <!--Opened="IDTextContextMenu_Opened" Closed="IDTextContextMenu_Closed"-->
-                                        <MenuItem Header="Remove"/>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
-                                <Border Background="Purple"
-                                        CornerRadius="5" Opacity=".4"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Content="ABC00001" Margin="2,0"/>
-                                    <Border x:Name="IDTextDropDown"
-                                            Grid.Column="1"
-                                            BorderThickness="1.5,0,0,0"
-                                            Visibility="Collapsed"
-                                            MouseUp="IDTextDropDown_MouseDown"
-                                  MouseEnter="IDTextDragDropGrid_MouseEnter" MouseLeave="IDTextDragDropGrid_MouseLeave">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Opacity=".1" Color="Black"/>
-                                        </Border.BorderBrush>
-                                        <Image  
-                                           Width="10"
-                                           Height="10"
-                                            Margin="2,2,4,0"
-                                           HorizontalAlignment="left"
-                                           VerticalAlignment="Center"
-                                            Source="C:\Users\Jake\Downloads\droparrow.png"/>
-                                    </Border>
-                                </Grid>
-                            </Grid>
-
-                        </ListBox>
-                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Content="Add Parentheses" Margin="2"/>
-                            <Button Content="Add Comma" Margin="2"/>
-                            <Button Content="Add Text Block" Margin="2"/>
-                            <Button Content="Add Identification Number" Margin="2"/>
-                        </WrapPanel>
-
+                        </Grid>
                         <Label 
                             Content="Short Cite Formatting"/>
                         <!--Add same format as Long Cite ListBox-->
@@ -686,10 +339,10 @@
                         </CheckBox>
                         <!--https://github.com/GuOrg/Gu.Wpf.NumericInput/blob/master/README.md#1-samples-->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Label Content="Index Starts at"/>
-                            <numeric:SpinnerDecorator x:Name="IndexStartNumUpDown"
+                            <numeric:SpinnerDecorator 
                                 MinWidth="40" Width="auto" >
-                                <numeric:IntBox Value="1"
+                                <numeric:IntBox x:Name="IndexStartNumUpDown" 
+                                                Value="1"
                                                 ValidationTrigger="PropertyChanged"
                                                 CanValueBeNull="False"
                                                 StringFormat="#,0"
@@ -698,18 +351,22 @@
                                                 SpinUpdateMode="PropertyChanged"
                                                 Increment="{Binding Increment}"
                                                 Margin="0"
+                                                Focusable="False"
                                                 >
                                 </numeric:IntBox>
                             </numeric:SpinnerDecorator>
+
+                            <Label Margin="10,0,0,0"
+                                Content="Exhibit Index Starting Value"/>
                         </StackPanel>
                         <UniformGrid>
-                            <Button x:Name="UpdateFormatting"
+                            <!--<Button x:Name="UpdateFormatting"
                                     Margin="5">
                                 <Label Content="Update Formatting"/>
-                            </Button>
-                            <Button x:Name="FormattingCancel"
-                                    Margin="5">
-                                <Label Content="Cancel"/>
+                            </Button>-->
+                            <Button x:Name="FormattingReset"
+                                    Margin="5, 40, 5, 0" Click="FormattingReset_Click">
+                                <Label Content="Reset Formatting"/>
                             </Button>
                         </UniformGrid>
                     </StackPanel>
@@ -717,168 +374,18 @@
             </Border>
         </Grid>
 
+        <!--##############################################-->
+        <!--######### ADD CITE POPUP ################-->
+        <!--##############################################-->
 
-        <!--############################################-->
-        <!-- Add Cite Expander-->
-        <!--############################################-->
-        <!--<Grid
-            VerticalAlignment="Bottom"
-            Background="Transparent"
+        <local:CiteAdd x:Name="CiteAdd"
             Grid.Column="0" Grid.ColumnSpan="4"
-            Grid.Row="3">
-            <Border 
-                Margin="3,3,3,0"
-                Background="LightGray" CornerRadius="15,15,0,0">
-                <Expander x:Name="AddCitationExpander" Header="Add a Citation" 
-                          FontWeight="DemiBold"
-                  Margin="5,5,5,5" 
-                  IsExpanded="True"
-                      >
-                    <StackPanel Orientation="Vertical"
-                        MaxHeight="620" Height="auto">
-                        <StackPanel x:Name="Format_TypeGrid"
-                                    Orientation="Horizontal"
-                                    Margin="0,10,0,0">
-                            <Label Content="Citation Type"/>
-                            <ComboBox x:Name="Format_TypeComboBox"
-                                      VerticalAlignment="Center"
-                                      IsEditable="False" SelectedIndex="0"
-                                HorizontalAlignment="Right" Width="120">
-                                <ComboBoxItem IsSelected="True" Content="Exhibit"/>
-                                <ComboBoxItem Content="Legal Cite"/>
-                                <ComboBoxItem Content="Record Cite"/>
-                                <ComboBoxItem Content="Other"/>
-                            </ComboBox>
-                        </StackPanel>
-                        <StackPanel x:Name="Format_LongDescription"
-                                    Margin="0,10,0,0"
-                                    Orientation="Vertical">
-                            <Label Content="Long Description"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Label x:Name="Format_LongDescriptionExhibitLabel"
-                                       Visibility="Collapsed"
-                                    Content="Exhibit 1,"/>
-                                <TextBox x:Name="Format_LongDescriptionTextBox" 
-                                         Grid.Column="2"
-                                         VerticalContentAlignment="Center"
-                                         Text="Example of a Long Description"/>
-                            </Grid>
-                        </StackPanel>
-                        <StackPanel x:Name="Format_ShortDescription"
-                                    Margin="0,10,0,0"
-                                    Orientation="Vertical">
-                            <Label Content="Short Description"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Label x:Name="Format_ShortDescriptionExhibitLabel"
-                                       Visibility="Collapsed"
-                                    Content="Exhibit 1,"/>
-                                <TextBox x:Name="Format_ShortDescriptionTextBox" 
-                                         Grid.Column="2"
-                                         VerticalContentAlignment="Center"
-                                         Text="Example of a Short Description"/>
-                            </Grid>
-                        </StackPanel>
-                        <StackPanel x:Name="Format_OtherIdentifier"
-                                    Margin="0,10,0,0"
-                                    Orientation="Vertical">
-                            <Label Content="Other Identifier"/>
-                            <TextBox x:Name="Format_OtherIdentifierTextBox" 
-                                         Grid.Column="2"
-                                         VerticalContentAlignment="Center"
-                                         Text="Bates No. AB000000123"/>
-                            <TextBlock 
-                                Foreground="DarkSlateGray"
-                                TextWrapping="Wrap"
-                                TextAlignment="Center"
-                                FontWeight="Normal"
-                                Text="This information will not appear when the citation is inserted in the document."/>
-                        </StackPanel>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Button x:Name="btnAddCitation"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="left"
-                                    Margin="10"
-                                    Width="100">
-                                <Grid>
-                                    <Label Content="Add Citation"/>
-                                </Grid>
-                            </Button>
-                            <Button x:Name="btnDoNotAddCitation"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Right"
-                                    Margin="10"
-                                    Width="100">
-                                <Grid>
-                                    <Label Content="Cancel"/>
-                                </Grid>
-                            </Button>
-                        </Grid>
-
-                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2"
-                           Margin="5,40,5,5"
-                                   VerticalAlignment="Bottom">
-                            <TextBlock 
-                            Margin="0,0,0,5" FontWeight="Normal" TextWrapping="WrapWithOverflow" TextAlignment="Center">
-                                <TextBlock.Inlines>
-                                    <Run Text="The "/>
-                                    <Run FontStyle="Italic" FontWeight="DemiBold" Text="Long Description"/>
-                                    <Run Text=" is used the first time a citiation is referenced in the document. Subsequent citations use the "/>
-                                    <Run FontStyle="Italic" FontWeight="DemiBold" Text="Short Description."/>
-                                </TextBlock.Inlines>
-                            </TextBlock>
-                            <TextBlock 
-                            Margin="0,0,0,0" FontWeight="Normal" TextWrapping="WrapWithOverflow" TextAlignment="Center">
-                                <TextBlock.Inlines>
-                                    <Run Text="You may add "/>
-                                    <Run FontWeight="Bold" Text="Bold"/>
-                                    <Run Text=", "/>
-                                    <Run FontStyle="Italic" Text="Italic"/>
-                                    <Run Text=", or "/>
-                                    <Run TextDecorations="Underline" Text="Underline"/>
-                                    <Run Text="formatting to Long or Short Descriptions using the below table:"/>
-                                </TextBlock.Inlines>
-                            </TextBlock>
-                            <Grid Width="200" Margin="0,0,0,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Center"
-                                    FontWeight="Bold" Text="Bold"/>
-                                <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Center"
-                                       Text="**Text**"/>
-                                <TextBlock Grid.Column="0" Grid.Row="1" TextAlignment="Center"
-                                    FontStyle="Italic" Text="Italic"/>
-                                <TextBlock Grid.Column="1" Grid.Row="1" TextAlignment="Center"
-                                       Text="//Text//"/>
-                                <TextBlock Grid.Column="0" Grid.Row="2" TextAlignment="Center"
-                                    TextDecorations="Underline" Text="Underline"/>
-                                <TextBlock Grid.Column="1" Grid.Row="2" TextAlignment="Center"
-                                       Text="__Text__"/>
-                            </Grid>
-                        </StackPanel>
-                    </StackPanel>
-                </Expander>
-            </Border>
-        </Grid>-->
+            Grid.Row="0" Grid.RowSpan="4"
+                       VerticalAlignment="Stretch"
+                       HorizontalAlignment="Stretch"
+            Visibility="Collapsed"
+            >
+        </local:CiteAdd>
 
 
     </Grid>

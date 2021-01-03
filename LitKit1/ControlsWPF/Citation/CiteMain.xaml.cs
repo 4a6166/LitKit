@@ -30,7 +30,7 @@ namespace LitKit1.ControlsWPF.Citation
         #region Properties
         private CiteMainVM ViewModel;
         CollectionView view;
-        CiteType SearchCiteType = CiteType.All;
+        CiteType SearchCiteType = CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other;
 
         #endregion
 
@@ -42,6 +42,7 @@ namespace LitKit1.ControlsWPF.Citation
             //ViewModel = new CiteMainVM();
 
             this.DataContext = ViewModel;
+
             InitializeComponent();
 
             view = (CollectionView)CollectionViewSource.GetDefaultView(CiteBlockStackPanel.ItemsSource);
@@ -53,7 +54,7 @@ namespace LitKit1.ControlsWPF.Citation
 
         private bool TextFilter(object item)
         {
-            if(SearchCiteType == CiteType.All || SearchCiteType == CiteType.None)
+            if(SearchCiteType == (CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other))
             {
                 if (String.IsNullOrEmpty(SearchTextBox.Text))
                     return true;
@@ -73,7 +74,7 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void btnAllCites_Click(object sender, RoutedEventArgs e)
         {
-            SearchCiteType = CiteType.All;
+            SearchCiteType = CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other;
             view.Refresh();
             view.Filter = TextFilter;
 
@@ -224,185 +225,185 @@ namespace LitKit1.ControlsWPF.Citation
         }
 
 
-        #region Formatting drag and drop
+        //#region Formatting drag and drop
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            IntroLabel.Content = "Exhibit";
-        }
+        //private void MenuItem_Click(object sender, RoutedEventArgs e)
+        //{
+        //    IntroLabel.Content = "Exhibit";
+        //}
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
-            IntroLabel.Content = "Ex.";
-        }
+        //private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        //{
+        //    IntroLabel.Content = "Ex.";
+        //}
 
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
-        {
-            IntroLabel.Content = "Exh.";
-        }
+        //private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        //{
+        //    IntroLabel.Content = "Exh.";
+        //}
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
-        {
-            IntroLabel.Content = "Appendix";
-        }
+        //private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        //{
+        //    IntroLabel.Content = "Appendix";
+        //}
 
-        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
-        {
-            IntroLabel.Content = "Appx.";
-        }
+        //private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        //{
+        //    IntroLabel.Content = "Appx.";
+        //}
 
-        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
-        {
-            IntroLabel.Content = "Tab";
-        }
-
-
-        private void IntroDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            IntroDropDown.Visibility = Visibility.Visible;
-        }
-
-        private void IntroDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            IntroDropDown.Visibility = Visibility.Collapsed;
-        }
-
-        private void IntroDropDown_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            IntroDropDown.Visibility = Visibility.Visible;
-            IntroDragDropGrid.ContextMenu.IsOpen = true;
-        }
-
-        private void IndexDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            IndexDropDown.Visibility = Visibility.Visible;
-        }
-
-        private void IndexDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            IndexDropDown.Visibility = Visibility.Collapsed;
-        }
-
-        private void IndexDropDown_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            IndexDropDown.Visibility = Visibility.Visible;
-            IndexDragDropGrid.ContextMenu.IsOpen = true;
-        }
-
-        private void PinDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            PinDropDown.Visibility = Visibility.Visible;
-        }
-
-        private void PinDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            PinDropDown.Visibility = Visibility.Collapsed;
-        }
-
-        private void PinDropDown_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            PinDropDown.Visibility = Visibility.Visible;
-            PinDragDropGrid.ContextMenu.IsOpen = true;
-        }
-
-        private void OpenParenDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            OpenParenDropDown.Visibility = Visibility.Visible;
-        }
-
-        private void OpenParenDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            OpenParenDropDown.Visibility = Visibility.Collapsed;
-        }
-
-        private void OpenParenDropDown_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            OpenParenDropDown.Visibility = Visibility.Visible;
-            OpenParenDragDropGrid.ContextMenu.IsOpen = true;
-        }
-
-        private void DescDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            DescDropDown.Visibility = Visibility.Visible;
-        }
-
-        private void DescDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            DescDropDown.Visibility = Visibility.Collapsed;
-        }
-
-        private void DescDropDown_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            DescDropDown.Visibility = Visibility.Visible;
-            DescDragDropGrid.ContextMenu.IsOpen = true;
-        }
-
-        private void CloseParenDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            CloseParenDropDown.Visibility = Visibility.Visible;
-        }
-
-        private void CloseParenDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            CloseParenDropDown.Visibility = Visibility.Collapsed;
-        }
-
-        private void CloseParenDropDown_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            CloseParenDropDown.Visibility = Visibility.Visible;
-            CloseParenDragDropGrid.ContextMenu.IsOpen = true;
-        }
-
-        private void CommaDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            CommaDropDown.Visibility = Visibility.Visible;
-        }
-
-        private void CommaDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            CommaDropDown.Visibility = Visibility.Collapsed;
-        }
-
-        private void CommaDropDown_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            CommaDropDown.Visibility = Visibility.Visible;
-            CommaDragDropGrid.ContextMenu.IsOpen = true;
-        }
-
-        private void FreeTextDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            FreeTextDropDown.Visibility = Visibility.Visible;
-        }
-
-        private void FreeTextDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            FreeTextDropDown.Visibility = Visibility.Collapsed;
-        }
-
-        private void FreeTextDropDown_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            FreeTextDropDown.Visibility = Visibility.Visible;
-            FreeTextDragDropGrid.ContextMenu.IsOpen = true;
-        }
-
-        private void IDTextDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            IDTextDropDown.Visibility = Visibility.Visible;
-        }
-
-        private void IDTextDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            IDTextDropDown.Visibility = Visibility.Collapsed;
-        }
-
-        private void IDTextDropDown_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            IDTextDropDown.Visibility = Visibility.Visible;
-            IDTextDragDropGrid.ContextMenu.IsOpen = true;
-        }
+        //private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        //{
+        //    IntroLabel.Content = "Tab";
+        //}
 
 
-        #endregion
+        //private void IntroDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    IntroDropDown.Visibility = Visibility.Visible;
+        //}
+
+        //private void IntroDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    IntroDropDown.Visibility = Visibility.Collapsed;
+        //}
+
+        //private void IntroDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    IntroDropDown.Visibility = Visibility.Visible;
+        //    IntroDragDropGrid.ContextMenu.IsOpen = true;
+        //}
+
+        //private void IndexDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    IndexDropDown.Visibility = Visibility.Visible;
+        //}
+
+        //private void IndexDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    IndexDropDown.Visibility = Visibility.Collapsed;
+        //}
+
+        //private void IndexDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    IndexDropDown.Visibility = Visibility.Visible;
+        //    IndexDragDropGrid.ContextMenu.IsOpen = true;
+        //}
+
+        //private void PinDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    PinDropDown.Visibility = Visibility.Visible;
+        //}
+
+        //private void PinDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    PinDropDown.Visibility = Visibility.Collapsed;
+        //}
+
+        //private void PinDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    PinDropDown.Visibility = Visibility.Visible;
+        //    PinDragDropGrid.ContextMenu.IsOpen = true;
+        //}
+
+        //private void OpenParenDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    OpenParenDropDown.Visibility = Visibility.Visible;
+        //}
+
+        //private void OpenParenDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    OpenParenDropDown.Visibility = Visibility.Collapsed;
+        //}
+
+        //private void OpenParenDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    OpenParenDropDown.Visibility = Visibility.Visible;
+        //    OpenParenDragDropGrid.ContextMenu.IsOpen = true;
+        //}
+
+        //private void DescDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    DescDropDown.Visibility = Visibility.Visible;
+        //}
+
+        //private void DescDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    DescDropDown.Visibility = Visibility.Collapsed;
+        //}
+
+        //private void DescDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    DescDropDown.Visibility = Visibility.Visible;
+        //    DescDragDropGrid.ContextMenu.IsOpen = true;
+        //}
+
+        //private void CloseParenDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    CloseParenDropDown.Visibility = Visibility.Visible;
+        //}
+
+        //private void CloseParenDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    CloseParenDropDown.Visibility = Visibility.Collapsed;
+        //}
+
+        //private void CloseParenDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    CloseParenDropDown.Visibility = Visibility.Visible;
+        //    CloseParenDragDropGrid.ContextMenu.IsOpen = true;
+        //}
+
+        //private void CommaDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    CommaDropDown.Visibility = Visibility.Visible;
+        //}
+
+        //private void CommaDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    CommaDropDown.Visibility = Visibility.Collapsed;
+        //}
+
+        //private void CommaDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    CommaDropDown.Visibility = Visibility.Visible;
+        //    CommaDragDropGrid.ContextMenu.IsOpen = true;
+        //}
+
+        //private void FreeTextDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    FreeTextDropDown.Visibility = Visibility.Visible;
+        //}
+
+        //private void FreeTextDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    FreeTextDropDown.Visibility = Visibility.Collapsed;
+        //}
+
+        //private void FreeTextDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    FreeTextDropDown.Visibility = Visibility.Visible;
+        //    FreeTextDragDropGrid.ContextMenu.IsOpen = true;
+        //}
+
+        //private void IDTextDragDropGrid_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    IDTextDropDown.Visibility = Visibility.Visible;
+        //}
+
+        //private void IDTextDragDropGrid_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    IDTextDropDown.Visibility = Visibility.Collapsed;
+        //}
+
+        //private void IDTextDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    IDTextDropDown.Visibility = Visibility.Visible;
+        //    IDTextDragDropGrid.ContextMenu.IsOpen = true;
+        //}
+
+
+        //#endregion
 
         private void ContextMenu_Opened(object sender, RoutedEventArgs e)
         {
@@ -429,15 +430,58 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
         {
-
+            CiteAdd.Visibility = Visibility.Visible;
         }
 
 
         private void RefreshBorder_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            ViewModel.RefreshCites();
+        }
+
+        private void MenuItem_Click_6(object sender, RoutedEventArgs e)
+        {
+            CiteAdd.Visibility = Visibility.Visible;
+        }
+
+        private void MenuItem_Click_7(object sender, RoutedEventArgs e)
+        {
 
         }
 
+        private void MenuItem_Click_8(object sender, RoutedEventArgs e)
+        {
 
+        }
+
+        private void MenuItem_Click_9(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FormattingReset_Click(object sender, RoutedEventArgs e)
+        {
+
+            ViewModel.ResetFormatList();
+
+            IdCheckBox.IsChecked = true;
+            IndexStartNumUpDown.Value = 1;
+
+        }
+
+        private void LongCiteAddBlock_Click(object sender, RoutedEventArgs e)
+        {
+            LongCiteAddBlock.ContextMenu.IsOpen = true;
+        }
+
+        private void AddIntroBlock_Click(object sender, RoutedEventArgs e)
+        {
+            var count = ViewModel.FormatList.Where(n => n.Type == CiteFormatPieceType.Intro).ToList().Count;
+            if (count == 0)
+            {
+                ViewModel.FormatList.Add(new CiteFormatPiece(CiteFormatPieceType.Intro));
+            }
+            else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Intro Block.");
+        }
     }
 }

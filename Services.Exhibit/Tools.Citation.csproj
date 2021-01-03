@@ -63,6 +63,7 @@
     <Compile Include="Citation.cs" />
     <Compile Include="CitationEnums.cs" />
     <Compile Include="CitationRepository.cs" />
+    <Compile Include="CiteFormatPiece.cs" />
     <Compile Include="CiteFormatting.cs" />
     <Compile Include="CiteDocLayer.cs" />
     <Compile Include="CitePositionReference.cs" />

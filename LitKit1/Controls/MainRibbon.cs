@@ -308,7 +308,7 @@ namespace LitKit1
             }
 
             stopwatch.Stop();
-            MessageBox.Show("Seconds: " + stopwatch.Elapsed.TotalSeconds);
+            //MessageBox.Show("Seconds: " + stopwatch.Elapsed.TotalSeconds);
 
         }
 
@@ -905,23 +905,17 @@ namespace LitKit1
         private void Test_Button_Click(object sender, RibbonControlEventArgs e)
         {
 
-            //_app.UndoRecord.StartCustomRecord("Test Action");
+            _app.UndoRecord.StartCustomRecord("Test Action");
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
 
 
 
-
             //stopwatch.Stop();
             //MessageBox.Show("Time: " + stopwatch.Elapsed);
-            //_app.UndoRecord.EndCustomRecord();
+            _app.UndoRecord.EndCustomRecord();
 
-            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
-
-            HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
-
-            holdingControl.Controls.Clear();
 
 
 
