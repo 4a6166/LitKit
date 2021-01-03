@@ -242,30 +242,32 @@ namespace Tools.Citation
 
         public ContentControl AddPincite(ContentControl CiteCC, Citation citation, string PinciteText)
         {
-            CiteCC.LockContents = false;
+            throw new Exception("have to add in PINCITE Identifier in the cite formatting -> PINCITE as bool rather than string, replace {{PIN}}");
 
-            int index = GetCitationIndexFromDoc(citation);
+            //CiteCC.LockContents = false;
 
-            ContentControl CC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-            SetContentControlTag(CC, citation, true);
+            //int index = GetCitationIndexFromDoc(citation);
 
-            CitePlacementType placementType = GetCitePlacementTypeFromDoc(CC);
+            //ContentControl CC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
+            //SetContentControlTag(CC, citation, true);
 
-            Range LeadingForId = CC.Range;
+            //CitePlacementType placementType = GetCitePlacementTypeFromDoc(CC);
 
-            CiteCC.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index, true);
+            //Range LeadingForId = CC.Range;
 
-            var find = CiteCC.Range.Find;
-            find.ClearFormatting();
-            find.Text = @"{PINCITE}";
-            find.Execute();
+            //CiteCC.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index, true);
 
-            ContentControl Pincite = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-            SetPinciteCCTag(Pincite);
-            Pincite.SetPlaceholderText(Text: "Click to edit your Pincite text!");
+            //var find = CiteCC.Range.Find;
+            //find.ClearFormatting();
+            //find.Text = @"{PINCITE}";
+            //find.Execute();
 
-            CiteCC.LockContents = true;
-            return Pincite;
+            //ContentControl Pincite = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
+            //SetPinciteCCTag(Pincite);
+            //Pincite.SetPlaceholderText(Text: "Click to edit your Pincite text!");
+
+            //CiteCC.LockContents = true;
+            //return Pincite;
         }
 
         public void RemovePincite(ContentControl CiteCC)
@@ -281,34 +283,36 @@ namespace Tools.Citation
 
         public void UpdateCiteContentControls()
         {
-            log.Info("Updating all Cite Content Controls in " + _app.ActiveDocument.FullName);
+            throw new Exception("have to add in PINCITE Identifier in the cite formatting -> PINCITE as bool rather than string, replace {{PIN}}");
 
-            var allCites = GetAllCitesFromDoc_Unordered(CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other);
-            foreach (ContentControl cc in allCites)
-            {
-                var CCCiteID = GetCitationIDFromContentControl(cc);
-                Citation citation = repository.Citations.Where(n => n.ID == CCCiteID).FirstOrDefault();
+            //log.Info("Updating all Cite Content Controls in " + _app.ActiveDocument.FullName);
 
-                int index = GetCitationIndexFromDoc(citation);
-                CitePlacementType placementType = GetCitePlacementTypeFromDoc(cc);
+            //var allCites = GetAllCitesFromDoc_Unordered(CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other);
+            //foreach (ContentControl cc in allCites)
+            //{
+            //    var CCCiteID = GetCitationIDFromContentControl(cc);
+            //    Citation citation = repository.Citations.Where(n => n.ID == CCCiteID).FirstOrDefault();
 
-                bool hasPincite = bool.Parse(cc.Tag.Split('|')[2]);
-                ContentControl Pincite = null;
-                if (hasPincite)
-                {
-                    Pincite = cc.Range.ContentControls[1];
-                }
+            //    int index = GetCitationIndexFromDoc(citation);
+            //    CitePlacementType placementType = GetCitePlacementTypeFromDoc(cc);
 
-                Range LeadingForId = cc.Range;
+            //    bool hasPincite = bool.Parse(cc.Tag.Split('|')[2]);
+            //    ContentControl Pincite = null;
+            //    if (hasPincite)
+            //    {
+            //        Pincite = cc.Range.ContentControls[1];
+            //    }
 
-                cc.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index, hasPincite);
+            //    Range LeadingForId = cc.Range;
 
-                repository.CiteFormatting.FormatFont(cc);
-                if (hasPincite)
-                {
-                    Pincite = AddPincite(cc, citation, Pincite.Range.Text);
-                }
-            }
+            //    cc.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index, hasPincite);
+
+            //    repository.CiteFormatting.FormatFont(cc);
+            //    if (hasPincite)
+            //    {
+            //        Pincite = AddPincite(cc, citation, Pincite.Range.Text);
+            //    }
+            //}
         }
 
 

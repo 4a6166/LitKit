@@ -2,12 +2,14 @@
 using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Tools.Citation.Format;
 
 namespace Tools.Citation
 {
@@ -21,12 +23,12 @@ namespace Tools.Citation
         static XNamespace Namespace = _Namespace;
         static string CitationRoot = "//Citation";
         static string FormattingRoot = "//Format";
-        static string XML_ID = "ID";
-        static string XML_RefName = "RefName";
-        static string XML_Type = "Type";
-        static string XML_Long = "Long";
-        static string XML_Short = "Short";
-        static string XML_OtherID = "OtherID";
+        //static string XML_ID = "ID";
+        //static string XML_RefName = "RefName";
+        //static string XML_Type = "Type";
+        //static string XML_Long = "Long";
+        //static string XML_Short = "Short";
+        //static string XML_OtherID = "OtherID";
 
         public CitationRepository(Application _app)
         {
@@ -81,16 +83,70 @@ namespace Tools.Citation
 
             return result;
         }
+
+        private ObservableCollection<CiteFormatPiece> GetFormatPiecesFromDB(FormatNode Node)
+        {
+            var result = new ObservableCollection<CiteFormatPiece>();
+
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
+            CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode(FormattingRoot);
+            CustomXMLNode FormatNode = FormattingNode.SelectSingleNode("//" + Node.ToString());
+
+            CustomXMLNodes nodes = FormatNode.ChildNodes;
+            foreach (CustomXMLNode node in nodes)
+            {
+                CiteFormatPieceType type = CiteFormatPieceType.FreeText;
+                switch (node.BaseName)
+                {
+                    case "INTRO":
+                        type = CiteFormatPieceType.Intro;
+                        break;
+                    case "INDEX":
+                        type = CiteFormatPieceType.Index;
+                        break;
+                    case "COMMA":
+                        type = CiteFormatPieceType.Comma;
+                        break;
+                    case "DESC":
+                        type = CiteFormatPieceType.Description;
+                        break;
+                    case "LPARENS":
+                        type = CiteFormatPieceType.ParenthesisLeft;
+                        break;
+                    case "PIN":
+                        type = CiteFormatPieceType.PincitePlaceholder;
+                        break;
+                    case "RPARENS":
+                        type = CiteFormatPieceType.ParenthesisRight;
+                        break;
+                    case "FREETEXT":
+                        type = CiteFormatPieceType.FreeText;
+                        break;
+                    case "OTHERID":
+                        type = CiteFormatPieceType.OtherID;
+                        break;
+
+
+                }
+
+                string text = node.Text.Replace("\\u00A0", "\u00A0");
+                CiteFormatPiece piece = new CiteFormatPiece(type, text);
+                result.Add(piece);
+            }
+
+            return result;
+
+
+        }
         private void SetCiteFormatting()
         {
             string ExhibitIntro = GetFormattingFromDB(FormatNode.Intro);
-            string ExhibitLongFormat = GetFormattingFromDB(FormatNode.Long);
-            string ExhibitShortFormat = GetFormattingFromDB(FormatNode.Short);
+            ObservableCollection<CiteFormatPiece> ExhibitLongFormat = GetFormatPiecesFromDB(FormatNode.Long);
+            ObservableCollection<CiteFormatPiece> ExhibitShortFormat = GetFormatPiecesFromDB(FormatNode.Short);
 
             ExhibitIndexStyle ExhibitIndexStyle = ExhibitIndexStyle.Numbers;
             Enum.TryParse(GetFormattingFromDB(FormatNode.IndexStyle), out ExhibitIndexStyle);
             int ExhibitIndexStart = Int32.Parse(GetFormattingFromDB(FormatNode.IndexStart));
-            bool HasSurroundingParentheses = bool.Parse(GetFormattingFromDB(FormatNode.Parentheses));
             bool HasIdCite = bool.Parse(GetFormattingFromDB(FormatNode.IdCite));
 
             CiteFormatting = new CiteFormatting(ExhibitIntro, ExhibitLongFormat, ExhibitShortFormat, ExhibitIndexStyle, ExhibitIndexStart, HasIdCite);
@@ -98,16 +154,19 @@ namespace Tools.Citation
 
         public void UpdateDBFormatting(CiteFormatting formatting)
         {
-            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
-            CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode(FormattingRoot);
+            //var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
+            //CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode(FormattingRoot);
 
-            FormattingNode.SelectSingleNode("//Intro").Text = formatting.ExhibitIntro;
-            FormattingNode.SelectSingleNode("//Long").Text = formatting.ExhibitLongFormat;
-            FormattingNode.SelectSingleNode("//Short").Text = formatting.ExhibitShortFormat;
-            FormattingNode.SelectSingleNode("//IndexStyle").Text = formatting.ExhibitIndexStyle.ToString();
-            FormattingNode.SelectSingleNode("//IndexStart").Text = formatting.ExhibitIndexStart.ToString();
-            //FormattingNode.SelectSingleNode("//Parentheses").Text = formatting.hasSurroundingParentheses.ToString();
-            FormattingNode.SelectSingleNode("//IdCite").Text = formatting.hasIdCite.ToString();
+            //FormattingNode.SelectSingleNode("//Intro").Text = formatting.ExhibitIntro;
+            //FormattingNode.SelectSingleNode("//IndexStyle").Text = formatting.ExhibitIndexStyle.ToString();
+            //FormattingNode.SelectSingleNode("//IndexStart").Text = formatting.ExhibitIndexStart.ToString();
+            //FormattingNode.SelectSingleNode("//IdCite").Text = formatting.hasIdCite.ToString();
+
+            //foreach(var block in )
+
+            //FormattingNode.SelectSingleNode("//Long").Text = formatting.ExhibitLongFormat;
+            //FormattingNode.SelectSingleNode("//Short").Text = formatting.ExhibitShortFormat;
+            ////FormattingNode.SelectSingleNode("//Parentheses").Text = formatting.hasSurroundingParentheses.ToString();
         }
         #endregion
 
@@ -214,19 +273,19 @@ namespace Tools.Citation
         }
         private void UpdateCitationinDB(Citation citation)
         {
-            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
-            CustomXMLNodes CiteNodes = customXmlDoc.SelectNodes(CitationRoot);
-            foreach (CustomXMLNode cite in CiteNodes)
-            {
-                if (cite.SelectSingleNode(XML_ID).Text == citation.ID)
-                {
-                    cite.SelectSingleNode(XML_RefName).Text = citation.ReferenceName;
-                    cite.SelectSingleNode(XML_Type).Text = citation.CiteType.ToString();
-                    cite.SelectSingleNode(XML_Long).Text = citation.LongDescription;
-                    cite.SelectSingleNode(XML_Short).Text = citation.ShortDescription;
-                    cite.SelectSingleNode(XML_OtherID).Text = citation.OtherIdentifier;
-                }
-            }
+            //var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
+            //CustomXMLNodes CiteNodes = customXmlDoc.SelectNodes(CitationRoot);
+            //foreach (CustomXMLNode cite in CiteNodes)
+            //{
+            //    if (cite.SelectSingleNode(XML_ID).Text == citation.ID)
+            //    {
+            //        cite.SelectSingleNode(XML_RefName).Text = citation.ReferenceName;
+            //        cite.SelectSingleNode(XML_Type).Text = citation.CiteType.ToString();
+            //        cite.SelectSingleNode(XML_Long).Text = citation.LongDescription;
+            //        cite.SelectSingleNode(XML_Short).Text = citation.ShortDescription;
+            //        cite.SelectSingleNode(XML_OtherID).Text = citation.OtherIdentifier;
+            //    }
+            //}
 
         }
 

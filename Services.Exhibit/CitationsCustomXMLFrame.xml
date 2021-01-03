@@ -2,14 +2,26 @@
 <Citations xmlns="Prelimine Litkit Citation Tool">
   <Format xmlns="">
     <Intro>Exhibit</Intro>
-    <Long>{{INTRO}}{{INDEX}}{{,}}{{DESC}}{{(}}{{PIN}}{{)}}{{Some free text}}{{Other Free Text}}</Long>
-    <Short>{{INTRO}}{{INDEX}}</Short>
     <IndexStyle>Numbers</IndexStyle>
     <IndexStart>1</IndexStart>
-    <Parentheses>False</Parentheses>
     <IdCite>True</IdCite>
-    <FT>Free Text 1</FT>
-    <FT>Free Text 2</FT>
+
+    <Long>
+      <INTRO/>
+      <INDEX/>
+      <COMMA/>
+      <DESC/>
+      <LPARENS/>
+      <PIN/>
+      <RPARENS/>
+      <FREETEXT>Some Text</FREETEXT>
+      <FREETEXT>More Free Text</FREETEXT>
+    </Long>
+
+    <Short>
+      <INTRO/>
+      <INDEX/>
+    </Short>
   </Format>
 </Citations>
 
@@ -29,3 +41,18 @@
   <Short>{PIN} Short legal desc</Short>
   <OtherID>978742a49976200ae5b1c1d1</OtherID>
 </Citation>-->
+
+
+
+
+<!--<Format xmlns="">
+  <Intro>Exhibit</Intro>
+  <Long>{{INTRO}}{{INDEX}}{{,}}{{DESC}}{{(}}{{PIN}}{{)}}{{Some free text}}{{Other Free Text}}</Long>
+  <Short>{{INTRO}}{{INDEX}}</Short>
+  <IndexStyle>Numbers</IndexStyle>
+  <IndexStart>1</IndexStart>
+  <Parentheses>False</Parentheses>
+  <IdCite>True</IdCite>
+  <FT>Free Text 1</FT>
+  <FT>Free Text 2</FT>
+</Format>-->

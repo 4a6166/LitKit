@@ -21,7 +21,9 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         private Tools.Citation.Citation _selectedCite;
         private ObservableCollection<Tools.Citation.Citation> _citations;
 
-        private ObservableCollection<CiteFormatPiece> _formatList;
+        private ObservableCollection<CiteFormatPiece> _formatList_Long;
+        private ObservableCollection<CiteFormatPiece> _formatList_Short;
+
         #endregion
 
         #region Public properties
@@ -51,14 +53,23 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             }
         }
 
-        public ObservableCollection<CiteFormatPiece> FormatList
+        public ObservableCollection<CiteFormatPiece> FormatList_Long
         {
-            get { return _formatList; }
+            get { return _formatList_Long; }
             set
             {
-                _formatList = value;
+                _formatList_Long = value;
             }
         }
+        public ObservableCollection<CiteFormatPiece> FormatList_Short
+        {
+            get { return _formatList_Short; }
+            set
+            {
+                _formatList_Short = value;
+            }
+        }
+
         #endregion
 
         public CiteMainVM()
@@ -70,7 +81,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             _repository.AddTestCitations();
             LoadCitationsFromRepo();
 
-            AddTestFormatBlock();
+            //AddTestFormatBlock();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -82,7 +93,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         private void AddTestFormatBlock()
         {
-            _formatList = new ObservableCollection<CiteFormatPiece>()
+            log.Debug("Test format blocks added to the Citation Tool");
+            _formatList_Long = new ObservableCollection<CiteFormatPiece>()
             {
                 new CiteFormatPiece(CiteFormatPieceType.Intro),
                 new CiteFormatPiece(CiteFormatPieceType.Index),
@@ -102,6 +114,20 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
                 observableCites.Add(cite);
             }
             Citations = observableCites;
+        }
+
+        public void LoadFormattingFromRepo()
+        {
+
+
+            var indexStart = Repository.CiteFormatting.ExhibitIndexStart;
+            var hasId = Repository.CiteFormatting.hasIdCite;
+
+        }
+
+        public void SetFormattinginRepo()
+        {
+
         }
 
         #endregion
@@ -154,8 +180,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         internal void ResetFormatList()
         {
-            FormatList.Clear();
-            AddTestFormatBlock();
+            FormatList_Long.Clear();
+            //AddTestFormatBlock();
             OnPropertyChanged("FormatList");
         }
     }

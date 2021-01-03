@@ -327,7 +327,7 @@
 
                         <CheckBox x:Name="IdCheckBox" 
                                   Margin="0,0,0,15" HorizontalAlignment="Center"
-                                  IsChecked="True"
+                                  IsChecked="{Binding Repository.CiteFormatting.hasIdCite}"
                                   >
                             <TextBlock>
                                 <TextBlock.Inlines>
@@ -342,7 +342,7 @@
                             <numeric:SpinnerDecorator 
                                 MinWidth="40" Width="auto" >
                                 <numeric:IntBox x:Name="IndexStartNumUpDown" 
-                                                Value="1"
+                                                Value="{Binding Repository.CiteFormatting.ExhibitIndexStart}"
                                                 ValidationTrigger="PropertyChanged"
                                                 CanValueBeNull="False"
                                                 StringFormat="#,0"

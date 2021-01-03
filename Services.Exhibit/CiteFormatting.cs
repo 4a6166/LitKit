@@ -1,30 +1,21 @@
 ﻿using Microsoft.Office.Interop.Word;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Tools.Citation
 {
-    public class CiteFormatting
+    public class CiteFormatting : INotifyPropertyChanged
     {
-        static Regex IntroRegex = new Regex(@"{{INTRO}}");
-        static Regex NumRegex = new Regex(@"{{INDEX}}");
-        static Regex DescRegex = new Regex(@"{{DESC}}");
-        static Regex OtherIDRegex = new Regex(@"{{OTHERID}}");
-        static Regex RefNameRegex = new Regex(@"{{REFNAME}}");
-        static Regex PinciteRegex = new Regex(@"{{PIN}}");
         public string ExhibitIntro { get; set; }
-        public string ExhibitLongFormat { get; set; }
-        public string ExhibitShortFormat { get; set; }
         public ExhibitIndexStyle ExhibitIndexStyle { get; set; }
         public int ExhibitIndexStart { get; set; }
-
         public bool hasIdCite { get; set; }
 
-        public CiteFormatting(string ExhibitIntro, string ExhibitLongFormat, string ExhibitShortFormat, ExhibitIndexStyle ExhibitIndexStyle = ExhibitIndexStyle.Numbers, int ExhibitIndexStart = 0, bool HasIdCite = true)
+        public ObservableCollection<CiteFormatPiece> ExhibitLongFormat { get; set; }
+        public ObservableCollection<CiteFormatPiece> ExhibitShortFormat { get; set; }
+
+        public CiteFormatting(string ExhibitIntro, ObservableCollection<CiteFormatPiece> ExhibitLongFormat, ObservableCollection<CiteFormatPiece> ExhibitShortFormat, ExhibitIndexStyle ExhibitIndexStyle = ExhibitIndexStyle.Numbers, int ExhibitIndexStart = 0, bool HasIdCite = true)
         {
             this.ExhibitIntro = ExhibitIntro;
             this.ExhibitLongFormat = ExhibitLongFormat;
@@ -33,6 +24,13 @@ namespace Tools.Citation
             this.ExhibitIndexStart = ExhibitIndexStart; 
             this.hasIdCite = HasIdCite;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string name)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+
 
         #region Format Cite Text
         public static string ToAlphabet(int number)
@@ -99,9 +97,9 @@ namespace Tools.Citation
             else return number.ToString();
         }
 
-        public static string FormatIdCite(Range range)
+        public static CiteFormatPiece FormatIdCite(Range range)
         {
-            string result = string.Empty;
+            CiteFormatPiece result = new CiteFormatPiece(CiteFormatPieceType.FreeText);
             try
             {
                 var _app = range.Application;
@@ -109,89 +107,150 @@ namespace Tools.Citation
 
                 if (_app.Selection.Range.Text.Contains(",") || _app.Selection.Range.Text.Contains("See") || _app.Selection.Range.Text.Contains("see") || _app.Selection.Range.Text.Contains("e.g.") || _app.Selection.Range.Text.Contains("cf.") || _app.Selection.Range.Text.Contains("Cf.") || _app.Selection.Range.Text.Contains("CF."))
                 {
-                    result = "id.";
+                    result.DisplayText = "id.";
                 }
                 else if (_app.Selection.Range.Text.Contains(".") || _app.Selection.Range.Text.Contains("\r\n") || _app.Selection.Range.Text.Contains("\r") || _app.Selection.Range.Text.Contains("\n"))
                 {
-                    result = "Id.";
+                    result.DisplayText = "Id.";
                 }
                 else
                 {
-                    result = "id.";
+                    result.DisplayText = "id.";
                 }
             }
-            catch { result = "id."; }
+            catch { result.DisplayText = "id."; }
 
             return result;
         }
 
-        public string FormatCiteText(Citation citation, CitePlacementType placementType, Range LeadingForId, int Index = 0, bool hasPincite = false)
+        public string FormatCiteText(Citation citation, CitePlacementType placementType, Range LeadingForId, int Index = 0, string Pincite = "")
         {
             string result = "";
+            ObservableCollection<CiteFormatPiece> formatPieces = new ObservableCollection<CiteFormatPiece>();
             string description = "";
-
-            switch (placementType)
-            {
-                case CitePlacementType.Long:
-                    result = this.ExhibitLongFormat;
-                    description = citation.LongDescription;
-                    break;
-                case CitePlacementType.Short:
-                    result = this.ExhibitShortFormat;
-                    description = citation.ShortDescription;
-                    break;
-                case CitePlacementType.Id:
-                    if (hasIdCite)
-                    {
-                        result = FormatIdCite(LeadingForId) + "{{PIN}}";
-                    }
-                    else
-                    {
-                        result = this.ExhibitShortFormat;
-                        description = citation.ShortDescription;
-                    }
-                    break;
-                default:
-                    break;
-            }
-
 
             if (citation.CiteType == CiteType.Exhibit)
             {
-                string indexString = "";
-                switch (ExhibitIndexStyle)
+                description = citation.LongDescription;
+                switch (placementType)
                 {
-                    case ExhibitIndexStyle.Numbers:
-                        indexString = Index.ToString();
+                    case CitePlacementType.Long:
+                        formatPieces = this.ExhibitLongFormat;
                         break;
-                    case ExhibitIndexStyle.Letters:
-                        indexString = ToAlphabet(Index);
+                    case CitePlacementType.Short:
+                        formatPieces = this.ExhibitShortFormat;
                         break;
-                    case ExhibitIndexStyle.Roman:
-                        indexString = ToRoman(Index);
+                    case CitePlacementType.Id:
+                        if (hasIdCite)
+                        {
+                            formatPieces = new ObservableCollection<CiteFormatPiece>() { FormatIdCite(LeadingForId), new CiteFormatPiece(CiteFormatPieceType.PincitePlaceholder) };
+                        }
+                        else
+                        {
+                            formatPieces = this.ExhibitShortFormat;
+                        }
+                        break;
+                    default:
                         break;
                 }
 
-                result = IntroRegex.Replace(result, ExhibitIntro+" ");
-                result = NumRegex.Replace(result, indexString+", ");
+                result = GetStringFromFormatPieces_Exhibit(formatPieces, citation, Index, Pincite); 
             }
             else
             {
-                result = IntroRegex.Replace(result, "");
-                result = NumRegex.Replace(result, "");
+                switch (placementType)
+                {
+                    case CitePlacementType.Long:
+                        result = GetStringFromFormatPieces_Others(citation.LongDescription, Pincite); 
+                        break;
+                    case CitePlacementType.Short:
+                        result = GetStringFromFormatPieces_Others(citation.ShortDescription, Pincite);
+                        break;
+                    case CitePlacementType.Id:
+                        if (hasIdCite)
+                        {
+                            result = FormatIdCite(LeadingForId) + Pincite;
+                        }
+                        else
+                        {
+                            result = GetStringFromFormatPieces_Others(citation.ShortDescription, Pincite);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
-
-            result = DescRegex.Replace(result, description);
-            result = OtherIDRegex.Replace(result, citation.OtherIdentifier);
-            result = RefNameRegex.Replace(result, citation.ReferenceName);
-
-            if (!hasPincite)
-            {
-                result = PinciteRegex.Replace(result, "");
-            }
-
             return result;
         }
+
+        public string GetStringFromFormatPieces_Exhibit( ObservableCollection<CiteFormatPiece> formatPieces, Citation citation, int Index = 0, string PIN = "")
+        {
+            string result = "";
+            foreach (CiteFormatPiece piece in formatPieces)
+            {
+                switch (piece.Type)
+                {
+                    case CiteFormatPieceType.Intro:
+
+                        result += ExhibitIntro +" ";
+                        break;
+
+                    case CiteFormatPieceType.Index:
+                        int num = ExhibitIndexStart + Index;
+                        if (ExhibitIndexStyle == ExhibitIndexStyle.Numbers)
+                            result += num;
+                        else if (ExhibitIndexStyle == ExhibitIndexStyle.Letters)
+                            result += ToAlphabet(num);
+                        else if (ExhibitIndexStyle == ExhibitIndexStyle.Roman)
+                            result += ToRoman(num);
+
+                        result += " ";
+                        break;
+
+                    case CiteFormatPieceType.Description:
+                        result += citation.LongDescription + " ";
+                        break;
+                    case CiteFormatPieceType.PincitePlaceholder:
+                        result += PIN + " ";
+                        break;
+                    case CiteFormatPieceType.FreeText:
+                        result += piece.DisplayText + " ";
+                        break;
+                    case CiteFormatPieceType.Comma:
+                        result += ", ";
+                        break;
+                    case CiteFormatPieceType.ParenthesisLeft:
+                        result += "(";
+                        break;
+                    case CiteFormatPieceType.ParenthesisRight:
+                        result += ") ";
+                        break;
+                    case CiteFormatPieceType.OtherID:
+                        result +=citation.OtherIdentifier;
+                        break;
+                }
+            }
+
+            return result.Trim(' ');
+        }
+        public string GetStringFromFormatPieces_Others(string description, string PIN = "")
+        {
+            string result = "";
+            var brackets = new string[] { "{{", "}}" };
+
+            var split = description.Split(brackets, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < split.Length; i++)
+            {
+                if (split[i] == "PIN")
+                {
+                    result += PIN;
+                }
+                else result += split[i];
+            }
+            return result;
+        }
+
+
         public void FormatFont(ContentControl contentControl)
         {
             contentControl.LockContents = false;
