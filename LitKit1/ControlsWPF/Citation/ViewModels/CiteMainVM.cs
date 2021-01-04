@@ -87,6 +87,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             Citations = _repository.Citations;
 
             FormatList_Long = Repository.CiteFormatting.ExhibitLongFormat;
+            FormatList_Short = Repository.CiteFormatting.ExhibitShortFormat;
 
         }
 
@@ -130,19 +131,17 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         {
             System.Windows.Forms.MessageBox.Show("Selected Citation: " + citation.ID);
 
-
             //_docLayer.InsertCiteAtSelection(citation);
-            //LoadCitationsFromRepo();
             //_docLayer.RefreshDocCites();
         }
 
         public void EditCite(Tools.Citation.Citation citation)
         {
-            System.Windows.Forms.MessageBox.Show("Selected Citation: " + citation.ID);
+            //TODO: show form to edit cite
 
-            //_repository.UpdateCitation(citation);
-            //LoadCitationsFromRepo();
-            //_docLayer.RefreshDocCites();
+            _repository.UpdateCitation(citation);
+
+            //TODO: _docLayer.RefreshDocCites();
 
         }
 
@@ -151,13 +150,10 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             var mb = System.Windows.Forms.MessageBox.Show("Are you sure you want to delete this citation from the document?", "Confirm", System.Windows.Forms.MessageBoxButtons.OKCancel);
             if (mb == System.Windows.Forms.DialogResult.OK)
             {
-
-                System.Windows.Forms.MessageBox.Show("Selected Citation: " + citation.ID);
-
                 Citations.Remove(citation);
                 _repository.DeleteCitation(citation);
-                //LoadCitationsFromRepo();
-                //_docLayer.RefreshDocCites();
+
+                //TODO: _docLayer.RefreshDocCites();
             }
         }
 

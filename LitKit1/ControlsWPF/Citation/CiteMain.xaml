@@ -322,7 +322,56 @@
                         </Grid>
                         <Label 
                             Content="Short Cite Formatting"/>
-                        <!--Add same format as Long Cite ListBox-->
+                        <Grid Margin="0,0,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ListBox x:Name="DragAndDropListBox_Short" ItemsSource="{Binding FormatList_Short}"
+                                 Width="auto"
+                                 MinHeight="26" Height="auto"
+                                 dd:DragDrop.IsDragSource="True"
+                                 dd:DragDrop.IsDropTarget="True" 
+                                 dd:DragDrop.SelectDroppedItems="False"
+                                 dd:DragDrop.DropHandler="{Binding}">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}">
+                                        <Setter Property="Padding" Value="1,10,2,10"/>
+                                        <Setter Property="Focusable" Value="False"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:CiteFormatBlock DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+
+                            </ListBox>
+                            <Button x:Name="ShortCiteAddBlock"
+                                Grid.Column="1" Width="20"
+                                VerticalAlignment="Stretch"
+                                Content="+"
+                                Click="ShortCiteAddBlock_Click">
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add Exhibit Intro Block" Click="ShortAddIntroBlock_Click"/>
+                                        <MenuItem Header="Add Exhibit Index Block" Click="ShortAddIndexBlock_Click"/>
+                                        <MenuItem Header="Add Description Block" Click="ShortAddDescBlock_Click"/>
+                                        <MenuItem Header="Add Pincite Placeholder Block" Click="ShortAddPinBlock_Click"/>
+                                        <MenuItem Header="Add Other Identifier Block" Click="ShortAddOtherIDBlock_Click"/>
+                                        <MenuItem Header="Add Parentheses Block Group" Click="ShortAddParensBlocks_click"/>
+                                        <MenuItem Header="Add Comma Block" Click="ShortAddCommaBlock_Click"/>
+                                        <MenuItem Header="Add Custom Text Block" Click="ShortAddFreeTextBloc_Click"/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+
+                        </Grid>
 
 
                         <CheckBox x:Name="IdCheckBox" 

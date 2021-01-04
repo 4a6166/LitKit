@@ -293,7 +293,7 @@ namespace LitKit1.ControlsWPF.Citation
 
         }
 
-        #region Add/Remove Format Blocks
+        #region Add Format Blocks
         private void LongCiteAddBlock_Click(object sender, RoutedEventArgs e)
         {
             LongCiteAddBlock.ContextMenu.IsOpen = true;
@@ -315,7 +315,7 @@ namespace LitKit1.ControlsWPF.Citation
             {
                 ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INDEX));
             }
-            else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Intro Block.");
+            else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Index Block.");
         }
 
         private void AddDescBlock_Click(object sender, RoutedEventArgs e)
@@ -353,6 +353,70 @@ namespace LitKit1.ControlsWPF.Citation
             ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.FREETEXT, "EXAMPLE FREE TEXT"));
         }
 
+        /////////////// SHORT
+        
+        private void ShortCiteAddBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ShortCiteAddBlock.ContextMenu.IsOpen = true;
+        }
+
+        private void ShortAddIntroBlock_Click(object sender, RoutedEventArgs e)
+        {
+            var count = ViewModel.FormatList_Short.Where(n => n.Type == CiteFormatPieceType.INTRO).ToList().Count;
+            if (count == 0)
+            {
+                ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO));
+            }
+            else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Intro Block.");
+        }
+        private void ShortAddIndexBlock_Click(object sender, RoutedEventArgs e)
+        {
+            var count = ViewModel.FormatList_Short.Where(n => n.Type == CiteFormatPieceType.INDEX).ToList().Count;
+            if (count == 0)
+            {
+                ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.INDEX));
+            }
+            else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Index Block.");
+        }
+
+        private void ShortAddDescBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.DESC));
+
+        }
+
+        private void ShortAddPinBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.PIN));
+
+        }
+
+        private void ShortAddOtherIDBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.OTHERID));
+
+        }
+
+        private void ShortAddParensBlocks_click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.LPARENS));
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.RPARENS));
+        }
+
+        private void ShortAddCommaBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.COMMA));
+
+        }
+        private void ShortAddFreeTextBloc_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: source for adding text to be included in free text block, add block to the repository
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.FREETEXT, "EXAMPLE FREE TEXT"));
+        }
+
+
+
         #endregion
+
     }
 }

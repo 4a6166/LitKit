@@ -77,7 +77,7 @@
                         Margin="0,0,0,0" 
                         BorderThickness="2" 
                         BorderBrush="{Binding CiteType, Converter={StaticResource citeTypeConverter}}" 
-                        Background="{Binding CiteType, Converter={StaticResource citeTypeConverter}}">
+                        Background="{Binding CiteType, Converter={StaticResource citeTypeConverter}}" Opacity=".7">
                 </Border>
                 <StackPanel>
                     <TextBlock x:Name="CiteRefName" 

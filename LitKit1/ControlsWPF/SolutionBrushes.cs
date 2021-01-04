@@ -22,12 +22,17 @@ namespace LitKit1.ControlsWPF
         public static Brush Primary_LightRed = (Brush)new BrushConverter().ConvertFromString("#e8c9c3");
 
         public static Brush Exhibit = (Brush)new BrushConverter().ConvertFromString("#136F63");
-        public static Brush LegalCite = (Brush)new BrushConverter().ConvertFromString("#3F88C5");
+        public static Brush LegalCite = (Brush)new BrushConverter().ConvertFromString("#619efa"); /*("#3F88C5");*/
         public static Brush RecordCite = (Brush)new BrushConverter().ConvertFromString("#D00000");
         public static Brush OtherCite = (Brush)new BrushConverter().ConvertFromString("#FFBA08");
         public static Brush Extra = (Brush)new BrushConverter().ConvertFromString("#032B43");
 
 
+        public static Color ExhibitColor = new Color() { R = 19, G = 111, B = 99, A = 20 };
+        public static Color LegalCiteColor = new Color() { R = 63, G = 136, B = 197, A = 20 };
+        public static Color RecordCiteColor = new Color() { R = 208, G = 0, B = 0, A = 20 };
+        public static Color OtherCiteColor = new Color() { R = 255, G = 186, B = 8, A = 20 };
+        public static Color ExtraColor = new Color() { R = 3, G = 43, B = 67, A = 20 };
 
     }
 
