@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LitKit1.ControlsWPF.Citation.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,10 +23,11 @@ namespace LitKit1.ControlsWPF.Citation
     public partial class CiteFormatBlock : UserControl
     {
         bool ContextMenuAdded = false;
-
+        CiteMainVM ViewModel;
 
         public CiteFormatBlock()
         {
+            ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
             InitializeComponent();
         }
 
@@ -38,7 +40,7 @@ namespace LitKit1.ControlsWPF.Citation
 
                 switch (type.Type)
                 {
-                    case CiteFormatPieceType.Intro:
+                    case CiteFormatPieceType.INTRO:
                         var a = new MenuItem() { Header = "Exhibit" };
                         a.Click += delegate { cm_Exhibit(); };
 
@@ -64,7 +66,7 @@ namespace LitKit1.ControlsWPF.Citation
                         BlockContextMenu.Items.Add(e);
                         BlockContextMenu.Items.Add(f);
                         break;
-                    case CiteFormatPieceType.Index:
+                    case CiteFormatPieceType.INDEX:
                         var g = new MenuItem() { Header = "Numeric" };
                         g.Click += delegate { cm_Numeric(); };
 
@@ -82,7 +84,7 @@ namespace LitKit1.ControlsWPF.Citation
                 }
 
                 var remove = new MenuItem() { Header = "Remove this Block" };
-                remove.Click += delegate { System.Windows.Forms.MessageBox.Show("Test"); };
+                remove.Click += delegate { cm_Remove(); };
                 BlockContextMenu.Items.Add(new Separator());
                 BlockContextMenu.Items.Add(remove);
 
@@ -175,8 +177,22 @@ namespace LitKit1.ControlsWPF.Citation
             formatPiece.DisplayText = "IV";
         }
 
+        private void cm_Remove()
+        {
 
+            var formatPiece = (CiteFormatPiece)this.DataContext;
 
+            if (formatPiece.Type == CiteFormatPieceType.PIN)
+            {
+                System.Windows.Forms.DialogResult mb = System.Windows.Forms.MessageBox.Show("Note: Removing the PIN block will prevent the addition of Pincites to all exhibits. Are you sure you want to continue?", "Confirm", System.Windows.Forms.MessageBoxButtons.OKCancel);
+                if (mb == System.Windows.Forms.DialogResult.OK)
+                {
+                    ViewModel.FormatList_Long.Remove(formatPiece); //TODO: Only removes from Format List Long. Need to determine if block is in short list and remove from there if so instead
+                }
+            }
+            else ViewModel.FormatList_Long.Remove(formatPiece); //TODO: Only removes from Format List Long. Need to determine if block is in short list and remove from there if so instead
+
+        }
 
         #endregion
     }

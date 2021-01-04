@@ -49,4 +49,20 @@ namespace Tools.Citation
         Id = 4,
     }
 
+    [Flags]
+    public enum CiteFormatPieceType
+    {
+        INTRO = 1,
+        INDEX = 2,
+        DESC = 4,
+        OTHERID = 8,
+        PIN = 16,
+
+        FREETEXT = 32,
+
+        LPARENS = 64,
+        RPARENS = 128,
+        COMMA = 256,
+    }
+
 }

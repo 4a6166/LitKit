@@ -39,14 +39,12 @@ namespace LitKit1.ControlsWPF.Citation
             log.Debug("CiteMain started");
 
             ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
-            //ViewModel = new CiteMainVM();
 
             this.DataContext = ViewModel;
 
             InitializeComponent();
 
             view = (CollectionView)CollectionViewSource.GetDefaultView(CiteBlockStackPanel.ItemsSource);
-
 
         }
 
@@ -281,14 +279,21 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void FormattingReset_Click(object sender, RoutedEventArgs e)
         {
+            var aa = ViewModel.FormatList_Long;
+            var a = DragAndDropListBox.DataContext;
+            var c = DragAndDropListBox.ItemsSource;
+            var b = DragAndDropListBox.Items;
 
-            ViewModel.ResetFormatList();
+            throw new NotImplementedException();
 
-            IdCheckBox.IsChecked = true;
-            IndexStartNumUpDown.Value = 1;
+            //ViewModel.ResetFormatList();
+
+            //IdCheckBox.IsChecked = true;
+            //IndexStartNumUpDown.Value = 1;
 
         }
 
+        #region Add/Remove Format Blocks
         private void LongCiteAddBlock_Click(object sender, RoutedEventArgs e)
         {
             LongCiteAddBlock.ContextMenu.IsOpen = true;
@@ -296,12 +301,58 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void AddIntroBlock_Click(object sender, RoutedEventArgs e)
         {
-            var count = ViewModel.FormatList_Long.Where(n => n.Type == CiteFormatPieceType.Intro).ToList().Count;
+            var count = ViewModel.FormatList_Long.Where(n => n.Type == CiteFormatPieceType.INTRO).ToList().Count;
             if (count == 0)
             {
-                ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.Intro));
+                ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO));
             }
             else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Intro Block.");
         }
+        private void AddIndexBlock_Click(object sender, RoutedEventArgs e)
+        {
+            var count = ViewModel.FormatList_Long.Where(n => n.Type == CiteFormatPieceType.INDEX).ToList().Count;
+            if (count == 0)
+            {
+                ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INDEX));
+            }
+            else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Intro Block.");
+        }
+
+        private void AddDescBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.DESC));
+
+        }
+
+        private void AddPinBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.PIN));
+
+        }
+
+        private void AddOtherIDBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.OTHERID));
+
+        }
+
+        private void AddParensBlocks_click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.LPARENS));
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.RPARENS));
+        }
+
+        private void AddCommaBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.COMMA));
+
+        }
+        private void AddFreeTextBloc_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: source for adding text to be included in free text block, add block to the repository
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.FREETEXT, "EXAMPLE FREE TEXT"));
+        }
+
+        #endregion
     }
 }

@@ -3,32 +3,49 @@ using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using Tools.Citation.Format;
 
 namespace Tools.Citation
 {
-    public class CitationRepository
+    public class CitationRepository : INotifyPropertyChanged
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        bool repoLoaded = false;
+        private CiteFormatting _citeFormatting;
+
         public Application _app { get; private set; }
-        public List<Citation> Citations { get; private set; }
-        public CiteFormatting CiteFormatting { get; private set; }
+        public ObservableCollection<Citation> Citations { get; set; }
+        public CiteFormatting CiteFormatting { 
+            get { return _citeFormatting; }
+            set
+            {
+                _citeFormatting = value;
+                if (repoLoaded)
+                {
+                    OnPropertyChanged("CiteFormatting");
+                }
+                else repoLoaded = true;
+            }
+        }
 
         static string _Namespace = "Prelimine Litkit Citation Tool";
         static XNamespace Namespace = _Namespace;
         static string CitationRoot = "//Citation";
         static string FormattingRoot = "//Format";
-        //static string XML_ID = "ID";
-        //static string XML_RefName = "RefName";
-        //static string XML_Type = "Type";
-        //static string XML_Long = "Long";
-        //static string XML_Short = "Short";
-        //static string XML_OtherID = "OtherID";
+        static string XML_ID = "ID";
+        static string XML_RefName = "RefName";
+        static string XML_Type = "Type";
+        static string XML_Long = "Long";
+        static string XML_Short = "Short";
+        static string XML_OtherID = "OtherID";
+
 
         public CitationRepository(Application _app)
         {
@@ -38,8 +55,14 @@ namespace Tools.Citation
             {
                 FrameCustomXMLDoc();
             }
-            SetCiteFormatting();
+            GetCiteFormattingFromDB();
             Citations = GetCitationsFromDB(CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string name)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
         private void FrameCustomXMLDoc()
@@ -70,7 +93,7 @@ namespace Tools.Citation
 
             _app.ActiveDocument.CustomXMLParts.Add(xmlDocument.OuterXml);
 
-
+            log.Info("Framed CiteTool Custom XML Doc");
         }
 
         #region Formatting
@@ -95,35 +118,35 @@ namespace Tools.Citation
             CustomXMLNodes nodes = FormatNode.ChildNodes;
             foreach (CustomXMLNode node in nodes)
             {
-                CiteFormatPieceType type = CiteFormatPieceType.FreeText;
+                CiteFormatPieceType type = CiteFormatPieceType.FREETEXT;
                 switch (node.BaseName)
                 {
                     case "INTRO":
-                        type = CiteFormatPieceType.Intro;
+                        type = CiteFormatPieceType.INTRO;
                         break;
                     case "INDEX":
-                        type = CiteFormatPieceType.Index;
+                        type = CiteFormatPieceType.INDEX;
                         break;
                     case "COMMA":
-                        type = CiteFormatPieceType.Comma;
+                        type = CiteFormatPieceType.COMMA;
                         break;
                     case "DESC":
-                        type = CiteFormatPieceType.Description;
+                        type = CiteFormatPieceType.DESC;
                         break;
                     case "LPARENS":
-                        type = CiteFormatPieceType.ParenthesisLeft;
+                        type = CiteFormatPieceType.LPARENS;
                         break;
                     case "PIN":
-                        type = CiteFormatPieceType.PincitePlaceholder;
+                        type = CiteFormatPieceType.PIN;
                         break;
                     case "RPARENS":
-                        type = CiteFormatPieceType.ParenthesisRight;
+                        type = CiteFormatPieceType.RPARENS;
                         break;
                     case "FREETEXT":
-                        type = CiteFormatPieceType.FreeText;
+                        type = CiteFormatPieceType.FREETEXT;
                         break;
                     case "OTHERID":
-                        type = CiteFormatPieceType.OtherID;
+                        type = CiteFormatPieceType.OTHERID;
                         break;
 
 
@@ -138,7 +161,7 @@ namespace Tools.Citation
 
 
         }
-        private void SetCiteFormatting()
+        private void GetCiteFormattingFromDB()
         {
             string ExhibitIntro = GetFormattingFromDB(FormatNode.Intro);
             ObservableCollection<CiteFormatPiece> ExhibitLongFormat = GetFormatPiecesFromDB(FormatNode.Long);
@@ -152,21 +175,39 @@ namespace Tools.Citation
             CiteFormatting = new CiteFormatting(ExhibitIntro, ExhibitLongFormat, ExhibitShortFormat, ExhibitIndexStyle, ExhibitIndexStart, HasIdCite);
         }
 
-        public void UpdateDBFormatting(CiteFormatting formatting)
+        private void replaceChildren(CustomXMLNode parentNode, ObservableCollection<CiteFormatPiece> FormatBlocks)
         {
-            //var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
-            //CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode(FormattingRoot);
+            foreach (CustomXMLNode child in parentNode.ChildNodes)
+            {
+                child.Delete();
+            }
 
-            //FormattingNode.SelectSingleNode("//Intro").Text = formatting.ExhibitIntro;
-            //FormattingNode.SelectSingleNode("//IndexStyle").Text = formatting.ExhibitIndexStyle.ToString();
-            //FormattingNode.SelectSingleNode("//IndexStart").Text = formatting.ExhibitIndexStart.ToString();
-            //FormattingNode.SelectSingleNode("//IdCite").Text = formatting.hasIdCite.ToString();
+            foreach (CiteFormatPiece piece in FormatBlocks)
+            {
+                if (piece.Type == CiteFormatPieceType.FREETEXT)
+                {
+                    parentNode.AppendChildNode(Name: piece.Type.ToString(), NodeValue: piece.DisplayText);
+                }
+                else parentNode.AppendChildNode(Name: piece.Type.ToString());
 
-            //foreach(var block in )
+            }
+        }
+        public void UpdateCiteFormattingInDB(CiteFormatting formatting)
+        {
 
-            //FormattingNode.SelectSingleNode("//Long").Text = formatting.ExhibitLongFormat;
-            //FormattingNode.SelectSingleNode("//Short").Text = formatting.ExhibitShortFormat;
-            ////FormattingNode.SelectSingleNode("//Parentheses").Text = formatting.hasSurroundingParentheses.ToString();
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
+            CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode(FormattingRoot);
+
+            FormattingNode.SelectSingleNode("//Intro").Text = formatting.ExhibitIntro;
+            FormattingNode.SelectSingleNode("//IndexStyle").Text = formatting.ExhibitIndexStyle.ToString();
+            FormattingNode.SelectSingleNode("//IndexStart").Text = formatting.ExhibitIndexStart.ToString();
+            FormattingNode.SelectSingleNode("//IdCite").Text = formatting.hasIdCite.ToString();
+
+
+            replaceChildren(FormattingNode.SelectSingleNode("//Long"), formatting.ExhibitLongFormat);
+            replaceChildren(FormattingNode.SelectSingleNode("//Short"), formatting.ExhibitShortFormat);
+
+            log.Info("Cite Formatting Updated");
         }
         #endregion
 
@@ -185,9 +226,12 @@ namespace Tools.Citation
             customXmlDoc.AddNode(CiteNode, "Long", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, citation.LongDescription);
             customXmlDoc.AddNode(CiteNode, "Short", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, citation.ShortDescription);
             customXmlDoc.AddNode(CiteNode, "OtherID", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, citation.OtherIdentifier);
+
+            log.Info(citation.ID + " added to DB");
         }
         private void DeleteCitationFromDB(Citation citation)
         {
+
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
 
             CustomXMLNodes citeNodes = customXmlDoc.SelectNodes(CitationRoot);
@@ -199,6 +243,7 @@ namespace Tools.Citation
                 }
             }
 
+            log.Info(citation.ID + " deleted from DB");
         }
         private Citation GetCitationFromDB(string ID)
         {
@@ -224,9 +269,9 @@ namespace Tools.Citation
             return null;  // Should only fire if ID is not found
 
         }
-        private List<Citation> GetCitationsFromDB(CiteType Type)
+        private ObservableCollection<Citation> GetCitationsFromDB(CiteType Type)
         {
-            List<Citation> citations = new List<Citation>();
+            ObservableCollection<Citation> citations = new ObservableCollection<Citation>();
 
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
 
@@ -273,20 +318,22 @@ namespace Tools.Citation
         }
         private void UpdateCitationinDB(Citation citation)
         {
-            //var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
-            //CustomXMLNodes CiteNodes = customXmlDoc.SelectNodes(CitationRoot);
-            //foreach (CustomXMLNode cite in CiteNodes)
-            //{
-            //    if (cite.SelectSingleNode(XML_ID).Text == citation.ID)
-            //    {
-            //        cite.SelectSingleNode(XML_RefName).Text = citation.ReferenceName;
-            //        cite.SelectSingleNode(XML_Type).Text = citation.CiteType.ToString();
-            //        cite.SelectSingleNode(XML_Long).Text = citation.LongDescription;
-            //        cite.SelectSingleNode(XML_Short).Text = citation.ShortDescription;
-            //        cite.SelectSingleNode(XML_OtherID).Text = citation.OtherIdentifier;
-            //    }
-            //}
 
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
+            CustomXMLNodes CiteNodes = customXmlDoc.SelectNodes(CitationRoot);
+            foreach (CustomXMLNode cite in CiteNodes)
+            {
+                if (cite.SelectSingleNode(XML_ID).Text == citation.ID)
+                {
+                    cite.SelectSingleNode(XML_RefName).Text = citation.ReferenceName;
+                    cite.SelectSingleNode(XML_Type).Text = citation.CiteType.ToString();
+                    cite.SelectSingleNode(XML_Long).Text = citation.LongDescription;
+                    cite.SelectSingleNode(XML_Short).Text = citation.ShortDescription;
+                    cite.SelectSingleNode(XML_OtherID).Text = citation.OtherIdentifier;
+                }
+            }
+
+            log.Info(citation.ID + "updated in DB");
         }
 
         public void AddCitation(Citation citation)
@@ -330,6 +377,8 @@ namespace Tools.Citation
             {
                 AddCitation(new Citation(i.ToString(), CiteType.Other, "Long Description " + i, "Short " + i));
             }
+
+            log.Info("Test Cites added to DB");
         }
     }
 }

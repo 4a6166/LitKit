@@ -54,30 +54,30 @@ namespace Tools.Citation
         {
             switch (Type)
             {
-                case CiteFormatPieceType.Intro:
+                case CiteFormatPieceType.INTRO:
                     DisplayText = "Exhibit";
                     break;
-                case CiteFormatPieceType.Index:
+                case CiteFormatPieceType.INDEX:
                     DisplayText = "#";
                     break;
-                case CiteFormatPieceType.Description:
+                case CiteFormatPieceType.DESC:
                     DisplayText = "Description";
                     break;
-                case CiteFormatPieceType.OtherID:
+                case CiteFormatPieceType.OTHERID:
                     DisplayText = "ID Number";
                     break;
-                case CiteFormatPieceType.PincitePlaceholder:
+                case CiteFormatPieceType.PIN:
                     DisplayText = "PIN";
                     break;
-                case CiteFormatPieceType.FreeText:
+                case CiteFormatPieceType.FREETEXT:
                     throw new Exception("Free Text must have a value passed in to BlockText during construction.");
-                case CiteFormatPieceType.ParenthesisLeft:
+                case CiteFormatPieceType.LPARENS:
                     DisplayText = "(";
                     break;
-                case CiteFormatPieceType.ParenthesisRight:
+                case CiteFormatPieceType.RPARENS:
                     DisplayText = ")";
                     break;
-                case CiteFormatPieceType.Comma:
+                case CiteFormatPieceType.COMMA:
                     DisplayText = ",";
                     break;
                 default:
@@ -87,19 +87,4 @@ namespace Tools.Citation
         }
     }
 
-    [Flags]
-    public enum CiteFormatPieceType
-    {
-        Intro = 1,
-        Index = 2,
-        Description = 4,
-        OtherID = 8,
-        PincitePlaceholder = 16,
-
-        FreeText = 32,
-
-        ParenthesisLeft = 64,
-        ParenthesisRight = 128,
-        Comma = 256,
-    }
 }

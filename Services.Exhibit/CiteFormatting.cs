@@ -99,7 +99,7 @@ namespace Tools.Citation
 
         public static CiteFormatPiece FormatIdCite(Range range)
         {
-            CiteFormatPiece result = new CiteFormatPiece(CiteFormatPieceType.FreeText);
+            CiteFormatPiece result = new CiteFormatPiece(CiteFormatPieceType.FREETEXT);
             try
             {
                 var _app = range.Application;
@@ -143,7 +143,7 @@ namespace Tools.Citation
                     case CitePlacementType.Id:
                         if (hasIdCite)
                         {
-                            formatPieces = new ObservableCollection<CiteFormatPiece>() { FormatIdCite(LeadingForId), new CiteFormatPiece(CiteFormatPieceType.PincitePlaceholder) };
+                            formatPieces = new ObservableCollection<CiteFormatPiece>() { FormatIdCite(LeadingForId), new CiteFormatPiece(CiteFormatPieceType.PIN) };
                         }
                         else
                         {
@@ -190,12 +190,12 @@ namespace Tools.Citation
             {
                 switch (piece.Type)
                 {
-                    case CiteFormatPieceType.Intro:
+                    case CiteFormatPieceType.INTRO:
 
                         result += ExhibitIntro +" ";
                         break;
 
-                    case CiteFormatPieceType.Index:
+                    case CiteFormatPieceType.INDEX:
                         int num = ExhibitIndexStart + Index;
                         if (ExhibitIndexStyle == ExhibitIndexStyle.Numbers)
                             result += num;
@@ -207,25 +207,25 @@ namespace Tools.Citation
                         result += " ";
                         break;
 
-                    case CiteFormatPieceType.Description:
+                    case CiteFormatPieceType.DESC:
                         result += citation.LongDescription + " ";
                         break;
-                    case CiteFormatPieceType.PincitePlaceholder:
+                    case CiteFormatPieceType.PIN:
                         result += PIN + " ";
                         break;
-                    case CiteFormatPieceType.FreeText:
+                    case CiteFormatPieceType.FREETEXT:
                         result += piece.DisplayText + " ";
                         break;
-                    case CiteFormatPieceType.Comma:
+                    case CiteFormatPieceType.COMMA:
                         result += ", ";
                         break;
-                    case CiteFormatPieceType.ParenthesisLeft:
+                    case CiteFormatPieceType.LPARENS:
                         result += "(";
                         break;
-                    case CiteFormatPieceType.ParenthesisRight:
+                    case CiteFormatPieceType.RPARENS:
                         result += ") ";
                         break;
-                    case CiteFormatPieceType.OtherID:
+                    case CiteFormatPieceType.OTHERID:
                         result +=citation.OtherIdentifier;
                         break;
                 }

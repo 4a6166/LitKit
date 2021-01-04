@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:LitKit1.ControlsWPF"
              xmlns:Converters="clr-namespace:LitKit1.ControlsWPF.Citation.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="26" d:DesignWidth="80">
+             d:DesignHeight="26" d:DesignWidth="80"
+             MouseEnter="DragDropGrid_MouseEnter"  MouseLeave="DragDropGrid_MouseLeave" >
     <UserControl.Resources>
         <Converters:FormatBlockTypeColorConverter x:Key="FormatTypeConverter" />
     </UserControl.Resources>
-    <Grid>
-        <Grid x:Name="DragDropGrid" DataContext="{Binding}"
-              MouseEnter="DragDropGrid_MouseEnter"  MouseLeave="DragDropGrid_MouseLeave"  >
+    <Grid x:Name="DragDropGrid" DataContext="{Binding}">
+        <!--MouseEnter="DragDropGrid_MouseEnter"  MouseLeave="DragDropGrid_MouseLeave"-->  
             <Grid.ContextMenu>
                 <ContextMenu x:Name="BlockContextMenu"
                     Opened="ContextMenu_Opened" Closed="ContextMenu_Closed">
@@ -20,7 +20,8 @@
             </Grid.ContextMenu>
             <Border Background="{Binding Type, Converter={StaticResource FormatTypeConverter}}"
                     CornerRadius="5" Opacity=".4"/>
-            <Grid>
+            <Grid
+                MouseEnter="DragDropGrid_MouseEnter" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
@@ -33,7 +34,7 @@
                         BorderThickness="1.5,0,0,0"
                         Visibility="Collapsed"
                         MouseUp="DropDown_MouseDown"
-                        MouseEnter="DragDropGrid_MouseEnter" MouseLeave="DragDropGrid_MouseLeave">
+                        MouseEnter="DragDropGrid_MouseEnter" >
                     <Border.BorderBrush>
                         <SolidColorBrush Opacity=".1" Color="Black"/>
                     </Border.BorderBrush>
@@ -43,9 +44,8 @@
                         Margin="2,2,4,0"
                         HorizontalAlignment="left"
                         VerticalAlignment="Center"
-                        Source="C:\Users\Jake\Downloads\droparrow.png"/>                    <!--################################################################################## make this a resource everywhere-->
+                        Source="/LitKit;component/Resources/droparrow.png"/>
                 </Border>
             </Grid>
         </Grid>
-    </Grid>
 </UserControl>

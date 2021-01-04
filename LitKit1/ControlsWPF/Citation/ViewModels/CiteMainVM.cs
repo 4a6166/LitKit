@@ -32,6 +32,11 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         public CitationRepository Repository
         {
             get { return _repository; }
+            set 
+            { 
+                _repository = value;
+                OnPropertyChanged("Repository");
+            }
         }
 
         public Tools.Citation.Citation SelectedCite
@@ -79,9 +84,10 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             _repository = new CitationRepository(_app);
             _docLayer = new CiteDocLayer(_app);
             _repository.AddTestCitations();
-            LoadCitationsFromRepo();
+            Citations = _repository.Citations;
 
-            //AddTestFormatBlock();
+            FormatList_Long = Repository.CiteFormatting.ExhibitLongFormat;
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -91,30 +97,17 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         }
 
 
-        private void AddTestFormatBlock()
-        {
-            log.Debug("Test format blocks added to the Citation Tool");
-            _formatList_Long = new ObservableCollection<CiteFormatPiece>()
-            {
-                new CiteFormatPiece(CiteFormatPieceType.Intro),
-                new CiteFormatPiece(CiteFormatPieceType.Index),
-                new CiteFormatPiece(CiteFormatPieceType.Comma),
-                new CiteFormatPiece(CiteFormatPieceType.Description),
-            };
-        }
-
-
         #region Data Transformation
 
-        public void LoadCitationsFromRepo()
-        {
-            ObservableCollection<Tools.Citation.Citation> observableCites = new ObservableCollection<Tools.Citation.Citation>();
-            foreach (Tools.Citation.Citation cite in _repository.Citations)
-            {
-                observableCites.Add(cite);
-            }
-            Citations = observableCites;
-        }
+        //public void LoadCitationsFromRepo()
+        //{
+        //    ObservableCollection<Tools.Citation.Citation> observableCites = new ObservableCollection<Tools.Citation.Citation>();
+        //    foreach (Tools.Citation.Citation cite in _repository.Citations)
+        //    {
+        //        observableCites.Add(cite);
+        //    }
+        //    Citations = observableCites;
+        //}
 
         public void LoadFormattingFromRepo()
         {
@@ -170,7 +163,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         internal void AddNewCite(Tools.Citation.Citation cite)
         {
-            throw new NotImplementedException();
+            Repository.AddCitation(cite); 
+
         }
 
         internal void RefreshCites()

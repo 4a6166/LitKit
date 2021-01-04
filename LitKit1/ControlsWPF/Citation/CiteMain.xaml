@@ -104,7 +104,7 @@
                                    Margin="3,5,7,0"
                                    VerticalAlignment="Center"
                                    Opacity="1"
-                                   Source="C:\Users\Jake\Downloads\droparrow.png">
+                                   Source="/LitKit;component/Resources/droparrow.png" >
                                 </Image>
                             </StackPanel>
                         </Border>
@@ -275,7 +275,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <ListBox x:Name="DragAndDropListBox" ItemsSource="{Binding FormatList}"
+                            <ListBox x:Name="DragAndDropListBox" ItemsSource="{Binding FormatList_Long}"
                                  Width="auto"
                                  MinHeight="26" Height="auto"
                                  dd:DragDrop.IsDragSource="True"
@@ -308,13 +308,13 @@
                                 <Button.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Add Exhibit Intro Block" Click="AddIntroBlock_Click"/>
-                                        <MenuItem Header="Add Exhibit Index Block"/>
-                                        <MenuItem Header="Add Description Block"/>
-                                        <MenuItem Header="Add Pincite Placeholder Block"/>
-                                        <MenuItem Header="Add Other Identifier Block"/>
-                                        <MenuItem Header="Add Parentheses Block Group"/>
-                                        <MenuItem Header="Add Comma Block"/>
-                                        <MenuItem Header="Add Custom Text Block"/>
+                                        <MenuItem Header="Add Exhibit Index Block" Click="AddIndexBlock_Click"/>
+                                        <MenuItem Header="Add Description Block" Click="AddDescBlock_Click"/>
+                                        <MenuItem Header="Add Pincite Placeholder Block" Click="AddPinBlock_Click"/>
+                                        <MenuItem Header="Add Other Identifier Block" Click="AddOtherIDBlock_Click"/>
+                                        <MenuItem Header="Add Parentheses Block Group" Click="AddParensBlocks_click"/>
+                                        <MenuItem Header="Add Comma Block" Click="AddCommaBlock_Click"/>
+                                        <MenuItem Header="Add Custom Text Block" Click="AddFreeTextBloc_Click"/>
                                     </ContextMenu>
                                 </Button.ContextMenu>
                             </Button>

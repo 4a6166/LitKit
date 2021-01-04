@@ -196,10 +196,34 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void btnAddCitation_Click(object sender, RoutedEventArgs e)
         {
-            var cite = new Tools.Citation.Citation(citeType, Format_LongDescriptionTextBox.Text, Format_ShortDescriptionTextBox.Text, Format_OtherIdentifierTextBox.Text);
-            ViewModel.AddNewCite(cite);
+            bool goodCite = true;
+            string longText = Format_LongDescriptionTextBox.Text;
+            if (longText == LongDescPlaceholderText || longText == "")
+            {
+                goodCite = false;
+            }
+            string shortText = Format_ShortDescriptionTextBox.Text;
+            if (shortText == ShortDescPlaceholderText || shortText == "")
+            {
+                shortText = longText;
+            }
+            string otherText = Format_OtherIdentifierTextBox.Text;
+            if (otherText == OtherIDPlaceholderText || otherText == "")
+            {
+                otherText = "";
+            }
 
-            this.Visibility = Visibility.Collapsed;
+            if (goodCite)
+            {
+                var cite = new Tools.Citation.Citation(citeType, longText, shortText, otherText);
+
+                ViewModel.AddNewCite(cite);
+
+                this.Visibility = Visibility.Collapsed;
+                btnCANCELAddCitation_Click(sender, e);
+            }
+            else System.Windows.Forms.MessageBox.Show("A description must be provided to continue");
+
         }
 
         private void btnCANCELAddCitation_Click(object sender, RoutedEventArgs e)

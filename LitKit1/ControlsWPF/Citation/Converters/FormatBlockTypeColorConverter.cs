@@ -20,35 +20,35 @@ namespace LitKit1.ControlsWPF.Citation.Converters
 
             switch (type)
             {
-                case CiteFormatPieceType.Intro:
+                case CiteFormatPieceType.INTRO:
                     color = "#43aa8b";
                     break;
 
-                case CiteFormatPieceType.Index:
+                case CiteFormatPieceType.INDEX:
                     color = "#f3722c";
                     break;
-                case CiteFormatPieceType.Description:
+                case CiteFormatPieceType.DESC:
                     color = "#f8961e";
                     break;
-                case CiteFormatPieceType.OtherID:
+                case CiteFormatPieceType.OTHERID:
                     color = "90be6d";
                     break;
-                case CiteFormatPieceType.PincitePlaceholder:
+                case CiteFormatPieceType.PIN:
                     color = "#f9c74f";
                     break;
 
-                case CiteFormatPieceType.FreeText:
+                case CiteFormatPieceType.FREETEXT:
                     color = "#dee2e6";
                     break;
 
-                case CiteFormatPieceType.ParenthesisLeft:
+                case CiteFormatPieceType.LPARENS:
                     color = "#577590";
                     break;
 
-                case CiteFormatPieceType.ParenthesisRight:
+                case CiteFormatPieceType.RPARENS:
                     color = "#577590";
                     break;
-                case CiteFormatPieceType.Comma:
+                case CiteFormatPieceType.COMMA:
                     color = "#577590";
                     break;
 
