@@ -40,7 +40,7 @@ namespace LitKit1.ControlsWPF.Citation
         {
             var cite = (Tools.Citation.Citation)DataContext;
 
-            ViewModel.EditCite(cite);
+            ViewModel.OpenEditCite(cite);
         }
 
 

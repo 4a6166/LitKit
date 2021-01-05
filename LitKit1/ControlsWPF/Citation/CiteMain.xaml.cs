@@ -415,8 +415,26 @@ namespace LitKit1.ControlsWPF.Citation
         }
 
 
-
         #endregion
 
+        private void CiteEdit_Loaded(object sender, RoutedEventArgs e)
+        {
+            CiteEdit.Visibility = Visibility.Visible;
+        }
+
+        private void AddNewCite(object sender, RoutedEventArgs e)
+        {
+            CiteAdd.Visibility = Visibility.Visible;
+        }
+
+        private void CiteBlockStackPanel_TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+            if (CiteBlockStackPanel.Items.Count == 0)
+            {
+                FreshPanelTextBlock.Visibility = Visibility.Visible;
+            }
+            else FreshPanelTextBlock.Visibility = Visibility.Collapsed;
+
+        }
     }
 }

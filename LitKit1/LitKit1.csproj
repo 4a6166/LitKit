@@ -215,6 +215,9 @@
     <Compile Include="ControlsWPF\Citation\CiteBlock.xaml.cs">
       <DependentUpon>CiteBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteEdit.xaml.cs">
+      <DependentUpon>CiteEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlsWPF\Citation\CiteFlyout.xaml.cs">
       <DependentUpon>CiteFlyout.xaml</DependentUpon>
     </Compile>
@@ -226,10 +229,13 @@
     </Compile>
     <Compile Include="ControlsWPF\Citation\Converters\CiteTypeColorConverter.cs" />
     <Compile Include="ControlsWPF\Citation\Converters\FormatBlockTypeColorConverter.cs" />
+    <Compile Include="ControlsWPF\Citation\Converters\VisConverterItemCount.cs" />
+    <Compile Include="ControlsWPF\Citation\Converters\VisibilityConverter.cs" />
     <Compile Include="ControlsWPF\Citation\ViewModels\CiteMainVM.cs" />
     <Compile Include="ControlsWPF\Citation\CiteFormatBlock.xaml.cs">
       <DependentUpon>CiteFormatBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWPF\Citation\ViewModels\EditCiteVM.cs" />
     <Compile Include="ControlsWPF\HoldingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -557,6 +563,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlsWPF\Citation\CiteBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

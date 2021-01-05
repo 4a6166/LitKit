@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Tools.Citation;
 
 namespace LitKit1.ControlsWPF.Citation.ViewModels
@@ -15,7 +16,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #region Private properties
-        private CitationRepository _repository ;
+        private CitationRepository _repository;
         private CiteDocLayer _docLayer;
 
         private Tools.Citation.Citation _selectedCite;
@@ -23,6 +24,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         private ObservableCollection<CiteFormatPiece> _formatList_Long;
         private ObservableCollection<CiteFormatPiece> _formatList_Short;
+
+        private EditCiteVM _editCiteVM = new EditCiteVM(new Tools.Citation.Citation(CiteType.Exhibit, "FillCite"), false);
 
         #endregion
 
@@ -75,6 +78,17 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             }
         }
 
+        public EditCiteVM EditCiteVM
+        {
+            get { return _editCiteVM; }
+            set
+            {
+                _editCiteVM = value;
+                OnPropertyChanged("EditCiteVM");
+            }
+        }
+
+
         #endregion
 
         public CiteMainVM()
@@ -83,7 +97,6 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
             _repository = new CitationRepository(_app);
             _docLayer = new CiteDocLayer(_app);
-            _repository.AddTestCitations();
             Citations = _repository.Citations;
 
             FormatList_Long = Repository.CiteFormatting.ExhibitLongFormat;
@@ -135,11 +148,17 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             //_docLayer.RefreshDocCites();
         }
 
-        public void EditCite(Tools.Citation.Citation citation)
+        public void OpenEditCite(Tools.Citation.Citation citation)
         {
-            //TODO: show form to edit cite
+            EditCiteVM = new EditCiteVM(citation, true);
 
-            _repository.UpdateCitation(citation);
+
+        }
+        public void EditCite(Tools.Citation.Citation oldcite, Tools.Citation.Citation newcite)
+        {
+
+            Repository.UpdateCitation(oldcite, newcite);
+            OnPropertyChanged("Citations");
 
             //TODO: _docLayer.RefreshDocCites();
 

@@ -63,10 +63,10 @@
                 HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick" >
             <Button.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Add a New Citation to the Citation List"/>
-                    <MenuItem Header="Insert Current Citation at Cursor" /> <!--TBD set click-->
-                    <MenuItem Header="Edit Current Citation Description"/>
-                    <MenuItem Header="Delete Citation from List and Document"/>
+                    <MenuItem Header="Add a New Citation to the Citation List" Click="Add_Click"/>
+                    <MenuItem Header="Insert Current Citation at Cursor" Click="Insert_Click"/> 
+                    <MenuItem Header="Edit Current Citation Description" Click="Edit_Click"/>
+                    <MenuItem Header="Delete Citation from List and Document" Click="Delete_Click"/>
                 </ContextMenu>
             </Button.ContextMenu>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0" >

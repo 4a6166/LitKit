@@ -314,7 +314,11 @@ namespace LitKit1
 
         private void AddTestCitations(object sender, RibbonControlEventArgs e)
         {
-            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
+            try
+            {
+                citeVMDict[_app.ActiveWindow].Repository.AddTestCitations();
+            }
+            catch { MessageBox.Show("Load the Citation Tool First");}
 
 
         }
@@ -908,7 +912,6 @@ namespace LitKit1
             _app.UndoRecord.StartCustomRecord("Test Action");
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
-
 
 
 

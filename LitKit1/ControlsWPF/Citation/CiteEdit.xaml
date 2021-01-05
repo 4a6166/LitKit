@@ -1,0 +1,220 @@
+﻿<UserControl x:Class="LitKit1.ControlsWPF.Citation.CiteEdit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LitKit1.ControlsWPF.Citation"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:citeTools="clr-namespace:Tools.Citation;assembly=Services.Exhibit"
+             xmlns:Converters="clr-namespace:LitKit1.ControlsWPF.Citation.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="650" d:DesignWidth="450"
+             >
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="citeTools:CiteType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <Converters:VisibilityConverter x:Key="visibilityConverter" />
+
+    </UserControl.Resources>
+    <Grid Visibility="{Binding EditCiteOpen, Converter={StaticResource visibilityConverter}}"
+            VerticalAlignment="Stretch"
+            Background="Transparent">
+        <Border x:Name="MainBorder" DataContext="{Binding EditCiteCitation}"
+                Background="LightGray" VerticalAlignment="Stretch">
+            <Grid Margin="15">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top"
+                        MaxHeight="620" Height="auto">
+                    <TextBlock x:Name="TitleBlock"
+                                   Margin="0,15"
+                                   TextAlignment="Center"
+                                   FontSize="18" FontWeight="Bold"
+                            Text="Edit Citation"/>
+                    <StackPanel x:Name="Format_TypeGrid"
+                                    Orientation="Horizontal"
+                                    Margin="0,10,0,0">
+                        <Label Content="Citation Type"/>
+                        <ComboBox x:Name="Format_TypeComboBox" ItemsSource="{Binding Source={StaticResource dataFromEnum}}" SelectedItem="{Binding CiteType, Mode=TwoWay}"
+                                      VerticalAlignment="Center"
+                                      IsEditable="False" SelectedIndex="0"
+                                HorizontalAlignment="Right" Width="120" 
+                                      SelectionChanged="Format_TypeComboBox_SelectionChanged" DropDownClosed="Format_TypeComboBox_DropDownClosed"/>
+                    </StackPanel>
+                    <StackPanel x:Name="Format_LongDescription"
+                                    Margin="0,10,0,0"
+                                    Orientation="Vertical">
+                        <Label x:Name="Format_LongDescriptionLabel" Content="Exhibit Description"/>
+                        <Grid MinHeight="26">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="Format_LongDescriptionExhibitLabel"
+                                       Foreground="DarkSlateGray"
+                                       Visibility="Visible"
+                                    Content="Exhibit 1,"/>
+                            <TextBox x:Name="Format_LongDescriptionTextBox" 
+                                         TextWrapping="WrapWithOverflow" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="100"
+                                         Grid.Column="2"
+                                         VerticalContentAlignment="Center"
+                                         Foreground="DarkSlateGray" GotFocus="Format_LongDescriptionTextBox_GotFocus" LostFocus="Format_LongDescriptionTextBox_LostFocus"
+                                     Text="{Binding LongDescription}"/>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel x:Name="Format_ShortDescription"
+                                    Margin="0,10,0,0"
+                                    Orientation="Vertical" Visibility="Collapsed">
+                        <Label x:Name="Format_ShortDescriptionLabel" Content="Short Cite"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="Format_ShortDescriptionTextBox" 
+                                         Grid.Column="2"
+                                         VerticalContentAlignment="Center"
+                                         MinHeight="26"
+                                         TextWrapping="WrapWithOverflow" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="100"
+                                         Foreground="DarkSlateGray" GotFocus="Format_ShortDescriptionTextBox_GotFocus" LostFocus="Format_ShortDescriptionTextBox_LostFocus"
+                                         Text="{Binding ShortDescription}"/>
+                        </Grid>
+                        <TextBlock x:Name="BottomText"
+                            Margin="0,0,0,10" FontWeight="Normal" TextWrapping="WrapWithOverflow" TextAlignment="Center"
+                                       Foreground="DarkSlateGray">
+                            <TextBlock.Inlines>
+                                <Run Text="The "/>
+                                <Run FontStyle="Italic" FontWeight="DemiBold" Text="Long Cite"/>
+                                <Run Text=" is used the first time a citiation is referenced in the document. Subsequent citations use the "/>
+                                <Run FontStyle="Italic" FontWeight="DemiBold" Text="Short Cite."/>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+
+                    </StackPanel>
+                    <StackPanel x:Name="Format_OtherIdentifier"
+                                    Margin="0,10,0,0"
+                                    Orientation="Vertical">
+                        <Label Content="Other Identifier"/>
+                        <TextBox x:Name="Format_OtherIdentifierTextBox" 
+                                         Grid.Column="2"
+                                         VerticalContentAlignment="Center"
+                                     MinHeight="26"
+                                     TextWrapping="WrapWithOverflow" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="100"
+                                     Foreground="DarkSlateGray" GotFocus="Format_OtherIdentifierTextBox_GotFocus" LostFocus="Format_OtherIdentifierTextBox_LostFocus"
+                                         Text="{Binding OtherIdentifier}"/>
+                        <TextBlock 
+                                Foreground="DarkSlateGray"
+                                TextWrapping="Wrap"
+                                TextAlignment="Center"
+                                FontWeight="Normal"
+                                Text="This information is optional and will not appear when the citation is inserted in the document unless the formatting is adjusted to include it."/>
+                    </StackPanel>
+
+                    <Grid x:Name="ButtonGrid" Margin="0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnAddCitation" Click="btnUpdateCitation_Click"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="left"
+                                    Margin="10"
+                                    Width="100">
+                            <Grid>
+                                <Label Content="Update Citation"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="btnDoNotAddCitation" Click="btnCANCELAddCitation_Click"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Margin="10"
+                                    Width="100">
+                            <Grid>
+                                <Label Content="Cancel"/>
+                            </Grid>
+                        </Button>
+                    </Grid>
+
+                </StackPanel>
+
+                <Expander x:Name="AdvFormatting" Header ="Advanced Formatting" 
+                                  VerticalAlignment="Bottom" Margin="0,20"
+                                  IsExpanded="True">
+                    <StackPanel>
+                        <TextBlock x:Name="BottomText2"
+                            Margin="0,0,0,5" FontWeight="Normal" TextWrapping="WrapWithOverflow" TextAlignment="Center">
+                            <TextBlock.Inlines>
+                                <Run Text="You may add "/>
+                                <Run FontWeight="Bold" Text="Bold"/>
+                                <Run Text=", "/>
+                                <Run FontStyle="Italic" Text="Italic"/>
+                                <Run Text=", or "/>
+                                <Run TextDecorations="Underline" Text="Underline"/>
+                                <Run Text="formatting to Long or Short Descriptions using the below table:"/>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                        <Grid Width="250" Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBox Grid.Column="0" Grid.Row="0" TextAlignment="Center" IsReadOnly="True" Background="Transparent"
+                                    FontWeight="Bold" Text="Bold"/>
+                            <TextBox Grid.Column="1" Grid.Row="0" TextAlignment="Center" IsReadOnly="True" Background="Transparent"
+                                       Text="**Text**"/>
+                            <TextBox Grid.Column="0" Grid.Row="1" TextAlignment="Center" IsReadOnly="True" Background="Transparent"
+                                    FontStyle="Italic" Text="Italic"/>
+                            <TextBox Grid.Column="1" Grid.Row="1" TextAlignment="Center" IsReadOnly="True" Background="Transparent"
+                                       Text="//Text//"/>
+                            <TextBox Grid.Column="0" Grid.Row="2" TextAlignment="Center" IsReadOnly="True" Background="Transparent"
+                                    TextDecorations="Underline" Text="Underline"/>
+                            <TextBox Grid.Column="1" Grid.Row="2" TextAlignment="Center" IsReadOnly="True" Background="Transparent"
+                                       Text="__Text__"/>
+                             
+                        </Grid>
+                        <TextBlock TextAlignment="Center" TextTrimming="WordEllipsis">
+                                          <Run Text="Non-Breaking Spaces may be ented using the text placeholder "/>
+                                    <Run  FontStyle="Italic" TextDecorations="Baseline" Text="\u00A0"/>
+                        </TextBlock>
+                        <TextBlock TextAlignment="Center" TextTrimming="WordEllipsis">
+                                          <Run Text="Placeholders for Pincites may be marked by adding "/>
+                                    <Run  FontStyle="Italic" TextDecorations="Baseline" Text="{}{{PIN}}"/>
+                                <Run Text=" to your citation text."/>
+                        </TextBlock>
+                        <TextBlock TextAlignment="Left" Margin="0,10,0,0" 
+                                       Foreground="DarkSlateGray" 
+                                       TextTrimming="CharacterEllipsis"
+                                       FontSize="10.5">
+                                          <Run Text="Formatting Example" TextDecorations="BaseLine"/>
+                        </TextBlock>
+
+                        <TextBlock TextAlignment="Left" Foreground="DarkSlateGray" TextTrimming="CharacterEllipsis" FontSize="10.5">
+                                          <Run Text="Input: " TextDecorations="Baseline"/>
+                                    <Run  Text="{}**Palsgraf v. Long Island R.R. Co.**, //162 N.E. 99,101// __(N.Y. 1928)__ {{PIN}}"/>
+                        </TextBlock>
+                        <TextBlock TextAlignment="Left" Foreground="DarkSlateGray" TextTrimming="CharacterEllipsis" FontSize="10.5">
+                                <Run Text="Result: " TextDecorations="Baseline"/>
+                                <Run Text="{}Palsgraf v. Long Island R.R. Co." FontWeight="Bold"/>
+                                <Run Text="{}, "/>
+                                <Run Text="162 N.E. 99,101" FontStyle="Italic"/>
+                                <Run Text="{} "/>
+                                <Run Text="{}(N.Y. 1928)" TextDecorations="Underline"/>
+                                <Run Text="{} at 102"/>
+                        </TextBlock>
+
+
+                    </StackPanel>
+                </Expander>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

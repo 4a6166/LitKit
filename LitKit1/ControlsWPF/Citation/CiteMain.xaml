@@ -18,6 +18,8 @@
         <Brush x:Key="CiteTypeBrush_RecordCite">#D00000</Brush>
         <Brush x:Key="CiteTypeBrush_OtherCite">#FFBA08</Brush>
         <Brush x:Key="CiteTypeBrush_Extra">#032B43</Brush>
+
+        <Converters:VisConverterItemCount x:Key="ListCoverVisConverter"/>
     </UserControl.Resources>
     <Grid x:Name="MainGrid" >
         <Grid.ColumnDefinitions>
@@ -64,7 +66,7 @@
                             </Grid.ColumnDefinitions>
                             <Image x:Name="SBStackPlanelImage"
                                    Margin="2,2,2,2"
-                                    Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png" HorizontalAlignment="Left" Width="26">
+                                    Source="/LitKit;component/Resources/icons8-plus-math-60.png" HorizontalAlignment="Left" Width="26">
                             </Image>
                             <Label x:Name="AddCiteLabel"
                                 Grid.Column="1" 
@@ -84,7 +86,7 @@
                                               Click="MenuItem_Click_6">
                                         <MenuItem.Icon>
                                             <Image 
-                                                Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png"/>
+                                                Source="/LitKit;component/Resources/icons8-plus-math-60.png"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
                                     <Separator/>
@@ -100,8 +102,8 @@
                                 <Rectangle Fill="Black" Opacity=".2" Width="2"
                                            Height="22" Margin="2,0,0,0"/>
                                 <Image x:Name="SBStackPlanelImageDropDown"
-                                   Width="12"
-                                   Margin="3,5,7,0"
+                                   Width="10"
+                                   Margin="5,9,7,0"
                                    VerticalAlignment="Center"
                                    Opacity="1"
                                    Source="/LitKit;component/Resources/droparrow.png" >
@@ -237,13 +239,28 @@
                         Grid.Column="1" Grid.ColumnSpan="2" 
                         Grid.Row="2"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                  >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <local:CiteBlock DataContext="{Binding}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
+        <TextBlock x:Name="FreshPanelTextBlock"
+            Grid.Column="1" Grid.ColumnSpan="2" 
+            Grid.Row="2" Margin="5,15" Height="20" VerticalAlignment="Top"
+                   Visibility="{Binding Items.Count, ElementName=CiteBlockStackPanel, Converter={StaticResource ListCoverVisConverter}}">
+            <Run Text="Click"/>
+            <Hyperlink Hyperlink.Click="AddNewCite">Here</Hyperlink>
+            <Run Text="to Begin Adding Citations"/>
+        </TextBlock>
+            
 
         <!--############################################-->
         <!-- Cite Format Expander-->
@@ -276,7 +293,6 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <ListBox x:Name="DragAndDropListBox" ItemsSource="{Binding FormatList_Long}"
-                                 Width="auto"
                                  MinHeight="26" Height="auto"
                                  dd:DragDrop.IsDragSource="True"
                                  dd:DragDrop.IsDropTarget="True" 
@@ -284,12 +300,12 @@
                                  dd:DragDrop.DropHandler="{Binding}">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal"/>
+                                        <StackPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Visible"/>
                                     </ItemsPanelTemplate>
                                 </ListBox.ItemsPanel>
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="{x:Type ListBoxItem}">
-                                        <Setter Property="Padding" Value="1,10,2,10"/>
+                                        <Setter Property="Padding" Value="1,5,2,5"/>
                                         <Setter Property="Focusable" Value="False"/>
                                     </Style>
                                 </ListBox.ItemContainerStyle>
@@ -301,9 +317,8 @@
 
                             </ListBox>
                             <Button x:Name="LongCiteAddBlock"
-                                Grid.Column="1" Width="20"
+                                Grid.Column="1" Width="25"
                                 VerticalAlignment="Stretch"
-                                Content="+"
                                 Click="LongCiteAddBlock_Click">
                                 <Button.ContextMenu>
                                     <ContextMenu>
@@ -317,8 +332,9 @@
                                         <MenuItem Header="Add Custom Text Block" Click="AddFreeTextBloc_Click"/>
                                     </ContextMenu>
                                 </Button.ContextMenu>
+                                <Image Height="auto" Width="auto" HorizontalAlignment="Center"
+                                    Source="/LitKit;component/Resources/icons8-plus-math-60.png" Opacity=".5"/>
                             </Button>
-
                         </Grid>
                         <Label 
                             Content="Short Cite Formatting"/>
@@ -341,7 +357,7 @@
                                 </ListBox.ItemsPanel>
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="{x:Type ListBoxItem}">
-                                        <Setter Property="Padding" Value="1,10,2,10"/>
+                                        <Setter Property="Padding" Value="1,5,2,5"/>
                                         <Setter Property="Focusable" Value="False"/>
                                     </Style>
                                 </ListBox.ItemContainerStyle>
@@ -353,9 +369,8 @@
 
                             </ListBox>
                             <Button x:Name="ShortCiteAddBlock"
-                                Grid.Column="1" Width="20"
+                                Grid.Column="1" Width="25" 
                                 VerticalAlignment="Stretch"
-                                Content="+"
                                 Click="ShortCiteAddBlock_Click">
                                 <Button.ContextMenu>
                                     <ContextMenu>
@@ -369,8 +384,9 @@
                                         <MenuItem Header="Add Custom Text Block" Click="ShortAddFreeTextBloc_Click"/>
                                     </ContextMenu>
                                 </Button.ContextMenu>
+                                <Image Height="auto" Width="auto" HorizontalAlignment="Center"
+                                    Source="/LitKit;component/Resources/icons8-plus-math-60.png" Opacity=".5"/>
                             </Button>
-
                         </Grid>
 
 
@@ -433,8 +449,21 @@
                        VerticalAlignment="Stretch"
                        HorizontalAlignment="Stretch"
             Visibility="Collapsed"
-            >
-        </local:CiteAdd>
+            />
+
+
+        <!--##############################################-->
+        <!--######### Edit CITE POPUP ################-->
+        <!--##############################################-->
+
+        <local:CiteEdit x:Name="CiteEdit" DataContext="{Binding EditCiteVM}"
+            Grid.Column="0" Grid.ColumnSpan="4"
+            Grid.Row="0" Grid.RowSpan="4"
+                       VerticalAlignment="Stretch"
+                       HorizontalAlignment="Stretch" Loaded="CiteEdit_Loaded"
+                        Visibility="Collapsed"
+            />
+
 
 
     </Grid>

@@ -348,10 +348,10 @@ namespace Tools.Citation
             Citations.Remove(citation);
         }
 
-        public void UpdateCitation(Citation citation)
+        public void UpdateCitation(Citation oldcite, Citation newcite)
         {
-            UpdateCitationinDB(citation);
-            Citations[Citations.IndexOf(citation)] = citation;
+            UpdateCitationinDB(newcite);
+            Citations[Citations.IndexOf(oldcite)] = newcite;
         }
 
         #endregion

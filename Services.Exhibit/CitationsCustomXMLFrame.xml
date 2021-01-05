@@ -5,19 +5,13 @@
     <IndexStyle>Numbers</IndexStyle>
     <IndexStart>1</IndexStart>
     <IdCite>True</IdCite>
-
     <Long>
       <INTRO/>
       <INDEX/>
       <COMMA/>
-      <DESC/>
-      <LPARENS/>
       <PIN/>
-      <RPARENS/>
-      <FREETEXT>Some Text</FREETEXT>
-      <FREETEXT>More Free Text</FREETEXT>
+      <DESC/>
     </Long>
-
     <Short>
       <INTRO/>
       <INDEX/>
@@ -43,17 +37,14 @@
   <OtherID>978742a49976200ae5b1c1d1</OtherID>
 </Citation>-->
 
-
-
-
-<!--<Format xmlns="">
-  <Intro>Exhibit</Intro>
-  <Long>{{INTRO}}{{INDEX}}{{,}}{{DESC}}{{(}}{{PIN}}{{)}}{{Some free text}}{{Other Free Text}}</Long>
-  <Short>{{INTRO}}{{INDEX}}</Short>
-  <IndexStyle>Numbers</IndexStyle>
-  <IndexStart>1</IndexStart>
-  <Parentheses>False</Parentheses>
-  <IdCite>True</IdCite>
-  <FT>Free Text 1</FT>
-  <FT>Free Text 2</FT>
-</Format>-->
+<!--<FORMATBLOCKS>
+  <INTRO/>
+  <INDEX/>
+  <COMMA/>
+  <PIN/>
+  <DESC/>
+  <LPARENS/>
+  <RPARENS/>
+  <FREETEXT>Some Text</FREETEXT>
+  <OTHERID/>
+</FORMATBLOCKS>-->

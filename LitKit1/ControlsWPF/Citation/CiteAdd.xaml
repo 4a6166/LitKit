@@ -16,16 +16,12 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
-    <Grid>
-        <!--############################################-->
-        <!--Add Cite Expander-->
-        <!--############################################-->
         <Grid
             VerticalAlignment="Stretch"
             Background="Transparent">
             <Border
                 Background="LightGray" VerticalAlignment="Stretch">
-                <Grid Margin="5">
+                <Grid Margin="15">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Top"
                         MaxHeight="620" Height="auto">
                         <TextBlock x:Name="TitleBlock"
@@ -86,9 +82,9 @@
                                        Foreground="DarkSlateGray">
                                 <TextBlock.Inlines>
                                     <Run Text="The "/>
-                                    <Run FontStyle="Italic" FontWeight="DemiBold" Text="Long Description"/>
+                                    <Run FontStyle="Italic" FontWeight="DemiBold" Text="Long Cite"/>
                                     <Run Text=" is used the first time a citiation is referenced in the document. Subsequent citations use the "/>
-                                    <Run FontStyle="Italic" FontWeight="DemiBold" Text="Short Description."/>
+                                    <Run FontStyle="Italic" FontWeight="DemiBold" Text="Short Cite."/>
                                 </TextBlock.Inlines>
                             </TextBlock>
 
@@ -109,7 +105,7 @@
                                 TextWrapping="Wrap"
                                 TextAlignment="Center"
                                 FontWeight="Normal"
-                                Text="This information is optional and will not appear when the citation is inserted in the document unless the formatting is adjusted."/>
+                                Text="This information is optional and will not appear when the citation is inserted in the document unless the formatting is adjusted to include it."/>
                         </StackPanel>
 
                         <Grid x:Name="ButtonGrid" Margin="0,15">
@@ -140,11 +136,11 @@
                     </StackPanel>
 
                     <Expander x:Name="AdvFormatting" Header ="Advanced Formatting" 
-                                  VerticalAlignment="Bottom"
-                                  IsExpanded="False">
+                                  VerticalAlignment="Bottom" Margin="0,20"
+                                  IsExpanded="True">
                         <StackPanel>
                             <TextBlock x:Name="BottomText2"
-                            Margin="0,0,0,0" FontWeight="Normal" TextWrapping="WrapWithOverflow" TextAlignment="Center">
+                            Margin="0,0,0,5" FontWeight="Normal" TextWrapping="WrapWithOverflow" TextAlignment="Center">
                                 <TextBlock.Inlines>
                                     <Run Text="You may add "/>
                                     <Run FontWeight="Bold" Text="Bold"/>
@@ -180,14 +176,39 @@
                                        Text="__Text__"/>
                             </Grid>
                             <TextBlock TextAlignment="Center">
-                                          <Run Text="Non-Breaking Spaces may be ented using the text placeholder: "/>
-                                    <Run  FontStyle="Oblique" TextDecorations="Baseline" Text="\u00A0"/>
+                                          <Run Text="Non-Breaking Spaces may be ented using the text placeholder "/>
+                                    <Run  FontStyle="Italic" TextDecorations="Baseline" Text="\u00A0"/>
                             </TextBlock>
+                            <TextBlock TextAlignment="Center">
+                                          <Run Text="Placeholders for Pincites may be marked by adding "/>
+                                    <Run  FontStyle="Italic" TextDecorations="Baseline" Text="{}{{PIN}}"/>
+                                <Run Text=" to your citation text."/>
+                            </TextBlock>
+                            <TextBlock TextAlignment="Left" Margin="0,10,0,0" 
+                                       Foreground="DarkSlateGray" 
+                                       TextTrimming="CharacterEllipsis"
+                                       FontSize="10.5">
+                                          <Run Text="Formatting Example" TextDecorations="BaseLine"/>
+                            </TextBlock>
+
+                            <TextBlock TextAlignment="Left" Foreground="DarkSlateGray" TextTrimming="CharacterEllipsis" FontSize="10.5">
+                                          <Run Text="Input: " TextDecorations="Baseline"/>
+                                    <Run  Text="{}**Palsgraf v. Long Island R.R. Co.**, //162 N.E. 99,101// __(N.Y. 1928)__ {{PIN}}"/>
+                            </TextBlock>
+                            <TextBlock TextAlignment="Left" Foreground="DarkSlateGray" TextTrimming="CharacterEllipsis" FontSize="10.5">
+                                <Run Text="Result: " TextDecorations="Baseline"/>
+                                <Run Text="{}Palsgraf v. Long Island R.R. Co." FontWeight="Bold"/>
+                                <Run Text="{}, "/>
+                                <Run Text="162 N.E. 99,101" FontStyle="Italic"/>
+                                <Run Text="{} "/>
+                                <Run Text="{}(N.Y. 1928)" TextDecorations="Underline"/>
+                                <Run Text="{} at 102"/>
+                            </TextBlock>
+
+
                         </StackPanel>
                     </Expander>
                 </Grid>
             </Border>
         </Grid>
-
-    </Grid>
 </UserControl>

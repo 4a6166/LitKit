@@ -67,7 +67,7 @@ namespace Tools.Citation
                     DisplayText = "ID Number";
                     break;
                 case CiteFormatPieceType.PIN:
-                    DisplayText = "PIN";
+                    DisplayText = "PINCITE";
                     break;
                 case CiteFormatPieceType.FREETEXT:
                     throw new Exception("Free Text must have a value passed in to BlockText during construction.");
