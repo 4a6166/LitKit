@@ -262,38 +262,42 @@ namespace LitKit1.ControlsWPF.Citation
             CiteAdd.Visibility = Visibility.Visible;
         }
 
-        private void MenuItem_Click_7(object sender, RoutedEventArgs e)
+        private void AddExhibitIndex_Click(object sender, RoutedEventArgs e)
         {
-
+            ViewModel.AddExhibitIndex();
         }
 
-        private void MenuItem_Click_8(object sender, RoutedEventArgs e)
+        private void BatchAddCites_Click(object sender, RoutedEventArgs e)
         {
-
+            ViewModel.BatchAddCites();
         }
 
-        private void MenuItem_Click_9(object sender, RoutedEventArgs e)
+        private void ExportCites_Click(object sender, RoutedEventArgs e)
         {
-
+            ViewModel.ExportCites();
         }
 
         private void FormattingReset_Click(object sender, RoutedEventArgs e)
         {
-            var aa = ViewModel.FormatList_Long;
-            var a = DragAndDropListBox.DataContext;
-            var c = DragAndDropListBox.ItemsSource;
-            var b = DragAndDropListBox.Items;
 
-            throw new NotImplementedException();
+            ViewModel.ResetFormatList();
 
-            //ViewModel.ResetFormatList();
+            IdCheckBox.IsChecked = true;
+            //ViewModel.Repository.CiteFormatting.hasIdCite = true;
 
-            //IdCheckBox.IsChecked = true;
-            //IndexStartNumUpDown.Value = 1;
+            IndexStartNumUpDown.Value = 1;
+            //ViewModel.Repository.CiteFormatting.ExhibitIndexStart = 1;
+
+            UpdateFormatting_Click(sender, e);
+            //ViewModel.Repository.UpdateCiteFormattingInDB(ViewModel.Repository.CiteFormatting);
+
 
         }
 
         #region Add Format Blocks
+
+        ///////////// LONG
+        
         private void LongCiteAddBlock_Click(object sender, RoutedEventArgs e)
         {
             LongCiteAddBlock.ContextMenu.IsOpen = true;
@@ -349,8 +353,7 @@ namespace LitKit1.ControlsWPF.Citation
         }
         private void AddFreeTextBloc_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: source for adding text to be included in free text block, add block to the repository
-            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.FREETEXT, "EXAMPLE FREE TEXT"));
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.FREETEXT));
         }
 
         /////////////// SHORT
@@ -411,7 +414,7 @@ namespace LitKit1.ControlsWPF.Citation
         private void ShortAddFreeTextBloc_Click(object sender, RoutedEventArgs e)
         {
             //TODO: source for adding text to be included in free text block, add block to the repository
-            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.FREETEXT, "EXAMPLE FREE TEXT"));
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.FREETEXT));
         }
 
 
@@ -435,6 +438,29 @@ namespace LitKit1.ControlsWPF.Citation
             }
             else FreshPanelTextBlock.Visibility = Visibility.Collapsed;
 
+        }
+
+        private void Long_EditFreeTextBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FreeTextFormatPiece_Long.DisplayText = Long_EditFreeText.Text;
+            ViewModel.FreeTextBeingEdited_Long = false;
+        }
+
+        private void Short_EditFreeTextBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FreeTextFormatPiece_Short.DisplayText = Short_EditFreeText.Text;
+            ViewModel.FreeTextBeingEdited_Short = false;
+        }
+
+        private void IdCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UpdateFormatting_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Repository.CiteFormatting.ExhibitIndexStart = (int)IndexStartNumUpDown.Value;
+            ViewModel.Repository.UpdateCiteFormattingInDB(ViewModel.Repository.CiteFormatting);
         }
     }
 }

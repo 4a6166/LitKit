@@ -65,6 +65,7 @@ namespace LitKit1.ControlsWPF.Citation
                         BlockContextMenu.Items.Add(d);
                         BlockContextMenu.Items.Add(e);
                         BlockContextMenu.Items.Add(f);
+                        BlockContextMenu.Items.Add(new Separator());
                         break;
                     case CiteFormatPieceType.INDEX:
                         var g = new MenuItem() { Header = "Numeric" };
@@ -79,13 +80,18 @@ namespace LitKit1.ControlsWPF.Citation
                         BlockContextMenu.Items.Add(g);
                         BlockContextMenu.Items.Add(h);
                         BlockContextMenu.Items.Add(i);
+                        BlockContextMenu.Items.Add(new Separator());
                         break;
-
+                    case CiteFormatPieceType.FREETEXT:
+                        var j = new MenuItem() { Header = "Edit Text" };
+                        j.Click += delegate { cm_UpdateFreeText(); };
+                        BlockContextMenu.Items.Add(j);
+                        BlockContextMenu.Items.Add(new Separator());
+                        break;
                 }
 
                 var remove = new MenuItem() { Header = "Remove this Block" };
                 remove.Click += delegate { cm_Remove(); };
-                BlockContextMenu.Items.Add(new Separator());
                 BlockContextMenu.Items.Add(remove);
 
                 ContextMenuAdded = true;
@@ -182,16 +188,28 @@ namespace LitKit1.ControlsWPF.Citation
 
             var formatPiece = (CiteFormatPiece)this.DataContext;
 
+            var formatList = ViewModel.FormatList_Long;
+            if(!formatList.Contains(formatPiece))
+            {
+                formatList = ViewModel.FormatList_Short;
+            }
+
             if (formatPiece.Type == CiteFormatPieceType.PIN)
             {
                 System.Windows.Forms.DialogResult mb = System.Windows.Forms.MessageBox.Show("Note: Removing the PIN block will prevent the addition of Pincites to all exhibits. Are you sure you want to continue?", "Confirm", System.Windows.Forms.MessageBoxButtons.OKCancel);
                 if (mb == System.Windows.Forms.DialogResult.OK)
                 {
-                    ViewModel.FormatList_Long.Remove(formatPiece); //TODO: Only removes from Format List Long. Need to determine if block is in short list and remove from there if so instead
+                    formatList.Remove(formatPiece); 
                 }
             }
-            else ViewModel.FormatList_Long.Remove(formatPiece); //TODO: Only removes from Format List Long. Need to determine if block is in short list and remove from there if so instead
+            else formatList.Remove(formatPiece); 
 
+        }
+
+        private void cm_UpdateFreeText()
+        {
+            var formatPiece = (CiteFormatPiece)this.DataContext;
+            ViewModel.ChooseFreeTextEditBlock(formatPiece);
         }
 
         #endregion

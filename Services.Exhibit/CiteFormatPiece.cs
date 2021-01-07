@@ -70,7 +70,8 @@ namespace Tools.Citation
                     DisplayText = "PINCITE";
                     break;
                 case CiteFormatPieceType.FREETEXT:
-                    throw new Exception("Free Text must have a value passed in to BlockText during construction.");
+                    DisplayText = "Edit Me";
+                    break;
                 case CiteFormatPieceType.LPARENS:
                     DisplayText = "(";
                     break;

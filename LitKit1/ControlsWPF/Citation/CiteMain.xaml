@@ -20,6 +20,7 @@
         <Brush x:Key="CiteTypeBrush_Extra">#032B43</Brush>
 
         <Converters:VisConverterItemCount x:Key="ListCoverVisConverter"/>
+        <Converters:VisibilityConverter x:Key="BoolVisConverter"/>
     </UserControl.Resources>
     <Grid x:Name="MainGrid" >
         <Grid.ColumnDefinitions>
@@ -91,11 +92,11 @@
                                     </MenuItem>
                                     <Separator/>
                                     <MenuItem Header="Add Exhibit Index to Document"
-                                              Click="MenuItem_Click_7"/>
+                                              Click="AddExhibitIndex_Click"/>
                                     <MenuItem Header="Batch Add Citations"
-                                              Click="MenuItem_Click_8"/>
+                                              Click="BatchAddCites_Click"/>
                                     <MenuItem Header="Export Citations"
-                                              Click="MenuItem_Click_9"/>
+                                              Click="ExportCites_Click"/>
                                 </ContextMenu>
                             </Border.ContextMenu>
                             <StackPanel Orientation="Horizontal">
@@ -286,8 +287,13 @@
                                    FontSize="10" FontStyle="Italic" FontWeight="Normal"  TextWrapping="WrapWithOverflow" TextAlignment="Center"
                                Text="Drag to reorder the blocks and adjust Exhibit formatting"/>
                         <!--https://github.com/punker76/gong-wpf-dragdrop/wiki/Usage-->
+
+                        <!--###################################################################-->
+                        <!--################## Long Cite Formatting ####################-->
+                        <!--###################################################################-->
+
                         <Label Content="Long Cite Formatting"/>
-                        <Grid Margin="0,0,0,5">
+                        <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="auto"/>
@@ -314,7 +320,6 @@
                                         <local:CiteFormatBlock DataContext="{Binding}"/>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
-
                             </ListBox>
                             <Button x:Name="LongCiteAddBlock"
                                 Grid.Column="1" Width="25"
@@ -335,10 +340,30 @@
                                 <Image Height="auto" Width="auto" HorizontalAlignment="Center"
                                     Source="/LitKit;component/Resources/icons8-plus-math-60.png" Opacity=".5"/>
                             </Button>
+                            
+                            <!--###################################################################-->
+                            <!--################## Long Cite Free Text Edit ####################-->
+                            <!--###################################################################-->
+                            <TextBox x:Name="Long_EditFreeText"
+                                       Grid.Column="0"
+                                     Text="{Binding FreeTextFormatPiece_Long.DisplayText, Mode=OneWay}"
+                                     Visibility="{Binding FreeTextBeingEdited_Long, Converter={StaticResource BoolVisConverter}}"
+                                     />
+                            <Button x:Name="Long_EditFreeTextBtn"
+                                    Grid.Column="1"
+                                     Visibility="{Binding FreeTextBeingEdited_Long, Converter={StaticResource BoolVisConverter}}"
+                                    Click="Long_EditFreeTextBtn_Click"
+                                    >
+                                <TextBlock Text="Update"/>
+                            </Button>
                         </Grid>
+
+                        <!--###################################################################-->
+                        <!--################## Short Cite Formatting ####################-->
+                        <!--###################################################################-->
                         <Label 
                             Content="Short Cite Formatting"/>
-                        <Grid Margin="0,0,0,5">
+                        <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="auto"/>
@@ -387,11 +412,28 @@
                                 <Image Height="auto" Width="auto" HorizontalAlignment="Center"
                                     Source="/LitKit;component/Resources/icons8-plus-math-60.png" Opacity=".5"/>
                             </Button>
+                            
+                            <!--###################################################################-->
+                            <!--################## Short Cite Free Text Edit ####################-->
+                            <!--###################################################################-->
+                            <TextBox x:Name="Short_EditFreeText"
+                                       Grid.Column="0"
+                                     Text="{Binding FreeTextFormatPiece_Short.DisplayText, Mode=OneWay}"
+                                     Visibility="{Binding FreeTextBeingEdited_Short, Converter={StaticResource BoolVisConverter}}"
+                                     />
+                            <Button x:Name="Short_EditFreeTextBtn"
+                                    Grid.Column="1"
+                                     Visibility="{Binding FreeTextBeingEdited_Short, Converter={StaticResource BoolVisConverter}}"
+                                    Click="Short_EditFreeTextBtn_Click"
+                                    >
+                                <TextBlock Text="Update"/>
+                            </Button>
+
                         </Grid>
 
 
                         <CheckBox x:Name="IdCheckBox" 
-                                  Margin="0,0,0,15" HorizontalAlignment="Center"
+                                  Margin="0,15,0,15" HorizontalAlignment="Center"
                                   IsChecked="{Binding Repository.CiteFormatting.hasIdCite}"
                                   >
                             <TextBlock>
@@ -403,11 +445,11 @@
                             </TextBlock>
                         </CheckBox>
                         <!--https://github.com/GuOrg/Gu.Wpf.NumericInput/blob/master/README.md#1-samples-->
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <numeric:SpinnerDecorator 
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
+                        <numeric:SpinnerDecorator 
                                 MinWidth="40" Width="auto" >
                                 <numeric:IntBox x:Name="IndexStartNumUpDown" 
-                                                Value="{Binding Repository.CiteFormatting.ExhibitIndexStart}"
+                                                Value="{Binding Repository.CiteFormatting.ExhibitIndexStart, Mode=TwoWay}"
                                                 ValidationTrigger="PropertyChanged"
                                                 CanValueBeNull="False"
                                                 StringFormat="#,0"
@@ -424,13 +466,13 @@
                             <Label Margin="10,0,0,0"
                                 Content="Exhibit Index Starting Value"/>
                         </StackPanel>
-                        <UniformGrid>
-                            <!--<Button x:Name="UpdateFormatting"
-                                    Margin="5">
+                        <UniformGrid Margin="5,80,5,0">
+                            <Button x:Name="UpdateFormatting"
+                                     Margin="0,0,10,0"  Click="UpdateFormatting_Click">
                                 <Label Content="Update Formatting"/>
-                            </Button>-->
+                            </Button>
                             <Button x:Name="FormattingReset"
-                                    Margin="5, 40, 5, 0" Click="FormattingReset_Click">
+                                    Margin="10,0,0,0"  Click="FormattingReset_Click">
                                 <Label Content="Reset Formatting"/>
                             </Button>
                         </UniformGrid>

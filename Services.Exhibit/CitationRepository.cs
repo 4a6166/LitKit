@@ -35,7 +35,7 @@ namespace Tools.Citation
             }
         }
 
-        static string _Namespace = "Prelimine Litkit Citation Tool";
+        public static string _Namespace = "Prelimine Litkit Citation Tool";
         static XNamespace Namespace = _Namespace;
         static string CitationRoot = "//Citation";
         static string FormattingRoot = "//Format";
@@ -229,6 +229,8 @@ namespace Tools.Citation
 
             log.Info(citation.ID + " added to DB");
         }
+
+
         private void DeleteCitationFromDB(Citation citation)
         {
 
@@ -245,6 +247,18 @@ namespace Tools.Citation
 
             log.Info(citation.ID + " deleted from DB");
         }
+
+        public void ExportCites(string path)
+        {
+            string xml = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(CitationRepository._Namespace)[1].XML;
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            XmlTextWriter writer = new XmlTextWriter(path, null);
+            writer.Formatting = Formatting.Indented;
+            doc.Save(writer);
+        }
+
         private Citation GetCitationFromDB(string ID)
         {
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];

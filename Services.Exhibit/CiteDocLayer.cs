@@ -208,6 +208,11 @@ namespace Tools.Citation
             return CCs.Where(n => n.Tag.StartsWith("CITE:")).FirstOrDefault();
         }
 
+        public void AddExhibitIndex()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
         #region Change doc
 

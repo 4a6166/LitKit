@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml;
 using Tools.Citation;
 
 namespace LitKit1.ControlsWPF.Citation.ViewModels
@@ -26,6 +28,12 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         private ObservableCollection<CiteFormatPiece> _formatList_Short;
 
         private EditCiteVM _editCiteVM = new EditCiteVM(new Tools.Citation.Citation(CiteType.Exhibit, "FillCite"), false);
+
+        private bool _freeTextBeingEdited_Long = false;
+        private bool _freeTextBeingEdited_Short = false;
+
+        private CiteFormatPiece _freeTextFormatPiece_Long;
+        private CiteFormatPiece _freeTextFormatPiece_Short;
 
         #endregion
 
@@ -85,6 +93,44 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             {
                 _editCiteVM = value;
                 OnPropertyChanged("EditCiteVM");
+            }
+        }
+
+        public bool FreeTextBeingEdited_Long
+        {
+            get { return _freeTextBeingEdited_Long; }
+            set
+            {
+                _freeTextBeingEdited_Long = value;
+                OnPropertyChanged("FreeTextBeingEdited_Long");
+            }
+        }
+        public bool FreeTextBeingEdited_Short
+        {
+            get { return _freeTextBeingEdited_Short; }
+            set
+            {
+                _freeTextBeingEdited_Short = value;
+                OnPropertyChanged("FreeTextBeingEdited_Short");
+            }
+        }
+
+        public CiteFormatPiece FreeTextFormatPiece_Long
+        {
+            get { return _freeTextFormatPiece_Long; }
+            set
+            {
+                _freeTextFormatPiece_Long = value;
+                OnPropertyChanged("FreeTextFormatPiece_Long");
+            }
+        }
+        public CiteFormatPiece FreeTextFormatPiece_Short
+        {
+            get { return _freeTextFormatPiece_Short; }
+            set
+            {
+                _freeTextFormatPiece_Short = value;
+                OnPropertyChanged("FreeTextFormatPiece_Short");
             }
         }
 
@@ -190,8 +236,223 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         internal void ResetFormatList()
         {
             FormatList_Long.Clear();
-            //AddTestFormatBlock();
-            OnPropertyChanged("FormatList");
+            FormatList_Short.Clear();
+
+            FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO));
+            FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INDEX));
+            FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.COMMA));
+            FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.PIN));
+            FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.DESC));
+
+            FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO));
+            FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.INDEX));
+            FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.PIN));
+
+            OnPropertyChanged("FormatList_Long");
+            OnPropertyChanged("FormatList_Short");
+        }
+
+        public void ChooseFreeTextEditBlock(CiteFormatPiece formatPiece)
+        {
+
+            if (FormatList_Long.Contains(formatPiece))
+            {
+                FreeTextFormatPiece_Long = formatPiece;
+                FreeTextBeingEdited_Long = true;
+            } else if (FormatList_Short.Contains(formatPiece))
+            {
+                FreeTextFormatPiece_Short = formatPiece;
+                FreeTextBeingEdited_Short = true;
+            }
+
+        }
+
+        internal void AddExhibitIndex()
+        {
+            System.Windows.Forms.MessageBox.Show("Not Implemented Yet");
+            _docLayer.AddExhibitIndex();
+        }
+
+        internal void BatchAddCites()
+        {
+            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            openFileDialog.Filter = "XML | *.xml";
+            openFileDialog.Title = "Import Citations and Cite Formatting";
+            openFileDialog.CheckFileExists = true;
+            openFileDialog.Multiselect = false;
+            openFileDialog.ShowDialog();
+
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(openFileDialog.FileName);
+
+                int formatSuccess;
+                int formatFail;
+                int citeSuccess;
+                int citeFail;
+                int citeRepeated;
+
+
+                batchFormatting(doc, out formatSuccess, out formatFail);
+                batchCites(doc, out citeSuccess, out citeFail, out citeRepeated);
+
+                System.Windows.Forms.MessageBox.Show(
+                "Format Nodes Loaded: " + formatSuccess.ToString() + Environment.NewLine +
+                "Format Nodes Failed: " + formatFail.ToString() + Environment.NewLine +
+                Environment.NewLine +
+                "Citations Added: " + citeSuccess.ToString() + Environment.NewLine +
+                "Citations Failed: " + citeFail.ToString() + Environment.NewLine +
+                "Redundant Citations Skipped: " + citeRepeated.ToString()
+                );
+            }
+            catch { throw new FileNotFoundException(); }
+        }
+
+        private void batchFormatting(XmlDocument doc, out int formatSuccess, out int formatFail)
+        {
+
+            formatSuccess = 0;
+            formatFail = 0;
+
+            var formatNode = doc.SelectSingleNode("//Format");
+            if (formatNode != null)
+            {
+                try
+                {
+                    string intro = formatNode.SelectSingleNode("//Intro").InnerText;
+                    ExhibitIndexStyle indexStyle = ExhibitIndexStyle.Numbers;
+                    Enum.TryParse(formatNode.SelectSingleNode("//IndexStyle").InnerText, out indexStyle);
+                    int indexStart = Int32.Parse(formatNode.SelectSingleNode("//IndexStart").InnerText);
+                    bool idCite = bool.Parse(formatNode.SelectSingleNode("//IdCite").InnerText);
+
+                    ObservableCollection<CiteFormatPiece> longFormat = new ObservableCollection<CiteFormatPiece>();
+                    var longnodes = formatNode.SelectSingleNode("//Long").ChildNodes;
+                    for (int i = 0; i < longnodes.Count; i++)
+                    {
+                        CiteFormatPieceType type = CiteFormatPieceType.FREETEXT;
+                        Enum.TryParse(longnodes[i].Name, out type);
+
+                        longFormat.Add(new CiteFormatPiece(type, longnodes[i].InnerText));
+                    }
+
+                    ObservableCollection<CiteFormatPiece> shortFormat = new ObservableCollection<CiteFormatPiece>();
+                    var shortnodes = formatNode.SelectSingleNode("//Short").ChildNodes;
+                    for (int i = 0; i < shortnodes.Count; i++)
+                    {
+                        CiteFormatPieceType type = CiteFormatPieceType.FREETEXT;
+                        Enum.TryParse(shortnodes[i].Name, out type);
+
+                        shortFormat.Add(new CiteFormatPiece(type, shortnodes[i].InnerText));
+                    }
+
+                    //Update the Cite Formatting and save 
+                    CiteFormatting formatting = new CiteFormatting(intro, longFormat, shortFormat, indexStyle, indexStart, idCite);
+                    FormatList_Long = longFormat;
+                    OnPropertyChanged("FormatList_Long");
+
+                    FormatList_Short = shortFormat;
+                    OnPropertyChanged("FormatList_Short");
+
+                    Repository.CiteFormatting = formatting;
+                    Repository.UpdateCiteFormattingInDB(formatting);
+
+                    formatSuccess++;
+                }
+                catch
+                {
+                    formatFail++;
+                }
+            }
+            
+        }
+
+        private void batchCites(XmlDocument doc, out int citeSuccess, out int citeFail, out int citeRepeated)
+        {
+            citeSuccess = 0;
+            citeFail = 0;
+            citeRepeated = 0;
+
+            var citesNode = doc.SelectNodes("//Citation");
+            for (int i = 0; i<citesNode.Count; i++)
+            {
+                try //TODO: is only pulling the first node from the batch and is populating the number of cites in the batch with its info
+                {
+                    string ID = citesNode[i].SelectSingleNode("//ID").InnerText; ;
+                    string RefName = citesNode[i].SelectSingleNode("//RefName").InnerText;
+
+                    CiteType Type = CiteType.Exhibit;
+                    Enum.TryParse(citesNode[i].SelectSingleNode("//Type").InnerText, out Type);
+
+                    string Long = citesNode[i].SelectSingleNode("//Long").InnerText;  //TODO: this node is not being pulled for some reason.
+                    string Short = citesNode[i].SelectSingleNode("//Short").InnerText;
+
+
+                    string OtherID = citesNode[i].SelectSingleNode("//OtherID").InnerText;
+                    Tools.Citation.Citation cite = new Tools.Citation.Citation(ID, Type, Long, Short, OtherID, RefName);
+
+                    if (!Citations.Contains(cite))
+                    {
+                        AddNewCite(cite); 
+                        citeSuccess++;
+                    }
+                    else citeRepeated++;
+                }
+                catch { citeFail++; }
+            };
+
+        }
+
+        internal void ExportCites()
+        {
+            string Path = "";
+            bool FileAvailable = false;
+
+            //Save File Dialog
+            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            saveFileDialog.Filter = "XML|*.xml";
+            saveFileDialog.Title = "Export Citations and Cite Formatting";
+            saveFileDialog.CheckPathExists = true;
+            saveFileDialog.ShowDialog();
+
+            if (saveFileDialog.FileName != "")
+            {
+                Path = saveFileDialog.FileName;
+            }
+            else
+            { Path = null; }
+
+            //Check if file is available
+            FileInfo file = new FileInfo(Path);
+            if (!file.Exists)
+            { FileAvailable = true; }
+            else
+            {
+                try
+                {
+                    using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                    {
+                        stream.Close();
+                        FileAvailable = true;
+                    }
+                }
+                catch (IOException)
+                {
+                    //the file is unavailable because it is:
+                    //still being written to
+                    //or being processed by another thread
+                    //or does not exist (has already been processed)
+                    FileAvailable = false;
+                    MessageBox.Show("File is open in another window or program. Please close the file and try again.");
+
+                }
+            }
+
+            if (FileAvailable)
+            {
+                Repository.ExportCites(Path);
+
+            }
         }
     }
 }
