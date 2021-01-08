@@ -913,6 +913,19 @@ namespace LitKit1
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
+            var newCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
+
+            var xmlPart = _app.ActiveDocument.CustomXMLParts.SelectByNamespace("Prelimine Litkit Citation Tool")[1];
+
+            string xPathName = "/ns0:Citations[1]/Format[1]/IndexStyle[1]";
+            newCC.XMLMapping.SetMapping(xPathName, Source: xmlPart);
+
+
+            //var mapping = _app.Selection.ContentControls[1].XMLMapping;
+            //var a = mapping.CustomXMLPart;
+            //var b = mapping.CustomXMLNode;
+            //var c = mapping.PrefixMappings;
+            //var d = mapping.XPath;
 
 
             //stopwatch.Stop();

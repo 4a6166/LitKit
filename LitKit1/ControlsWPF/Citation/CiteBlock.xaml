@@ -46,7 +46,7 @@
                    Grid.Column="1" 
                    Grid.Row="0" 
                    Text="{Binding InsertedCount}" 
-                   FontSize="22" FontWeight="Bold" Foreground="SlateGray" 
+                   FontSize="22" FontWeight="SemiBold" Foreground="SlateGray" 
                    HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Margin="0,0,0,-1"/>
         <TextBlock 
@@ -84,7 +84,7 @@
                    Grid.Column="1"
                    Grid.Row="0" 
                    Text="{Binding LongDescription}" 
-                   FontSize="11" FontWeight="Heavy"
+                   FontSize="11" FontWeight="SemiBold"
                    Margin="4,2,0,2" 
                    TextTrimming="CharacterEllipsis"/>
                     <TextBlock x:Name="CiteLongExample" 

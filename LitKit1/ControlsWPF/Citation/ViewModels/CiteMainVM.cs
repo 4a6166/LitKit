@@ -297,6 +297,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
                 batchFormatting(doc, out formatSuccess, out formatFail);
                 batchCites(doc, out citeSuccess, out citeFail, out citeRepeated);
 
+
                 System.Windows.Forms.MessageBox.Show(
                 "Format Nodes Loaded: " + formatSuccess.ToString() + Environment.NewLine +
                 "Format Nodes Failed: " + formatFail.ToString() + Environment.NewLine +
@@ -376,22 +377,22 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             var citesNode = doc.SelectNodes("//Citation");
             for (int i = 0; i<citesNode.Count; i++)
             {
-                try //TODO: is only pulling the first node from the batch and is populating the number of cites in the batch with its info
+                var children = citesNode[i].ChildNodes;
+                try 
                 {
-                    string ID = citesNode[i].SelectSingleNode("//ID").InnerText; ;
-                    string RefName = citesNode[i].SelectSingleNode("//RefName").InnerText;
+                    string ID = children[0].InnerText;
+                    string RefName = children[1].InnerText;
 
                     CiteType Type = CiteType.Exhibit;
-                    Enum.TryParse(citesNode[i].SelectSingleNode("//Type").InnerText, out Type);
+                    Enum.TryParse(children[2].InnerText, out Type);
 
-                    string Long = citesNode[i].SelectSingleNode("//Long").InnerText;  //TODO: this node is not being pulled for some reason.
-                    string Short = citesNode[i].SelectSingleNode("//Short").InnerText;
+                    string Long = children[3].InnerText;
+                    string Short = children[4].InnerText;
+                    string OtherID = children[5].InnerText;
 
-
-                    string OtherID = citesNode[i].SelectSingleNode("//OtherID").InnerText;
                     Tools.Citation.Citation cite = new Tools.Citation.Citation(ID, Type, Long, Short, OtherID, RefName);
 
-                    if (!Citations.Contains(cite))
+                    if (Citations.Where(n => n.ID == cite.ID).Count() == 0)
                     {
                         AddNewCite(cite); 
                         citeSuccess++;
