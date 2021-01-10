@@ -251,7 +251,7 @@ namespace Tools.Citation
         }
 
 
-        public void FormatFont(ContentControl contentControl)
+        public static void FormatFont(ContentControl contentControl)
         {
             contentControl.LockContents = false;
 
@@ -264,6 +264,7 @@ namespace Tools.Citation
                 find.Text = @"\*\*(*)\*\*";
                 find.Replacement.Text = @"\1";
                 find.Replacement.Font.Bold = -1;
+                find.MatchWildcards = true;
                 find.Execute(Replace: WdReplace.wdReplaceAll);
             }
             {
@@ -274,6 +275,7 @@ namespace Tools.Citation
                 find.Text = @"\/\/(*)\/\/";
                 find.Replacement.Text = @"\1";
                 find.Replacement.Font.Italic = -1;
+                find.MatchWildcards = true;
                 find.Execute(Replace: WdReplace.wdReplaceAll);
             }
             {
@@ -284,17 +286,7 @@ namespace Tools.Citation
                 find.Text = @"\_\_(*)\_\_";
                 find.Replacement.Text = @"\1";
                 find.Replacement.Font.Underline = WdUnderline.wdUnderlineSingle;
-                find.Execute(Replace: WdReplace.wdReplaceAll);
-            }
-            {
-                //BoldItalics */&/*
-                find.ClearFormatting();
-                find.Replacement.ClearFormatting();
-
-                find.Text = @"\*\/(*)\/\*";
-                find.Replacement.Text = @"\1";
-                find.Replacement.Font.Italic = -1;
-                find.Replacement.Font.Bold = -1;
+                find.MatchWildcards = true;
                 find.Execute(Replace: WdReplace.wdReplaceAll);
             }
 
@@ -302,6 +294,26 @@ namespace Tools.Citation
         }
 
         #endregion
+
+        public static string ApplyNumFormat(int index, ExhibitIndexStyle NumberFormat)
+        {
+            string numbering = string.Empty;
+            switch (NumberFormat)
+            {
+                case ExhibitIndexStyle.Numbers:
+                    numbering = index.ToString();
+                    break;
+                case ExhibitIndexStyle.Letters:
+                    numbering = ToAlphabet(index);
+                    break;
+                case ExhibitIndexStyle.Roman:
+                    numbering = ToRoman(index);
+                    break;
+                default:
+                    throw new Exception("Correct text not sent to method");
+            }
+            return numbering;
+        }
 
     }
 }

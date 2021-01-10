@@ -250,6 +250,7 @@
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Focusable" Value="False"/>
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>

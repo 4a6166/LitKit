@@ -72,7 +72,7 @@ namespace Tools.Citation
             {
                 return _LongDescription;
             }
-            private set
+            set
             {
                 _LongDescription = value;
                 PropertyChanged(this, new PropertyChangedEventArgs("LongDescription"));
@@ -88,7 +88,7 @@ namespace Tools.Citation
             {
                 return _ShortDescription;
             }
-            private set
+            set
             {
                 _ShortDescription = value;
                 PropertyChanged(this, new PropertyChangedEventArgs("ShortDescription"));

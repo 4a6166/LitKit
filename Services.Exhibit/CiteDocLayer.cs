@@ -208,11 +208,6 @@ namespace Tools.Citation
             return CCs.Where(n => n.Tag.StartsWith("CITE:")).FirstOrDefault();
         }
 
-        public void AddExhibitIndex()
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
         #region Change doc
 
@@ -239,7 +234,7 @@ namespace Tools.Citation
             Range LeadingForId = CC.Range;
 
             CC.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
-            repository.CiteFormatting.FormatFont(CC);
+            CiteFormatting.FormatFont(CC);
 
             return CC;
         }
@@ -323,6 +318,55 @@ namespace Tools.Citation
 
 
 
+
+        #endregion
+
+        #region Exhibit Index
+        public void InsertExhibitIndex()
+        {
+            try
+            {
+                List<ContentControl> exhibits = GetUniqueCitesFromDoc_Ordered(GetCitesFromDoc_Ordered(CiteType.Exhibit));
+                List<string> tags = new List<string> { "FillItem" };
+
+                _app.ActiveDocument.Tables.Add(_app.Selection.Range, 2, 2, WdDefaultTableBehavior.wdWord9TableBehavior, WdAutoFitBehavior.wdAutoFitFixed);
+                _app.Selection.Font.Bold = (int)WdConstants.wdToggle;
+                _app.Selection.TypeText("Exhibit No.");
+                _app.Selection.MoveRight(WdUnits.wdCell);
+                _app.Selection.Font.Bold = (int)WdConstants.wdToggle;
+                _app.Selection.TypeText("Exhibit Description");
+                _app.Selection.MoveRight(WdUnits.wdCell);
+
+                var exhibitCount = exhibits.Count();
+                var Description = string.Empty;
+                var Numbering = repository.CiteFormatting.ExhibitIndexStyle;
+                int Index = 0;
+
+                foreach (var exhibit in exhibits)
+                {
+                    var repoExhibit = repository.Citations.FirstOrDefault(n => n.ID == exhibit.Tag.Substring(8));
+
+                    Description = repoExhibit.LongDescription;
+
+                    exhibitCount--;
+
+                    tags.Add(exhibit.Tag);
+                    Index = tags.Count - 1;
+
+                    _app.Selection.TypeText(CiteFormatting.ApplyNumFormat(Index, Numbering));
+                    _app.Selection.MoveRight(WdUnits.wdCell);
+                    _app.Selection.TypeText(Description);
+
+                    if (exhibitCount > 0)
+                        _app.Selection.MoveRight(WdUnits.wdCell);
+
+                }
+
+            }
+            catch { System.Windows.Forms.MessageBox.Show("Please select an editable range."); }
+
+
+        }
 
         #endregion
     }

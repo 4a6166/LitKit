@@ -188,7 +188,14 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         public void InsertCite(Tools.Citation.Citation citation)
         {
-            System.Windows.Forms.MessageBox.Show("Selected Citation: " + citation.ID);
+            string text = citation.LongCiteExample.Replace(@"` `", "\u00a0");
+
+            var cc = _app.Selection.ContentControls.Add(Microsoft.Office.Interop.Word.WdContentControlType.wdContentControlRichText);
+            cc.Range.Text=text;
+            cc.Tag = citation.ID;
+
+            CiteFormatting.FormatFont(cc);
+
 
             //_docLayer.InsertCiteAtSelection(citation);
             //_docLayer.RefreshDocCites();
@@ -269,8 +276,9 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         internal void AddExhibitIndex()
         {
-            System.Windows.Forms.MessageBox.Show("Not Implemented Yet");
-            _docLayer.AddExhibitIndex();
+
+            _docLayer.InsertExhibitIndex();
+
         }
 
         internal void BatchAddCites()

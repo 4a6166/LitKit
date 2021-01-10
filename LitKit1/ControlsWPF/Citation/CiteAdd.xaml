@@ -20,7 +20,7 @@
             VerticalAlignment="Stretch"
             Background="Transparent">
             <Border
-                Background="LightGray" VerticalAlignment="Stretch">
+                Background="#f0f0f0"  VerticalAlignment="Stretch">
                 <Grid Margin="15">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Top"
                         MaxHeight="620" Height="auto">
@@ -42,8 +42,65 @@
                         <StackPanel x:Name="Format_LongDescription"
                                     Margin="0,10,0,0"
                                     Orientation="Vertical">
+                        <UniformGrid Columns="2">
                             <Label x:Name="Format_LongDescriptionLabel" Content="Exhibit Description"/>
-                            <Grid MinHeight="26">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Click="BoldbtnLong_Click"
+                                        BorderThickness="0">
+                                    <Button.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="Sets Selection Style to"/>
+                                            <Run Text="Bold" FontWeight="Bold"/>
+                                        </TextBlock>
+                                    </Button.ToolTip>
+                                    <TextBlock Text="B" FontWeight="Bold"/>
+                                </Button>
+                                <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Click="ItalicsbtnLong_Click"
+                                        BorderThickness="0">
+                                    <Button.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="Sets Selection Style to"/>
+                                            <Run Text="Italic" FontStyle="Italic"/>
+                                        </TextBlock>
+                                    </Button.ToolTip>
+                                    <TextBlock Text="I" FontWeight="SemiBold" FontStyle="Italic"/>
+                                </Button>
+                                <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Click="UnderlinebtnLong_Click"
+                                        BorderThickness="0">
+                                    <Button.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="Sets Selection Style to"/>
+                                            <Run Text="Underlined" TextDecorations="Underline"/>
+                                        </TextBlock>
+                                    </Button.ToolTip>
+                                    <TextBlock Text="U" FontWeight="SemiBold" TextDecorations="Underline"/>
+                                </Button>
+                                <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Click="NBSbtnLong_Click"
+                                        BorderThickness="0">
+                                    <Button.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="Adds a Non-Breaking Space at the selection"/>
+                                        </TextBlock>
+                                    </Button.ToolTip>
+                                    <TextBlock Text="NBS" FontWeight="SemiBold" FontStyle="Italic" FontSize="8"/>
+                                </Button>
+                                <Button x:Name="AddPinLong" Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Click="PinLong_Click" Visibility="Collapsed"
+                                        BorderThickness="0">
+                                    <Button.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="Adds a Pincite at the selection"/>
+                                        </TextBlock>
+                                    </Button.ToolTip>
+                                    <TextBlock Text="P" FontWeight="SemiBold" FontStyle="Oblique"/>
+                                </Button>
+                            </StackPanel>
+                        </UniformGrid>
+                        <Grid MinHeight="26">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="1*"/>
@@ -52,19 +109,78 @@
                                        Foreground="DarkSlateGray"
                                        Visibility="Visible"
                                     Content="Exhibit 1,"/>
-                                <TextBox x:Name="Format_LongDescriptionTextBox" 
+                            <TextBox x:Name="Format_LongDescriptionTextBox" 
                                          TextWrapping="WrapWithOverflow" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="100"
                                          Grid.Column="2"
                                          VerticalContentAlignment="Center"
                                          Foreground="DarkSlateGray" GotFocus="Format_LongDescriptionTextBox_GotFocus" LostFocus="Format_LongDescriptionTextBox_LostFocus"
-                                         />
-                            </Grid>
+                                         >
+                            </TextBox>
+
+                        </Grid>
                         </StackPanel>
                         <StackPanel x:Name="Format_ShortDescription"
                                     Margin="0,10,0,0"
                                     Orientation="Vertical" Visibility="Collapsed">
+                        <UniformGrid Columns="2">
                             <Label x:Name="Format_ShortDescriptionLabel" Content="Short Cite"/>
-                            <Grid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Click="BoldbtnShort_Click"
+                                        BorderThickness="0">
+                                    <Button.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="Sets Selection Style to"/>
+                                            <Run Text="Bold" FontWeight="Bold"/>
+                                        </TextBlock>
+                                    </Button.ToolTip>
+                                    <TextBlock Text="B" FontWeight="Bold"/>
+                                </Button>
+                                <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Click="ItalicsbtnShort_Click"
+                                        BorderThickness="0">
+                                    <Button.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="Sets Selection Style to"/>
+                                            <Run Text="Italic" FontStyle="Italic"/>
+                                        </TextBlock>
+                                    </Button.ToolTip>
+                                    <TextBlock Text="I" FontWeight="SemiBold" FontStyle="Italic"/>
+                                </Button>
+                                <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Click="UnderlinebtnShort_Click"
+                                        BorderThickness="0">
+                                    <Button.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="Sets Selection Style to"/>
+                                            <Run Text="Underlined" TextDecorations="Underline"/>
+                                        </TextBlock>
+                                    </Button.ToolTip>
+                                    <TextBlock Text="U" FontWeight="SemiBold" TextDecorations="Underline"/>
+                                </Button>
+                                <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Click="NBSbtnShort_Click"
+                                        BorderThickness="0">
+                                    <Button.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="Adds a Non-Breaking Space at the selection"/>
+                                        </TextBlock>
+                                    </Button.ToolTip>
+                                    <TextBlock Text="NBS" FontWeight="SemiBold" FontStyle="Italic" FontSize="8"/>
+                                </Button>
+                                <Button x:Name="AddPinShort" Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Click="PinShort_Click"
+                                        BorderThickness="0">
+                                    <Button.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="Adds a Pincite at the selection"/>
+                                        </TextBlock>
+                                    </Button.ToolTip>
+                                    <TextBlock Text="P" FontWeight="SemiBold" FontStyle="Oblique"/>
+                                </Button>
+                            </StackPanel>
+                        </UniformGrid>
+                        <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="1*"/>
@@ -177,9 +293,9 @@
                             </Grid>
                             <TextBlock TextAlignment="Center">
                                           <Run Text="Non-Breaking Spaces may be ented using the text placeholder "/>
-                                    <Run  FontStyle="Italic" TextDecorations="Baseline" Text="\u00A0"/>
+                                    <Run  FontStyle="Italic" TextDecorations="Baseline" Text="` `"/>
                             </TextBlock>
-                            <TextBlock TextAlignment="Center">
+                            <TextBlock x:Name="tbPIN" TextAlignment="Center" Visibility="Collapsed">
                                           <Run Text="Placeholders for Pincites may be marked by adding "/>
                                     <Run  FontStyle="Italic" TextDecorations="Baseline" Text="{}{{PIN}}"/>
                                 <Run Text=" to your citation text."/>

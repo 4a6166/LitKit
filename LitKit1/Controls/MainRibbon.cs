@@ -18,6 +18,7 @@ using Services.Base;
 using LitKit1.ControlsWPF;
 using LitKit1.ControlsWPF.Citation.ViewModels;
 using System.Collections.Generic;
+using Tools.Citation;
 
 namespace LitKit1
 {
@@ -362,21 +363,19 @@ namespace LitKit1
 
         private void IndexOfExhibits_Click(object sender, RibbonControlEventArgs e)
         {
-            //if (!checkLicenseIsValid())
-            //{ ShowLicenseNotValidMessage(); }
-            //else
-            //{
-            //    try
-            //    {
-            //        _app.UndoRecord.StartCustomRecord("Exhibit Index");
+            if (!checkLicenseIsValid())
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                _app.UndoRecord.StartCustomRecord("Insert Exhibit Index");
 
-            //        new ExhibitIndex(_app).InsertExhibitIndex();
-            //        Globals.ThisAddIn.ReturnFocus();
+                var doclayer = new CiteDocLayer(_app);
+                doclayer.InsertExhibitIndex();
+                Globals.ThisAddIn.ReturnFocus();
 
-            //        _app.UndoRecord.EndCustomRecord();
-            //    }
-            //    catch { MessageBox.Show("Please select an editable range."); }
-            //}
+                _app.UndoRecord.EndCustomRecord();
+
+            }
         }
 
         private void btnRemoveCiteLocks_Click(object sender, RibbonControlEventArgs e)
@@ -913,33 +912,49 @@ namespace LitKit1
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
-            var newCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
+            //var newCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
 
+            /* XML mapping
             var xmlPart = _app.ActiveDocument.CustomXMLParts.SelectByNamespace("Prelimine Litkit Citation Tool")[1];
 
             string xPathName = "/ns0:Citations[1]/Format[1]/IndexStyle[1]";
             newCC.XMLMapping.SetMapping(xPathName, Source: xmlPart);
+            */
+
+            RichTextBox richTextBox = new RichTextBox();
+            richTextBox.Text = "ABC DEF GHI";
+            richTextBox.Select(0, 3);
+            richTextBox.SelectionFont = new System.Drawing.Font(richTextBox.Font, System.Drawing.FontStyle.Underline);
+
+            richTextBox.Select(5, 3);
+            richTextBox.SelectionFont = new System.Drawing.Font(richTextBox.Font, System.Drawing.FontStyle.Bold);
+
+            richTextBox.Select(8, 3);
+            richTextBox.SelectionFont = new System.Drawing.Font(richTextBox.Font, System.Drawing.FontStyle.Italic);
 
 
-            //var mapping = _app.Selection.ContentControls[1].XMLMapping;
-            //var a = mapping.CustomXMLPart;
-            //var b = mapping.CustomXMLNode;
-            //var c = mapping.PrefixMappings;
-            //var d = mapping.XPath;
 
+            var rtf = richTextBox.Rtf;
+
+            //string xml = ConvertToXML(rtf);
+
+            //newCC.Range.InsertXML(xml);
+
+            _app.Selection.TypeText("JKL MNO PQR");
+            _app.ActiveDocument.Select();
+            var d = _app.Selection.XML;
+            var c = _app.Selection.WordOpenXML;
 
             //stopwatch.Stop();
             //MessageBox.Show("Time: " + stopwatch.Elapsed);
             _app.UndoRecord.EndCustomRecord();
 
-
-
-
         }
 
-
-
-
+        private string ConvertToXML(string rtf)
+        {
+            throw new NotImplementedException();
+        }
 
         private void FindCCOffset(Range range)
         {

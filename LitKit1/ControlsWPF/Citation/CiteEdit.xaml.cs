@@ -90,6 +90,8 @@ namespace LitKit1.ControlsWPF.Citation
                         Format_LongDescriptionLabel.Content = "Exhibit Description";
                         Format_ShortDescription.Visibility = Visibility.Collapsed;
                         Format_LongDescriptionExhibitLabel.Visibility = Visibility.Visible;
+                        tbPIN.Visibility = Visibility.Collapsed;
+                        AddPinLong.Visibility = Visibility.Collapsed;
 
                     }
                     break;
@@ -112,6 +114,8 @@ namespace LitKit1.ControlsWPF.Citation
                         Format_LongDescriptionLabel.Content = "Long Cite";
                         Format_ShortDescription.Visibility = Visibility.Visible;
                         Format_LongDescriptionExhibitLabel.Visibility = Visibility.Collapsed;
+                        tbPIN.Visibility = Visibility.Visible;
+                        AddPinLong.Visibility = Visibility.Visible;
 
                     }
                     break;
@@ -134,6 +138,8 @@ namespace LitKit1.ControlsWPF.Citation
                         Format_LongDescriptionLabel.Content = "Long Cite";
                         Format_ShortDescription.Visibility = Visibility.Visible;
                         Format_LongDescriptionExhibitLabel.Visibility = Visibility.Collapsed;
+                        tbPIN.Visibility = Visibility.Visible;
+                        AddPinLong.Visibility = Visibility.Visible;
 
                     }
                     break;
@@ -156,6 +162,8 @@ namespace LitKit1.ControlsWPF.Citation
                         Format_LongDescriptionLabel.Content = "Long Cite";
                         Format_ShortDescription.Visibility = Visibility.Visible;
                         Format_LongDescriptionExhibitLabel.Visibility = Visibility.Collapsed;
+                        tbPIN.Visibility = Visibility.Visible;
+                        AddPinLong.Visibility = Visibility.Visible;
 
                     }
                     break;
@@ -337,6 +345,141 @@ namespace LitKit1.ControlsWPF.Citation
 
         }
 
+        #region Formatting buttons
 
+        private void AddFormattingMarks(string LongOrShort, TextBox TB, string FormatMark)
+        {
+
+            if(LongOrShort == "Long")
+            {
+                if (TB.SelectionLength == 0)
+                {
+                    var first = TB.Text.Substring(0, TB.SelectionStart);
+                    var last = TB.Text.Substring(TB.SelectionStart + TB.SelectionLength);
+                    ViewModel.EditCiteVM.EditCiteCitation.LongDescription = first + FormatMark + " " + FormatMark + last;
+
+                }
+                else
+                {
+                    var first = TB.Text.Substring(0, TB.SelectionStart);
+                    var sel = TB.Text.Substring(TB.SelectionStart, TB.SelectionLength);
+                    var last = TB.Text.Substring(TB.SelectionStart + TB.SelectionLength);
+
+                    ViewModel.EditCiteVM.EditCiteCitation.LongDescription = first + FormatMark + sel + FormatMark + last;
+                }
+            }
+            else if (LongOrShort == "Short")
+            {
+                if (TB.SelectionLength == 0)
+                {
+                    var first = TB.Text.Substring(0, TB.SelectionStart);
+                    var last = TB.Text.Substring(TB.SelectionStart + TB.SelectionLength);
+                    ViewModel.EditCiteVM.EditCiteCitation.ShortDescription = first + FormatMark + " " + FormatMark + last;
+
+                }
+                else
+                {
+                    var first = TB.Text.Substring(0, TB.SelectionStart);
+                    var sel = TB.Text.Substring(TB.SelectionStart, TB.SelectionLength);
+                    var last = TB.Text.Substring(TB.SelectionStart + TB.SelectionLength);
+
+                    ViewModel.EditCiteVM.EditCiteCitation.ShortDescription = first + FormatMark + sel + FormatMark + last;
+                }
+            }
+
+
+
+
+
+        }
+
+        private void BoldbtnLong_Click(object sender, RoutedEventArgs e)
+        {
+            AddFormattingMarks("Long", Format_LongDescriptionTextBox, "**");
+
+        }
+
+        private void ItalicsbtnLong_Click(object sender, RoutedEventArgs e)
+        {
+            AddFormattingMarks("Long", Format_LongDescriptionTextBox, "//");
+
+        }
+
+        private void UnderlinebtnLong_Click(object sender, RoutedEventArgs e)
+        {
+            AddFormattingMarks("Long", Format_LongDescriptionTextBox, "__");
+        }
+
+        private void NBSbtnLong_Click(object sender, RoutedEventArgs e)
+        {
+            string FormatMark = @"` `"; /*"\\u00A0"*/
+            TextBox TB = Format_LongDescriptionTextBox;
+
+            var first = TB.Text.Substring(0, TB.SelectionStart);
+            var last = TB.Text.Substring(TB.SelectionStart + TB.SelectionLength);
+            ViewModel.EditCiteVM.EditCiteCitation.LongDescription = first + FormatMark + last;
+
+        }
+
+        private void PinLong_Click(object sender, RoutedEventArgs e)
+        {
+            string FormatMark = "{{PIN}}";
+            TextBox TB = Format_LongDescriptionTextBox;
+            if (TB.Text.Contains(FormatMark))
+            {
+                System.Windows.Forms.MessageBox.Show("A Pincite Placeholder has already been added.");
+            }
+            else
+            {
+                var first = TB.Text.Substring(0, TB.SelectionStart);
+                var last = TB.Text.Substring(TB.SelectionStart + TB.SelectionLength);
+                ViewModel.EditCiteVM.EditCiteCitation.LongDescription = first + FormatMark + last;
+            }
+        }
+
+        private void BoldbtnShort_Click(object sender, RoutedEventArgs e)
+        {
+            AddFormattingMarks("Short", Format_ShortDescriptionTextBox, "**");
+
+        }
+
+        private void ItalicsbtnShort_Click(object sender, RoutedEventArgs e)
+        {
+            AddFormattingMarks("Short", Format_ShortDescriptionTextBox, "//");
+
+        }
+
+        private void UnderlinebtnShort_Click(object sender, RoutedEventArgs e)
+        {
+            AddFormattingMarks("Short", Format_ShortDescriptionTextBox, "__");
+        }
+
+        private void NBSbtnShort_Click(object sender, RoutedEventArgs e)
+        {
+            string FormatMark = @"` `"; /*"\\u00A0"*/
+            TextBox TB = Format_ShortDescriptionTextBox;
+
+            var first = TB.Text.Substring(0, TB.SelectionStart);
+            var last = TB.Text.Substring(TB.SelectionStart + TB.SelectionLength);
+            ViewModel.EditCiteVM.EditCiteCitation.ShortDescription = first + FormatMark + last;
+
+        }
+
+        private void PinShort_Click(object sender, RoutedEventArgs e)
+        {
+            string FormatMark = "{{PIN}}";
+            TextBox TB = Format_ShortDescriptionTextBox;
+            if (TB.Text.Contains(FormatMark))
+            {
+                System.Windows.Forms.MessageBox.Show("A Pincite Placeholder has already been added.");
+            }
+            else
+            {
+                var first = TB.Text.Substring(0, TB.SelectionStart);
+                var last = TB.Text.Substring(TB.SelectionStart + TB.SelectionLength);
+                ViewModel.EditCiteVM.EditCiteCitation.ShortDescription = first + FormatMark + last;
+            }
+        }
+        #endregion
     }
 }
