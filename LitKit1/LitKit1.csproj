@@ -503,6 +503,8 @@
     <Resource Include="Resources\droparrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <None Include="Resources\AddPincite_32px_PrelimEdit.png" />
+    <None Include="Resources\AddPincite_16px_PrelimineEdit.png" />
     <Content Include="Resources\icons8-insert2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
