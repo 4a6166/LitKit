@@ -181,7 +181,8 @@ namespace Tools.Citation
                 }
             }
 
-            result = citation.LongCiteExample.Replace(@"` `", "\u00a0");
+            // removing non-breaking space capability because it is causing issues and thought it it won't be used
+            //result = citation.LongCiteExample.Replace("` `", "\u00a0");
             return result;
         }
 

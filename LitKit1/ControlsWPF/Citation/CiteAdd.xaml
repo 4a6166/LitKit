@@ -79,7 +79,7 @@
                                     <TextBlock Text="U" FontWeight="SemiBold" TextDecorations="Underline"/>
                                 </Button>
                                 <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                                        Click="NBSbtnLong_Click"
+                                        Click="NBSbtnLong_Click" Visibility="Collapsed"
                                         BorderThickness="0">
                                     <Button.ToolTip>
                                         <TextBlock>
@@ -159,7 +159,7 @@
                                     <TextBlock Text="U" FontWeight="SemiBold" TextDecorations="Underline"/>
                                 </Button>
                                 <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                                        Click="NBSbtnShort_Click"
+                                        Click="NBSbtnShort_Click" Visibility="Collapsed"
                                         BorderThickness="0">
                                     <Button.ToolTip>
                                         <TextBlock>
@@ -291,7 +291,7 @@
                                 <TextBlock Grid.Column="1" Grid.Row="2" TextAlignment="Center"
                                        Text="__Text__"/>
                             </Grid>
-                            <TextBlock TextAlignment="Center">
+                            <TextBlock TextAlignment="Center" Visibility="Collapsed">
                                           <Run Text="Non-Breaking Spaces may be ented using the text placeholder "/>
                                     <Run  FontStyle="Italic" TextDecorations="Baseline" Text="` `"/>
                             </TextBlock>

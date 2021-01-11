@@ -213,7 +213,7 @@ namespace Tools.Citation
             var tag = "CITE:" + citation.CiteType.ToString() + "|" + citation.ID + "|PIN:" + HasPincite.ToString();
             contentControl.Tag = tag;
             contentControl.Title = citation.CiteType.ToString() + ": " + citation.LongDescription;
-
+            contentControl.Color = WdColor.wdColorLightBlue;
             return tag;
         }
 
@@ -223,7 +223,6 @@ namespace Tools.Citation
 
             ContentControl CC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
             SetContentControlTagTitle(CC, citation, false);
-            CC.Color = WdColor.wdColorRed;
 
             CitePlacementType placementType = CitePlacementType.Long /*TODO: GetCitePlacementTypeFromDoc(CC)*/;
 
@@ -295,7 +294,7 @@ namespace Tools.Citation
             {
                 find.Execute();
                 var newPinCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-                newPinCC.Color = WdColor.wdColorDarkRed;
+                newPinCC.Color = WdColor.wdColorDarkBlue;
                 newPinCC.SetPlaceholderText(Text: "{ type Pincite text }");
                 SetPinciteCCTag(newPinCC);
                 newPinCC.Range.Text = "";
@@ -307,7 +306,7 @@ namespace Tools.Citation
                 find.Execute();
                 
                 var newPinCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-                newPinCC.Color = WdColor.wdColorDarkRed;
+                newPinCC.Color = WdColor.wdColorDarkBlue;
                 newPinCC.SetPlaceholderText(Text: "{ type Pincite text }");
                 SetPinciteCCTag(newPinCC);
                 newPinCC.Range.Paste();

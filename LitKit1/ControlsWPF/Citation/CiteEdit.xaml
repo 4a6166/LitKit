@@ -85,7 +85,7 @@
                                 </Button>
                                 <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                                         Click="NBSbtnLong_Click"
-                                        BorderThickness="0">
+                                        BorderThickness="0" Visibility="Collapsed">
                                     <Button.ToolTip>
                                         <TextBlock>
                                             <Run Text="Adds a Non-Breaking Space at the selection"/>
@@ -162,7 +162,7 @@
                                     <TextBlock Text="U" FontWeight="SemiBold" TextDecorations="Underline"/>
                                 </Button>
                                 <Button Width="20" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                                        Click="NBSbtnShort_Click"
+                                        Click="NBSbtnShort_Click" Visibility="Collapsed"
                                         BorderThickness="0">
                                     <Button.ToolTip>
                                         <TextBlock>
@@ -296,7 +296,7 @@
                                        Text="__Text__"/>
                              
                         </Grid>
-                        <TextBlock TextAlignment="Center" TextTrimming="WordEllipsis">
+                        <TextBlock TextAlignment="Center" TextTrimming="WordEllipsis" Visibility="Collapsed">
                                           <Run Text="Non-Breaking Spaces may be ented using the text placeholder "/>
                                     <Run  FontStyle="Italic" TextDecorations="Baseline" Text="` `"/>
                         </TextBlock>
