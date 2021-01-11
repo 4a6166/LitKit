@@ -295,6 +295,15 @@ namespace Tools.Citation
 
 
         #region Pincite
+        public string SetPinciteCCTag(ContentControl PinCC)
+        {
+            string tag = "PIN";
+            PinCC.Tag = tag;
+            PinCC.Title = "PIN";
+            PinCC.Color = WdColor.wdColorDarkBlue;
+
+            return tag;
+        }
 
         private void SetPincite(ContentControl citeCC, ContentControl pinCC = null )
         {
@@ -314,7 +323,6 @@ namespace Tools.Citation
             {
                 find.Execute();
                 var newPinCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-                newPinCC.Color = WdColor.wdColorDarkBlue;
                 newPinCC.SetPlaceholderText(Text: "{ type Pincite text }");
                 SetPinciteCCTag(newPinCC);
                 newPinCC.Range.Text = "";
@@ -326,7 +334,6 @@ namespace Tools.Citation
                 find.Execute();
                 
                 var newPinCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-                newPinCC.Color = WdColor.wdColorDarkBlue;
                 newPinCC.SetPlaceholderText(Text: "{ type Pincite text }");
                 SetPinciteCCTag(newPinCC);
                 newPinCC.Range.Paste();
@@ -388,13 +395,6 @@ namespace Tools.Citation
             }
         }
 
-        public string SetPinciteCCTag(ContentControl PinCC)
-        {
-            string tag = "PIN";
-            PinCC.Tag = tag;
-            PinCC.Title = "PIN";
-            return tag;
-        }
 
        public ContentControl GrabCiteContentControl(Selection selection)
         {

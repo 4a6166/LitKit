@@ -276,6 +276,8 @@ namespace LitKit1
             { ShowLicenseNotValidMessage(); }
             else
             {
+                Cursor.Current = Cursors.WaitCursor;
+
                 try
                 {
                     Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
@@ -306,6 +308,8 @@ namespace LitKit1
                     Log.Error("Error loading/showing Active Citation Pane");
                     ErrorHandling.ShowErrorMessage();
                 }
+
+                Cursor.Current = Cursors.Default;
             }
 
             stopwatch.Stop();
