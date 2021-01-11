@@ -42,6 +42,7 @@
     <Long>This is an example of a long description</Long>
     <Short>e.g. short desc</Short>
     <OtherID>978742a49976200ae5b1c1c2</OtherID>
+    <Hyperlink>www.YourSiteHere.com</Hyperlink>
   </Citation>
   
   <Citation xmlns="">
@@ -51,6 +52,7 @@
     <Long>This is another example of a long description</Long>
     <Short>e.g. 2nd short desc</Short>
     <OtherID>snaggkjbdgksdafklajshdfg</OtherID>
+    <Hyperlink>www.YourSiteHere.com</Hyperlink>
   </Citation>
 
 </Citations>

@@ -387,31 +387,33 @@ namespace LitKit1
 
         private void btnRemoveCiteLocks_Click(object sender, RibbonControlEventArgs e)
         {
-            //_app.UndoRecord.StartCustomRecord();
+            _app.UndoRecord.StartCustomRecord();
 
-            //try
-            //{
-            //    var helper = new ExhibitHelper(_app);
-            //    if (_app.Selection.Range.Characters.Count > 2)
-            //    {
-            //        _app.UndoRecord.StartCustomRecord("Remove Exhibits");
-            //        helper.RemoveSelectedCitesFromDoc(_app.Selection);
-            //        _app.UndoRecord.EndCustomRecord();
-            //    }
-            //    else
-            //    {
-            //        DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all citations in the document? The text will remain but will no longer update when adjustments to the Exhibit or References Lists are made.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
-            //        if (result == DialogResult.Yes)
-            //        {
-            //            _app.UndoRecord.StartCustomRecord("Remove Exhibits");
-            //            helper.RemoveAllCitesFromDoc();
-            //            _app.UndoRecord.EndCustomRecord();
-            //        }
-            //    }
-            //}
-            //catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #206-C"); }
+            try
+            {
+                var _docLayer = new CiteDocLayer(_app);
+                if (_app.Selection.Range.Characters.Count > 2)
+                {
+                    _app.UndoRecord.StartCustomRecord("Remove Citations");
+                    _docLayer.RemoveCitesFromDoc(_app.Selection);
+                    _app.UndoRecord.EndCustomRecord();
+                    Log.Info("Cites removed from selection.");
+                }
+                else
+                {
+                    DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all citations in the document? The text will remain but will no longer update when adjustments to the Citation Tool are made."+Environment.NewLine + Environment.NewLine+ "Note: If you want to remove references to citations from a certain selection, highlight that selection and click Remove Locks again.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                    if (result == DialogResult.Yes)
+                    {
+                        _app.UndoRecord.StartCustomRecord("Remove Citations");
+                        _docLayer.RemoveCitesFromDoc();
+                        _app.UndoRecord.EndCustomRecord();
+                        Log.Info("Cites removed from Document.");
+                    }
+                }
+            }
+            catch { Log.Error("Error removing citations"); }
 
-            //_app.UndoRecord.EndCustomRecord();
+            _app.UndoRecord.EndCustomRecord();
         }
 
 

@@ -293,6 +293,42 @@ namespace Tools.Citation
             //}
         }
 
+        public void RemoveCitesFromDoc(Selection Selection = null)
+        {
+            List<ContentControl> ccs = new List<ContentControl>();
+
+            if (Selection == null)
+            {
+                foreach (Range story in _app.ActiveDocument.StoryRanges)
+                {
+                    foreach (ContentControl cc in story.ContentControls)
+                    {
+                        ccs.Add(cc);
+                    }
+                }
+            } else
+            {
+                foreach (ContentControl cc in Selection.ContentControls)
+                {
+                    ccs.Add(cc);
+                }
+            }
+
+            foreach (ContentControl cc in ccs)
+            {
+                if (cc.Tag != null && cc.Tag.Contains("CITE:"))
+                {
+                    cc.LockContents = false;
+                    foreach (ContentControl pincite in cc.Range.ContentControls)
+                    {
+                        pincite.Delete(false);
+                    }
+                    cc.Delete(false);
+                }
+            }
+
+        }
+
 
         #region Pincite
         public string SetPinciteCCTag(ContentControl PinCC)
