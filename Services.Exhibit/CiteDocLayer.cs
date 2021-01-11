@@ -15,13 +15,10 @@ namespace Tools.Citation
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public Application _app { get; private set; }
-        public CitationRepository repository { get; private set; }
 
         public CiteDocLayer(Application application)
         {
             this._app = application;
-            this.repository = new CitationRepository(_app);
-
         }
 
         #region Get from doc
@@ -54,7 +51,7 @@ namespace Tools.Citation
         /// </summary>
         /// <param name="citeType"></param>
         /// <returns>CitePositionReference contains ContentControl and location reference. Citation = null.</returns>
-        public List<ContentControl> GetCitesFromDoc_Ordered(CiteType citeType)
+        public List<ContentControl> GetCitesFromDoc_Ordered(CiteType citeType, CitationRepository Repository)
         {
             var PosRefList = new List<CitePositionReference>();
 
@@ -67,11 +64,11 @@ namespace Tools.Citation
 
             foreach (ContentControl contentControl in _app.ActiveDocument.ContentControls)
             {
-                if (contentControl.Tag.StartsWith(StartsWithString))
+                if (contentControl.Tag != null && contentControl.Tag.StartsWith(StartsWithString))
                 {
                     int CCReference = contentControl.Range.Start;
                     string CiteID = contentControl.Tag.Split('|')[1];
-                    Citation cite = repository.Citations.Where(n => n.ID == CiteID).FirstOrDefault();
+                    Citation cite = Repository.Citations.Where(n => n.ID == CiteID).FirstOrDefault();
                     PosRefList.Add(new CitePositionReference(contentControl, CCReference, cite));
                 }
             }
@@ -84,7 +81,7 @@ namespace Tools.Citation
                     {
                         int CCReference = note.Reference.Start + contentControl.Range.Start;
                         string CiteID = contentControl.Tag.Split('|')[1];
-                        Citation cite = repository.Citations.Where(n => n.ID == CiteID).FirstOrDefault();
+                        Citation cite = Repository.Citations.Where(n => n.ID == CiteID).FirstOrDefault();
                         PosRefList.Add(new CitePositionReference(contentControl, CCReference, cite));
                     }
                 }
@@ -98,7 +95,7 @@ namespace Tools.Citation
                     {
                         int CCReference = note.Reference.Start + contentControl.Range.Start;
                         string CiteID = contentControl.Tag.Split('|')[1];
-                        Citation cite = repository.Citations.Where(n => n.ID == CiteID).FirstOrDefault();
+                        Citation cite = Repository.Citations.Where(n => n.ID == CiteID).FirstOrDefault();
                         PosRefList.Add(new CitePositionReference(contentControl, CCReference, cite));
                     }
                 }
@@ -138,10 +135,10 @@ namespace Tools.Citation
         /// </summary>
         /// <param name="citation"></param>
         /// <returns></returns>
-        public CitePlacementType GetCitePlacementTypeFromDoc(ContentControl contentControl)
+        public CitePlacementType GetCitePlacementTypeFromDoc(ContentControl contentControl, CitationRepository Repository)
         {
             var InputCiteID = GetCitationIDFromContentControl(contentControl);
-            var OrderedCiteContentControls = GetCitesFromDoc_Ordered(CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other);
+            var OrderedCiteContentControls = GetCitesFromDoc_Ordered(CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other, Repository);
             var contentControlIndex = OrderedCiteContentControls.IndexOf(contentControl);
 
             List<string> TagsTrimmed = new List<string>();
@@ -172,11 +169,11 @@ namespace Tools.Citation
         }
 
 
-        public int GetCitationIndexFromDoc(Citation citation)
+        public int GetCitationIndexFromDoc(Citation citation, CitationRepository Repository)
         {
             if (citation.CiteType == CiteType.Exhibit)
             {
-                var CitationsList = GetCitesFromDoc_Ordered(citation.CiteType);
+                var CitationsList = GetCitesFromDoc_Ordered(citation.CiteType, Repository);
                 var UniqueCitationsList = GetUniqueCitesFromDoc_Ordered(CitationsList);
 
                 var FirstCiteRef = UniqueCitationsList.Where(n => n.Tag.Split('|')[1] == citation.ID).FirstOrDefault();
@@ -211,75 +208,37 @@ namespace Tools.Citation
         #endregion
         #region Change doc
 
-        public void SetContentControlTag(ContentControl contentControl, Citation citation, bool HasPincite)
+        public string SetContentControlTagTitle(ContentControl contentControl, Citation citation, bool HasPincite)
         {
-            contentControl.Tag = "CITE:" + citation.CiteType.ToString() + "|" + citation.ID + "|" + HasPincite.ToString();
+            var tag = "CITE:" + citation.CiteType.ToString() + "|" + citation.ID + "|PIN:" + HasPincite.ToString();
+            contentControl.Tag = tag;
+            contentControl.Title = citation.CiteType.ToString() + ": " + citation.LongDescription;
+
+            return tag;
         }
 
-        public void SetPinciteCCTag(ContentControl PinCC)
+        public ContentControl InsertCiteAtSelection(Citation citation, CitationRepository Repository)
         {
-            PinCC.Tag = "PIN";
-        }
-        public ContentControl InsertCiteAtSelection(Citation citation)
-        {
-            int index = GetCitationIndexFromDoc(citation);
+            int index = GetCitationIndexFromDoc(citation, Repository);
 
             ContentControl CC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-            SetContentControlTag(CC, citation, false);
-            CC.Title = citation.CiteType.ToString() + ": " + citation.LongDescription;
+            SetContentControlTagTitle(CC, citation, false);
             CC.Color = WdColor.wdColorRed;
 
-            CitePlacementType placementType = CitePlacementType.Long /* GetCitePlacementTypeFromDoc(CC)*/;
+            CitePlacementType placementType = CitePlacementType.Long /*TODO: GetCitePlacementTypeFromDoc(CC)*/;
 
             Range LeadingForId = CC.Range;
 
-            CC.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
+            CC.Range.Text = Repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
             CiteFormatting.FormatFont(CC);
+
+            //Pincite omitted from the formatting as inital cites should not have it
+            SetPincite(CC, null);
 
             return CC;
         }
 
 
-        public ContentControl AddPincite(ContentControl CiteCC, Citation citation, string PinciteText)
-        {
-            throw new Exception("have to add in PINCITE Identifier in the cite formatting -> PINCITE as bool rather than string, replace {{PIN}}");
-
-            //CiteCC.LockContents = false;
-
-            //int index = GetCitationIndexFromDoc(citation);
-
-            //ContentControl CC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-            //SetContentControlTag(CC, citation, true);
-
-            //CitePlacementType placementType = GetCitePlacementTypeFromDoc(CC);
-
-            //Range LeadingForId = CC.Range;
-
-            //CiteCC.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index, true);
-
-            //var find = CiteCC.Range.Find;
-            //find.ClearFormatting();
-            //find.Text = @"{PINCITE}";
-            //find.Execute();
-
-            //ContentControl Pincite = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-            //SetPinciteCCTag(Pincite);
-            //Pincite.SetPlaceholderText(Text: "Click to edit your Pincite text!");
-
-            //CiteCC.LockContents = true;
-            //return Pincite;
-        }
-
-        public void RemovePincite(ContentControl CiteCC)
-        {
-            bool hasPinciteCC = bool.Parse(CiteCC.Tag.Split('|')[2]);
-            if (hasPinciteCC)
-            {
-                ContentControl Pincite = CiteCC.Range.ContentControls[1];
-                Pincite.Delete(true);
-                CiteCC.Tag = CiteCC.Tag.Substring(0, CiteCC.Tag.Split('|')[2].Length);
-            }
-        }
 
         public void UpdateCiteContentControls()
         {
@@ -316,17 +275,144 @@ namespace Tools.Citation
         }
 
 
+        #region Pincite
+
+        private void SetPincite(ContentControl citeCC, ContentControl pinCC = null )
+        {
+            citeCC.LockContents = false;
+            citeCC.Range.Select();
+            var find = _app.Selection.Find;
+            find.ClearFormatting();
+            find.Replacement.ClearFormatting();
+            find.Text = @"{{PIN}}";
+
+            if (citeCC.Tag.ToUpper().Contains("PIN:FALSE"))
+            {
+                find.Replacement.Text = "";
+                find.Execute(Replace: WdReplace.wdReplaceAll);
+            }
+            else if (pinCC == null)
+            {
+                find.Execute();
+                var newPinCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
+                newPinCC.Color = WdColor.wdColorDarkRed;
+                newPinCC.SetPlaceholderText(Text: "{ type Pincite text }");
+                SetPinciteCCTag(newPinCC);
+                newPinCC.Range.Text = "";
+                newPinCC.LockContents = false;
+            }
+            else
+            {
+                pinCC.Copy();
+                find.Execute();
+                
+                var newPinCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
+                newPinCC.Color = WdColor.wdColorDarkRed;
+                newPinCC.SetPlaceholderText(Text: "{ type Pincite text }");
+                SetPinciteCCTag(newPinCC);
+                newPinCC.Range.Paste();
+                newPinCC.LockContents = false;
+
+            }
+            citeCC.LockContents = true;
+        }
 
 
+        public void AddPincite(ContentControl CiteCC, CitationRepository Repository = null)
+        {
+            if (Repository == null)
+            {
+                Repository = new CitationRepository(_app);
+            }
+
+            var citeCCID = CiteCC.Tag.Split('|')[1];
+            var citation = Repository.Citations.FirstOrDefault(n => n.ID == citeCCID);
+
+            CiteCC.LockContents = false;
+            int index = GetCitationIndexFromDoc(citation, Repository);
+
+            SetContentControlTagTitle(CiteCC, citation, true);
+
+            CitePlacementType placementType = CitePlacementType.Long /* GetCitePlacementTypeFromDoc(CC)*/;
+
+            Range LeadingForId = CiteCC.Range;
+
+            CiteCC.Range.Text = Repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
+            CiteFormatting.FormatFont(CiteCC);
+            SetPincite(CiteCC);
+
+            CiteCC.LockContents = true;
+        }
+
+        public void RemovePincite(ContentControl CiteCC)
+        {
+            if (CiteCC != null)
+            {
+                bool hasPinciteCC = bool.Parse(CiteCC.Tag.Split('|')[2].Substring(4));
+                if (hasPinciteCC)
+                {
+                    CiteCC.LockContents = false;
+
+                    ContentControl Pincite = CiteCC.Range.ContentControls[1];
+                    Pincite.Delete(true);
+
+                    CiteCC.Tag = CiteCC.Tag.Replace("PIN:True", "PIN:False");
+                    CiteCC.LockContents = true;
+
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("No Pincite was found in the selection.");
+                }
+            }
+        }
+
+        public string SetPinciteCCTag(ContentControl PinCC)
+        {
+            string tag = "PIN";
+            PinCC.Tag = tag;
+            PinCC.Title = "PIN";
+            return tag;
+        }
+
+       public ContentControl GrabCiteContentControl(Selection selection)
+        {
+            ContentControl CiteCC = null;
+            if (selection.ContentControls.Count < 1)
+            {
+                CiteCC = selection.ParentContentControl;
+                if (CiteCC.Tag == "PIN")
+                {
+                    CiteCC = CiteCC.ParentContentControl;
+                }
+            }
+            else if (selection.ContentControls[1].Tag == "PIN")
+            {
+                CiteCC = selection.ParentContentControl;
+            }
+            else if(selection.ContentControls[1].Tag.StartsWith("CITE"))
+            {
+                CiteCC = selection.ContentControls[1];
+            }
+
+            return CiteCC;
+        }
+
+        #endregion
 
         #endregion
 
         #region Exhibit Index
-        public void InsertExhibitIndex()
+        public void InsertExhibitIndex(CitationRepository Repository = null)
         {
+            if(Repository == null)
+            {
+                Repository = new CitationRepository(_app);
+            }
+
             try
             {
-                List<ContentControl> exhibits = GetUniqueCitesFromDoc_Ordered(GetCitesFromDoc_Ordered(CiteType.Exhibit));
+                List<ContentControl> exhibits = GetUniqueCitesFromDoc_Ordered(GetCitesFromDoc_Ordered(CiteType.Exhibit,Repository));
                 List<string> tags = new List<string> { "FillItem" };
 
                 _app.ActiveDocument.Tables.Add(_app.Selection.Range, 2, 2, WdDefaultTableBehavior.wdWord9TableBehavior, WdAutoFitBehavior.wdAutoFitFixed);
@@ -339,12 +425,12 @@ namespace Tools.Citation
 
                 var exhibitCount = exhibits.Count();
                 var Description = string.Empty;
-                var Numbering = repository.CiteFormatting.ExhibitIndexStyle;
+                var Numbering = Repository.CiteFormatting.ExhibitIndexStyle;
                 int Index = 0;
 
                 foreach (var exhibit in exhibits)
                 {
-                    var repoExhibit = repository.Citations.FirstOrDefault(n => n.ID == exhibit.Tag.Substring(8));
+                    var repoExhibit = Repository.Citations.FirstOrDefault(n => n.ID == exhibit.Tag.Substring(8));
 
                     Description = repoExhibit.LongDescription;
 

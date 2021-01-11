@@ -21,7 +21,7 @@
             <Border Background="{Binding Type, Converter={StaticResource FormatTypeConverter}}"
                     CornerRadius="5" Opacity=".4"/>
             <Grid
-                MouseEnter="DragDropGrid_MouseEnter" >
+                MouseEnter="DragDropGrid_MouseEnter">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>

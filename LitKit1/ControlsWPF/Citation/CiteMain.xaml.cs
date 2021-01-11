@@ -291,6 +291,8 @@ namespace LitKit1.ControlsWPF.Citation
             UpdateFormatting_Click(sender, e);
             //ViewModel.Repository.UpdateCiteFormattingInDB(ViewModel.Repository.CiteFormatting);
 
+            CitationFormattingExpander.IsExpanded = true;
+
 
         }
 
@@ -305,19 +307,36 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void AddIntroBlock_Click(object sender, RoutedEventArgs e)
         {
+            string introText = ViewModel.Repository.CiteFormatting.ExhibitIntro;
+
             var count = ViewModel.FormatList_Long.Where(n => n.Type == CiteFormatPieceType.INTRO).ToList().Count;
             if (count == 0)
             {
-                ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO));
+                ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO, introText));
             }
             else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Intro Block.");
         }
         private void AddIndexBlock_Click(object sender, RoutedEventArgs e)
         {
+            string indexText = "";
+
+            switch (ViewModel.Repository.CiteFormatting.ExhibitIndexStyle)
+            {
+                case ExhibitIndexStyle.Numbers:
+                    indexText = "#";
+                    break;
+                case ExhibitIndexStyle.Letters:
+                    indexText = "A";
+                    break;
+                case ExhibitIndexStyle.Roman:
+                    indexText = "IV";
+                    break;
+            }
+
             var count = ViewModel.FormatList_Long.Where(n => n.Type == CiteFormatPieceType.INDEX).ToList().Count;
             if (count == 0)
             {
-                ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INDEX));
+                ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INDEX, indexText));
             }
             else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Index Block.");
         }
@@ -459,8 +478,10 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void UpdateFormatting_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.Repository.CiteFormatting.ExhibitIndexStart = (int)IndexStartNumUpDown.Value;
-            ViewModel.Repository.UpdateCiteFormattingInDB(ViewModel.Repository.CiteFormatting);
+            ViewModel.UpdateFormatting((int)IndexStartNumUpDown.Value);
+
+            CitationFormattingExpander.IsExpanded = false;
         }
+
     }
 }

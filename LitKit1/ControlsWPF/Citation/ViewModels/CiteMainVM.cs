@@ -145,9 +145,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             _docLayer = new CiteDocLayer(_app);
             Citations = _repository.Citations;
 
-            FormatList_Long = Repository.CiteFormatting.ExhibitLongFormat;
-            FormatList_Short = Repository.CiteFormatting.ExhibitShortFormat;
-
+            LoadFormatLists();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -159,6 +157,43 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         #region Data Transformation
 
+        private void LoadFormatLists()
+        {
+            FormatList_Long = Repository.CiteFormatting.ExhibitLongFormat;
+            FormatList_Short = Repository.CiteFormatting.ExhibitShortFormat;
+
+            var introLong = FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
+            if (introLong != null)
+            {
+                introLong._displayText = Repository.CiteFormatting.ExhibitIntro;
+            }
+            var introShort = FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
+            if (introShort != null)
+            {
+                introShort._displayText = Repository.CiteFormatting.ExhibitIntro;
+            }
+
+            var indexLong = FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INDEX);
+            var indexShort = FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INDEX);
+
+            switch (Repository.CiteFormatting.ExhibitIndexStyle)
+            {
+                case ExhibitIndexStyle.Numbers:
+                    if (indexLong != null) { indexLong._displayText = "#"; }
+                    if (indexShort != null) { indexShort._displayText = "#"; }
+                    break;
+                case ExhibitIndexStyle.Letters:
+                    if (indexLong != null) { indexLong._displayText = "A"; }
+                    if (indexShort != null) { indexShort._displayText = "A"; }
+                    break;
+                case ExhibitIndexStyle.Roman:
+                    if (indexLong != null) { indexLong._displayText = "IV"; }
+                    if (indexShort != null) { indexShort._displayText = "IV"; }
+                    break;
+
+            }
+
+        }
         //public void LoadCitationsFromRepo()
         //{
         //    ObservableCollection<Tools.Citation.Citation> observableCites = new ObservableCollection<Tools.Citation.Citation>();
@@ -188,17 +223,21 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         public void InsertCite(Tools.Citation.Citation citation)
         {
-            string text = citation.LongCiteExample.Replace(@"` `", "\u00a0");
+            _app.UndoRecord.StartCustomRecord("Insert Citation");
 
-            var cc = _app.Selection.ContentControls.Add(Microsoft.Office.Interop.Word.WdContentControlType.wdContentControlRichText);
-            cc.Range.Text=text;
-            cc.Tag = citation.ID;
+            //string text = citation.LongCiteExample.Replace(@"` `", "\u00a0");
 
-            CiteFormatting.FormatFont(cc);
+            //var cc = _app.Selection.ContentControls.Add(Microsoft.Office.Interop.Word.WdContentControlType.wdContentControlRichText);
+            //cc.Range.Text=text;
+            //cc.Tag = citation.ID;
+
+            //CiteFormatting.FormatFont(cc);
 
 
-            //_docLayer.InsertCiteAtSelection(citation);
+            _docLayer.InsertCiteAtSelection(citation, Repository);
             //_docLayer.RefreshDocCites();
+
+            _app.UndoRecord.EndCustomRecord();
         }
 
         public void OpenEditCite(Tools.Citation.Citation citation)
@@ -276,9 +315,9 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         internal void AddExhibitIndex()
         {
-
+            _app.UndoRecord.StartCustomRecord("Insert Exhibit Index");
             _docLayer.InsertExhibitIndex();
-
+            _app.UndoRecord.EndCustomRecord();
         }
 
         internal void BatchAddCites()
@@ -462,6 +501,45 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
                 Repository.ExportCites(Path);
 
             }
+        }
+
+        internal void UpdateFormatting(int indexStart)
+        {
+            var intro = FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
+
+            if (intro == null)
+            { intro = FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO); }
+
+            if (intro != null)
+            { Repository.CiteFormatting.ExhibitIntro = intro.DisplayText; }
+
+
+            var index = FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INDEX);
+
+            if (index == null)
+            { index = FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INDEX); }
+
+            if (index != null)
+            {
+                switch (index.DisplayText)
+                {
+                    case "#":
+                        Repository.CiteFormatting.ExhibitIndexStyle = ExhibitIndexStyle.Numbers;
+                        break;
+                    case "A":
+                        Repository.CiteFormatting.ExhibitIndexStyle = ExhibitIndexStyle.Letters;
+                        break;
+                    case "IV":
+                        Repository.CiteFormatting.ExhibitIndexStyle = ExhibitIndexStyle.Roman;
+                        break;
+                }
+            }
+
+            Repository.CiteFormatting.ExhibitIndexStart = indexStart;
+            //Repository.CiteFormatting.ExhibitLongFormat = FormatList_Long;
+            //Repository.CiteFormatting.ExhibitShortFormat = FormatList_Short;
+            Repository.UpdateCiteFormattingInDB(Repository.CiteFormatting);
+
         }
     }
 }

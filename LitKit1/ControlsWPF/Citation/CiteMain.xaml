@@ -93,6 +93,7 @@
                                     <Separator/>
                                     <MenuItem Header="Add Exhibit Index to Document"
                                               Click="AddExhibitIndex_Click"/>
+                                    <Separator/>
                                     <MenuItem Header="Batch Add Citations"
                                               Click="BatchAddCites_Click"/>
                                     <MenuItem Header="Export Citations"

@@ -326,39 +326,42 @@ namespace LitKit1
 
         private void btnPinCite_Click(object sender, RibbonControlEventArgs e)
         {
-            //if (!checkLicenseIsValid())
-            //{ ShowLicenseNotValidMessage(); }
-            //else
-            //{
-            //    try
-            //    {
-            //        _app.UndoRecord.StartCustomRecord("Add Pincite");
+            if (!checkLicenseIsValid())
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                try
+                {
+                    _app.UndoRecord.StartCustomRecord("Add Pincite");
 
-            //        new Pincite(_app).AddPincite(_app.Selection);
-            //        Globals.ThisAddIn.ReturnFocus();
+                    var _docLayer = new CiteDocLayer(_app);
+                    _docLayer.AddPincite(_docLayer.GrabCiteContentControl(_app.Selection));
 
-            //        _app.UndoRecord.EndCustomRecord();
-            //    }
-            //    catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #204"); }
-            //}
+                    Globals.ThisAddIn.ReturnFocus();
+
+                    _app.UndoRecord.EndCustomRecord();
+                }
+                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #204"); }
+            }
         }
 
         private void btnRemovePinCite_Click(object sender, RibbonControlEventArgs e)
         {
-            //if (!checkLicenseIsValid())
-            //{ ShowLicenseNotValidMessage(); }
-            //else
-            //{
-            //    try
-            //    {
-            //        _app.UndoRecord.StartCustomRecord("Remove Pincite");
+            if (!checkLicenseIsValid())
+            { ShowLicenseNotValidMessage(); }
+            else
+            {
+                try
+                {
+                    _app.UndoRecord.StartCustomRecord("Remove Pincite");
 
-            //        new Pincite(_app).RemovePinCite(_app.Selection);
+                    var _docLayer = new CiteDocLayer(_app);
+                    _docLayer.RemovePincite(_docLayer.GrabCiteContentControl(_app.Selection));
 
-            //        _app.UndoRecord.EndCustomRecord();
-            //    }
-            //    catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #205"); }
-            //}
+                    _app.UndoRecord.EndCustomRecord();
+                }
+                catch { Log.Error("Could not remove Pincite. CC count:"+_app.Selection.ContentControls.Count + " Parent Tag:" + _app.Selection.ParentContentControl?.Tag); }
+            }
         }
 
         private void IndexOfExhibits_Click(object sender, RibbonControlEventArgs e)

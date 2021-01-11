@@ -12,7 +12,7 @@ namespace Tools.Citation
         public Guid ID { get; private set; }
         public CiteFormatPieceType Type { get; private set; }
 
-        private string _displayText;
+        public string _displayText;
 
         public string DisplayText 
         {

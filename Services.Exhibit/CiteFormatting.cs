@@ -123,7 +123,7 @@ namespace Tools.Citation
             return result;
         }
 
-        public string FormatCiteText(Citation citation, CitePlacementType placementType, Range LeadingForId, int Index = 0, string Pincite = "")
+        public string FormatCiteText(Citation citation, CitePlacementType placementType, Range LeadingForId, int Index = 0)
         {
             string result = "";
             ObservableCollection<CiteFormatPiece> formatPieces = new ObservableCollection<CiteFormatPiece>();
@@ -154,36 +154,38 @@ namespace Tools.Citation
                         break;
                 }
 
-                result = GetStringFromFormatPieces_Exhibit(formatPieces, citation, Index, Pincite); 
+                result = GetStringFromFormatPieces_Exhibit(formatPieces, citation, Index); 
             }
             else
             {
                 switch (placementType)
                 {
                     case CitePlacementType.Long:
-                        result = GetStringFromFormatPieces_Others(citation.LongDescription, Pincite); 
+                        result = GetStringFromFormatPieces_Others(citation.LongDescription); 
                         break;
                     case CitePlacementType.Short:
-                        result = GetStringFromFormatPieces_Others(citation.ShortDescription, Pincite);
+                        result = GetStringFromFormatPieces_Others(citation.ShortDescription);
                         break;
                     case CitePlacementType.Id:
                         if (hasIdCite)
                         {
-                            result = FormatIdCite(LeadingForId) + Pincite;
+                            result = FormatIdCite(LeadingForId) + "{{PIN}}";
                         }
                         else
                         {
-                            result = GetStringFromFormatPieces_Others(citation.ShortDescription, Pincite);
+                            result = GetStringFromFormatPieces_Others(citation.ShortDescription);
                         }
                         break;
                     default:
                         break;
                 }
             }
+
+            result = citation.LongCiteExample.Replace(@"` `", "\u00a0");
             return result;
         }
 
-        public string GetStringFromFormatPieces_Exhibit( ObservableCollection<CiteFormatPiece> formatPieces, Citation citation, int Index = 0, string PIN = "")
+        public string GetStringFromFormatPieces_Exhibit( ObservableCollection<CiteFormatPiece> formatPieces, Citation citation, int Index = 0)
         {
             string result = "";
             foreach (CiteFormatPiece piece in formatPieces)
@@ -192,10 +194,11 @@ namespace Tools.Citation
                 {
                     case CiteFormatPieceType.INTRO:
 
-                        result += ExhibitIntro +" ";
+                        result += " "+ExhibitIntro;
                         break;
 
                     case CiteFormatPieceType.INDEX:
+                        result += "\u00a0";
                         int num = ExhibitIndexStart + Index;
                         if (ExhibitIndexStyle == ExhibitIndexStyle.Numbers)
                             result += num;
@@ -203,27 +206,25 @@ namespace Tools.Citation
                             result += ToAlphabet(num);
                         else if (ExhibitIndexStyle == ExhibitIndexStyle.Roman)
                             result += ToRoman(num);
-
-                        result += " ";
                         break;
 
                     case CiteFormatPieceType.DESC:
-                        result += citation.LongDescription + " ";
+                        result += " "+ citation.LongDescription;
                         break;
                     case CiteFormatPieceType.PIN:
-                        result += PIN + " ";
+                        result += "{{PIN}}";
                         break;
                     case CiteFormatPieceType.FREETEXT:
                         result += piece.DisplayText + " ";
                         break;
                     case CiteFormatPieceType.COMMA:
-                        result += ", ";
+                        result += ",";
                         break;
                     case CiteFormatPieceType.LPARENS:
-                        result += "(";
+                        result += " (";
                         break;
                     case CiteFormatPieceType.RPARENS:
-                        result += ") ";
+                        result += ")";
                         break;
                     case CiteFormatPieceType.OTHERID:
                         result +=citation.OtherIdentifier;
@@ -231,8 +232,11 @@ namespace Tools.Citation
                 }
             }
 
+            result = result.Replace("( ", "(");
+            result = result.Replace("  ", " ");
             return result.Trim(' ');
         }
+
         public string GetStringFromFormatPieces_Others(string description, string PIN = "")
         {
             string result = "";

@@ -32,6 +32,7 @@ namespace LitKit1.ControlsWPF.Citation
         }
 
 
+
         private void setContextMenu()
         {
             if (!ContextMenuAdded)
@@ -42,22 +43,22 @@ namespace LitKit1.ControlsWPF.Citation
                 {
                     case CiteFormatPieceType.INTRO:
                         var a = new MenuItem() { Header = "Exhibit" };
-                        a.Click += delegate { cm_Exhibit(); };
+                        a.Click += delegate { cm_ActionsIntro(a.Header); };
 
                         var b = new MenuItem() { Header = "Ex." };
-                        b.Click += delegate { cm_Ex(); };
+                        b.Click += delegate { cm_ActionsIntro(b.Header); };
 
                         var c = new MenuItem() { Header = "Exh." };
-                        c.Click += delegate { cm_Exh(); };
+                        c.Click += delegate { cm_ActionsIntro(c.Header); };
 
                         var d = new MenuItem() { Header = "Appendix" };
-                        d.Click += delegate { cm_Appendix(); };
+                        d.Click += delegate { cm_ActionsIntro(d.Header); };
 
                         var e = new MenuItem() { Header = "Appx." };
-                        e.Click += delegate { cm_Appx(); };
+                        e.Click += delegate { cm_ActionsIntro(e.Header); };
 
                         var f = new MenuItem() { Header = "Tab" };
-                        f.Click += delegate { cm_Tab(); };
+                        f.Click += delegate { cm_ActionsIntro(f.Header); };
 
                         BlockContextMenu.Items.Add(a);
                         BlockContextMenu.Items.Add(b);
@@ -69,13 +70,13 @@ namespace LitKit1.ControlsWPF.Citation
                         break;
                     case CiteFormatPieceType.INDEX:
                         var g = new MenuItem() { Header = "Numeric" };
-                        g.Click += delegate { cm_Numeric(); };
+                        g.Click += delegate { cm_ActionsIndex(g.Header); };
 
                         var h = new MenuItem() { Header = "Alphabetic" };
-                        h.Click += delegate { cm_Alphabetic(); };
+                        h.Click += delegate { cm_ActionsIndex(h.Header); };
 
                         var i = new MenuItem() { Header = "Roman" };
-                        i.Click += delegate { cm_Roman(); };
+                        i.Click += delegate { cm_ActionsIndex(i.Header); };
 
                         BlockContextMenu.Items.Add(g);
                         BlockContextMenu.Items.Add(h);
@@ -127,61 +128,46 @@ namespace LitKit1.ControlsWPF.Citation
 
         #region Context Menu Actions
 
-        private void cm_Exhibit()
+        private void cm_ActionsIntro(object labelValue)
         {
-            var formatPiece = (CiteFormatPiece)this.DataContext;
-            formatPiece.DisplayText = "Exhibit";
+            var piece1 = ViewModel.FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
+            if (piece1 != null)
+            { piece1.DisplayText = labelValue.ToString(); }
 
-            //TODO: update the repository intro type **********************************************************************************************
+            var piece2 = ViewModel.FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
+            if (piece2 != null)
+            { piece2.DisplayText = labelValue.ToString(); }
+
+            //ViewModel.Repository.CiteFormatting.ExhibitIntro = labelValue.ToString();
         }
 
-        private void cm_Ex()
+        private void cm_ActionsIndex(object labelValue)
         {
-            var formatPiece = (CiteFormatPiece)this.DataContext;
-            formatPiece.DisplayText = "Ex.";
+            string insert = "";
+            switch (labelValue.ToString())
+            {
+                case "Numeric":
+                insert = "#";
+                    break;
+                case "Alphabetic":
+                    insert = "A";
+                    break;
+                case "Roman":
+                    insert = "IV";
+                    break;
+            }
+            var piece1 = ViewModel.FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INDEX);
+            if (piece1 != null)
+            { piece1.DisplayText = insert; }
+
+            var piece2 = ViewModel.FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INDEX);
+            if (piece2 != null)
+            { piece2.DisplayText = insert; }
+
+            //ViewModel.Repository.CiteFormatting.ExhibitIntro = labelValue.ToString();
         }
 
 
-        private void cm_Exh()
-        {
-            var formatPiece = (CiteFormatPiece)this.DataContext;
-            formatPiece.DisplayText = "Exh.";
-        }
-
-
-        private void cm_Appendix()
-        {
-            var formatPiece = (CiteFormatPiece)this.DataContext;
-            formatPiece.DisplayText = "Appendix";
-        }
-        private void cm_Appx()
-        {
-            var formatPiece = (CiteFormatPiece)this.DataContext;
-            formatPiece.DisplayText = "Appx.";
-        }
-        private void cm_Tab()
-        {
-            var formatPiece = (CiteFormatPiece)this.DataContext;
-            formatPiece.DisplayText = "Tab";
-        }
-
-        private void cm_Numeric()
-        {
-            var formatPiece = (CiteFormatPiece)this.DataContext;
-            formatPiece.DisplayText = "#";
-        }
-
-        private void cm_Alphabetic()
-        {
-            var formatPiece = (CiteFormatPiece)this.DataContext;
-            formatPiece.DisplayText = "A";
-        }
-
-        private void cm_Roman()
-        {
-            var formatPiece = (CiteFormatPiece)this.DataContext;
-            formatPiece.DisplayText = "IV";
-        }
 
         private void cm_Remove()
         {
@@ -213,5 +199,6 @@ namespace LitKit1.ControlsWPF.Citation
         }
 
         #endregion
+
     }
 }
