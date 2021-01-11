@@ -915,38 +915,9 @@ namespace LitKit1
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
-            //var newCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-
-            /* XML mapping
-            var xmlPart = _app.ActiveDocument.CustomXMLParts.SelectByNamespace("Prelimine Litkit Citation Tool")[1];
-
-            string xPathName = "/ns0:Citations[1]/Format[1]/IndexStyle[1]";
-            newCC.XMLMapping.SetMapping(xPathName, Source: xmlPart);
-            */
-
-            RichTextBox richTextBox = new RichTextBox();
-            richTextBox.Text = "ABC DEF GHI";
-            richTextBox.Select(0, 3);
-            richTextBox.SelectionFont = new System.Drawing.Font(richTextBox.Font, System.Drawing.FontStyle.Underline);
-
-            richTextBox.Select(5, 3);
-            richTextBox.SelectionFont = new System.Drawing.Font(richTextBox.Font, System.Drawing.FontStyle.Bold);
-
-            richTextBox.Select(8, 3);
-            richTextBox.SelectionFont = new System.Drawing.Font(richTextBox.Font, System.Drawing.FontStyle.Italic);
-
-
-
-            var rtf = richTextBox.Rtf;
-
-            //string xml = ConvertToXML(rtf);
-
-            //newCC.Range.InsertXML(xml);
-
-            _app.Selection.TypeText("JKL MNO PQR");
-            _app.ActiveDocument.Select();
-            var d = _app.Selection.XML;
-            var c = _app.Selection.WordOpenXML;
+            var cc = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
+            cc.Range.Text = "hyperlink";
+            cc.Range.Hyperlinks.Add(Anchor: cc.Range, Address: "www.google.com");
 
             //stopwatch.Stop();
             //MessageBox.Show("Time: " + stopwatch.Elapsed);

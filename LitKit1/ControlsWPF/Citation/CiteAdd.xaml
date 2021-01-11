@@ -205,6 +205,9 @@
                             </TextBlock>
 
                         </StackPanel>
+
+                    <Expander Header="Optional Information" Margin="0,10,0,0" ExpandDirection="Down">
+                        <StackPanel>
                         <StackPanel x:Name="Format_OtherIdentifier"
                                     Margin="0,10,0,0"
                                     Orientation="Vertical">
@@ -223,8 +226,27 @@
                                 FontWeight="Normal"
                                 Text="This information is optional and will not appear when the citation is inserted in the document unless the formatting is adjusted to include it."/>
                         </StackPanel>
-
-                        <Grid x:Name="ButtonGrid" Margin="0,15">
+                    <StackPanel x:Name="Format_Hyperlink"
+                        Margin="0,10,0,0"
+                        Orientation="Vertical">
+                        <Label Content="Hyperlink"/>
+                        <TextBox x:Name="Format_HyperlinkTextBox" 
+                                         Grid.Column="2"
+                                         VerticalContentAlignment="Center"
+                                     MinHeight="26"
+                                     TextWrapping="WrapWithOverflow" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="100"
+                                     Foreground="DarkSlateGray"
+                                         />
+                        <TextBlock 
+                                Foreground="DarkSlateGray"
+                                TextWrapping="Wrap"
+                                TextAlignment="Center"
+                                FontWeight="Normal"
+                                Text="This information is optional and, if entered, will create a hyperlink where this citation is inserted in the document."/>
+                    </StackPanel>
+                        </StackPanel>
+                    </Expander>
+                    <Grid x:Name="ButtonGrid" Margin="0,15">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
@@ -251,7 +273,7 @@
 
                     </StackPanel>
 
-                    <Expander x:Name="AdvFormatting" Header ="Advanced Formatting" 
+                    <Expander x:Name="AdvFormatting" Header ="Advanced Formatting" ExpandDirection="down"
                                   VerticalAlignment="Bottom" Margin="0,20"
                                   IsExpanded="True">
                         <StackPanel>

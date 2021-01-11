@@ -18,6 +18,7 @@ namespace Tools.Citation
         string _OtherIdentifier;
         int _InsertedCount;
         string _LongCiteExample;
+        string _hyperlink;
 
         #endregion
         public string ID 
@@ -142,9 +143,23 @@ namespace Tools.Citation
             }
         }
 
+        public string Hyperlink
+        {
+            get
+            {
+                return _hyperlink;
+            }
+            set
+            {
+                _hyperlink = value;
+                OnPropertyChanged("Hyperlink");
+            }
+        }
+
+
         #endregion
 
-        public Citation(string ID, CiteType CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName="")
+        public Citation(string ID, CiteType CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName="", string Hyperlink = "")
         {
             this.ID = ID;
             this.ReferenceName = ReferenceName;
@@ -152,13 +167,14 @@ namespace Tools.Citation
             this.ShortDescription = ShortDescription;
             this.OtherIdentifier = OtherIdentifier;
             this.CiteType = CiteType;
+            this.Hyperlink = Hyperlink;
 
             InsertedCount = 1;
             SetExampleCite();
 
         }
 
-        public Citation (CiteType CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName = "")
+        public Citation (CiteType CiteType, string LongDescription, string ShortDescription="", string OtherIdentifier="", string ReferenceName = "", string Hyperlink = "")
         {
             this.ID = Guid.NewGuid().ToString();
             this.ReferenceName = ReferenceName;
@@ -166,6 +182,7 @@ namespace Tools.Citation
             this.ShortDescription = ShortDescription;
             this.OtherIdentifier = OtherIdentifier;
             this.CiteType = CiteType;
+            this.Hyperlink = Hyperlink;
 
             InsertedCount = 1;
             SetExampleCite();

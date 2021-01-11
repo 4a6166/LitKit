@@ -221,9 +221,11 @@ namespace LitKit1.ControlsWPF.Citation
                 otherText = "";
             }
 
+            string hyperlink = Format_HyperlinkTextBox.Text;
+
             if (goodCite)
             {
-                var cite = new Tools.Citation.Citation(citeType, longText, shortText, otherText);
+                var cite = new Tools.Citation.Citation(citeType, longText, shortText, otherText, "", hyperlink);
 
                 ViewModel.AddNewCite(cite);
 
@@ -245,6 +247,8 @@ namespace LitKit1.ControlsWPF.Citation
 
             Format_OtherIdentifierTextBox.Text = OtherIDPlaceholderText;
             Format_OtherIdentifierTextBox.Foreground = Brushes.DarkSlateGray;
+
+            Format_HyperlinkTextBox.Text = "";
             this.Visibility = Visibility.Collapsed;
         }
 

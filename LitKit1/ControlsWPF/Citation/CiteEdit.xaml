@@ -8,7 +8,7 @@
              xmlns:citeTools="clr-namespace:Tools.Citation;assembly=Services.Exhibit"
              xmlns:Converters="clr-namespace:LitKit1.ControlsWPF.Citation.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="650" d:DesignWidth="450"
+             d:DesignHeight="950" d:DesignWidth="450"
              >
     <UserControl.Resources>
         <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
@@ -209,24 +209,47 @@
                         </TextBlock>
 
                     </StackPanel>
-                    <StackPanel x:Name="Format_OtherIdentifier"
+                    <Expander Header="Optional Information" Margin="0,10,0,0" ExpandDirection="Down">
+                        <StackPanel>
+                            <StackPanel x:Name="Format_OtherIdentifier"
                                     Margin="0,10,0,0"
                                     Orientation="Vertical">
-                        <Label Content="Other Identifier"/>
-                        <TextBox x:Name="Format_OtherIdentifierTextBox" 
+                                <Label Content="Other Identifier"/>
+                                <TextBox x:Name="Format_OtherIdentifierTextBox" 
                                          Grid.Column="2"
                                          VerticalContentAlignment="Center"
                                      MinHeight="26"
                                      TextWrapping="WrapWithOverflow" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="100"
                                      Foreground="DarkSlateGray" GotFocus="Format_OtherIdentifierTextBox_GotFocus" LostFocus="Format_OtherIdentifierTextBox_LostFocus"
                                          Text="{Binding OtherIdentifier}"/>
-                        <TextBlock 
+                                <TextBlock 
                                 Foreground="DarkSlateGray"
                                 TextWrapping="Wrap"
                                 TextAlignment="Center"
                                 FontWeight="Normal"
                                 Text="This information is optional and will not appear when the citation is inserted in the document unless the formatting is adjusted to include it."/>
-                    </StackPanel>
+                            </StackPanel>
+                            <StackPanel x:Name="Format_Hyperlink"
+                        Margin="0,10,0,0"
+                        Orientation="Vertical">
+                                <Label Content="Hyperlink"/>
+                                <TextBox x:Name="Format_HyperlinkTextBox" Text="{Binding Hyperlink}"
+                                         Grid.Column="2"
+                                         VerticalContentAlignment="Center"
+                                     MinHeight="26"
+                                     TextWrapping="WrapWithOverflow" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="100"
+                                     Foreground="DarkSlateGray"
+                                         />
+                                <TextBlock 
+                                Foreground="DarkSlateGray"
+                                TextWrapping="Wrap"
+                                TextAlignment="Center"
+                                FontWeight="Normal"
+                                Text="This information is optional and, if entered, will create a hyperlink where this citation is inserted in the document."/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Expander>
+
 
                     <Grid x:Name="ButtonGrid" Margin="0,15">
                         <Grid.ColumnDefinitions>

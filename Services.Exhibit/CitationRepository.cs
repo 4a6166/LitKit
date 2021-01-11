@@ -45,6 +45,7 @@ namespace Tools.Citation
         static string XML_Long = "Long";
         static string XML_Short = "Short";
         static string XML_OtherID = "OtherID";
+        static string XML_Hyperlink = "Hyperlink";
 
 
         public CitationRepository(Application _app)
@@ -226,6 +227,8 @@ namespace Tools.Citation
             customXmlDoc.AddNode(CiteNode, "Long", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, citation.LongDescription);
             customXmlDoc.AddNode(CiteNode, "Short", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, citation.ShortDescription);
             customXmlDoc.AddNode(CiteNode, "OtherID", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, citation.OtherIdentifier);
+            customXmlDoc.AddNode(CiteNode, "Hyperlink", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, citation.Hyperlink);
+
 
             log.Info(citation.ID + " added to DB");
         }
@@ -276,8 +279,9 @@ namespace Tools.Citation
                     string longDescription = cite.SelectSingleNode("Long").Text;
                     string shortDescription = cite.SelectSingleNode("Short").Text;
                     string otherID = cite.SelectSingleNode("OtherID").Text;
+                    string hyperlink = cite.SelectSingleNode("Hyperlink").Text;
 
-                    return new Citation(ID, citeType, longDescription, shortDescription, otherID, RefName);
+                    return new Citation(ID, citeType, longDescription, shortDescription, otherID, RefName, hyperlink);
                 }
             }
             return null;  // Should only fire if ID is not found
@@ -304,8 +308,9 @@ namespace Tools.Citation
                     string longDescription = cite.SelectSingleNode("Long").Text;
                     string shortDescription = cite.SelectSingleNode("Short").Text;
                     string otherID = cite.SelectSingleNode("OtherID").Text;
+                    string hyperlink = cite.SelectSingleNode("Hyperlink").Text;
 
-                    citations.Add(new Citation(ID, citeType, longDescription, shortDescription, otherID, RefName));
+                    citations.Add(new Citation(ID, citeType, longDescription, shortDescription, otherID, RefName, hyperlink));
                 }
             }
             else
@@ -323,8 +328,9 @@ namespace Tools.Citation
                         string longDescription = cite.SelectSingleNode("Long").Text;
                         string shortDescription = cite.SelectSingleNode("Short").Text;
                         string otherID = cite.SelectSingleNode("OtherID").Text;
+                        string hyperlink = cite.SelectSingleNode("Hyperlink").Text;
 
-                        citations.Add(new Citation(ID, citeType, longDescription, shortDescription, otherID, RefName));
+                        citations.Add(new Citation(ID, citeType, longDescription, shortDescription, otherID, RefName, hyperlink));
                     }
                 }
             }
@@ -344,6 +350,7 @@ namespace Tools.Citation
                     cite.SelectSingleNode(XML_Long).Text = citation.LongDescription;
                     cite.SelectSingleNode(XML_Short).Text = citation.ShortDescription;
                     cite.SelectSingleNode(XML_OtherID).Text = citation.OtherIdentifier;
+                    cite.SelectSingleNode(XML_Hyperlink).Text = citation.Hyperlink;
                 }
             }
 

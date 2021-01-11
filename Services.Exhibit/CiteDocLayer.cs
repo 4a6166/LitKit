@@ -234,10 +234,30 @@ namespace Tools.Citation
             //Pincite omitted from the formatting as inital cites should not have it
             SetPincite(CC, null);
 
+
+            AddHyperlink(CC, citation);
+
             return CC;
         }
 
+        private void AddHyperlink(ContentControl contentControl, Citation citation, string ScreenTip = "")
+        {
+            if (citation.Hyperlink != "")
+            {
+                contentControl.LockContents = false;
 
+                if (ScreenTip != "")
+                {
+                    contentControl.Range.Hyperlinks.Add(Anchor: contentControl.Range, Address: citation.Hyperlink, ScreenTip: ScreenTip);
+                }
+                else
+                {
+                    contentControl.Range.Hyperlinks.Add(Anchor: contentControl.Range, Address: citation.Hyperlink);
+                }
+
+                contentControl.LockContents = true;
+            }
+        }
 
         public void UpdateCiteContentControls()
         {
@@ -339,6 +359,8 @@ namespace Tools.Citation
             CiteCC.Range.Text = Repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
             CiteFormatting.FormatFont(CiteCC);
             SetPincite(CiteCC);
+
+            AddHyperlink(CiteCC, citation);
 
             CiteCC.LockContents = true;
         }

@@ -214,6 +214,7 @@ namespace LitKit1.ControlsWPF.Citation
             {
                 otherText = "";
             }
+            string hyperlink = Format_HyperlinkTextBox.Text;
 
             if (goodCite)
             {
@@ -223,10 +224,10 @@ namespace LitKit1.ControlsWPF.Citation
                     CiteType: (CiteType)Format_TypeComboBox.SelectedItem, 
                     LongDescription: Format_LongDescriptionTextBox.Text, 
                     ShortDescription: Format_ShortDescriptionTextBox.Text, 
-                    OtherIdentifier: Format_OtherIdentifierTextBox.Text
+                    OtherIdentifier: Format_OtherIdentifierTextBox.Text,
+                    Hyperlink: hyperlink
                     );
 
-                //TODO: make new cite, pass new cite and old cite through to the repository //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ViewModel.EditCite(oldcite, newcite);
 
                 btnCANCELAddCitation_Click(sender, e);
