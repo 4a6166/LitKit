@@ -154,11 +154,14 @@
   <data name="CreateHighlightedPDF_32px_PrelimEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CreateHighlightedPDF_32px_PrelimEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="AddPincite_32px_PrelimEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddPincite_32px_PrelimEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="icons8-pencil-drawing-64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-pencil-drawing-64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CreateUnredactedPDF_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CreateUnredactedPDF_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Support_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Support_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CustomizeObjAndResp_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CustomizeObjAndResp_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -193,8 +196,8 @@
   <data name="icons8-delete-64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-delete-64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ClearAllRedactions_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ClearAllRedactions_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CreateUnredactedPDF_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CreateUnredactedPDF_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CreatePDF_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CreatePDF_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -202,11 +205,14 @@
   <data name="InsertNBS_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\InsertNBS_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CreateHighlightedPDF_32px_PrelimEdit2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CreateHighlightedPDF_32px_PrelimEdit2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ClearAllRedactions_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ClearAllRedactions_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Support_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Support_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CreateHighlightedPDF_32px_PrelimEdit3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CreateHighlightedPDF_32px_PrelimEdit3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RemovePincite_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RemovePincite_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PasteTranscript_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PasteTranscript_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -217,10 +223,10 @@
   <data name="SenteceSpacing_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SenteceSpacing_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RemovePincite_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RemovePincite_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CreateHighlightedPDF_32px_PrelimEdit2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CreateHighlightedPDF_32px_PrelimEdit2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CreateHighlightedPDF_32px_PrelimEdit3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CreateHighlightedPDF_32px_PrelimEdit3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AddPincite_16px_PrelimineEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddPincite_16px_PrelimineEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

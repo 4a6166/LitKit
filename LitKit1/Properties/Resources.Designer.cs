@@ -73,9 +73,29 @@ namespace LitKit1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap AddPincite_16px_PrelimineEdit {
+            get {
+                object obj = ResourceManager.GetObject("AddPincite_16px_PrelimineEdit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap AddPincite_32px {
             get {
                 object obj = ResourceManager.GetObject("AddPincite_32px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap AddPincite_32px_PrelimEdit {
+            get {
+                object obj = ResourceManager.GetObject("AddPincite_32px_PrelimEdit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

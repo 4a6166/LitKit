@@ -4,41 +4,50 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Citation"
+                          
              mc:Ignorable="d" 
              d:DesignHeight="40" d:DesignWidth="100">
     <UserControl.Resources>
-        <Style TargetType="Button">
-            <EventSetter Event="MouseEnter" Handler="ShowButtonText"/>
-            <EventSetter Event="MouseLeave" Handler="HideButtonText"/>
-            <Setter Property="ClickMode" Value="Release"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="BorderBrush" Value="Transparent"/>
-                </Trigger>
-                
-            </Style.Triggers>
+
+        <!--<Style x:Key="ContentPlaceholder" TargetType="Grid">
+            <Setter Property="Background" Value="AliceBlue"/>
         </Style>
+        <Style x:Key="InvisibleButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Content" Value="{StaticResource ContentPlaceholder}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" Background="Transparent">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Transparent" TargetName="Border" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+
     </UserControl.Resources>
-    <Grid>
+            <Grid>
         <Border x:Name="Flyout" MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Width="auto" Height="36" BorderThickness="1" BorderBrush="LightGray" CornerRadius="10,0, 0, 10" Background="LightGray" Visibility="Visible">
             <StackPanel  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,-1,-1,-1">
-                <Button x:Name="btnDelete" Click="btnDelete_Click">
-                    <Grid x:Name="GridDelete" Width="25" Margin="0" 
-                          
-                          >
+                <Button x:Name="btnDelete" Click="btnDelete_Click" Mouse.MouseEnter="ShowButtonText" Mouse.MouseLeave="HideButtonText">
+                    <Grid x:Name="GridDelete" Width="25" Margin="0" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25*"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <Image Source="/LitKit;component/Resources/icons8-delete-64.png" />
+                        <!--<Image Source="/LitKit;component/Resources/icons8-delete-64.png" />-->
+                        <Image Source="/LitKit;component/Resources/icons8-delete1.png" />
                         <!--To get image to show, but set properties to "Resource" and "Copy if newer"-->
                         <TextBlock x:Name="TextDelete" Grid.Row="1" Text="Delete" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
                 </Button>
-                <Button x:Name="btnEdit" Click="btnEdit_Click">
+                <Button x:Name="btnEdit" Click="btnEdit_Click" Mouse.MouseEnter="ShowButtonText" Mouse.MouseLeave="HideButtonText">
                     <Grid x:Name="GridEdit" Width="25" Margin="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="15*"/>
@@ -48,13 +57,15 @@
                         <TextBlock x:Name="TextEdit" Grid.Row="1" Text="Edit" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
                 </Button>
-                <Button x:Name="btnInsert" Click="btnInsert_Click">
+                <Button x:Name="btnInsert" Click="btnInsert_Click" Mouse.MouseEnter="ShowButtonText" Mouse.MouseLeave="HideButtonText">
                     <Grid  Width="25" Margin="2" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25*"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <Image Source="/LitKit;component/Resources/icons8-plus-math-60.png" />
+                        <!--<Image Source="/LitKit;component/Resources/icons8-insert1.png" />-->
+                        <Image Source="/LitKit;component/Resources/icons8-insert3.2.png" />
+
                         <TextBlock x:Name="TextInsert" Grid.Row="1" Text="Insert" FontSize="8" HorizontalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
                 </Button>

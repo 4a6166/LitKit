@@ -1,37 +1,48 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using LitKit1.Controls;
 using LitKit1.Controls.RedactionControls;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Tools.Ribbon;
-using Tools.Exhibit;
 using Tools.RedactionTool;
 using Tools.Simple;
 using LitKit1.Controls.AnsResControls;
-using Tools.Response;
 using Services.Licensing;
 using System.IO;
-using System.Windows.Forms.Integration;
 using System.Text.RegularExpressions;
+//using Tools.Citation;
+using Services.Base;
+using LitKit1.ControlsWPF;
+using LitKit1.ControlsWPF.Citation.ViewModels;
 using System.Collections.Generic;
-using System.Threading;
-using Input = System.Windows.Input;
-using System.Collections.ObjectModel;
+using Tools.Citation;
 
 namespace LitKit1
 {
     public partial class MainRibbon
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 
         public Microsoft.Office.Interop.Word.Application _app; //This is necessary for passing ThisAddIn.Application to the Services project
         public CustomXMLParts XMLParts => Globals.ThisAddIn.Application.ActiveDocument.CustomXMLParts;
 
         private ToggleToolSelected toggleToolSelected;
+
+        private enum ToggleToolSelected
+        {
+            None,
+            Test,
+            MarkRedaction,
+            UnMarkRedaction,
+            AddCitation,
+            AddResponse,
+
+        }
+
 
         // Set designer properties of tab: ContorlID Type: Custom, Position: AfterOfficeId TabHome
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
@@ -46,11 +57,6 @@ namespace LitKit1
             _app.WindowSelectionChange += new ApplicationEvents4_WindowSelectionChangeEventHandler(Application_WindowSelectionChange); 
             //Event handler for selecting text after clicking a button. To use: add case to Application_WindowSelectionChange, add option to ToggleToolSelected enum, and have toggle set toggleToolSelected to the new enum option 
 
-            
-
-            //licenseIsValid = LicenseChecker.LicenseIsValid(); //Removed here because an expired lic may cause Word to be unstable
-            //licenseIsValid = true;
-
         }
 
         private bool licenseIsValid = false;
@@ -58,7 +64,7 @@ namespace LitKit1
         {
             if (!licenseIsValid)
             {
-                log.Info("License Check started.");
+                Log.Info("License Check started.");
                 try
                 {
                     licenseIsValid = LicenseChecker.LicenseIsValid();
@@ -265,24 +271,34 @@ namespace LitKit1
         #endregion
 
         #region Citations
+
+        public Dictionary<Window, CiteMainVM> citeVMDict = new Dictionary<Window, CiteMainVM>();
         private void CitationsTool_Click(object sender, RibbonControlEventArgs e)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+
             if (!checkLicenseIsValid())
             { ShowLicenseNotValidMessage(); }
             else
             {
+                Cursor.Current = Cursors.WaitCursor;
+
                 try
                 {
-                    //AddExhibtsForTest();
+                    Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
 
-                    ctrlExhibitView exhibitCtrl = new ctrlExhibitView();
-                    Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
-                    ActivePane.Control.Controls.Clear();
-                    //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
+                    HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
 
-                    ActivePane.Control.Controls.Add(exhibitCtrl);
-                    //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
-                    exhibitCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+                    if (holdingControl.WPFUserControl == null)
+                    {
+                        citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
+
+                        ControlsWPF.Citation.CiteMain cm = new ControlsWPF.Citation.CiteMain();
+
+                        holdingControl.AddWPF(cm);
+                    }
 
                     if (!ActivePane.Visible)
                     {
@@ -292,28 +308,31 @@ namespace LitKit1
                     {
                         ActivePane.Visible = false;
                     }
-                    //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
+
                 }
-                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #201"); }
+                catch 
+                {
+                    Log.Error("Error loading/showing Active Citation Pane");
+                    ErrorHandling.ShowErrorMessage();
+                }
+
+                Cursor.Current = Cursors.Default;
             }
+
+            stopwatch.Stop();
+            //MessageBox.Show("Seconds: " + stopwatch.Elapsed.TotalSeconds);
+
         }
 
-        private void AddExhibtsForTest(object sender, RibbonControlEventArgs e)
+        private void AddTestCitations(object sender, RibbonControlEventArgs e)
         {
-            ExhibitRepository repository = new ExhibitRepository(_app);
-
-            if (repository.GetExhibits().Count() == 0)
+            try
             {
-                repository.AddExhibit("A" + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
+                citeVMDict[_app.ActiveWindow].Repository.AddTestCitations();
             }
+            catch { MessageBox.Show("Load the Citation Tool First");}
 
-            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
-            repository.AddExhibit(ExhibitFormatter.ToAlphabet(repository.GetExhibits().Count() + 1) + " " + Guid.NewGuid().ToString("N").Substring(16), Guid.NewGuid().ToString("N").Substring(8));
 
-            frmToast toast = new frmToast(_app.ActiveWindow);
-            toast.OpenToast("Test Exhibits Added", "Remove before production.", 1000);
         }
 
         private void btnPinCite_Click(object sender, RibbonControlEventArgs e)
@@ -326,7 +345,9 @@ namespace LitKit1
                 {
                     _app.UndoRecord.StartCustomRecord("Add Pincite");
 
-                    new Pincite(_app).AddPincite(_app.Selection);
+                    var _docLayer = new CiteDocLayer(_app);
+                    _docLayer.AddPincite(_docLayer.GrabCiteContentControl(_app.Selection));
+
                     Globals.ThisAddIn.ReturnFocus();
 
                     _app.UndoRecord.EndCustomRecord();
@@ -345,11 +366,12 @@ namespace LitKit1
                 {
                     _app.UndoRecord.StartCustomRecord("Remove Pincite");
 
-                    new Pincite(_app).RemovePinCite(_app.Selection);
+                    var _docLayer = new CiteDocLayer(_app);
+                    _docLayer.RemovePincite(_docLayer.GrabCiteContentControl(_app.Selection));
 
                     _app.UndoRecord.EndCustomRecord();
                 }
-                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #205"); }
+                catch { Log.Error("Could not remove Pincite. CC count:"+_app.Selection.ContentControls.Count + " Parent Tag:" + _app.Selection.ParentContentControl?.Tag); }
             }
         }
 
@@ -359,16 +381,14 @@ namespace LitKit1
             { ShowLicenseNotValidMessage(); }
             else
             {
-                try
-                {
-                    _app.UndoRecord.StartCustomRecord("Exhibit Index");
+                _app.UndoRecord.StartCustomRecord("Insert Exhibit Index");
 
-                    new ExhibitIndex(_app).InsertExhibitIndex();
-                    Globals.ThisAddIn.ReturnFocus();
+                var doclayer = new CiteDocLayer(_app);
+                doclayer.InsertExhibitIndex();
+                Globals.ThisAddIn.ReturnFocus();
 
-                    _app.UndoRecord.EndCustomRecord();
-                }
-                catch { MessageBox.Show("Please select an editable range."); }
+                _app.UndoRecord.EndCustomRecord();
+
             }
         }
 
@@ -378,25 +398,27 @@ namespace LitKit1
 
             try
             {
-                var helper = new ExhibitHelper(_app);
+                var _docLayer = new CiteDocLayer(_app);
                 if (_app.Selection.Range.Characters.Count > 2)
                 {
-                    _app.UndoRecord.StartCustomRecord("Remove Exhibits");
-                    helper.RemoveSelectedCitesFromDoc(_app.Selection);
+                    _app.UndoRecord.StartCustomRecord("Remove Citations");
+                    _docLayer.RemoveCitesFromDoc(_app.Selection);
                     _app.UndoRecord.EndCustomRecord();
+                    Log.Info("Cites removed from selection.");
                 }
                 else
                 {
-                    DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all citations in the document? The text will remain but will no longer update when adjustments to the Exhibit or References Lists are made.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                    DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all citations in the document? The text will remain but will no longer update when adjustments to the Citation Tool are made."+Environment.NewLine + Environment.NewLine+ "Note: If you want to remove references to citations from a certain selection, highlight that selection and click Remove Locks again.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                     if (result == DialogResult.Yes)
                     {
-                        _app.UndoRecord.StartCustomRecord("Remove Exhibits");
-                        helper.RemoveAllCitesFromDoc();
+                        _app.UndoRecord.StartCustomRecord("Remove Citations");
+                        _docLayer.RemoveCitesFromDoc();
                         _app.UndoRecord.EndCustomRecord();
+                        Log.Info("Cites removed from Document.");
                     }
                 }
             }
-            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #206-C"); }
+            catch { Log.Error("Error removing citations"); }
 
             _app.UndoRecord.EndCustomRecord();
         }
@@ -789,17 +811,6 @@ namespace LitKit1
 
         #region Toggle Events
 
-        private void TestToggleSelected(object sender, RibbonControlEventArgs e)
-        {
-            
-            Cursor.Current = Cursors.WaitCursor;
-            if (TestToggleButton1.Checked)
-            {
-                toggleToolSelected = ToggleToolSelected.Test;
-            }
-            else toggleToolSelected = ToggleToolSelected.None;
-
-        }
         private void Application_WindowSelectionChange(Selection Sel)
         {
             switch (toggleToolSelected)
@@ -831,17 +842,6 @@ namespace LitKit1
                 default:
                     break;
             }
-        }
-
-        private enum ToggleToolSelected
-        {
-            None,
-            Test,
-            MarkRedaction,
-            UnMarkRedaction,
-            AddCitation,
-            AddResponse,
-
         }
 
         #endregion
@@ -903,40 +903,33 @@ namespace LitKit1
         {
 
             _app.UndoRecord.StartCustomRecord("Test Action");
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            var b = new ControlsWPF.Citation.CiteMain();
-            b.Width = 100;
+            //var stopwatch = new Stopwatch();
+            //stopwatch.Start();
 
 
-            var holding = new ControlsWPF.HoldingControl(b);
-            holding.Dock = System.Windows.Forms.DockStyle.Fill;
 
-            Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ExhibitPanes[_app.ActiveWindow];
-            ActivePane.Control.Controls.Clear();
-            ActivePane.Control.Controls.Add(holding);
-            
-            
-            if (!ActivePane.Visible)
-            {
-                ActivePane.Visible = true;
-                
-            }
-            else
-            {
-                ActivePane.Visible = false;
-            }
+            /*
+             * 
+           +  * get all CiteCCs Ordered 
+             *                          => if cite id == previous cite id, use id format
+             *                          => if cite id is in list previously, use short format
+             *                          => else use Long format
+           +  * get all ExhibitCCs Ordered -> Get uniques 
+             *                          => index of cite = cite index
+           +  * get all citations => update cites not in body, footnotes, endnotes
+             *                          - refresh is initialited (button hit, cite is added to doc, cite is edited)
+             */
 
-            stopwatch.Stop();
-            MessageBox.Show("Time: " + stopwatch.Elapsed);
+            //stopwatch.Stop();
+            //MessageBox.Show("Time: " + stopwatch.Elapsed);
             _app.UndoRecord.EndCustomRecord();
 
         }
 
-
-        
-
+        private string ConvertToXML(string rtf)
+        {
+            throw new NotImplementedException();
+        }
 
         private void FindCCOffset(Range range)
         {

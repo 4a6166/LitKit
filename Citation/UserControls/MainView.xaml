@@ -1,0 +1,248 @@
+﻿<UserControl xmlns:UserControls="clr-namespace:WPF.Citation.UserControls"      
+             x:Class="WPF.Citation.UserControls.MainView"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:CommonControls1="clr-namespace:WPF.CommonControls;assembly=WPF.CommonControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="400">
+    <UserControl.Resources>
+        <Brush x:Key="CiteTypeBrush_Exhibit">#136F63</Brush>
+        <Brush x:Key="CiteTypeBrush_LegalCite">#3F88C5</Brush>
+        <Brush x:Key="CiteTypeBrush_RecordCite">#D00000</Brush>
+        <Brush x:Key="CiteTypeBrush_OtherCite">#FFBA08</Brush>
+        <Brush x:Key="CiteTypeBrush_Extra">#032B43</Brush>
+    </UserControl.Resources>
+    <Grid Margin="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="390"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+
+        
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical">
+            <Expander Grid.Column="0" Header="Citation Formatting" 
+                  HorizontalAlignment="Left" Margin="10,10,0,0" 
+                  Grid.Row="3" VerticalAlignment="Top" Width="260" Grid.ColumnSpan="2"
+                  IsExpanded="True"
+                      >
+                <Grid Background="#FFE5E5E5" Height="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Some Text"/>
+                    <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
+                               TextWrapping="Wrap"
+                               Text="orem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse viverra neque vel tristique mollis. Aenean et varius ipsum, in scelerisque tortor. Morbi pharetra massa ligula, accumsan interdum quam elementum blandit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent lacus enim, pharetra in nisi id, interdum semper lorem. Quisque elementum dolor a pulvinar feugiat. In condimentum nulla sed neque egestas, eget feugiat nunc finibus. Donec et malesuada arcu. Donec et bibendum odio, ut dignissim metus. Aenean iaculis mollis magna id porttitor. Integer id lacinia magna. In hac habitasse platea dictumst. Sed maximus, orci ac pellentesque feugiat, justo turpis ullamcorper ligula, quis consequat ante enim sed elit. Cras a dolor posuere, tincidunt tellus et, congue enim. Morbi a diam neque. Nullam auctor vestibulum est nec feugiat. Quisque aliquet nunc ac sem porttitor laoreet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia luctus nulla nec rutrum. Quisque blandit ipsum vitae dui lobortis ornare. Nunc at laoreet tortor, non porta ex. Nunc varius orci enim, in tristique massa pulvinar vestibulum. Cras hendrerit viverra nunc, vitae cursus urna molestie non. Nunc condimentum purus a nunc tincidunt, eget lacinia felis molestie. Nullam euismod, augue sit amet volutpat condimentum, orci quam ultrices leo, quis ultricies sapien augue et sapien. Vivamus tincidunt tellus quis odio efficitur, vel scelerisque augue convallis. Donec ut scelerisque odio. Aliquam erat volutpat. Nulla quis tincidunt quam. Nunc tempor nisl at dui vulputate, et mattis diam commodo. In non odio ac metus semper suscipit. Aenean ac hendrerit urna. Aliquam ut ligula a nulla eleifend sollicitudin. Maecenas eu luctus diam. Vivamus lobortis eget elit in placerat. Nulla luctus vitae nisi quis consequat. Proin porttitor, leo eget malesuada molestie, metus nulla maximus lectus, sit amet iaculis libero massa id lectus. Duis lectus magna, interdum luctus sem rutrum, lobortis fermentum urna. Curabitur id interdum ex. Etiam vel varius tortor, nec malesuada est. Quisque quam augue, pharetra sit amet ultricies non, elementum a ante. Quisque a venenatis lacus. Aliquam interdum enim non tortor gravida, quis finibus dolor eleifend. In ut mi ligula. Quisque dictum quam nec lacus dictum faucibus. Aliquam lorem purus, luctus id diam ac, auctor gravida magna. In ac felis at diam vehicula interdum vitae quis turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean a lacinia nulla, vel rhoncus eros. Vivamus hendrerit lorem quis massa semper, eu euismod mauris aliquam. Morbi quis laoreet est. Integer aliquet, tellus id fermentum dignissim, tortor est scelerisque metus, sit amet mattis justo quam a mauris. Sed nec massa faucibus mauris consectetur auctor. In sollicitudin est vitae erat vehicula, ac cursus dolor rhoncus. Pellentesque eu sollicitudin est, sit amet imperdiet eros. Sed purus quam, vestibulum ut euismod vel, tincidunt ac augue. Curabitur eu felis in mi euismod fringilla."/>
+                    <Rectangle Fill="Black" Height="100" Width="100"/>
+                </Grid>
+            </Expander>
+
+            <!--########################################
+            Split Button - Stack panel
+            ########################################-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Border x:Name="SBPanelImage" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
+                <Image x:Name="SBStackPlanelImage"
+                            MouseDown="Image_MouseDown"
+                            Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png">
+                </Image>
+                </Border>
+                <Border x:Name="SBDropDownBorder" BorderThickness=".5" MouseDown="SBStackPlanelImageDropDown_MouseDown" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
+                <Image x:Name="SBStackPlanelImageDropDown"
+                       Height="15"
+                       VerticalAlignment="Bottom"
+                       Source="C:\Users\Jake\Downloads\droparrow.png">
+                        <Image.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add New Citation to List">
+                                    <MenuItem.Icon>
+                                        <Image 
+                                            Source="C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\icons8-plus-math-60.png"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem Header="Add Exhibit Index to Document"></MenuItem>
+                                <MenuItem Header="Batch Add Citations"></MenuItem>
+                                <MenuItem Header="Export Citations"></MenuItem>
+                            </ContextMenu>
+                        </Image.ContextMenu>
+                    </Image>
+                </Border>
+            </StackPanel>
+
+
+
+            
+            <!--########################################
+            Search Grid
+########################################-->
+            <Grid x:Name="SearchGrid"
+                    MaxHeight="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchLabel"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        Grid.ColumnSpan="2"
+                        Text="Search"
+                        Foreground="Gray"
+                        />
+
+                <TextBox x:Name="SearchTextBox" 
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                             Background="Transparent"
+                        TextChanged="TextBox_TextChanged"
+                        GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" KeyDown="SearchTextBox_KeyDown" 
+                        />
+                <Button x:Name="SearchIconButton"
+                        Grid.Column="1"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Right"
+                        Margin="0" Click="SearchButton_Click">
+                    <UniformGrid>
+                        <Image x:Name="imgMagGlass" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Visibility="Visible"
+                    Source="/WPF.CommonControls;component/Resources/search-thumb.png" />
+                        <Image x:Name="imgClear"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Visibility="Collapsed"
+                    Source="/WPF.CommonControls;component/Resources/clear-thumb.png" />
+                    </UniformGrid>
+                </Button>
+            </Grid>
+            <StackPanel Orientation="Horizontal">
+
+                <Button x:Name="btnAllCites" Click="btnAllCites_Click"
+                        
+                    Margin=".5">
+                    <Label Content="All Cites"/>
+                </Button>
+                <Button x:Name="btnExhibit" Click="btnExhibit_Click"
+                    Margin=".5">
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_Exhibit}"
+                            Opacity=".4" Margin="-1"/>
+                        <Label Content="Exhibits"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="btnRecord" Click="btnRecord_Click"
+                    Margin=".5">
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_RecordCite}"
+                                Opacity=".4" Margin="-1"/>
+                        <Label Content="Record Cites"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="btnLegal" Click="btnLegal_Click"
+                    Margin=".5">
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_LegalCite}"
+                                Opacity=".4" Margin="-1"/>
+                        <Label Content="Legal Cites"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="btnOther" Click="btnOther_Click"
+                    Margin=".5">
+                    <Grid>
+                        <Border Background="{StaticResource CiteTypeBrush_OtherCite}"
+                                Opacity=".4" Margin="-1"/>
+                        <Label Content="Other Cites"/>
+                    </Grid>
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
+        <ListView x:Name="CitesListView" Grid.Row="1" 
+                  SelectionMode="Single" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  MouseEnter="CitesListView_MouseEnter" MouseLeave="CitesListView_MouseLeave">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Focusable" Value="False"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="DarkGray" BorderThickness=".5">
+                        <Grid MinWidth="250" MaxWidth="1000" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Name="citeType" Grid.Column="1" Grid.Row="0" Content="{Binding CiteType, Mode=OneWay}" FontWeight="Bold"/>
+                                <Label Grid.Column="1" Grid.Row="1" Content="{Binding LongDescription}"/>
+                                <Border Grid.Column="0" Grid.RowSpan="2" Width="5">
+                                    <Border.Style>
+                                        <Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CiteType}" Value="Exhibit">
+                                                    <Setter Property="Border.Background" Value="{StaticResource CiteTypeBrush_Exhibit}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CiteType}" Value="Legal">
+                                                    <Setter Property="Border.Background" Value="{StaticResource CiteTypeBrush_LegalCite}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CiteType}" Value="Record">
+                                                    <Setter Property="Border.Background" Value="{StaticResource CiteTypeBrush_RecordCite}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CiteType}" Value="Other">
+                                                    <Setter Property="Border.Background" Value="{StaticResource CiteTypeBrush_OtherCite}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                            </Grid>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button x:Name="btnAdd"
+                                        Width="50"
+                                        Margin="1"
+                                        Click="btnAdd_Click">
+                                    <Label Content="Insert"/>
+                                </Button>
+                                <Button x:Name="btnEdit" 
+                                        Width="50"
+                                        Margin="1"
+                                        Click="btnEdit_Click">
+                                    <Label Content="Edit"/>
+                                </Button>
+                                <Button x:Name="btnDelete" 
+                                        Width="50"
+                                        Margin="1"
+                                        Click="btnDelete_Click" >
+                                    <Label Content="Delete"/>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+    </Grid>
+</UserControl>

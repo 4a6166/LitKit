@@ -125,6 +125,12 @@
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="GongSolutions.WPF.DragDrop, Version=2.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
+      <HintPath>..\packages\gong-wpf-dragdrop.2.3.2\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
+    </Reference>
+    <Reference Include="Gu.Wpf.NumericInput, Version=0.5.5.0, Culture=neutral, PublicKeyToken=e6e2e1b32408e0fd, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gu.Wpf.NumericInput.0.5.5\lib\net45\Gu.Wpf.NumericInput.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
@@ -209,34 +215,31 @@
     <Compile Include="ControlsWPF\Citation\CiteBlock.xaml.cs">
       <DependentUpon>CiteBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ControlsWPF\Citation\CiteDeleteAreYouSure.xaml.cs">
-      <DependentUpon>CiteDeleteAreYouSure.xaml</DependentUpon>
+    <Compile Include="ControlsWPF\Citation\CiteEdit.xaml.cs">
+      <DependentUpon>CiteEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="ControlsWPF\Citation\CiteFlyout.xaml.cs">
       <DependentUpon>CiteFlyout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ControlsWPF\Citation\CiteFormat.xaml.cs">
-      <DependentUpon>CiteFormat.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ControlsWPF\Citation\CiteMain.xaml.cs">
       <DependentUpon>CiteMain.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWPF\Citation\Converters\CiteTypeColorConverter.cs" />
+    <Compile Include="ControlsWPF\Citation\Converters\FormatBlockTypeColorConverter.cs" />
+    <Compile Include="ControlsWPF\Citation\Converters\VisConverterItemCount.cs" />
+    <Compile Include="ControlsWPF\Citation\Converters\VisibilityConverter.cs" />
+    <Compile Include="ControlsWPF\Citation\ViewModels\CiteMainVM.cs" />
+    <Compile Include="ControlsWPF\Citation\CiteFormatBlock.xaml.cs">
+      <DependentUpon>CiteFormatBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Citation\ViewModels\EditCiteVM.cs" />
     <Compile Include="ControlsWPF\HoldingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ControlsWPF\HoldingControl.Designer.cs">
       <DependentUpon>HoldingControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ControlsWPF\HoldingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ControlsWPF\HoldingForm.Designer.cs">
-      <DependentUpon>HoldingForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="ControlsWPF\SolutionBrushes.cs" />
-    <Compile Include="ControlsWPF\Loading.xaml.cs">
-      <DependentUpon>Loading.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\AnsResControls\ctrlAnsResCustomize.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -261,15 +264,11 @@
     <Compile Include="Controls\AnsResControls\ctrlAnsResView.Designer.cs">
       <DependentUpon>ctrlAnsResView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.cs" />
     <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.Designer.cs">
       <DependentUpon>ctrlExhibitFormat.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.cs" />
     <Compile Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.Designer.cs">
       <DependentUpon>ctrlExhibitFormatCustom.cs</DependentUpon>
     </Compile>
@@ -279,21 +278,15 @@
     <Compile Include="Controls\ExhibitControls\ctrlExhibitMain.Designer.cs">
       <DependentUpon>ctrlExhibitMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlExhibitView.cs" />
     <Compile Include="Controls\ExhibitControls\ctrlExhibitView.Designer.cs">
       <DependentUpon>ctrlExhibitView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.cs" />
     <Compile Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.Designer.cs">
       <DependentUpon>ctrlExhibitUpdateAdd.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.cs" />
     <Compile Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.Designer.cs">
       <DependentUpon>ctrlLegalRecordUpdateAdd.cs</DependentUpon>
     </Compile>
@@ -327,9 +320,6 @@
     <Compile Include="Controls\RedactionControls\ctrlConfidentialMarker.Designer.cs">
       <DependentUpon>ctrlConfidentialMarker.cs</DependentUpon>
     </Compile>
-    <Compile Include="ControlsWPF\Base.xaml.cs">
-      <DependentUpon>Base.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\SearchBar.xaml.cs">
       <DependentUpon>SearchBar.xaml</DependentUpon>
     </Compile>
@@ -348,9 +338,6 @@
     <Compile Include="Controls\MainRibbon.Designer.cs">
       <DependentUpon>MainRibbon.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ControlsWPF\HoldingForm.resx">
-      <DependentUpon>HoldingForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResCustomize.resx">
       <DependentUpon>ctrlAnsResCustomize.cs</DependentUpon>
     </EmbeddedResource>
@@ -460,7 +447,9 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8-refresh-64.png" />
+    <Resource Include="Resources\icons8-refresh-64.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-erase-64.png" />
@@ -495,7 +484,7 @@
     <None Include="Resources\CreateUnredactedPDF_32px.png" />
     <None Include="Resources\ExhibitTool_32px.png" />
     <None Include="Resources\AddPincite_16px.png" />
-    <None Include="Resources\IndexOfExhibits_16px.png" />
+    <Resource Include="Resources\IndexOfExhibits_16px.png" />
     <None Include="Resources\CustomizeObjAndResp_32px.png" />
     <None Include="Resources\PasteTranscript_32px.png" />
     <None Include="Resources\LatinWords_16px.png" />
@@ -505,7 +494,32 @@
     <None Include="Resources\KeepWithNext_16px.png" />
     <None Include="Resources\AddPincite_32px.png" />
     <None Include="Resources\CreateHighlightedPDF_32px_PrelimEdit3.png" />
-    <Content Include="ControlsWPF\Citation\icons8-delete-64.png" />
+    <Resource Include="Resources\icons8-delete1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-insert1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\droparrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <None Include="Resources\AddPincite_32px_PrelimEdit.png" />
+    <None Include="Resources\AddPincite_16px_PrelimineEdit.png" />
+    <Resource Include="Resources\icons8-export.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-import.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Resources\icons8-insert2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\icons8-insert3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-insert3.2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\outline_border_color_black_18dp.png" />
     <Content Include="Resources\outline_border_color_black_36dp.png" />
     <Content Include="Resources\PilcrowLone1_B.ico" />
@@ -515,9 +529,9 @@
       <Project>{a6acc4d7-446c-44a8-950c-93bdebc5fee1}</Project>
       <Name>Services.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services.Exhibit\Tools.Exhibit.csproj">
+    <ProjectReference Include="..\Services.Exhibit\Tools.Citation.csproj">
       <Project>{82857471-938d-409a-9c09-b147d287c706}</Project>
-      <Name>Tools.Exhibit</Name>
+      <Name>Tools.Citation</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services.License\Services.License.csproj">
       <Project>{f7dfe3b3-c6a5-4692-8561-86afbd093478}</Project>
@@ -535,13 +549,13 @@
       <Project>{e0783a21-83f7-4ff3-afc4-4c1eaf167c2d}</Project>
       <Name>Tools.Simple</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tools.HoldingLib\Tools.HoldingLib.csproj">
+      <Project>{413e09f6-2767-410c-b0ab-1ae86c43fbda}</Project>
+      <Name>Tools.HoldingLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="ControlsWPF\App.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ControlsWPF\Base.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -553,7 +567,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ControlsWPF\Citation\CiteDeleteAreYouSure.xaml">
+    <Page Include="ControlsWPF\Citation\CiteEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -561,15 +575,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ControlsWPF\Citation\CiteFormat.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ControlsWPF\Citation\CiteMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ControlsWPF\Loading.xaml">
+    <Page Include="ControlsWPF\Citation\CiteFormatBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

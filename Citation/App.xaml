@@ -1,0 +1,32 @@
+﻿<Application x:Class="Citation.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Citation"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ContentPlaceholder" TargetType="UniformGrid">
+                <Setter Property="Background" Value="DarkRed"/>
+            </Style>
+            <Style x:Key="InvisibleButton" TargetType="Button">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Content" Value="{StaticResource ContentPlaceholder}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Border" Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent" TargetName="Border" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary> 
+    </Application.Resources>
+</Application>
+

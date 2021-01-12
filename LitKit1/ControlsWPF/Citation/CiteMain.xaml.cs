@@ -12,7 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Tools.Exhibit;
+using Microsoft.Office.Interop.Word;
+using Tools.Citation;
+using LitKit1.ControlsWPF.Citation.ViewModels;
+using Application = Microsoft.Office.Interop.Word.Application;
+using System.Collections.ObjectModel;
 
 namespace LitKit1.ControlsWPF.Citation
 {
@@ -21,72 +25,463 @@ namespace LitKit1.ControlsWPF.Citation
     /// </summary>
     public partial class CiteMain : UserControl
     {
-        List<Exhibit> Citations;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        #region Properties
+        private CiteMainVM ViewModel;
+        CollectionView view;
+        CiteType SearchCiteType = CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other;
+
+        #endregion
 
         public CiteMain()
         {
+            log.Debug("CiteMain started");
+
+            ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
+
+            this.DataContext = ViewModel;
+
             InitializeComponent();
-            this.Citations = new List<Exhibit>();
-            AddTestExhibits();
 
-            AddSearchBar();
-            AddCitesToPanel();
+            view = (CollectionView)CollectionViewSource.GetDefaultView(CiteBlockStackPanel.ItemsSource);
+
         }
 
-        private void AddSearchBar()
+        #region CiteListFilter
+
+        private bool TextFilter(object item)
         {
-            Controls.SearchBar searchBar = new Controls.SearchBar(CiteBlockStackPanel);
-            Grid.SetColumn(searchBar, 1);
-            Grid.SetColumnSpan(searchBar, 2);
-            Grid.SetRow(searchBar, 1);
-            searchBar.HorizontalAlignment = HorizontalAlignment.Stretch;
-            searchBar.VerticalAlignment = VerticalAlignment.Top;
-            MainGrid.Children.Add(searchBar);
+            if(SearchCiteType == (CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other))
+            {
+                if (String.IsNullOrEmpty(SearchTextBox.Text))
+                    return true;
+                else
+                    return ((item as Tools.Citation.Citation).LongDescription.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(SearchTextBox.Text))
+                    return (item as Tools.Citation.Citation).CiteType == SearchCiteType;
+                else
+                    return ((item as Tools.Citation.Citation).LongDescription.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0 && (item as Tools.Citation.Citation).CiteType == SearchCiteType);
+            }
         }
 
-        public void AddCitesToPanel()
+
+        private void btnAllCites_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Exhibit citation in Citations)
-            {
-                CiteBlock citeBlock = new CiteBlock(citation, CiteBlockStackPanel, 0, 1);
-                citeBlock.HorizontalAlignment = HorizontalAlignment.Stretch;
-                CiteBlockStackPanel.Children.Add(citeBlock);
-            }
+            SearchCiteType = CiteType.Exhibit | CiteType.Legal | CiteType.Record | CiteType.Other;
+            view.Refresh();
+            view.Filter = TextFilter;
+
         }
 
-
-        public void AddTestExhibits()
+        private void btnExhibit_Click(object sender, RoutedEventArgs e)
         {
-            Exhibit exhibita = new Exhibit("2014.06.26 Risinger Deposition that took place on 6/26/2014", "DEF000001");
-            Citations.Add(exhibita);
 
-            for (int i = 0; i < 5; i++)
+            SearchCiteType = CiteType.Exhibit;
+            view.Refresh();
+            view.Filter = TextFilter;
+
+
+        }
+
+        private void btnRecord_Click(object sender, RoutedEventArgs e)
+        {
+            SearchCiteType = CiteType.Record;
+            view.Refresh();
+            view.Filter = TextFilter;
+
+        }
+
+        private void btnLegal_Click(object sender, RoutedEventArgs e)
+        {
+            SearchCiteType = CiteType.Legal;
+            view.Refresh();
+            view.Filter = TextFilter;
+
+        }
+
+        private void btnOther_Click(object sender, RoutedEventArgs e)
+        {
+            SearchCiteType = CiteType.Other;
+            view.Refresh();
+            view.Filter = TextFilter;
+
+        }
+
+        #endregion
+
+        #region Search Bar
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //CollectionViewSource.GetDefaultView(CiteBlockStackPanel.ItemsSource).Refresh();
+            view.Refresh();
+            view.Filter = TextFilter;
+
+            if (SearchTextBox.Text != "")
             {
-                Exhibit exhibit = new Exhibit("Test Exhibit " + i, "ABC0000" + i);
-                exhibit.CiteType = CiteType.Exhibit;
-                Citations.Add(exhibit);
+                imgMagGlass.Visibility = Visibility.Collapsed;
+                imgClear.Visibility = Visibility.Visible;
+
             }
-
-            for (int i = 0; i < 5; i++)
+            else
             {
-                Exhibit exhibit = new Exhibit("Test Legal Cite " + i, "ABC0000" + i);
-                exhibit.CiteType = CiteType.Legal;
-                Citations.Add(exhibit);
-            }
-
-            for (int i = 0; i < 5; i++)
-            {
-                Exhibit exhibit = new Exhibit("Test Record Cite " + i, "ABC0000" + i);
-                exhibit.CiteType = CiteType.Record;
-                Citations.Add(exhibit);
-            }
-
-            for (int i = 0; i < 5; i++)
-            {
-                Exhibit exhibit = new Exhibit("Test Other Cite " + i, "ABC0000" + i);
-                exhibit.CiteType = CiteType.Other;
-                Citations.Add(exhibit);
+                imgMagGlass.Visibility = Visibility.Visible;
+                imgClear.Visibility = Visibility.Collapsed;
             }
         }
+
+        private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SearchLabel.Visibility = Visibility.Collapsed;
+        }
+
+        private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (SearchTextBox.Text == "")
+            {
+                SearchLabel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            //SearchText = "";
+            SearchTextBox.Text = "";
+            SearchLabel.Visibility = Visibility.Visible;
+        }
+
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            //if (e.Key == Key.Return)
+            //{
+            //    var searchBox = (TextBox)sender;
+
+            //    var _citations = ViewModel.citationsVisible.Where(n => n.LongDescription.Contains(searchBox.Text)).ToList();
+            //    ViewModel.citationsVisible.Clear();
+
+            //    foreach (Tools.Citation.Citation cite in _citations)
+            //    {
+            //        ViewModel.citationsVisible.Add(cite);
+            //    }
+            //}
+        }
+        #endregion
+
+        private void SBStackPlanelImageDropDown_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (SBDropDownBorder.ContextMenu.IsOpen)
+            {
+                SBDropDownBorder.ContextMenu.IsOpen = false;
+            }
+            else SBDropDownBorder.ContextMenu.IsOpen = true;
+        }
+
+        private void SBStackPlanelImage_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //TODO: open new cite panel
+
+            if (SBStackPlanelImage.Opacity == 1)
+            { 
+                SBStackPlanelImage.Opacity = .5; 
+            }
+            else SBStackPlanelImage.Opacity = 1;
+        }
+
+        private void SBStackPlanelImage_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void SBPanelImage_MouseEnter(object sender, MouseEventArgs e)
+        {
+            AddCiteLabel.Visibility = Visibility.Visible;
+            SBDropDownBorder.Visibility = Visibility.Visible;
+            //SBPanelImage.Background = Brushes.DimGray;
+            SBStackPlanelImageDropDown.Opacity = 1;
+        }
+
+        private void SBPanelImage_MouseLeave(object sender, MouseEventArgs e)
+        {
+            AddCiteLabel.Visibility = Visibility.Collapsed;
+            SBDropDownBorder.Visibility = Visibility.Collapsed;
+            //SBPanelImage.Background = Brushes.LightGray;
+            SBStackPlanelImageDropDown.Opacity = .5;
+        }
+
+        private void RefreshBorder_MouseEnter(object sender, MouseEventArgs e)
+        {
+            RefreshLabel.Visibility = Visibility.Visible;
+        }
+
+        private void RefreshBorder_MouseLeave(object sender, MouseEventArgs e)
+        {
+            RefreshLabel.Visibility = Visibility.Collapsed;
+        }
+
+
+        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            AddCiteLabel.Visibility = Visibility.Visible;
+            SBDropDownBorder.Visibility = Visibility.Visible;
+        }
+
+        private void ContextMenu_Closed(object sender, RoutedEventArgs e)
+        {
+            AddCiteLabel.Visibility = Visibility.Collapsed;
+            SBDropDownBorder.Visibility = Visibility.Collapsed;
+
+        }
+
+        private void ResetLongCite_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SBPanelImage_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            CiteAdd.Visibility = Visibility.Visible;
+        }
+
+
+        private void RefreshBorder_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.RefreshCites();
+        }
+
+        private void MenuItem_Click_6(object sender, RoutedEventArgs e)
+        {
+            CiteAdd.Visibility = Visibility.Visible;
+        }
+
+        private void AddExhibitIndex_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.AddExhibitIndex();
+        }
+
+        private void BatchAddCites_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.BatchAddCites();
+        }
+
+        private void ExportCites_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExportCites();
+        }
+
+        private void FormattingReset_Click(object sender, RoutedEventArgs e)
+        {
+
+            ViewModel.ResetFormatList();
+
+            IdCheckBox.IsChecked = true;
+            //ViewModel.Repository.CiteFormatting.hasIdCite = true;
+
+            IndexStartNumUpDown.Value = 1;
+            //ViewModel.Repository.CiteFormatting.ExhibitIndexStart = 1;
+
+            UpdateFormatting_Click(sender, e);
+            //ViewModel.Repository.UpdateCiteFormattingInDB(ViewModel.Repository.CiteFormatting);
+
+            CitationFormattingExpander.IsExpanded = true;
+
+
+        }
+
+        #region Add Format Blocks
+
+        ///////////// LONG
+        
+        private void LongCiteAddBlock_Click(object sender, RoutedEventArgs e)
+        {
+            LongCiteAddBlock.ContextMenu.IsOpen = true;
+        }
+
+        private void AddIntroBlock_Click(object sender, RoutedEventArgs e)
+        {
+            string introText = ViewModel.Repository.CiteFormatting.ExhibitIntro;
+
+            var count = ViewModel.FormatList_Long.Where(n => n.Type == CiteFormatPieceType.INTRO).ToList().Count;
+            if (count == 0)
+            {
+                ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO, introText));
+            }
+            else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Intro Block.");
+        }
+        private void AddIndexBlock_Click(object sender, RoutedEventArgs e)
+        {
+            string indexText = "";
+
+            switch (ViewModel.Repository.CiteFormatting.ExhibitIndexStyle)
+            {
+                case ExhibitIndexStyle.Numbers:
+                    indexText = "#";
+                    break;
+                case ExhibitIndexStyle.Letters:
+                    indexText = "A";
+                    break;
+                case ExhibitIndexStyle.Roman:
+                    indexText = "IV";
+                    break;
+            }
+
+            var count = ViewModel.FormatList_Long.Where(n => n.Type == CiteFormatPieceType.INDEX).ToList().Count;
+            if (count == 0)
+            {
+                ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INDEX, indexText));
+            }
+            else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Index Block.");
+        }
+
+        private void AddDescBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.DESC));
+
+        }
+
+        private void AddPinBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.PIN));
+
+        }
+
+        private void AddOtherIDBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.OTHERID));
+
+        }
+
+        private void AddParensBlocks_click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.LPARENS));
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.RPARENS));
+        }
+
+        private void AddCommaBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.COMMA));
+
+        }
+        private void AddFreeTextBloc_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.FREETEXT));
+        }
+
+        /////////////// SHORT
+        
+        private void ShortCiteAddBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ShortCiteAddBlock.ContextMenu.IsOpen = true;
+        }
+
+        private void ShortAddIntroBlock_Click(object sender, RoutedEventArgs e)
+        {
+            var count = ViewModel.FormatList_Short.Where(n => n.Type == CiteFormatPieceType.INTRO).ToList().Count;
+            if (count == 0)
+            {
+                ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO));
+            }
+            else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Intro Block.");
+        }
+        private void ShortAddIndexBlock_Click(object sender, RoutedEventArgs e)
+        {
+            var count = ViewModel.FormatList_Short.Where(n => n.Type == CiteFormatPieceType.INDEX).ToList().Count;
+            if (count == 0)
+            {
+                ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.INDEX));
+            }
+            else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Index Block.");
+        }
+
+        private void ShortAddDescBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.DESC));
+
+        }
+
+        private void ShortAddPinBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.PIN));
+
+        }
+
+        private void ShortAddOtherIDBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.OTHERID));
+
+        }
+
+        private void ShortAddParensBlocks_click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.LPARENS));
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.RPARENS));
+        }
+
+        private void ShortAddCommaBlock_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.COMMA));
+
+        }
+        private void ShortAddFreeTextBloc_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: source for adding text to be included in free text block, add block to the repository
+            ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.FREETEXT));
+        }
+
+
+        #endregion
+
+        private void CiteEdit_Loaded(object sender, RoutedEventArgs e)
+        {
+            CiteEdit.Visibility = Visibility.Visible;
+        }
+
+        private void AddNewCite(object sender, RoutedEventArgs e)
+        {
+            CiteAdd.Visibility = Visibility.Visible;
+        }
+
+        private void CiteBlockStackPanel_TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+            if (CiteBlockStackPanel.Items.Count == 0)
+            {
+                FreshPanelTextBlock.Visibility = Visibility.Visible;
+            }
+            else FreshPanelTextBlock.Visibility = Visibility.Collapsed;
+
+        }
+
+        private void Long_EditFreeTextBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FreeTextFormatPiece_Long.DisplayText = Long_EditFreeText.Text;
+            ViewModel.FreeTextBeingEdited_Long = false;
+        }
+
+        private void Short_EditFreeTextBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FreeTextFormatPiece_Short.DisplayText = Short_EditFreeText.Text;
+            ViewModel.FreeTextBeingEdited_Short = false;
+        }
+
+        private void IdCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UpdateFormatting_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.UpdateFormatting((int)IndexStartNumUpDown.Value);
+
+            CitationFormattingExpander.IsExpanded = false;
+        }
+
     }
 }

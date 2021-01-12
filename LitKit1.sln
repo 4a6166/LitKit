@@ -9,7 +9,7 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B58D369F-7874-4CB8-8E55-B49CFE95F442}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Exhibit", "Services.Exhibit\Tools.Exhibit.csproj", "{82857471-938D-409A-9C09-B147D287C706}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Citation", "Services.Exhibit\Tools.Citation.csproj", "{82857471-938D-409A-9C09-B147D287C706}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Redaction", "Services.RedactionTool\Tools.Redaction.csproj", "{E5F99A67-B9D4-475E-80AF-4F3C6845B060}"
 EndProject
@@ -23,11 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{05E94A1C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.License", "Services.License\Services.License.csproj", "{F7DFE3B3-C6A5-4692-8561-86AFBD093478}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ControlsWPF", "ControlsWPF", "{3618707E-3863-439C-A1AE-64A930C862F7}"
-	ProjectSection(SolutionItems) = preProject
-		LitKit1\Controls\UserControl1.xaml = LitKit1\Controls\UserControl1.xaml
-		LitKit1\Controls\UserControl1.xaml.cs = LitKit1\Controls\UserControl1.xaml.cs
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.HoldingLib", "Tools.HoldingLib\Tools.HoldingLib.csproj", "{413E09F6-2767-410C-B0AB-1AE86C43FBDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -124,6 +120,18 @@ Global
 		{F7DFE3B3-C6A5-4692-8561-86AFBD093478}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7DFE3B3-C6A5-4692-8561-86AFBD093478}.Release|x86.ActiveCfg = Release|Any CPU
 		{F7DFE3B3-C6A5-4692-8561-86AFBD093478}.Release|x86.Build.0 = Release|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Debug|x86.Build.0 = Debug|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Prod|Any CPU.ActiveCfg = Debug|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Prod|Any CPU.Build.0 = Debug|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Prod|x86.ActiveCfg = Debug|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Prod|x86.Build.0 = Debug|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Release|x86.ActiveCfg = Release|Any CPU
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +143,7 @@ Global
 		{E0783A21-83F7-4FF3-AFC4-4C1EAF167C2D} = {05E94A1C-D881-4847-883E-770A2BFF050B}
 		{A6ACC4D7-446C-44A8-950C-93BDEBC5FEE1} = {B58D369F-7874-4CB8-8E55-B49CFE95F442}
 		{F7DFE3B3-C6A5-4692-8561-86AFBD093478} = {B58D369F-7874-4CB8-8E55-B49CFE95F442}
+		{413E09F6-2767-410C-B0AB-1AE86C43FBDA} = {05E94A1C-D881-4847-883E-770A2BFF050B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56FA0FAD-A837-4C6B-8891-253E85C2A9C0}
