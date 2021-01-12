@@ -379,24 +379,24 @@ namespace Tools.Citation
 
         public void AddTestCitations()
         {
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 4; i++)
             {
                 AddCitation(new Citation(CiteType.Exhibit, "Long Description " + i, "Short " + i, Hyperlink: @"www.Exhibit"+i+".com"));
             }
 
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 4; i++)
             {
-                AddCitation(new Citation(i.ToString(), CiteType.Legal, "Long Description " + i, "Short " + i, Hyperlink: @"www.Legal" + i + ".com"));
+                AddCitation(new Citation(CiteType.Legal, "Long Description " + i, "Short " + i, Hyperlink: @"www.Legal" + i + ".com"));
             }
 
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 4; i++)
             {
-                AddCitation(new Citation(i.ToString(), CiteType.Record, "Long Description " + i, "Short " + i, Hyperlink: @"www.Record" + i + ".com"));
+                AddCitation(new Citation(CiteType.Record, "Long Description " + i, "Short " + i, Hyperlink: @"www.Record" + i + ".com"));
             }
 
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 4; i++)
             {
-                AddCitation(new Citation(i.ToString(), CiteType.Other, "Long Description " + i, "Short " + i, Hyperlink: @"www.Other" + i + ".com"));
+                AddCitation(new Citation(CiteType.Other, "Long Description " + i, "Short " + i, Hyperlink: @"www.Other" + i + ".com"));
             }
 
             log.Info("Test Cites added to DB");

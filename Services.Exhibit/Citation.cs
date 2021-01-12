@@ -123,7 +123,7 @@ namespace Tools.Citation
             {
                 return _InsertedCount;
             }
-            private set
+            set
             {
                 _InsertedCount = value;
                 PropertyChanged(this, new PropertyChangedEventArgs("InsertedCount"));
@@ -170,7 +170,7 @@ namespace Tools.Citation
             this.Hyperlink = Hyperlink;
 
             InsertedCount = 1;
-            SetExampleCite();
+            SetExampleCite_Initial();
 
         }
 
@@ -184,8 +184,8 @@ namespace Tools.Citation
             this.CiteType = CiteType;
             this.Hyperlink = Hyperlink;
 
-            InsertedCount = 1;
-            SetExampleCite();
+            InsertedCount = 0;
+            SetExampleCite_Initial();
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -200,14 +200,14 @@ namespace Tools.Citation
             return "CITE:" + CiteType.ToString() + "|" + ID;
         }
 
-        private void SetExampleCite()
+        private void SetExampleCite_Initial()
         {
             //TODO: update to change exhibit intro and formatting
 
             switch (CiteType)
             {
                 case CiteType.Exhibit:
-                    LongCiteExample = $"Exhibit {InsertedCount}, {LongDescription} (ABC00001)";
+                    LongCiteExample = @"Exhibit: LongDescription (Refresh Citations to Update)";
                     break;
                 default:
                     LongCiteExample = CiteType.ToString() + ": " + LongDescription;

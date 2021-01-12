@@ -298,6 +298,23 @@ namespace Tools.Citation
             contentControl.LockContents = true;
         }
 
+        public static void ItalicizeId(ContentControl contentControl)
+        {
+            contentControl.LockContents = false;
+
+            var find = contentControl.Range.Find;
+            find.ClearFormatting();
+            find.Replacement.ClearFormatting();
+
+            find.Text = @"<([iI]d.)";
+            find.Replacement.Text = @"\1";
+            find.Replacement.Font.Italic = -1;
+            find.MatchWildcards = true;
+            find.Execute(Replace: WdReplace.wdReplaceAll);
+
+            contentControl.LockContents = true;
+        }
+
         #endregion
 
         public static string ApplyNumFormat(int index, ExhibitIndexStyle NumberFormat)

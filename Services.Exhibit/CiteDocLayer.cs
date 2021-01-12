@@ -218,6 +218,7 @@ namespace Tools.Citation
             return CCList;
         }
 
+
         /// <summary>
         /// Gets a list of unique Citations type Exhibit from ContnetControls in the main body, footnotes, and endnotes and orders them by location reference so indexof(Citation) provides zero-based Cite Formatting index
         /// </summary>
@@ -379,6 +380,24 @@ namespace Tools.Citation
             return contentControls;
         }
 
+        public void UpdateCiteInsertCountandExample(CitationRepository Repository)
+        {
+            foreach (Citation cite in Repository.Citations)
+            {
+                
+                cite.InsertedCount = GetAllCitesFromDoc_Unordered().Count(n => GetCitationIDFromContentControl(n) == cite.ID);
+
+                int citeIndex = 0;
+                if (cite.CiteType == CiteType.Exhibit)
+                {
+                    citeIndex = GetExhibitIndex(cite, Repository);
+                }
+                cite.LongCiteExample = Repository.CiteFormatting.FormatCiteText(cite, CitePlacementType.Long, null, citeIndex);
+                cite.LongCiteExample = cite.LongCiteExample.Replace("{{PIN}}", "");
+            }
+
+        }
+
         #endregion
         #region Change doc
 
@@ -415,6 +434,19 @@ namespace Tools.Citation
             return CC;
 
         }
+
+        /// <summary>
+        /// Removes the ContentControls associated with a specific citation
+        /// </summary>
+        public void RemoveCiteCCs(Citation citation, bool DeleteContents = false)
+        {
+            var ccs = GetAllCitesFromDoc_Unordered().Where(n => GetCitationIDFromContentControl(n) == citation.ID);
+            foreach (ContentControl cc in ccs)
+            {
+                cc.Delete(DeleteContents);
+            }
+        }
+
 
         /// <summary>
         /// Updates all citation ContentControls in the document
@@ -461,8 +493,12 @@ namespace Tools.Citation
                 //Range Text update has to come after you grab the Pincite CC
                 cc.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
 
-
                 CiteFormatting.FormatFont(cc);
+                if (placementType == CitePlacementType.Id)
+                {
+                    CiteFormatting.ItalicizeId(cc);
+                }
+                
                 SetPincite(cc, Pincite);
                 AddHyperlink(cc, citation);
 
@@ -570,6 +606,11 @@ namespace Tools.Citation
 
             CiteCC.Range.Text = Repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
             CiteFormatting.FormatFont(CiteCC);
+            if (placementType == CitePlacementType.Id)
+            {
+                CiteFormatting.ItalicizeId(CiteCC);
+            }
+
             SetPincite(CiteCC);
 
             AddHyperlink(CiteCC, citation);
@@ -622,7 +663,6 @@ namespace Tools.Citation
                 _app.Selection.MoveRight(WdUnits.wdCell);
                 _app.Selection.Font.Bold = (int)WdConstants.wdToggle;
                 _app.Selection.TypeText("Exhibit Description");
-                _app.Selection.MoveRight(WdUnits.wdCell);
 
                 var Description = string.Empty;
                 var Numbering = Repository.CiteFormatting.ExhibitIndexStyle;
@@ -632,8 +672,9 @@ namespace Tools.Citation
                 foreach (var exhibit in exhibits)
                 {
                     Description = exhibit.LongDescription;
-                    int index = GetExhibitIndex(exhibit, Repository);
+                    int index = GetExhibitIndex(exhibit, Repository) + IndexStart;
 
+                    _app.Selection.MoveRight(WdUnits.wdCell);
                     _app.Selection.TypeText(CiteFormatting.ApplyNumFormat(index, Numbering));
                     _app.Selection.MoveRight(WdUnits.wdCell);
                     _app.Selection.TypeText(Description);
@@ -645,8 +686,6 @@ namespace Tools.Citation
                 log.Error("Error Adding Exhibit Index");
                 System.Windows.Forms.MessageBox.Show("An error occurred. Please contact Prelimine if the error persists."); 
             }
-
-
         }
 
         #endregion

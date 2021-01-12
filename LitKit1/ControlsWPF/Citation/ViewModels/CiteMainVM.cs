@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Xml;
 using Tools.Citation;
 
@@ -227,6 +228,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
             _docLayer.InsertCiteAtSelection(citation, Repository);
             _docLayer.UpdateCitesInDoc(Repository);
+            _docLayer.UpdateCiteInsertCountandExample(Repository);
 
             var addin = (ThisAddIn)_app.Parent;
             addin.ReturnFocus();
@@ -257,7 +259,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             {
                 Citations.Remove(citation);
                 _repository.DeleteCitation(citation);
-
+                _docLayer.RemoveCiteCCs(citation, false);
                 _docLayer.UpdateCitesInDoc(Repository);
             }
         }
@@ -270,17 +272,17 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         internal void RefreshCites()
         {
-
+            Cursor.Current = Cursors.WaitCursor;
             _app.UndoRecord.StartCustomRecord("Reload Citations");
 
             _docLayer.UpdateCitesInDoc(Repository);
-            //_docLayer.UpdateToolExhibitNumering();
-            //_docLayer.UpdateToolInsertCount();
+            _docLayer.UpdateCiteInsertCountandExample(Repository);
 
             var addin = (ThisAddIn)_app.Parent;
             addin.ReturnFocus();
 
             _app.UndoRecord.EndCustomRecord();
+            Cursor.Current = Cursors.Default;
 
         }
 
@@ -496,7 +498,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
                     //or being processed by another thread
                     //or does not exist (has already been processed)
                     FileAvailable = false;
-                    MessageBox.Show("File is open in another window or program. Please close the file and try again.");
+                    System.Windows.Forms.MessageBox.Show("File is open in another window or program. Please close the file and try again.");
 
                 }
             }
@@ -541,10 +543,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             }
 
             Repository.CiteFormatting.ExhibitIndexStart = indexStart;
-            //Repository.CiteFormatting.ExhibitLongFormat = FormatList_Long;
-            //Repository.CiteFormatting.ExhibitShortFormat = FormatList_Short;
             Repository.UpdateCiteFormattingInDB(Repository.CiteFormatting);
-
+            RefreshCites();
         }
     }
 }

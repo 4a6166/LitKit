@@ -315,10 +315,12 @@
                                  dd:DragDrop.IsDragSource="True"
                                  dd:DragDrop.IsDropTarget="True" 
                                  dd:DragDrop.SelectDroppedItems="False"
-                                 dd:DragDrop.DropHandler="{Binding}">
+                                 dd:DragDrop.DropHandler="{Binding}"
+                                     dd:DragDrop.ItemsPanelOrientation="Horizontal"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Visible">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Visible"/>
+                                        <StackPanel Orientation="Horizontal" />
                                     </ItemsPanelTemplate>
                                 </ListBox.ItemsPanel>
                                 <ListBox.ItemContainerStyle>
@@ -386,7 +388,9 @@
                                  dd:DragDrop.IsDragSource="True"
                                  dd:DragDrop.IsDropTarget="True" 
                                  dd:DragDrop.SelectDroppedItems="False"
-                                 dd:DragDrop.DropHandler="{Binding}">
+                                 dd:DragDrop.DropHandler="{Binding}"
+                                     dd:DragDrop.ItemsPanelOrientation="Horizontal"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Visible">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Orientation="Horizontal"/>
