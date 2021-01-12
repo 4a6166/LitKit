@@ -228,6 +228,9 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             _docLayer.InsertCiteAtSelection(citation, Repository);
             _docLayer.UpdateCitesInDoc(Repository);
 
+            var addin = (ThisAddIn)_app.Parent;
+            addin.ReturnFocus();
+
             _app.UndoRecord.EndCustomRecord();
         }
 
@@ -267,9 +270,18 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         internal void RefreshCites()
         {
+
+            _app.UndoRecord.StartCustomRecord("Reload Citations");
+
             _docLayer.UpdateCitesInDoc(Repository);
             //_docLayer.UpdateToolExhibitNumering();
             //_docLayer.UpdateToolInsertCount();
+
+            var addin = (ThisAddIn)_app.Parent;
+            addin.ReturnFocus();
+
+            _app.UndoRecord.EndCustomRecord();
+
         }
 
         internal void ResetFormatList()

@@ -102,14 +102,14 @@ namespace Tools.Citation
             CiteFormatPiece result = new CiteFormatPiece(CiteFormatPieceType.FREETEXT);
             try
             {
-                var _app = range.Application;
-                _app.Selection.SetRange(range.Start - 6, range.Start - 1);
 
-                if (_app.Selection.Range.Text.Contains(",") || _app.Selection.Range.Text.Contains("See") || _app.Selection.Range.Text.Contains("see") || _app.Selection.Range.Text.Contains("e.g.") || _app.Selection.Range.Text.Contains("cf.") || _app.Selection.Range.Text.Contains("Cf.") || _app.Selection.Range.Text.Contains("CF."))
+                range.SetRange(range.Start - 6, range.Start - 1);
+
+                if (range.Text.Contains(",") || range.Text.Contains("See") || range.Text.Contains("see") || range.Text.Contains("e.g.") || range.Text.Contains("cf.") || range.Text.Contains("Cf.") || range.Text.Contains("CF."))
                 {
                     result.DisplayText = "id.";
                 }
-                else if (_app.Selection.Range.Text.Contains(".") || _app.Selection.Range.Text.Contains("\r\n") || _app.Selection.Range.Text.Contains("\r") || _app.Selection.Range.Text.Contains("\n"))
+                else if (range.Text.Contains(".") || range.Text.Contains("\r\n") || range.Text.Contains("\r") || range.Text.Contains("\n"))
                 {
                     result.DisplayText = "Id.";
                 }
@@ -169,7 +169,7 @@ namespace Tools.Citation
                     case CitePlacementType.Id:
                         if (hasIdCite)
                         {
-                            result = FormatIdCite(InsertRangeForId) + "{{PIN}}";
+                            result = FormatIdCite(InsertRangeForId).DisplayText + "{{PIN}}";
                         }
                         else
                         {
@@ -216,7 +216,7 @@ namespace Tools.Citation
                         result += "{{PIN}}";
                         break;
                     case CiteFormatPieceType.FREETEXT:
-                        result += piece.DisplayText + " ";
+                        result += " " +piece.DisplayText;
                         break;
                     case CiteFormatPieceType.COMMA:
                         result += ",";
@@ -228,7 +228,7 @@ namespace Tools.Citation
                         result += ")";
                         break;
                     case CiteFormatPieceType.OTHERID:
-                        result +=citation.OtherIdentifier;
+                        result +=" "+citation.OtherIdentifier;
                         break;
                 }
             }

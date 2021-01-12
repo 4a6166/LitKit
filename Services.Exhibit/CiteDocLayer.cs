@@ -58,7 +58,9 @@ namespace Tools.Citation
         {
             try
             {
-                return bool.Parse(cc.Tag.Split('|')[2]);
+                if (cc.Tag.Split('|')[2] == "PIN:True")
+                    return true;
+                else return false;
             }
             catch { return false; }
         }
@@ -69,13 +71,20 @@ namespace Tools.Citation
             {
                 contentControl.LockContents = false;
 
-                if (ScreenTip != "")
+                if (citation.Hyperlink.StartsWith(@"http://") || citation.Hyperlink.StartsWith(@"https://"))
                 {
-                    contentControl.Range.Hyperlinks.Add(Anchor: contentControl.Range, Address: citation.Hyperlink, ScreenTip: ScreenTip);
                 }
                 else
                 {
-                    contentControl.Range.Hyperlinks.Add(Anchor: contentControl.Range, Address: citation.Hyperlink);
+                    if (ScreenTip != "")
+                    {
+                        contentControl.Range.Hyperlinks.Add(Anchor: contentControl.Range, Address: @"http://" + citation.Hyperlink, ScreenTip: ScreenTip);
+                    }
+                    else
+                    {
+                        contentControl.Range.Hyperlinks.Add(Anchor: contentControl.Range, Address: @"http://" + citation.Hyperlink);
+                    }
+
                 }
 
                 contentControl.LockContents = true;
@@ -312,7 +321,7 @@ namespace Tools.Citation
                     CCIDsList.Add(cc.ID);
                 }
 
-                var contentControlIndex = CCIDsList.IndexOf(contentControl.ID); //TODO: This seems to always return -1 (not found)
+                var contentControlIndex = CCIDsList.IndexOf(contentControl.ID); 
 
 
                 List<string> PreceedingIDs = new List<string>();
@@ -322,11 +331,11 @@ namespace Tools.Citation
                     PreceedingIDs.Add(CCCiteID);
                 }
 
-                if (PreceedingIDs.Last() == InputCiteID)
+                if (PreceedingIDs.Count>0 && PreceedingIDs.Last() == InputCiteID)
                 {
                     return CitePlacementType.Id;
                 }
-                else if (PreceedingIDs.Contains(InputCiteID))
+                else if (PreceedingIDs.Count > 0 && PreceedingIDs.Contains(InputCiteID))
                 {
                     return CitePlacementType.Short;
                 }
@@ -380,24 +389,31 @@ namespace Tools.Citation
         {
             log.Info("Citation Inserted: " + citation.ID);
 
-            int index = GetExhibitIndex(citation, Repository);
+            //int index = GetExhibitIndex(citation, Repository);
+
+            //ContentControl CC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
+            //SetCiteCCTagTitleColor(CC, citation, false);
+
+            //CitePlacementType placementType = CitePlacementType.Long; /*GetLongShorOrId(CC, Repository); //set to Long becuase CC is not inserted into the doc yet. Refresh must be called before it can be found in GetCitesFromDoc_Ordered */
+
+            //Range LeadingForId = CC.Range;
+
+            //CC.Range.Text = Repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
+            //CiteFormatting.FormatFont(CC);
+
+            ////Pincite omitted from the formatting as inital cites should not have it
+            //SetPincite(CC, null);
+
+            //AddHyperlink(CC, citation);
+
+            //return CC;
 
             ContentControl CC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
             SetCiteCCTagTitleColor(CC, citation, false);
-
-            CitePlacementType placementType = CitePlacementType.Long; /*GetLongShorOrId(CC, Repository); //set to Long becuase CC is not inserted into the doc yet. Refresh must be called before it can be found in GetCitesFromDoc_Ordered */
-
-            Range LeadingForId = CC.Range;
-
-            CC.Range.Text = Repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
-            CiteFormatting.FormatFont(CC);
-
-            //Pincite omitted from the formatting as inital cites should not have it
-            SetPincite(CC, null);
-
-            AddHyperlink(CC, citation);
+            CC.Range.Text = "Holding for Cite";
 
             return CC;
+
         }
 
         /// <summary>
@@ -410,6 +426,8 @@ namespace Tools.Citation
             var allCites = GetAllCitesFromDoc_Unordered();
             foreach (ContentControl cc in allCites)
             {
+                cc.LockContents = false;
+
                 var CCCiteID = GetCitationIDFromContentControl(cc);
                 Citation citation = repository.Citations.Where(n => n.ID == CCCiteID).FirstOrDefault();
 
@@ -423,16 +441,32 @@ namespace Tools.Citation
                     index = GetExhibitIndex(citation, repository);
                 }
 
-                cc.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
-
                 ContentControl Pincite = null;
                 if (CCHasPincite(cc))
                 {
-                    Pincite = cc.Range.ContentControls[1];
+                    foreach(ContentControl c in cc.Range.ContentControls)
+                    {
+                        if (c.Tag== "PIN")
+                        {
+                            Pincite = c; //to avoid a null pass in StPincite
+                            c.Range.Copy();
+                        }
+                        else
+                        {
+                            throw new Exception("CC != PIN");
+                        }
+                    }
                 }
+
+                //Range Text update has to come after you grab the Pincite CC
+                cc.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
+
 
                 CiteFormatting.FormatFont(cc);
                 SetPincite(cc, Pincite);
+                AddHyperlink(cc, citation);
+
+                cc.LockContents = true;
             }
         }
 
@@ -502,9 +536,9 @@ namespace Tools.Citation
             }
             else
             {
-                pinCC.Copy();
+                //pinCC.Copy(); //pinCC gets nulled out by the range.text update
                 find.Execute();
-                
+
                 var newPinCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
                 newPinCC.SetPlaceholderText(Text: "{ type Pincite text }");
                 SetPinCCTagTitleColor(newPinCC);

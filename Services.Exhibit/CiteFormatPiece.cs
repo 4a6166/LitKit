@@ -47,7 +47,11 @@ namespace Tools.Citation
 
         public void OnPropertyChanged(string name)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
+            try
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+            catch { }
         }
 
         private void setDisplayText()
