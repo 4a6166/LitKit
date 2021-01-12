@@ -278,8 +278,9 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             _docLayer.UpdateCitesInDoc(Repository);
             _docLayer.UpdateCiteInsertCountandExample(Repository);
 
-            var addin = (ThisAddIn)_app.Parent;
-            addin.ReturnFocus();
+            // // Throws an error when Cite Format is updated
+            //var addin = (ThisAddIn)_app.Parent;
+            //addin.ReturnFocus();
 
             _app.UndoRecord.EndCustomRecord();
             Cursor.Current = Cursors.Default;

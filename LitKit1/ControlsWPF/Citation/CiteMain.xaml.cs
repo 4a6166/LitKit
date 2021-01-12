@@ -478,9 +478,13 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void UpdateFormatting_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.UpdateFormatting((int)IndexStartNumUpDown.Value);
+            try
+            {
+                ViewModel.UpdateFormatting((int)IndexStartNumUpDown.Value);
 
-            CitationFormattingExpander.IsExpanded = false;
+                CitationFormattingExpander.IsExpanded = false;
+            }
+            catch { log.Error("Formatting not updated"); }
         }
 
     }
