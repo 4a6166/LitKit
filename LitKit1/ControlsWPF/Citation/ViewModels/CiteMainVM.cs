@@ -225,17 +225,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         {
             _app.UndoRecord.StartCustomRecord("Insert Citation");
 
-            //string text = citation.LongCiteExample.Replace(@"` `", "\u00a0");
-
-            //var cc = _app.Selection.ContentControls.Add(Microsoft.Office.Interop.Word.WdContentControlType.wdContentControlRichText);
-            //cc.Range.Text=text;
-            //cc.Tag = citation.ID;
-
-            //CiteFormatting.FormatFont(cc);
-
-
             _docLayer.InsertCiteAtSelection(citation, Repository);
-            //_docLayer.RefreshDocCites();
+            _docLayer.UpdateCitesInDoc(Repository);
 
             _app.UndoRecord.EndCustomRecord();
         }
@@ -252,7 +243,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             Repository.UpdateCitation(oldcite, newcite);
             OnPropertyChanged("Citations");
 
-            //TODO: _docLayer.RefreshDocCites();
+            _docLayer.UpdateCitesInDoc(Repository);
 
         }
 
@@ -264,7 +255,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
                 Citations.Remove(citation);
                 _repository.DeleteCitation(citation);
 
-                //TODO: _docLayer.RefreshDocCites();
+                _docLayer.UpdateCitesInDoc(Repository);
             }
         }
 
@@ -276,7 +267,9 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         internal void RefreshCites()
         {
-            throw new NotImplementedException();
+            _docLayer.UpdateCitesInDoc(Repository);
+            //_docLayer.UpdateToolExhibitNumering();
+            //_docLayer.UpdateToolInsertCount();
         }
 
         internal void ResetFormatList()

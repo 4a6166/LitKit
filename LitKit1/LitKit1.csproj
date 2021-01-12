@@ -484,7 +484,7 @@
     <None Include="Resources\CreateUnredactedPDF_32px.png" />
     <None Include="Resources\ExhibitTool_32px.png" />
     <None Include="Resources\AddPincite_16px.png" />
-    <None Include="Resources\IndexOfExhibits_16px.png" />
+    <Resource Include="Resources\IndexOfExhibits_16px.png" />
     <None Include="Resources\CustomizeObjAndResp_32px.png" />
     <None Include="Resources\PasteTranscript_32px.png" />
     <None Include="Resources\LatinWords_16px.png" />
@@ -505,6 +505,12 @@
     </Resource>
     <None Include="Resources\AddPincite_32px_PrelimEdit.png" />
     <None Include="Resources\AddPincite_16px_PrelimineEdit.png" />
+    <Resource Include="Resources\icons8-export.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-import.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\icons8-insert2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -519,10 +525,6 @@
     <Content Include="Resources\PilcrowLone1_B.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Citation\WPF.Citation.csproj">
-      <Project>{b961eaf3-a1b3-4166-9c60-64e8c97d1adc}</Project>
-      <Name>WPF.Citation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Services.Base\Services.Base.csproj">
       <Project>{a6acc4d7-446c-44a8-950c-93bdebc5fee1}</Project>
       <Name>Services.Base</Name>

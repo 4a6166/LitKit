@@ -11,7 +11,6 @@ using Microsoft.Office.Interop.Word;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Core;
 using LitKit1.Controls.AnsResControls;
-using Citation.UserControls;
 
 namespace LitKit1
 {

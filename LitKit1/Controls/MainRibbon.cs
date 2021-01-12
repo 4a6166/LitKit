@@ -32,6 +32,18 @@ namespace LitKit1
 
         private ToggleToolSelected toggleToolSelected;
 
+        private enum ToggleToolSelected
+        {
+            None,
+            Test,
+            MarkRedaction,
+            UnMarkRedaction,
+            AddCitation,
+            AddResponse,
+
+        }
+
+
         // Set designer properties of tab: ContorlID Type: Custom, Position: AfterOfficeId TabHome
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
@@ -44,11 +56,6 @@ namespace LitKit1
 
             _app.WindowSelectionChange += new ApplicationEvents4_WindowSelectionChangeEventHandler(Application_WindowSelectionChange); 
             //Event handler for selecting text after clicking a button. To use: add case to Application_WindowSelectionChange, add option to ToggleToolSelected enum, and have toggle set toggleToolSelected to the new enum option 
-
-            
-
-            //licenseIsValid = LicenseChecker.LicenseIsValid(); //Removed here because an expired lic may cause Word to be unstable
-            //licenseIsValid = true;
 
         }
 
@@ -804,17 +811,6 @@ namespace LitKit1
 
         #region Toggle Events
 
-        private void TestToggleSelected(object sender, RibbonControlEventArgs e)
-        {
-            
-            Cursor.Current = Cursors.WaitCursor;
-            if (TestToggleButton1.Checked)
-            {
-                toggleToolSelected = ToggleToolSelected.Test;
-            }
-            else toggleToolSelected = ToggleToolSelected.None;
-
-        }
         private void Application_WindowSelectionChange(Selection Sel)
         {
             switch (toggleToolSelected)
@@ -846,17 +842,6 @@ namespace LitKit1
                 default:
                     break;
             }
-        }
-
-        private enum ToggleToolSelected
-        {
-            None,
-            Test,
-            MarkRedaction,
-            UnMarkRedaction,
-            AddCitation,
-            AddResponse,
-
         }
 
         #endregion
@@ -921,9 +906,19 @@ namespace LitKit1
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
-            var cc = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
-            cc.Range.Text = "hyperlink";
-            cc.Range.Hyperlinks.Add(Anchor: cc.Range, Address: "www.google.com");
+
+
+            /*
+             * 
+           +  * get all CiteCCs Ordered 
+             *                          => if cite id == previous cite id, use id format
+             *                          => if cite id is in list previously, use short format
+             *                          => else use Long format
+           +  * get all ExhibitCCs Ordered -> Get uniques 
+             *                          => index of cite = cite index
+           +  * get all citations => update cites not in body, footnotes, endnotes
+             *                          - refresh is initialited (button hit, cite is added to doc, cite is edited)
+             */
 
             //stopwatch.Stop();
             //MessageBox.Show("Time: " + stopwatch.Elapsed);

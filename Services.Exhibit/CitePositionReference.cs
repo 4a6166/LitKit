@@ -12,12 +12,14 @@ namespace Tools.Citation
         public ContentControl contentControl { get; private set; }
         public Citation citation { get; private set; }
         public int DocumentReferencePoint { get; private set; }
+        public int RangeReferencePoint { get; private set; }
 
 
-        public CitePositionReference(ContentControl contentControl, int DocumentReferencePoint, Citation citation = null)
+        public CitePositionReference(ContentControl contentControl, int DocumentReferencePoint, int RangeReferencePoint = 0, Citation citation = null)
         {
             this.contentControl = contentControl;
             this.DocumentReferencePoint = DocumentReferencePoint;
+            this.RangeReferencePoint = RangeReferencePoint;
             this.citation = citation;
         }
     }

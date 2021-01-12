@@ -123,7 +123,7 @@ namespace Tools.Citation
             return result;
         }
 
-        public string FormatCiteText(Citation citation, CitePlacementType placementType, Range LeadingForId, int Index = 0)
+        public string FormatCiteText(Citation citation, CitePlacementType placementType, Range InsertRangeForId, int Index = 0)
         {
             string result = "";
             ObservableCollection<CiteFormatPiece> formatPieces = new ObservableCollection<CiteFormatPiece>();
@@ -143,7 +143,7 @@ namespace Tools.Citation
                     case CitePlacementType.Id:
                         if (hasIdCite)
                         {
-                            formatPieces = new ObservableCollection<CiteFormatPiece>() { FormatIdCite(LeadingForId), new CiteFormatPiece(CiteFormatPieceType.PIN) };
+                            formatPieces = new ObservableCollection<CiteFormatPiece>() { FormatIdCite(InsertRangeForId), new CiteFormatPiece(CiteFormatPieceType.PIN) };
                         }
                         else
                         {
@@ -169,7 +169,7 @@ namespace Tools.Citation
                     case CitePlacementType.Id:
                         if (hasIdCite)
                         {
-                            result = FormatIdCite(LeadingForId) + "{{PIN}}";
+                            result = FormatIdCite(InsertRangeForId) + "{{PIN}}";
                         }
                         else
                         {

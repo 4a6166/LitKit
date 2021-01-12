@@ -7,12 +7,10 @@
              xmlns:Controls="clr-namespace:LitKit1.Controls"
              xmlns:Converters="clr-namespace:LitKit1.ControlsWPF.Citation.Converters"
     x:Class="LitKit1.ControlsWPF.Citation.CiteMain"
-    xmlns:vm="clr-namespace:Citation.ViewModels;assembly=Citation"
     xmlns:dd="urn:gong-wpf-dragdrop" xmlns:numeric="http://gu.se/NumericInput"
     mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300">
     <UserControl.Resources>
-        <vm:MainViewVM x:Key="mainView"/>
         <Brush x:Key="CiteTypeBrush_Exhibit">#136F63</Brush>
         <Brush x:Key="CiteTypeBrush_LegalCite">#3F88C5</Brush>
         <Brush x:Key="CiteTypeBrush_RecordCite">#D00000</Brush>
@@ -91,13 +89,25 @@
                                         </MenuItem.Icon>
                                     </MenuItem>
                                     <Separator/>
-                                    <MenuItem Header="Add Exhibit Index to Document"
-                                              Click="AddExhibitIndex_Click"/>
+                                    <MenuItem Header="Add Index of Exhibits to Document"
+                                              Click="AddExhibitIndex_Click">
+                                        <MenuItem.Icon>
+                                            <Image Source="/LitKit;component/Resources/IndexOfExhibits_16px.png" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
                                     <Separator/>
-                                    <MenuItem Header="Batch Add Citations"
-                                              Click="BatchAddCites_Click"/>
-                                    <MenuItem Header="Export Citations"
-                                              Click="ExportCites_Click"/>
+                                    <MenuItem Header="Batch Import Citations"
+                                              Click="BatchAddCites_Click">
+                                        <MenuItem.Icon>
+                                            <Image Source="/LitKit;component/Resources/icons8-import.png" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Batch Export Citations"
+                                              Click="ExportCites_Click">
+                                        <MenuItem.Icon>
+                                            <Image Source="/LitKit;component/Resources/icons8-export.png" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
                                 </ContextMenu>
                             </Border.ContextMenu>
                             <StackPanel Orientation="Horizontal">
