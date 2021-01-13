@@ -10,7 +10,6 @@ using Microsoft.Office.Tools.Ribbon;
 using Tools.RedactionTool;
 using Tools.Simple;
 using LitKit1.Controls.AnsResControls;
-using Services.Licensing;
 using System.IO;
 using System.Text.RegularExpressions;
 //using Tools.Citation;
@@ -19,6 +18,7 @@ using LitKit1.ControlsWPF;
 using LitKit1.ControlsWPF.Citation.ViewModels;
 using System.Collections.Generic;
 using Tools.Citation;
+using Services.License;
 
 namespace LitKit1
 {
@@ -64,30 +64,49 @@ namespace LitKit1
         {
             if (!licenseIsValid)
             {
-                Log.Info("License Check started.");
-                try
+                // // RhinoLicensing 
+                //Log.Info("License Check started.");
+                //try
+                //{
+                //licenseIsValid = LicenseChecker.LicenseIsValid();
+                //}
+                //catch { }
+
+
+                // LicenseSpring
+                LS ls = new LS();
+                var license = ls.GetLicense();
+
+                var lastCheckDate = license.LastCheckDate();
+                if (DateTime.Now > lastCheckDate.AddMonths(1))
                 {
-                    licenseIsValid = LicenseChecker.LicenseIsValid();
+                    //online check
+                    license.Check();
                 }
-                catch { }
+
+                licenseIsValid = license.IsValid();
+                if (!licenseIsValid)
+                {
+                    var dialog = MessageBox.Show("The Prelimine LitKit License key is not valid. Send the Activation Key?", "Test License Check", MessageBoxButtons.YesNo);
+
+                    if (dialog == DialogResult.Yes)
+                    {
+                        //TODO: set process for licenses key popup entry and/or storing the license key in a file
+                        ls.ActivateLicenseKey(@"GBR7-52AQ-CZNK-QATE");
+                        licenseIsValid = license.IsValid();
+                    }
+                }
             }
 
             return licenseIsValid;
         }
-        private void ShowLicenseNotValidMessage()
-        {
-            MessageBox.Show("Your Prelimine LitKit License key is not valid. Please contact your IT administrator or Prelimine for a new license.");
-        }
-
 
         #region Redactions
         private void markRedact_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
-
                 try
                 {
                     /// consider RelationshipsHideTable ImageMSO
@@ -128,9 +147,8 @@ namespace LitKit1
 
         private void redactedPDF_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -148,9 +166,8 @@ namespace LitKit1
 
         private void unredactedPDF_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -187,9 +204,8 @@ namespace LitKit1
         }
         private void btnHighlightedPDF_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -227,12 +243,12 @@ namespace LitKit1
 
         private void tglMarkRedaction_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            {
-                tglMarkRedaction.Checked = false;
-                ShowLicenseNotValidMessage();
+            if (!licenseIsValid) 
+            { 
+                tglMarkRedaction.Checked = false; 
+                checkLicenseIsValid(); 
             }
-            else
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 if (_app.Selection.Text.Length > 1 && tglMarkRedaction.Checked)
                 {
@@ -279,9 +295,8 @@ namespace LitKit1
             stopwatch.Start();
 
 
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 Cursor.Current = Cursors.WaitCursor;
 
@@ -337,9 +352,8 @@ namespace LitKit1
 
         private void btnPinCite_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -358,9 +372,8 @@ namespace LitKit1
 
         private void btnRemovePinCite_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -377,9 +390,8 @@ namespace LitKit1
 
         private void IndexOfExhibits_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 _app.UndoRecord.StartCustomRecord("Insert Exhibit Index");
 
@@ -431,9 +443,8 @@ namespace LitKit1
         private void ResponseTool_Click(object sender, RibbonControlEventArgs e)
         {
 
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -464,9 +475,8 @@ namespace LitKit1
 
         private void ResponseCustomize_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -485,9 +495,8 @@ namespace LitKit1
 
         private void UnItalicizeLatin_Click_1(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -502,9 +511,8 @@ namespace LitKit1
 
         private void btnLatin_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -536,9 +544,8 @@ namespace LitKit1
 
         private void btnInsertNBS_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -553,9 +560,8 @@ namespace LitKit1
 
         private void btnSmrtQuotes_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -570,9 +576,8 @@ namespace LitKit1
 
         private void btnDoubleSpace_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -587,9 +592,8 @@ namespace LitKit1
 
         private void btnSingleSpace_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -604,9 +608,8 @@ namespace LitKit1
 
         private void btnBlockQuotes_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -621,9 +624,8 @@ namespace LitKit1
 
         private void btnOxfordComma_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -638,9 +640,8 @@ namespace LitKit1
 
         private void btnRemoveOxfordComma_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -655,9 +656,8 @@ namespace LitKit1
 
         private void btnBlockTranscript_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -677,9 +677,8 @@ namespace LitKit1
 
         private void btnInLineTranscript_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -746,9 +745,8 @@ namespace LitKit1
         #endregion
         private void ClipboardButton_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 _app.ShowClipboard();
             }
@@ -757,9 +755,8 @@ namespace LitKit1
         private void btnKeepWithNext_Click(object sender, RibbonControlEventArgs e)
         {
 
-            if (!checkLicenseIsValid())
-            { ShowLicenseNotValidMessage(); }
-            else
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
                 try
                 {
@@ -857,7 +854,9 @@ namespace LitKit1
 
         private void ReportBug_Click(object sender, RibbonControlEventArgs e)
         {
-            Process.Start("https://forms.gle/HkqXuHyjJhzcVjJE6");
+            string link ="https://forms.gle/HkqXuHyjJhzcVjJE6";
+            _app.ActiveDocument.FollowHyperlink(Address: link);
+
         }
         private void Support_DialogLauncherClick(object sender, RibbonControlEventArgs e)
         {

@@ -9,7 +9,7 @@ using System.Xml;
 
 [assembly: Obfuscation(Feature = "apply to type Services.Licensing.*: all", Exclude = true, ApplyToMembers = true)]
 
-namespace Services.Licensing
+namespace Services.License
 {
     public class LicenseChecker
     {
