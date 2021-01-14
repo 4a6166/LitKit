@@ -27,6 +27,8 @@ namespace Tools.RedactionTool
 
         public Redactions(Application _app)
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             this._app = _app;
             this.RedactionCalled += RedactionCalledMethods.OnRedactionAdded;
             if (RedactionCalled != null)

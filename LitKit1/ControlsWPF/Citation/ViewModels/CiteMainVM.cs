@@ -140,6 +140,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         public CiteMainVM()
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             _app = Globals.ThisAddIn.Application;
 
             _repository = new CitationRepository(_app);

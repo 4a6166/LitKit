@@ -36,6 +36,8 @@ namespace LitKit1.ControlsWPF.Citation
 
         public CiteMain()
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             log.Debug("CiteMain started");
 
             ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];

@@ -47,6 +47,8 @@ namespace LitKit1
         // Set designer properties of tab: ContorlID Type: Custom, Position: AfterOfficeId TabHome
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             /// may have to export to XML to add an image to the shrunken button groups. More here: https://stackoverflow.com/questions/45805664/how-to-set-icon-for-resized-buttom-group-in-excel-ribbon and https://docs.microsoft.com/en-us/windows/win32/windowsribbon/windowsribbon-templates
             _app = Globals.ThisAddIn.Application;
 

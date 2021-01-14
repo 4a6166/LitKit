@@ -18,6 +18,8 @@ namespace Tools.Citation
 
         public CiteDocLayer(Application application)
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             this._app = application;
         }
 

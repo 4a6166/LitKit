@@ -78,6 +78,7 @@
     <Content Include="license.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="app.config" />
     <None Include="Resources\Logo_Wide_650x374.jpg" />
     <None Include="Resources\Logo_Wide.jpg" />
   </ItemGroup>

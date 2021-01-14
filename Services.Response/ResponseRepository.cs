@@ -12,9 +12,13 @@ namespace Tools.Response
 {
     public class ResponseRepository
     {
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         //***********NO FACTORY OR INTERFACE YET -> plan is to refactor to improve performance following user testing.
         public ResponseRepository(Application _app)
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             this._app = _app;
 
             if (_app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace).Count == 0)

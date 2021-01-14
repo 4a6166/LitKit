@@ -11,6 +11,7 @@ namespace Tools.Response
     public class ResponseStandardRepository
     {
 
+
         static XmlNodeList nodesResponse = LoadStandardLanguage().SelectNodes("//Response");
 
         #region test code
