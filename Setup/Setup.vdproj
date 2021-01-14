@@ -256,25 +256,7 @@
         "Entry"
         {
         "MsmKey" = "8:_E871EF896F4A565BCC16D67A38227004"
-        "OwnerKey" = "8:_1157CD8C9523F086BD465A48B2543717"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E871EF896F4A565BCC16D67A38227004"
-        "OwnerKey" = "8:_E5C34375ED85449B31A339224E3E8694"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E871EF896F4A565BCC16D67A38227004"
         "OwnerKey" = "8:_9D3C7E3D64765DD27414B97BF539B2C3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E871EF896F4A565BCC16D67A38227004"
-        "OwnerKey" = "8:_056C67C468E8F4C7D21A6462911E845D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -598,11 +580,6 @@
             "AssemblyAsmDisplayName" = "8:Rhino.Licensing, Version=1.2.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_065A6A1ED7A6E13108383A1880853ACC"
-                    {
-                    "Name" = "8:Rhino.Licensing.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Rhino.Licensing.dll"
             "TargetName" = "8:"
@@ -1387,11 +1364,6 @@
             "AssemblyAsmDisplayName" = "8:log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_E871EF896F4A565BCC16D67A38227004"
-                    {
-                    "Name" = "8:log4net.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:log4net.dll"
             "TargetName" = "8:"
@@ -1438,7 +1410,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -1536,7 +1508,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Prelimine LitKit"
         "ProductCode" = "8:{D0F46315-0AC8-45C4-BDA8-F3304107E015}"
-        "PackageCode" = "8:{82D8E3ED-A825-4A21-9D08-6C84D02D160D}"
+        "PackageCode" = "8:{CD56A3A4-AACF-472D-B920-8B5DEB18A8D5}"
         "UpgradeCode" = "8:{4371C41D-C1BF-4E5E-814B-028076E593B4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

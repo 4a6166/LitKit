@@ -15,7 +15,7 @@ namespace Tools.RedactionTool
 {
     public class Redactions : BaseService
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public event RedactionCalledDelegate RedactionCalled;
 
@@ -27,7 +27,7 @@ namespace Tools.RedactionTool
 
         public Redactions(Application _app)
         {
-            log4net.Config.XmlConfigurator.Configure();
+            //log4net.Config.XmlConfigurator.Configure();
 
             this._app = _app;
             this.RedactionCalled += RedactionCalledMethods.OnRedactionAdded;
@@ -369,12 +369,12 @@ namespace Tools.RedactionTool
                     successful = false;
                 }
 
-                log.Info("Redaction Mark: successful = " + successful);
+                //log.Info("Redaction Mark: successful = " + successful);
 
             }
             else if (HasUnsupportedType(selection, out UnsupportedTypes)) 
             {
-                log.Info("Redaction Mark: selection has unsupported types.");
+                //log.Info("Redaction Mark: selection has unsupported types.");
 
                 MessageBox.Show("Please first select an item or range to mark for redaction. "+UnsupportedTypes);
             } 

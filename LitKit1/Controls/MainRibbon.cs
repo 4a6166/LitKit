@@ -66,47 +66,68 @@ namespace LitKit1
         {
             if (!licenseIsValid)
             {
-                // // RhinoLicensing 
-                //Log.Info("License Check started.");
-                //try
-                //{
-                //licenseIsValid = LicenseChecker.LicenseIsValid();
-                //}
-                //catch { }
-
 
                 // LicenseSpring
                 LS ls = new LS();
                 var license = ls.GetLicense();
 
-                var lastCheckDate = license.LastCheckDate();
-                if (DateTime.Now > lastCheckDate.AddMonths(1))
+                if (license != null)
                 {
-                    //online check
-                    license.Check();
-                }
-
-                licenseIsValid = license.IsValid();
-                if (!licenseIsValid)
-                {
-
-                    var keyEntryForm = new KeyEntryForm();
-                    keyEntryForm.Show();
-
-                    if (keyEntryForm.KeyEntered)
+                    var lastCheckDate = license.LastCheckDate();
+                    if (DateTime.Now > lastCheckDate.AddMonths(1))
                     {
-                        keyEntryForm.Close();
-
-                        var roamingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                        var filePath = Path.Combine(roamingDirectory, "Prelimine\\LicenseKey.txt");
-                        string key = File.ReadAllText(filePath);
-                        ls.ActivateLicenseKey(key);
-                        licenseIsValid = license.IsValid();
+                        //online check
+                        license.Check();
                     }
+
+                    licenseIsValid = license.IsValid(); ///////////////////////////////////////
+                    if (!licenseIsValid)
+                    {
+                        var keyEntryForm = new KeyEntryForm();
+                        keyEntryForm.ShowDialog();
+
+                        if (keyEntryForm.KeyEntered)
+                        {
+                            GetLicKeyFromFile(ls, license);
+                        }
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        GetLicKeyFromFile(ls, license);
+                    }
+                    catch
+                    {
+                        var keyEntryForm = new KeyEntryForm();
+                        keyEntryForm.ShowDialog();
+
+                        if (keyEntryForm.KeyEntered)
+                        {
+                            GetLicKeyFromFile(ls, license);
+                        }
+                    }
+
+                    GetLicKeyFromFile(ls, license);
                 }
             }
 
             return licenseIsValid;
+        }
+
+        private void GetLicKeyFromFile(LS ls, LicenseSpring.ILicense license)
+        {
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            filePath = (filePath + @"\Prelimine\LicenseKey.txt");
+            string path = Convert.ToString(filePath);
+            StreamReader reader = new StreamReader(path);
+            string key = reader.ReadToEnd().Trim();
+
+            ls.ActivateLicenseKey(key);
+            license = ls.GetLicense();
+            licenseIsValid = license.IsValid();
         }
 
         #region Redactions
@@ -869,30 +890,32 @@ namespace LitKit1
         private void Support_DialogLauncherClick(object sender, RibbonControlEventArgs e)
         {
 
-            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-            String Root = Directory.GetCurrentDirectory();
-            var Files = Directory.EnumerateFileSystemEntries(Root);
+            //Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            //String Root = Directory.GetCurrentDirectory();
+            //var Files = Directory.EnumerateFileSystemEntries(Root);
 
-            string filesString = "All Files:" + Environment.NewLine;
-            foreach (var file in Files)
-            {
-                filesString += file + Environment.NewLine;
-            }
-
-
-            string licPath = string.Empty;
-            try
-            {
-                licPath = Files.Where(n => n.Contains("license.xml")).SingleOrDefault();
-            }
-            catch
-            { licPath = "Files.Where failed"; }
+            //string filesString = "All Files:" + Environment.NewLine;
+            //foreach (var file in Files)
+            //{
+            //    filesString += file + Environment.NewLine;
+            //}
 
 
-            string lic = new StreamReader(licPath).ReadToEnd();
+            //string licPath = string.Empty;
+            //try
+            //{
+            //    licPath = Files.Where(n => n.Contains("license.xml")).SingleOrDefault();
+            //}
+            //catch
+            //{ licPath = "Files.Where failed"; }
 
 
-            MessageBox.Show("License is valid: " + LicenseChecker.LicenseIsValid() + Environment.NewLine + "Licensed to: " + LicenseChecker.Name() + Environment.NewLine + "Expiration: " + LicenseChecker.Expiration());
+            //string lic = new StreamReader(licPath).ReadToEnd();
+
+
+            //MessageBox.Show("License is valid: " + LicenseChecker.LicenseIsValid() + Environment.NewLine + "Licensed to: " + LicenseChecker.Name() + Environment.NewLine + "Expiration: " + LicenseChecker.Expiration());
+
+            //TODO: Add license checker dialog
 
         }
 

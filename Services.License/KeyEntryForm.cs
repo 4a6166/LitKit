@@ -18,7 +18,8 @@ namespace Services.License
         public KeyEntryForm()
         {
             InitializeComponent();
-            tbErrorMessage.Visible = false;
+            btnSubmit.Enabled = false;
+
         }
 
         private void SendLicenseKey()
@@ -26,14 +27,30 @@ namespace Services.License
             string key = tbLicenseKey.Text;
             if (KeyFormatIsValid(key))
             {
+                try
+                {
+                    string filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-                var roamingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                var filePath = Path.Combine(roamingDirectory, "Prelimine\\LicenseKey.txt");
+                    MessageBox.Show(filePath);
 
-                File.WriteAllText(filePath, key);
+                    filePath = (filePath + @"\Prelimine\LicenseKey.txt");
 
-                KeyEntered = true;
-                this.Visible = false;
+                    MessageBox.Show(filePath);
+
+
+                    string path = Convert.ToString(filePath);
+                    StreamWriter file = new StreamWriter(filePath, false);
+                    file.WriteLine(key);
+                    file.Close();
+
+
+                    KeyEntered = true;
+                    this.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("Error creating License Key file");
+                }
             }
             else
             {
@@ -49,7 +66,7 @@ namespace Services.License
             bool testLength = key.Length == 19;
 
             var regex = new Regex(@"^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$");
-            bool testRegex = regex.Match(key).Groups.Count == 1;
+            bool testRegex = regex.Match(key).Success;
 
             return testLength && testRegex;
         }
@@ -60,10 +77,10 @@ namespace Services.License
 
         private void tbLicenseKey_KeyUp(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
-            {
-                SendLicenseKey();
-            }
+            //if(e.KeyCode == Keys.Enter)
+            //{
+            //    SendLicenseKey();
+            //}
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -84,6 +101,22 @@ namespace Services.License
         private void tbErrorMessage_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void tbLicenseKey_TextChanged(object sender, EventArgs e)
+        {
+            if (KeyFormatIsValid(tbLicenseKey.Text))
+            {
+                btnSubmit.Enabled = true;
+                //tbValidMessage.Text = "Valid Format";
+                //tbValidMessage.ForeColor = Color.Green;
+            }
+            else
+            {
+                btnSubmit.Enabled = false;
+                //tbValidMessage.Text = "Invalid Format";
+                //tbValidMessage.ForeColor = Color.Red;
+            }
         }
     }
 }

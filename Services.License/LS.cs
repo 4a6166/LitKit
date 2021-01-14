@@ -29,7 +29,8 @@ namespace Services.License
                   sharedKey: "J-58rsdq7zRa6KYv9MD4hS1Wj7IQyxLmC4y9rIAN5mY",
                   productCode: "test1",
                   appName: "LitKit Test",
-                  appVersion: "0.0.01Test");
+                  appVersion: "0.0.01Test"
+                  );
 
             var licenseManager = LicenseManager.GetInstance();
 
@@ -42,6 +43,20 @@ namespace Services.License
         public ILicense GetLicense()
         {
             ILicense license = _licenseManager.CurrentLicense();
+
+            if (license == null)
+            {
+                Log.Info("License returned null");
+            }
+            else
+            {
+                try
+                {
+                    Log.Info("License is valid: " + license.IsValid());
+                    Log.Info("License days remaining: " + license.DaysRemainingUTC());
+                }
+                catch { Log.Error("License Information not avaialable"); }
+            }
             return license;
         }
 
@@ -65,9 +80,10 @@ namespace Services.License
 
         public void ActivateLicenseKey(string LicenseKey)
         {
+            Log.Info("License Key activating");
             try
             {
-                var activated = _licenseManager.ActivateLicense(LicenseKey);
+                ILicense activated = _licenseManager.ActivateLicense(LicenseKey);
             }
             catch(LicenseActivationException e)
             {
@@ -79,7 +95,7 @@ namespace Services.License
         {
             try
             {
-                var activated = _licenseManager.ActivateLicenseOffline(OfflineLicensePath);
+                ILicense activated = _licenseManager.ActivateLicenseOffline(OfflineLicensePath);
             }
             catch (ActivationFileException e)
             {

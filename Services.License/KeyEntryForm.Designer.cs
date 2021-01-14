@@ -54,6 +54,7 @@
             this.tbLicenseKey.TabIndex = 0;
             this.tbLicenseKey.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tbLicenseKey.WordWrap = false;
+            this.tbLicenseKey.TextChanged += new System.EventHandler(this.tbLicenseKey_TextChanged);
             this.tbLicenseKey.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbLicenseKey_KeyUp);
             // 
             // cmLicenseKey
@@ -77,7 +78,7 @@
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(26, 231);
+            this.textBox1.Location = new System.Drawing.Point(26, 244);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
@@ -119,15 +120,16 @@
             this.tbErrorMessage.TabStop = false;
             this.tbErrorMessage.Text = "[ERROR MESSAGE]";
             this.tbErrorMessage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbErrorMessage.Visible = false;
             this.tbErrorMessage.TextChanged += new System.EventHandler(this.tbErrorMessage_TextChanged);
             // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox1.Image = global::Services.License.Properties.Resources.Logo_Wide_650x374;
-            this.pictureBox1.Location = new System.Drawing.Point(26, -87);
+            this.pictureBox1.Image = global::Services.License.Properties.Resources.Logo_Wide_650x3741;
+            this.pictureBox1.Location = new System.Drawing.Point(26, 11);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(633, 288);
+            this.pictureBox1.Size = new System.Drawing.Size(633, 211);
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
