@@ -17,6 +17,8 @@ namespace Services.License
 
         public LS()
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             _licenseManager = getInstance();
         }
         private ILicenseManager getInstance()

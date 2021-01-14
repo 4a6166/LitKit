@@ -87,12 +87,18 @@ namespace LitKit1
                 licenseIsValid = license.IsValid();
                 if (!licenseIsValid)
                 {
-                    var dialog = MessageBox.Show("The Prelimine LitKit License key is not valid. Send the Activation Key?", "Test License Check", MessageBoxButtons.YesNo);
 
-                    if (dialog == DialogResult.Yes)
+                    var keyEntryForm = new KeyEntryForm();
+                    keyEntryForm.Show();
+
+                    if (keyEntryForm.KeyEntered)
                     {
-                        //TODO: set process for licenses key popup entry and/or storing the license key in a file
-                        ls.ActivateLicenseKey(@"GBR7-52AQ-CZNK-QATE");
+                        keyEntryForm.Close();
+
+                        var roamingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                        var filePath = Path.Combine(roamingDirectory, "Prelimine\\LicenseKey.txt");
+                        string key = File.ReadAllText(filePath);
+                        ls.ActivateLicenseKey(key);
                         licenseIsValid = license.IsValid();
                     }
                 }

@@ -523,6 +523,9 @@
     <Resource Include="Resources\icons8-insert3.2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Logo_Wide.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\outline_border_color_black_18dp.png" />
     <Content Include="Resources\outline_border_color_black_36dp.png" />
     <Content Include="Resources\PilcrowLone1_B.ico" />

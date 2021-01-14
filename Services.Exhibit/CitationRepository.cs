@@ -73,24 +73,27 @@ namespace Tools.Citation
             String Root = Directory.GetCurrentDirectory();
             string path = string.Empty;
 
-            try // For debugging
-            {
-                path = Root + @"\" +@"CitationsCustomXMLFrame.xml";
-            }
-            catch { }
-            //try //For user testing
-            //{
-            //    string Parent = Directory.GetCurrentDirectory() + @"\..\";
-            //    var Dirs = Directory.EnumerateDirectories(Parent);
-
-            //    string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
-
-            //    path = Rootdll + @"\CitationsCustomXMLFrame.xml";
-            //}
-            //catch { }
-
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(path);
+
+
+            try
+            {
+                string Parent = Directory.GetCurrentDirectory() + @"\..\";
+                var Dirs = Directory.EnumerateDirectories(Parent);
+
+                string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
+
+                path = Rootdll + @"Services\CitationsCustomXMLFrame.xml";
+                xmlDocument.Load(path);
+
+            }
+            catch 
+            {
+                // For debugging
+                path = Root + @"\" + @"CitationsCustomXMLFrame.xml";
+                xmlDocument.Load(path);
+
+            }
 
             _app.ActiveDocument.CustomXMLParts.Add(xmlDocument.OuterXml);
 
