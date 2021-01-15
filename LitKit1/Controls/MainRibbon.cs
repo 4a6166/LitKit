@@ -12,7 +12,6 @@ using Tools.Simple;
 using LitKit1.Controls.AnsResControls;
 using System.IO;
 using System.Text.RegularExpressions;
-//using Tools.Citation;
 using Services.Base;
 using LitKit1.ControlsWPF;
 using LitKit1.ControlsWPF.Citation.ViewModels;

@@ -31,13 +31,14 @@ namespace Tools.Citation
     [Flags]
     public enum FormatNode
     {
-        Intro = 1,
-        Long = 2,
-        Short = 4,
-        IndexStyle = 8,
-        IndexStart = 16,
-        Parentheses = 32,
-        IdCite = 64
+        IntroLong = 1,
+        IntroShort = 2,
+        Long = 4,
+        Short = 8,
+        IndexStyle = 16,
+        IndexStart = 32,
+        Parentheses = 64,
+        IdCite = 128
     }
 
     [Flags]
@@ -52,17 +53,19 @@ namespace Tools.Citation
     [Flags]
     public enum CiteFormatPieceType
     {
-        INTRO = 1,
-        INDEX = 2,
-        DESC = 4,
-        OTHERID = 8,
-        PIN = 16,
+        INTROLONG = 1,
+        INTROSHORT = 2,
 
-        FREETEXT = 32,
+        INDEX = 4,
+        DESC = 8,
+        OTHERID = 16,
+        PIN = 32,
 
-        LPARENS = 64,
-        RPARENS = 128,
-        COMMA = 256,
+        FREETEXT = 64,
+
+        LPARENS = 128,
+        RPARENS = 256,
+        COMMA = 512,
     }
 
 }

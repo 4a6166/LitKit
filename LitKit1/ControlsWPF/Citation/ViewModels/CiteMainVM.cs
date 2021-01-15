@@ -36,6 +36,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         private CiteFormatPiece _freeTextFormatPiece_Long;
         private CiteFormatPiece _freeTextFormatPiece_Short;
 
+        private bool _citesReloadAutomatically = true;
+
         #endregion
 
         #region Public properties
@@ -135,7 +137,15 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             }
         }
 
-
+        public bool CitesReloadAutomatically
+        {
+            get { return _citesReloadAutomatically; }
+            set
+            {
+                _citesReloadAutomatically = value;
+                OnPropertyChanged("CitesReloadAutomatically");
+            }
+        }
         #endregion
 
         public CiteMainVM()
@@ -165,15 +175,15 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             FormatList_Long = Repository.CiteFormatting.ExhibitLongFormat;
             FormatList_Short = Repository.CiteFormatting.ExhibitShortFormat;
 
-            var introLong = FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
+            var introLong = FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTROLONG);
             if (introLong != null)
             {
-                introLong._displayText = Repository.CiteFormatting.ExhibitIntro;
+                introLong._displayText = Repository.CiteFormatting.ExhibitIntroLong;
             }
-            var introShort = FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
+            var introShort = FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTROSHORT);
             if (introShort != null)
             {
-                introShort._displayText = Repository.CiteFormatting.ExhibitIntro;
+                introShort._displayText = Repository.CiteFormatting.ExhibitIntroShort;
             }
 
             var indexLong = FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INDEX);
@@ -228,9 +238,13 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         {
             _app.UndoRecord.StartCustomRecord("Insert Citation");
 
-            _docLayer.InsertCiteAtSelection(citation, Repository);
-            _docLayer.UpdateCitesInDoc(Repository);
-            _docLayer.UpdateCiteInsertCountandExample(Repository);
+            _docLayer.InsertCiteAtSelection(citation, Repository, CitesReloadAutomatically);
+
+            if (CitesReloadAutomatically)
+            {
+                _docLayer.UpdateCitesInDoc(Repository);
+                _docLayer.UpdateCiteInsertCountandExample(Repository);
+            }
 
             var addin = (ThisAddIn)_app.Parent;
             addin.ReturnFocus();
@@ -250,8 +264,10 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             Repository.UpdateCitation(oldcite, newcite);
             OnPropertyChanged("Citations");
 
-            _docLayer.UpdateCitesInDoc(Repository);
-
+            if (CitesReloadAutomatically)
+            {
+                _docLayer.UpdateCitesInDoc(Repository);
+            }
         }
 
         public void DeleteCite(Tools.Citation.Citation citation)
@@ -262,7 +278,10 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
                 Citations.Remove(citation);
                 _repository.DeleteCitation(citation);
                 _docLayer.RemoveCiteCCs(citation, false);
-                _docLayer.UpdateCitesInDoc(Repository);
+                if (CitesReloadAutomatically)
+                {
+                    _docLayer.UpdateCitesInDoc(Repository);
+                }
             }
         }
 
@@ -277,9 +296,10 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             Cursor.Current = Cursors.WaitCursor;
             _app.UndoRecord.StartCustomRecord("Reload Citations");
 
-            _docLayer.UpdateCitesInDoc(Repository);
-            _docLayer.UpdateCiteInsertCountandExample(Repository);
-
+            // do not check if CitesReloadedAutomatically is checked, force a refresh
+                _docLayer.UpdateCitesInDoc(Repository);
+                _docLayer.UpdateCiteInsertCountandExample(Repository);
+            
             // // Throws an error when Cite Format is updated
             //var addin = (ThisAddIn)_app.Parent;
             //addin.ReturnFocus();
@@ -294,13 +314,13 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             FormatList_Long.Clear();
             FormatList_Short.Clear();
 
-            FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO));
+            FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INTROLONG));
             FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INDEX));
             FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.COMMA));
             FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.PIN));
             FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.DESC));
 
-            FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO));
+            FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.INTROSHORT));
             FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.INDEX));
             FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.PIN));
 
@@ -378,7 +398,9 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             {
                 try
                 {
-                    string intro = formatNode.SelectSingleNode("//Intro").InnerText;
+                    string introLong = formatNode.SelectSingleNode("//IntroLong").InnerText;
+                    string introShort = formatNode.SelectSingleNode("//IntroShort").InnerText;
+
                     ExhibitIndexStyle indexStyle = ExhibitIndexStyle.Numbers;
                     Enum.TryParse(formatNode.SelectSingleNode("//IndexStyle").InnerText, out indexStyle);
                     int indexStart = Int32.Parse(formatNode.SelectSingleNode("//IndexStart").InnerText);
@@ -405,7 +427,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
                     }
 
                     //Update the Cite Formatting and save 
-                    CiteFormatting formatting = new CiteFormatting(intro, longFormat, shortFormat, indexStyle, indexStart, idCite);
+                    CiteFormatting formatting = new CiteFormatting(introLong, introShort, longFormat, shortFormat, indexStyle, indexStart, idCite);
                     FormatList_Long = longFormat;
                     OnPropertyChanged("FormatList_Long");
 
@@ -515,13 +537,13 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         internal void UpdateFormatting(int indexStart)
         {
-            var intro = FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
+            var introLong = FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTROLONG);
+            if (introLong != null)
+            { Repository.CiteFormatting.ExhibitIntroLong = introLong.DisplayText; }
 
-            if (intro == null)
-            { intro = FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO); }
-
-            if (intro != null)
-            { Repository.CiteFormatting.ExhibitIntro = intro.DisplayText; }
+            var introShort = FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTROSHORT);
+            if (introShort != null)
+            { Repository.CiteFormatting.ExhibitIntroShort = introShort.DisplayText; }
 
 
             var index = FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INDEX);
@@ -547,7 +569,11 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
             Repository.CiteFormatting.ExhibitIndexStart = indexStart;
             Repository.UpdateCiteFormattingInDB(Repository.CiteFormatting);
-            RefreshCites();
+
+            if (CitesReloadAutomatically)
+            {
+                RefreshCites();
+            }
         }
     }
 }

@@ -58,7 +58,10 @@ namespace Tools.Citation
         {
             switch (Type)
             {
-                case CiteFormatPieceType.INTRO:
+                case CiteFormatPieceType.INTROLONG:
+                    DisplayText = "Exhibit";
+                    break;
+                case CiteFormatPieceType.INTROSHORT:
                     DisplayText = "Exhibit";
                     break;
                 case CiteFormatPieceType.INDEX:

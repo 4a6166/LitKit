@@ -309,12 +309,12 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void AddIntroBlock_Click(object sender, RoutedEventArgs e)
         {
-            string introText = ViewModel.Repository.CiteFormatting.ExhibitIntro;
+            string introText = ViewModel.Repository.CiteFormatting.ExhibitIntroLong;
 
-            var count = ViewModel.FormatList_Long.Where(n => n.Type == CiteFormatPieceType.INTRO).ToList().Count;
+            var count = ViewModel.FormatList_Long.Where(n => n.Type == CiteFormatPieceType.INTROLONG).ToList().Count;
             if (count == 0)
             {
-                ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO, introText));
+                ViewModel.FormatList_Long.Add(new CiteFormatPiece(CiteFormatPieceType.INTROLONG, introText));
             }
             else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Intro Block.");
         }
@@ -386,10 +386,10 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void ShortAddIntroBlock_Click(object sender, RoutedEventArgs e)
         {
-            var count = ViewModel.FormatList_Short.Where(n => n.Type == CiteFormatPieceType.INTRO).ToList().Count;
+            var count = ViewModel.FormatList_Short.Where(n => n.Type == CiteFormatPieceType.INTROSHORT).ToList().Count;
             if (count == 0)
             {
-                ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.INTRO));
+                ViewModel.FormatList_Short.Add(new CiteFormatPiece(CiteFormatPieceType.INTROSHORT));
             }
             else System.Windows.Forms.MessageBox.Show("Exhibit Formatting already contains an Intro Block.");
         }
@@ -489,5 +489,14 @@ namespace LitKit1.ControlsWPF.Citation
             catch { log.Error("Formatting not updated"); }
         }
 
+        private void cbReloadCites_Checked(object sender, RoutedEventArgs e)
+        {
+            ViewModel.CitesReloadAutomatically = true;
+        }
+
+        private void cbReloadCites_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ViewModel.CitesReloadAutomatically = false;
+        }
     }
 }

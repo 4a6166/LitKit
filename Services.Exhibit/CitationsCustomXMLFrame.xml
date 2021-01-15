@@ -1,19 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Citations xmlns="Prelimine Litkit Citation Tool">
   <Format xmlns="">
-    <Intro>Exhibit</Intro>
+    <IntroLong>Exhibit</IntroLong>
+    <IntroShort>Exhibit</IntroShort>
     <IndexStyle>Numbers</IndexStyle>
     <IndexStart>1</IndexStart>
     <IdCite>True</IdCite>
     <Long>
-      <INTRO/>
+      <INTROLONG/>
       <INDEX/>
       <COMMA/>
       <PIN/>
       <DESC/>
     </Long>
     <Short>
-      <INTRO/>
+      <INTROSHORT/>
       <INDEX/>
       <PIN/>
     </Short>
@@ -27,7 +28,8 @@
 <Citations xmlns="Prelimine Litkit Citation Tool">
   
   <Format xmlns="">
-    <Intro>  //One INTROBLOCK  </Intro>
+    <IntroLong>  //One INTROBLOCK  </IntroLong>
+    <IntroShort>  //One INTROBLOCK  </IntroShort>
     <IndexStyle>  //One INDEXSTYLEBLOCK  </IndexStyle>
     <IndexStart>  //Fill with a numeral  </IndexStart>
     <IdCite>  //True or False </IdCite>
@@ -72,7 +74,8 @@
   <IndexStyle>Roman</IndexStyle>
 
 ## FORMATBLOCKS
-  <INTRO/>
+  <INTROLONG/>
+  <INTROSHORT/>
   <INDEX/>
   <COMMA/>
   <PIN/>

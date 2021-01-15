@@ -127,9 +127,13 @@ namespace Tools.Citation
                 CiteFormatPieceType type = CiteFormatPieceType.FREETEXT;
                 switch (node.BaseName)
                 {
-                    case "INTRO":
-                        type = CiteFormatPieceType.INTRO;
+                    case "INTROLONG":
+                        type = CiteFormatPieceType.INTROLONG;
                         break;
+                    case "INTROSHORT":
+                        type = CiteFormatPieceType.INTROSHORT;
+                        break;
+
                     case "INDEX":
                         type = CiteFormatPieceType.INDEX;
                         break;
@@ -169,7 +173,9 @@ namespace Tools.Citation
         }
         private void GetCiteFormattingFromDB()
         {
-            string ExhibitIntro = GetFormattingFromDB(FormatNode.Intro);
+            string ExhibitIntroLong = GetFormattingFromDB(FormatNode.IntroLong);
+            string ExhibitIntroShort = GetFormattingFromDB(FormatNode.IntroShort);
+
             ObservableCollection<CiteFormatPiece> ExhibitLongFormat = GetFormatPiecesFromDB(FormatNode.Long);
             ObservableCollection<CiteFormatPiece> ExhibitShortFormat = GetFormatPiecesFromDB(FormatNode.Short);
 
@@ -178,7 +184,7 @@ namespace Tools.Citation
             int ExhibitIndexStart = Int32.Parse(GetFormattingFromDB(FormatNode.IndexStart));
             bool HasIdCite = bool.Parse(GetFormattingFromDB(FormatNode.IdCite));
 
-            CiteFormatting = new CiteFormatting(ExhibitIntro, ExhibitLongFormat, ExhibitShortFormat, ExhibitIndexStyle, ExhibitIndexStart, HasIdCite);
+            CiteFormatting = new CiteFormatting(ExhibitIntroLong, ExhibitIntroShort, ExhibitLongFormat, ExhibitShortFormat, ExhibitIndexStyle, ExhibitIndexStart, HasIdCite);
         }
 
         private void replaceChildren(CustomXMLNode parentNode, ObservableCollection<CiteFormatPiece> FormatBlocks)
@@ -204,7 +210,9 @@ namespace Tools.Citation
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace)[1];
             CustomXMLNode FormattingNode = customXmlDoc.SelectSingleNode(FormattingRoot);
 
-            FormattingNode.SelectSingleNode("//Intro").Text = formatting.ExhibitIntro;
+            FormattingNode.SelectSingleNode("//IntroLong").Text = formatting.ExhibitIntroLong;
+            FormattingNode.SelectSingleNode("//IntroShort").Text = formatting.ExhibitIntroShort;
+
             FormattingNode.SelectSingleNode("//IndexStyle").Text = formatting.ExhibitIndexStyle.ToString();
             FormattingNode.SelectSingleNode("//IndexStart").Text = formatting.ExhibitIndexStart.ToString();
             FormattingNode.SelectSingleNode("//IdCite").Text = formatting.hasIdCite.ToString();
