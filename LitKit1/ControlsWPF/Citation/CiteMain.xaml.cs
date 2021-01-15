@@ -36,6 +36,8 @@ namespace LitKit1.ControlsWPF.Citation
 
         public CiteMain()
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             log.Debug("CiteMain started");
 
             ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
@@ -478,9 +480,13 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void UpdateFormatting_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.UpdateFormatting((int)IndexStartNumUpDown.Value);
+            try
+            {
+                ViewModel.UpdateFormatting((int)IndexStartNumUpDown.Value);
 
-            CitationFormattingExpander.IsExpanded = false;
+                CitationFormattingExpander.IsExpanded = false;
+            }
+            catch { log.Error("Formatting not updated"); }
         }
 
     }

@@ -140,6 +140,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         public CiteMainVM()
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             _app = Globals.ThisAddIn.Application;
 
             _repository = new CitationRepository(_app);
@@ -278,8 +280,9 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             _docLayer.UpdateCitesInDoc(Repository);
             _docLayer.UpdateCiteInsertCountandExample(Repository);
 
-            var addin = (ThisAddIn)_app.Parent;
-            addin.ReturnFocus();
+            // // Throws an error when Cite Format is updated
+            //var addin = (ThisAddIn)_app.Parent;
+            //addin.ReturnFocus();
 
             _app.UndoRecord.EndCustomRecord();
             Cursor.Current = Cursors.Default;
