@@ -12,12 +12,14 @@ namespace Tools.Citation
     /// </summary>
     public class CiteDocLayer
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public Application _app { get; private set; }
 
         public CiteDocLayer(Application application)
         {
+            //log4net.Config.XmlConfigurator.Configure();
+
             this._app = application;
         }
 
@@ -30,7 +32,7 @@ namespace Tools.Citation
             }
             catch
             {
-                log.Error("ContentControl " + contentControl.ID + " Tag = null");
+                //log.Error("ContentControl " + contentControl.ID + " Tag = null");
                 return "";
             }
         }
@@ -347,7 +349,7 @@ namespace Tools.Citation
             }
             catch
             {
-                log.Error("ContentControl " + contentControl.ID + " caused error and format could not be determined.");
+                //log.Error("ContentControl " + contentControl.ID + " caused error and format could not be determined.");
                 return CitePlacementType.Long;
             }
         }
@@ -406,7 +408,7 @@ namespace Tools.Citation
         /// </summary>
         public ContentControl InsertCiteAtSelection(Citation citation, CitationRepository Repository)
         {
-            log.Info("Citation Inserted: " + citation.ID);
+            //log.Info("Citation Inserted: " + citation.ID);
 
             //int index = GetExhibitIndex(citation, Repository);
 
@@ -453,7 +455,7 @@ namespace Tools.Citation
         /// </summary>
         public void UpdateCitesInDoc(CitationRepository repository)
         {
-            log.Info("Updating Citations in Doc. Name: " + _app.ActiveDocument.FullName + " ActiveDoc CC Count: " + _app.ActiveDocument.ContentControls.Count);
+            //log.Info("Updating Citations in Doc. Name: " + _app.ActiveDocument.FullName + " ActiveDoc CC Count: " + _app.ActiveDocument.ContentControls.Count);
 
             var allCites = GetAllCitesFromDoc_Unordered();
             foreach (ContentControl cc in allCites)
@@ -683,7 +685,7 @@ namespace Tools.Citation
             }
             catch 
             {
-                log.Error("Error Adding Exhibit Index");
+                //log.Error("Error Adding Exhibit Index");
                 System.Windows.Forms.MessageBox.Show("An error occurred. Please contact Prelimine if the error persists."); 
             }
         }

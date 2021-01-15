@@ -15,7 +15,7 @@ namespace Tools.Citation
 {
     public class CitationRepository : INotifyPropertyChanged
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         bool repoLoaded = false;
         private CiteFormatting _citeFormatting;
@@ -50,6 +50,8 @@ namespace Tools.Citation
 
         public CitationRepository(Application _app)
         {
+            //log4net.Config.XmlConfigurator.Configure();
+
             this._app = _app;
 
             if (_app.ActiveDocument.CustomXMLParts.SelectByNamespace(_Namespace).Count == 0)
@@ -73,28 +75,31 @@ namespace Tools.Citation
             String Root = Directory.GetCurrentDirectory();
             string path = string.Empty;
 
-            try // For debugging
-            {
-                path = Root + @"\" +@"CitationsCustomXMLFrame.xml";
-            }
-            catch { }
-            //try //For user testing
-            //{
-            //    string Parent = Directory.GetCurrentDirectory() + @"\..\";
-            //    var Dirs = Directory.EnumerateDirectories(Parent);
-
-            //    string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
-
-            //    path = Rootdll + @"\CitationsCustomXMLFrame.xml";
-            //}
-            //catch { }
-
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(path);
+
+
+            try
+            {
+                string Parent = Directory.GetCurrentDirectory() + @"\..\";
+                var Dirs = Directory.EnumerateDirectories(Parent);
+
+                string Rootdll = Dirs.Where(n => n.Contains("litkit.dll")).SingleOrDefault();
+
+                path = Rootdll + @"Services\CitationsCustomXMLFrame.xml";
+                xmlDocument.Load(path);
+
+            }
+            catch 
+            {
+                // For debugging
+                path = Root + @"\" + @"CitationsCustomXMLFrame.xml";
+                xmlDocument.Load(path);
+
+            }
 
             _app.ActiveDocument.CustomXMLParts.Add(xmlDocument.OuterXml);
 
-            log.Info("Framed CiteTool Custom XML Doc");
+            //log.Info("Framed CiteTool Custom XML Doc");
         }
 
         #region Formatting
@@ -208,7 +213,7 @@ namespace Tools.Citation
             replaceChildren(FormattingNode.SelectSingleNode("//Long"), formatting.ExhibitLongFormat);
             replaceChildren(FormattingNode.SelectSingleNode("//Short"), formatting.ExhibitShortFormat);
 
-            log.Info("Cite Formatting Updated");
+            //log.Info("Cite Formatting Updated");
         }
         #endregion
 
@@ -230,7 +235,7 @@ namespace Tools.Citation
             customXmlDoc.AddNode(CiteNode, "Hyperlink", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, citation.Hyperlink);
 
 
-            log.Info(citation.ID + " added to DB");
+            //log.Info(citation.ID + " added to DB");
         }
 
 
@@ -248,7 +253,7 @@ namespace Tools.Citation
                 }
             }
 
-            log.Info(citation.ID + " deleted from DB");
+            //log.Info(citation.ID + " deleted from DB");
         }
 
         public void ExportCites(string path)
@@ -354,7 +359,7 @@ namespace Tools.Citation
                 }
             }
 
-            log.Info(citation.ID + "updated in DB");
+            //log.Info(citation.ID + "updated in DB");
         }
 
         public void AddCitation(Citation citation)
@@ -399,7 +404,7 @@ namespace Tools.Citation
                 AddCitation(new Citation(CiteType.Other, "Long Description " + i, "Short " + i, Hyperlink: @"www.Other" + i + ".com"));
             }
 
-            log.Info("Test Cites added to DB");
+            //log.Info("Test Cites added to DB");
         }
     }
 }

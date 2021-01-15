@@ -29,7 +29,6 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
     <TargetFrameworkProfile />
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>C:\Users\Jake\Google Drive %28jacob.field%40prelimine.com%29\repos\LitKit1_git\DeploymentFiles\LitKitInstallTest\</PublishUrl>
@@ -131,17 +130,17 @@
     <Reference Include="Gu.Wpf.NumericInput, Version=0.5.5.0, Culture=neutral, PublicKeyToken=e6e2e1b32408e0fd, processorArchitecture=MSIL">
       <HintPath>..\packages\Gu.Wpf.NumericInput.0.5.5\lib\net45\Gu.Wpf.NumericInput.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    <Reference Include="LicenseSpring, Version=6.3.1.0, Culture=neutral, PublicKeyToken=2d5c13cc31edbaaf, processorArchitecture=MSIL">
+      <HintPath>..\packages\LicenseSpring.NetSDK.6.3.1\lib\net472\LicenseSpring.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Rhino.Licensing, Version=1.2.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Rhino.Licensing.1.2\lib\net40\Rhino.Licensing.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -520,6 +519,9 @@
     <Resource Include="Resources\icons8-insert3.2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Logo_Wide.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\outline_border_color_black_18dp.png" />
     <Content Include="Resources\outline_border_color_black_36dp.png" />
     <Content Include="Resources\PilcrowLone1_B.ico" />
@@ -548,10 +550,6 @@
     <ProjectReference Include="..\Services.RibbonButtons\Tools.Simple.csproj">
       <Project>{e0783a21-83f7-4ff3-afc4-4c1eaf167c2d}</Project>
       <Name>Tools.Simple</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tools.HoldingLib\Tools.HoldingLib.csproj">
-      <Project>{413e09f6-2767-410c-b0ab-1ae86c43fbda}</Project>
-      <Name>Tools.HoldingLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -687,7 +685,4 @@
   <Target Name="AfterCompile">
     <Exec Command="echo &quot;&quot;" />
   </Target>
-  <PropertyGroup>
-    <PostBuildEvent>if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 2020.2</PostBuildEvent>
-  </PropertyGroup>
 </Project>
