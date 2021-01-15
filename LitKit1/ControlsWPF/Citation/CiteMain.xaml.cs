@@ -489,5 +489,14 @@ namespace LitKit1.ControlsWPF.Citation
             catch { log.Error("Formatting not updated"); }
         }
 
+        private void cbReloadCites_Checked(object sender, RoutedEventArgs e)
+        {
+            ViewModel.CitesReloadAutomatically = true;
+        }
+
+        private void cbReloadCites_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ViewModel.CitesReloadAutomatically = false;
+        }
     }
 }

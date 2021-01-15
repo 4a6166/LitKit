@@ -263,38 +263,6 @@
     <Compile Include="Controls\AnsResControls\ctrlAnsResView.Designer.cs">
       <DependentUpon>ctrlAnsResView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.cs" />
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.Designer.cs">
-      <DependentUpon>ctrlExhibitFormat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.cs" />
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.Designer.cs">
-      <DependentUpon>ctrlExhibitFormatCustom.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitMain.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitMain.Designer.cs">
-      <DependentUpon>ctrlExhibitMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitView.cs" />
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitView.Designer.cs">
-      <DependentUpon>ctrlExhibitView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.cs" />
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.Designer.cs">
-      <DependentUpon>ctrlExhibitUpdateAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.cs" />
-    <Compile Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.Designer.cs">
-      <DependentUpon>ctrlLegalRecordUpdateAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\UITests.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\UITests.Designer.cs">
-      <DependentUpon>UITests.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\frmPopup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -348,32 +316,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResView.resx">
       <DependentUpon>ctrlAnsResView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitFormat.resx">
-      <DependentUpon>ctrlExhibitFormat.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitFormatCustom.resx">
-      <DependentUpon>ctrlExhibitFormatCustom.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitMain.resx">
-      <DependentUpon>ctrlExhibitMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitView.resx">
-      <DependentUpon>ctrlExhibitView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.resx">
-      <DependentUpon>ctrlExhibitUpdateAdd.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\ctrlLegalRecordUpdateAdd.resx">
-      <DependentUpon>ctrlLegalRecordUpdateAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\UITests.resx">
-      <DependentUpon>UITests.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\frmPopup.resx">
       <DependentUpon>frmPopup.cs</DependentUpon>

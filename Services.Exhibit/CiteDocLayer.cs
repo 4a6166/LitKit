@@ -406,7 +406,7 @@ namespace Tools.Citation
         /// <summary>
         /// Inserts a Citation ContentControl at the Active Document selection
         /// </summary>
-        public ContentControl InsertCiteAtSelection(Citation citation, CitationRepository Repository)
+        public ContentControl InsertCiteAtSelection(Citation citation, CitationRepository repository, bool CitesReloadAutomatically)
         {
             //log.Info("Citation Inserted: " + citation.ID);
 
@@ -431,8 +431,14 @@ namespace Tools.Citation
 
             ContentControl CC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
             SetCiteCCTagTitleColor(CC, citation, false);
-            CC.Range.Text = "Holding for Cite";
+            if (!CitesReloadAutomatically)
+            {
+                string text = repository.CiteFormatting.FormatCiteText(citation, CitePlacementType.Long, CC.Range);
+                text = text.Replace(@"{{PIN}}", "");
+                CC.SetPlaceholderText(Text: text);
+            }
 
+            CC.LockContents = true;
             return CC;
 
         }

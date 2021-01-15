@@ -32,7 +32,7 @@
             <RowDefinition Height="55"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
-
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!--############################################-->
@@ -136,14 +136,14 @@
                     MouseLeave="RefreshBorder_MouseLeave"
                         MouseUp="RefreshBorder_MouseUp">
                     <StackPanel Orientation="Horizontal">
-                        <Image x:Name="RefreshImg"
-                               Margin="2"
-                            Source="/LitKit;component/Resources/icons8-refresh-64.png"/>
                         <Label x:Name="RefreshLabel"
+                               Margin="7,0,0,0"
                                Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"
                             Content="Update Citations" Visibility="Collapsed"
                                />
-
+                        <Image x:Name="RefreshImg"
+                               Margin="2"
+                            Source="/LitKit;component/Resources/icons8-refresh-64.png"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -354,7 +354,7 @@
                                 <Image Height="auto" Width="auto" HorizontalAlignment="Center"
                                     Source="/LitKit;component/Resources/icons8-plus-math-60.png" Opacity=".5"/>
                             </Button>
-                            
+
                             <!--###################################################################-->
                             <!--################## Long Cite Free Text Edit ####################-->
                             <!--###################################################################-->
@@ -428,7 +428,7 @@
                                 <Image Height="auto" Width="auto" HorizontalAlignment="Center"
                                     Source="/LitKit;component/Resources/icons8-plus-math-60.png" Opacity=".5"/>
                             </Button>
-                            
+
                             <!--###################################################################-->
                             <!--################## Short Cite Free Text Edit ####################-->
                             <!--###################################################################-->
@@ -462,7 +462,7 @@
                         </CheckBox>
                         <!--https://github.com/GuOrg/Gu.Wpf.NumericInput/blob/master/README.md#1-samples-->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
-                        <numeric:SpinnerDecorator 
+                            <numeric:SpinnerDecorator 
                                 MinWidth="40" Width="auto" >
                                 <numeric:IntBox x:Name="IndexStartNumUpDown" 
                                                 Value="{Binding Repository.CiteFormatting.ExhibitIndexStart, Mode=TwoWay}"
@@ -496,7 +496,30 @@
                 </Expander>
             </Border>
         </Grid>
-
+        <Grid x:Name="ReloadCitesGrid"
+                    VerticalAlignment="Bottom"
+                    Background="Transparent"
+                    Grid.Column="0" Grid.ColumnSpan="4"
+                    Grid.Row="4">
+            <Border 
+                Margin="3,0"
+                Background="LightGray">
+                <Grid>
+                    <Rectangle Margin="45,0" 
+                               Fill="DarkSlateGray"
+                               Height=".5"
+                               VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbReloadCites" 
+                      HorizontalAlignment="Center" Margin="0,15"
+                      IsChecked="{Binding CitesReloadAutomatically}"
+                      Checked="cbReloadCites_Checked" Unchecked="cbReloadCites_Unchecked">
+                    <TextBlock TextWrapping="Wrap">
+                    <Run Text="Update content automatically when new citation is added" />
+                    </TextBlock>
+                </CheckBox>
+                </Grid>
+            </Border>
+        </Grid>
         <!--##############################################-->
         <!--######### ADD CITE POPUP ################-->
         <!--##############################################-->

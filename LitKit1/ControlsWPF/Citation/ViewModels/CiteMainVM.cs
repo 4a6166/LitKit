@@ -36,6 +36,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         private CiteFormatPiece _freeTextFormatPiece_Long;
         private CiteFormatPiece _freeTextFormatPiece_Short;
 
+        private bool _citesReloadAutomatically = true;
+
         #endregion
 
         #region Public properties
@@ -135,7 +137,15 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             }
         }
 
-
+        public bool CitesReloadAutomatically
+        {
+            get { return _citesReloadAutomatically; }
+            set
+            {
+                _citesReloadAutomatically = value;
+                OnPropertyChanged("CitesReloadAutomatically");
+            }
+        }
         #endregion
 
         public CiteMainVM()
@@ -228,9 +238,13 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         {
             _app.UndoRecord.StartCustomRecord("Insert Citation");
 
-            _docLayer.InsertCiteAtSelection(citation, Repository);
-            _docLayer.UpdateCitesInDoc(Repository);
-            _docLayer.UpdateCiteInsertCountandExample(Repository);
+            _docLayer.InsertCiteAtSelection(citation, Repository, CitesReloadAutomatically);
+
+            if (CitesReloadAutomatically)
+            {
+                _docLayer.UpdateCitesInDoc(Repository);
+                _docLayer.UpdateCiteInsertCountandExample(Repository);
+            }
 
             var addin = (ThisAddIn)_app.Parent;
             addin.ReturnFocus();
@@ -250,8 +264,10 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             Repository.UpdateCitation(oldcite, newcite);
             OnPropertyChanged("Citations");
 
-            _docLayer.UpdateCitesInDoc(Repository);
-
+            if (CitesReloadAutomatically)
+            {
+                _docLayer.UpdateCitesInDoc(Repository);
+            }
         }
 
         public void DeleteCite(Tools.Citation.Citation citation)
@@ -262,7 +278,10 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
                 Citations.Remove(citation);
                 _repository.DeleteCitation(citation);
                 _docLayer.RemoveCiteCCs(citation, false);
-                _docLayer.UpdateCitesInDoc(Repository);
+                if (CitesReloadAutomatically)
+                {
+                    _docLayer.UpdateCitesInDoc(Repository);
+                }
             }
         }
 
@@ -277,9 +296,10 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             Cursor.Current = Cursors.WaitCursor;
             _app.UndoRecord.StartCustomRecord("Reload Citations");
 
-            _docLayer.UpdateCitesInDoc(Repository);
-            _docLayer.UpdateCiteInsertCountandExample(Repository);
-
+            // do not check if CitesReloadedAutomatically is checked, force a refresh
+                _docLayer.UpdateCitesInDoc(Repository);
+                _docLayer.UpdateCiteInsertCountandExample(Repository);
+            
             // // Throws an error when Cite Format is updated
             //var addin = (ThisAddIn)_app.Parent;
             //addin.ReturnFocus();
@@ -547,7 +567,11 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
             Repository.CiteFormatting.ExhibitIndexStart = indexStart;
             Repository.UpdateCiteFormattingInDB(Repository.CiteFormatting);
-            RefreshCites();
+
+            if (CitesReloadAutomatically)
+            {
+                RefreshCites();
+            }
         }
     }
 }
