@@ -87,6 +87,7 @@ namespace Services.License
             }
             catch(LicenseActivationException e)
             {
+                MessageBox.Show("The License Key provided could not be activated.");
                 Log.Error(e.Message);
             }
         }

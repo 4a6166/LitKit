@@ -14,50 +14,35 @@ namespace Services.License
 {
     public partial class KeyEntryForm : Form
     {
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public bool KeyEntered = false;
+
+        public string Key;
         public KeyEntryForm()
         {
             InitializeComponent();
             btnSubmit.Enabled = false;
 
+            Key = "";
         }
 
         private void SendLicenseKey()
         {
+            Log.Info("New Key inputted.");
+
             string key = tbLicenseKey.Text;
             if (KeyFormatIsValid(key))
             {
-                try
-                {
-                    string filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+               
+                Key = key;
 
-                    MessageBox.Show(filePath);
-
-                    filePath = (filePath + @"\Prelimine\LicenseKey.txt");
-
-                    MessageBox.Show(filePath);
+                KeyEntered = true;
+                Close();
 
 
-                    string path = Convert.ToString(filePath);
-                    StreamWriter file = new StreamWriter(filePath, false);
-                    file.WriteLine(key);
-                    file.Close();
-
-
-                    KeyEntered = true;
-                    this.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("Error creating License Key file");
-                }
+                LicenseChecker.WriteKeyFile(key);
             }
-            else
-            {
-                tbErrorMessage.Text = "Please enter a key with a valid format (e.g. AAA0-000A-A000-0AAA)";
-                tbErrorMessage.Visible = true;
-            }
-
         }
 
         private bool KeyFormatIsValid(string key)

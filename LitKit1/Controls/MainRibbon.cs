@@ -19,6 +19,7 @@ using LitKit1.ControlsWPF.Citation.ViewModels;
 using System.Collections.Generic;
 using Tools.Citation;
 using Services.License;
+using System.Security;
 
 namespace LitKit1
 {
@@ -62,72 +63,15 @@ namespace LitKit1
         }
 
         private bool licenseIsValid = false;
-        private bool checkLicenseIsValid()
+
+        public bool checkLicenseIsValid()
         {
             if (!licenseIsValid)
             {
-
-                // LicenseSpring
-                LS ls = new LS();
-                var license = ls.GetLicense();
-
-                if (license != null)
-                {
-                    var lastCheckDate = license.LastCheckDate();
-                    if (DateTime.Now > lastCheckDate.AddMonths(1))
-                    {
-                        //online check
-                        license.Check();
-                    }
-
-                    licenseIsValid = license.IsValid(); ///////////////////////////////////////
-                    if (!licenseIsValid)
-                    {
-                        var keyEntryForm = new KeyEntryForm();
-                        keyEntryForm.ShowDialog();
-
-                        if (keyEntryForm.KeyEntered)
-                        {
-                            GetLicKeyFromFile(ls, license);
-                        }
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        GetLicKeyFromFile(ls, license);
-                    }
-                    catch
-                    {
-                        var keyEntryForm = new KeyEntryForm();
-                        keyEntryForm.ShowDialog();
-
-                        if (keyEntryForm.KeyEntered)
-                        {
-                            GetLicKeyFromFile(ls, license);
-                        }
-                    }
-
-                    GetLicKeyFromFile(ls, license);
-                }
+                licenseIsValid = LicenseChecker.CheckValidity();
             }
 
             return licenseIsValid;
-        }
-
-        private void GetLicKeyFromFile(LS ls, LicenseSpring.ILicense license)
-        {
-            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            filePath = (filePath + @"\Prelimine\LicenseKey.txt");
-            string path = Convert.ToString(filePath);
-            StreamReader reader = new StreamReader(path);
-            string key = reader.ReadToEnd().Trim();
-
-            ls.ActivateLicenseKey(key);
-            license = ls.GetLicense();
-            licenseIsValid = license.IsValid();
         }
 
         #region Redactions

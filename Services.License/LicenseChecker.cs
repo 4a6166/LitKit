@@ -1,4 +1,140 @@
-﻿//using System;
+﻿
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System.Reflection;
+using System.Xml;
+using System.Security;
+using System.Windows.Forms;
+
+[assembly: Obfuscation(Feature = "apply to type Services.Licensing.*: all", Exclude = true, ApplyToMembers = true)]
+
+namespace Services.License
+{
+    public class LicenseChecker
+    {
+        public static bool CheckValidity()
+        {
+            
+            // LicenseSpring
+            LS ls = new LS();
+            var license = ls.GetLicense(); //not online check
+
+            if (license != null)
+            {
+                var lastCheckDate = license.LastCheckDate();
+                if (DateTime.Now > lastCheckDate.AddMonths(1))
+                {
+                    //online check
+                    license.Check(); //online check
+                }
+
+                if (!license.IsValid())
+                {
+                    license = ActivateKey(ls, license);
+                }
+            }
+            else
+            {
+                license = ActivateKey(ls, license);
+            }
+
+            return license.IsValid();
+        }
+
+        private static LicenseSpring.ILicense ActivateKey(LS ls, LicenseSpring.ILicense license)
+        {
+            string key = GetLicKeyFromFile();
+            if (key == null)
+            {
+                var keyEntryForm = new KeyEntryForm();
+                keyEntryForm.ShowDialog();
+
+                if (keyEntryForm.KeyEntered)
+                {
+                    key = keyEntryForm.Key;
+                }
+            }
+
+            try
+            {
+                ls.ActivateLicenseKey(key);
+                license = ls.GetLicense();
+                return license;
+            }
+            catch
+            {
+                MessageBox.Show("Key could not be activated.");
+                return null;
+            }
+        }
+
+        private static string GetLicKeyFromFile()
+        {
+            try
+            {
+                string filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+                filePath = (filePath + @"\Prelimine\LicenseKey.txt");
+                string path = Convert.ToString(filePath);
+
+                FileInfo fileInfo = new FileInfo(path);
+                if (fileInfo.Exists)
+                {
+                    StreamReader reader = new StreamReader(path);
+                    string key = reader.ReadToEnd().Trim();
+                    reader.Close();
+                    return key;
+                }
+                else return null;
+            }
+            catch (SecurityException e)
+            {
+                MessageBox.Show(e.Message);
+                return null;
+            }
+            catch
+            {
+                MessageBox.Show("There was an error reading this file. Please contact your administrator if the problem persists.");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Writes passed key to a keyfile and returns the path
+        /// </summary>
+        /// <returns></returns>
+        public static string WriteKeyFile(string key)
+        {
+            string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            dir += @"\Prelimine";
+            string path = dir + @"\LicenseKey.txt";
+
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+
+            StreamWriter file = new StreamWriter(path, false);
+            file.WriteLine(key);
+            file.Close();
+            
+            return path;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+//using System;
 //using System.Collections.Generic;
 //using System.Linq;
 //using System.IO;
@@ -26,7 +162,7 @@
 //            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
 //            String Root = Directory.GetCurrentDirectory();
 
-            
+
 //            var files = Directory.EnumerateFiles(Root);
 //            licPath = files.Where(n => n.Contains("license.xml")).First();
 
@@ -94,10 +230,10 @@
 
 //            XmlDocument license = new XmlDocument();
 //            license.Load(licPath);
-            
+
 //            result = license.SelectSingleNode(".//name").InnerText;
 //            return result;
-            
+
 //        }
 
 //    }
