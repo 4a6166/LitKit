@@ -7,7 +7,9 @@ namespace Tools.Citation
 {
     public class CiteFormatting : INotifyPropertyChanged
     {
-        public string ExhibitIntro { get; set; }
+        public string ExhibitIntroLong { get; set; }
+        public string ExhibitIntroShort { get; set; }
+
         public ExhibitIndexStyle ExhibitIndexStyle { get; set; }
         public int ExhibitIndexStart { get; set; }
         public bool hasIdCite { get; set; }
@@ -15,9 +17,10 @@ namespace Tools.Citation
         public ObservableCollection<CiteFormatPiece> ExhibitLongFormat { get; set; }
         public ObservableCollection<CiteFormatPiece> ExhibitShortFormat { get; set; }
 
-        public CiteFormatting(string ExhibitIntro, ObservableCollection<CiteFormatPiece> ExhibitLongFormat, ObservableCollection<CiteFormatPiece> ExhibitShortFormat, ExhibitIndexStyle ExhibitIndexStyle = ExhibitIndexStyle.Numbers, int ExhibitIndexStart = 0, bool HasIdCite = true)
+        public CiteFormatting(string ExhibitIntroLong, string ExhibitIntroShort, ObservableCollection<CiteFormatPiece> ExhibitLongFormat, ObservableCollection<CiteFormatPiece> ExhibitShortFormat, ExhibitIndexStyle ExhibitIndexStyle = ExhibitIndexStyle.Numbers, int ExhibitIndexStart = 0, bool HasIdCite = true)
         {
-            this.ExhibitIntro = ExhibitIntro;
+            this.ExhibitIntroLong = ExhibitIntroLong;
+            this.ExhibitIntroShort = ExhibitIntroShort;
             this.ExhibitLongFormat = ExhibitLongFormat;
             this.ExhibitShortFormat = ExhibitShortFormat;
             this.ExhibitIndexStyle = ExhibitIndexStyle;
@@ -193,9 +196,13 @@ namespace Tools.Citation
             {
                 switch (piece.Type)
                 {
-                    case CiteFormatPieceType.INTRO:
+                    case CiteFormatPieceType.INTROLONG:
 
-                        result += " "+ExhibitIntro;
+                        result += " "+ExhibitIntroLong;
+                        break;
+                    case CiteFormatPieceType.INTROSHORT:
+
+                        result += " " + ExhibitIntroShort;
                         break;
 
                     case CiteFormatPieceType.INDEX:

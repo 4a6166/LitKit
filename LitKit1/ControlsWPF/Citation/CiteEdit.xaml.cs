@@ -26,7 +26,8 @@ namespace LitKit1.ControlsWPF.Citation
 
         private CiteMainVM ViewModel;
 
-        private string ExhibitIntro;
+        private string ExhibitIntroLong;
+        private string ExhibitIntroShort;
         private ExhibitIndexStyle ExhibitIndexStyle;
 
         bool firstTimeOpen = true;
@@ -47,7 +48,9 @@ namespace LitKit1.ControlsWPF.Citation
         public CiteEdit()
         {
             ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
-            ExhibitIntro = ViewModel.Repository.CiteFormatting.ExhibitIntro;
+            ExhibitIntroLong = ViewModel.Repository.CiteFormatting.ExhibitIntroLong;
+            ExhibitIntroShort = ViewModel.Repository.CiteFormatting.ExhibitIntroLong;
+
             ExhibitIndexStyle = ViewModel.Repository.CiteFormatting.ExhibitIndexStyle;
 
             InitializeComponent();
@@ -174,7 +177,7 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void UpdateExhibitIntroLabel()
         {
-            string a = ExhibitIntro;
+            string a = ExhibitIntroLong;
 
             string b = "";
             switch (ExhibitIndexStyle)

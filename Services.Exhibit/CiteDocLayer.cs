@@ -152,7 +152,7 @@ namespace Tools.Citation
             {
                 foreach (ContentControl contentControl in story.ContentControls)
                 {
-                    if (contentControl.Tag.StartsWith(StartsWithString))
+                    if (contentControl.Tag != null && contentControl.Tag.StartsWith(StartsWithString))
                     {
                         citationCCs.Add(contentControl);
                     }

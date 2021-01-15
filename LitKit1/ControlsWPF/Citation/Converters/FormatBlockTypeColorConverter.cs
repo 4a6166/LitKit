@@ -20,7 +20,10 @@ namespace LitKit1.ControlsWPF.Citation.Converters
 
             switch (type)
             {
-                case CiteFormatPieceType.INTRO:
+                case CiteFormatPieceType.INTROLONG:
+                    color = "#43aa8b";
+                    break;
+                case CiteFormatPieceType.INTROSHORT:
                     color = "#43aa8b";
                     break;
 

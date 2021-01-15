@@ -41,7 +41,7 @@ namespace LitKit1.ControlsWPF.Citation
 
                 switch (type.Type)
                 {
-                    case CiteFormatPieceType.INTRO:
+                    case CiteFormatPieceType.INTROLONG:
                         var a = new MenuItem() { Header = "Exhibit" };
                         a.Click += delegate { cm_ActionsIntro(a.Header); };
 
@@ -66,6 +66,33 @@ namespace LitKit1.ControlsWPF.Citation
                         BlockContextMenu.Items.Add(d);
                         BlockContextMenu.Items.Add(e);
                         BlockContextMenu.Items.Add(f);
+                        BlockContextMenu.Items.Add(new Separator());
+                        break;
+                    case CiteFormatPieceType.INTROSHORT:
+                        var a1 = new MenuItem() { Header = "Exhibit" };
+                        a1.Click += delegate { cm_ActionsIntro(a1.Header); };
+
+                        var b1 = new MenuItem() { Header = "Ex." };
+                        b1.Click += delegate { cm_ActionsIntro(b1.Header); };
+
+                        var c1 = new MenuItem() { Header = "Exh." };
+                        c1.Click += delegate { cm_ActionsIntro(c1.Header); };
+
+                        var d1 = new MenuItem() { Header = "Appendix" };
+                        d1.Click += delegate { cm_ActionsIntro(d1.Header); };
+
+                        var e1 = new MenuItem() { Header = "Appx." };
+                        e1.Click += delegate { cm_ActionsIntro(e1.Header); };
+
+                        var f1 = new MenuItem() { Header = "Tab" };
+                        f1.Click += delegate { cm_ActionsIntro(f1.Header); };
+
+                        BlockContextMenu.Items.Add(a1);
+                        BlockContextMenu.Items.Add(b1);
+                        BlockContextMenu.Items.Add(c1);
+                        BlockContextMenu.Items.Add(d1);
+                        BlockContextMenu.Items.Add(e1);
+                        BlockContextMenu.Items.Add(f1);
                         BlockContextMenu.Items.Add(new Separator());
                         break;
                     case CiteFormatPieceType.INDEX:
@@ -130,15 +157,17 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void cm_ActionsIntro(object labelValue)
         {
-            var piece1 = ViewModel.FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
-            if (piece1 != null)
-            { piece1.DisplayText = labelValue.ToString(); }
+            // // For making both long and short cite intros match
+            //var piece1 = ViewModel.FormatList_Long.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
+            //if (piece1 != null)
+            //{ piece1.DisplayText = labelValue.ToString(); }
 
-            var piece2 = ViewModel.FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
-            if (piece2 != null)
-            { piece2.DisplayText = labelValue.ToString(); }
+            //var piece2 = ViewModel.FormatList_Short.FirstOrDefault(n => n.Type == CiteFormatPieceType.INTRO);
+            //if (piece2 != null)
+            //{ piece2.DisplayText = labelValue.ToString(); }
 
-            //ViewModel.Repository.CiteFormatting.ExhibitIntro = labelValue.ToString();
+            var formatPiece = (CiteFormatPiece)this.DataContext;
+            formatPiece.DisplayText = labelValue.ToString();
         }
 
         private void cm_ActionsIndex(object labelValue)
