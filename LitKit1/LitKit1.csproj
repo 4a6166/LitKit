@@ -238,6 +238,10 @@
     <Compile Include="ControlsWPF\HoldingControl.Designer.cs">
       <DependentUpon>HoldingControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWPF\Response\ResponseMain.xaml.cs">
+      <DependentUpon>ResponseMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Response\ViewModels\ResponseMainVM.cs" />
     <Compile Include="ControlsWPF\SolutionBrushes.cs" />
     <Compile Include="Controls\AnsResControls\ctrlAnsResCustomize.cs">
       <SubType>UserControl</SubType>
@@ -464,6 +468,9 @@
     <Resource Include="Resources\Logo_Wide.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\icons8-settings-Win10-32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\outline_border_color_black_18dp.png" />
     <Content Include="Resources\outline_border_color_black_36dp.png" />
     <Content Include="Resources\PilcrowLone1_B.ico" />
@@ -520,6 +527,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlsWPF\Citation\CiteFormatBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Response\ResponseMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

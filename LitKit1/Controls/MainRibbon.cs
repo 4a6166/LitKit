@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using Tools.Citation;
 using Services.License;
 using System.Security;
+using LitKit1.ControlsWPF.Response.ViewModels;
 
 namespace LitKit1
 {
@@ -411,6 +412,7 @@ namespace LitKit1
         #endregion
 
         #region Responses
+        public Dictionary<Window, ResponseMainVM> responseVMDict = new Dictionary<Window, ResponseMainVM>();
 
         private void ResponseTool_Click(object sender, RibbonControlEventArgs e)
         {
@@ -879,7 +881,7 @@ namespace LitKit1
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
-
+            TestResponseWPF();
 
             /*
              * 
@@ -899,27 +901,50 @@ namespace LitKit1
 
         }
 
-        private string ConvertToXML(string rtf)
+        private void TestResponseWPF()
         {
-            throw new NotImplementedException();
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
+            {
+                Cursor.Current = Cursors.WaitCursor;
+
+                try
+                {
+                    Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ResponsePanes[_app.ActiveWindow];
+
+                    HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
+
+                    if (holdingControl.WPFUserControl == null)
+                    {
+
+                        responseVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new ResponseMainVM());
+
+                        ControlsWPF.Response.ResponseMain rm = new ControlsWPF.Response.ResponseMain();
+
+                        holdingControl.AddWPF(rm);
+
+                    }
+
+                    if (!ActivePane.Visible)
+                    {
+                        ActivePane.Visible = true;
+                    }
+                    else
+                    {
+                        ActivePane.Visible = false;
+                    }
+
+                }
+                catch
+                {
+                    Log.Error("Error loading/showing Active ResponsePane");
+                    ErrorHandling.ShowErrorMessage();
+                }
+
+                Cursor.Current = Cursors.Default;
+            }
+
         }
-
-        private void FindCCOffset(Range range)
-        {
-            Regex regex = new Regex(@". ");
-
-            var matches1 = regex.Matches(range.Text);
-
-            var matchesIndex = matches1[1].Index;
-            Range range1 = _app.ActiveDocument.Range(matchesIndex, matchesIndex);
-
-            var CCr = range.ContentControls[1].Range;
-            var ccrStart = CCr.Start;
-            var ccrEnd = CCr.End;
-
-
-        }
-
     }
 
 
