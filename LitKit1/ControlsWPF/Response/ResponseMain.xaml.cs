@@ -32,7 +32,7 @@ namespace LitKit1.ControlsWPF.Response
         {
             log4net.Config.XmlConfigurator.Configure();
 
-            log.Debug("CiteMain started");
+            log.Debug("RespopnseMain started");
 
             ViewModel = Globals.Ribbons.Ribbon1.responseVMDict[Globals.ThisAddIn.Application.ActiveWindow];
 
@@ -41,16 +41,21 @@ namespace LitKit1.ControlsWPF.Response
             InitializeComponent();
 
             view = (CollectionView)CollectionViewSource.GetDefaultView(CiteBlockStackPanel.ItemsSource);
+
         }
 
         #region ListFilter
 
         private bool TextFilter(object item)
         {
-                if (String.IsNullOrEmpty(SearchTextBox.Text))
+            //TODO: set filter for responses that have type of ResponseTypeCB (DocType enum)
+
+            if (String.IsNullOrEmpty(SearchTextBox.Text))
                     return true;
                 else
-                    return ((item as Tools.Citation.Citation).LongDescription.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                //TODO: update with string to Response and add where we're searching 
+                //return ((item as Tools.Citation.Citation).LongDescription.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as string).IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
 
@@ -188,5 +193,13 @@ namespace LitKit1.ControlsWPF.Response
 
         }
 
+        private void RespondingTB_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void btnUpdateParties_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

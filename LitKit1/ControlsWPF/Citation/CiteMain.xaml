@@ -454,9 +454,9 @@
                                   >
                             <TextBlock>
                                 <TextBlock.Inlines>
-                                    <Run Text="Use "/>
+                                    <Run Text="Use"/>
                                     <Run FontStyle="Italic" Text="Id."/>
-                                    <Run Text=" to represent repeated citations"/>
+                                    <Run Text="to represent repeated citations"/>
                                 </TextBlock.Inlines>
                             </TextBlock>
                         </CheckBox>
@@ -526,7 +526,7 @@
 
         <local:CiteAdd x:Name="CiteAdd"
             Grid.Column="0" Grid.ColumnSpan="4"
-            Grid.Row="0" Grid.RowSpan="4"
+            Grid.Row="0" Grid.RowSpan="5"
                        VerticalAlignment="Stretch"
                        HorizontalAlignment="Stretch"
             Visibility="Collapsed"
@@ -539,7 +539,7 @@
 
         <local:CiteEdit x:Name="CiteEdit" DataContext="{Binding EditCiteVM}"
             Grid.Column="0" Grid.ColumnSpan="4"
-            Grid.Row="0" Grid.RowSpan="4"
+            Grid.Row="0" Grid.RowSpan="5"
                        VerticalAlignment="Stretch"
                        HorizontalAlignment="Stretch" Loaded="CiteEdit_Loaded"
                         Visibility="Collapsed"

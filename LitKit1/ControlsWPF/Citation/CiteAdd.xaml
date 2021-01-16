@@ -197,9 +197,9 @@
                             Margin="0,0,0,10" FontWeight="Normal" TextWrapping="WrapWithOverflow" TextAlignment="Center"
                                        Foreground="DarkSlateGray">
                                 <TextBlock.Inlines>
-                                    <Run Text="The "/>
+                                    <Run Text="The"/>
                                     <Run FontStyle="Italic" FontWeight="DemiBold" Text="Long Cite"/>
-                                    <Run Text=" is used the first time a citiation is referenced in the document. Subsequent citations use the "/>
+                                    <Run Text="is used the first time a citiation is referenced in the document. Subsequent citations use the"/>
                                     <Run FontStyle="Italic" FontWeight="DemiBold" Text="Short Cite."/>
                                 </TextBlock.Inlines>
                             </TextBlock>
@@ -280,11 +280,10 @@
                             <TextBlock x:Name="BottomText2"
                             Margin="0,0,0,5" FontWeight="Normal" TextWrapping="WrapWithOverflow" TextAlignment="Center">
                                 <TextBlock.Inlines>
-                                    <Run Text="You may add "/>
+                                    <Run Text="You may add"/>
                                     <Run FontWeight="Bold" Text="Bold"/>
-                                    <Run Text=", "/>
-                                    <Run FontStyle="Italic" Text="Italic"/>
-                                    <Run Text=", or "/>
+                                    <Run Text=","/>
+                                <Run FontStyle="Italic" Text="Italic"/><Run Text=", or"/>
                                     <Run TextDecorations="Underline" Text="Underline"/>
                                     <Run Text="formatting to Long or Short Descriptions using the below table:"/>
                                 </TextBlock.Inlines>
@@ -314,11 +313,11 @@
                                        Text="__Text__"/>
                             </Grid>
                             <TextBlock TextAlignment="Center" Visibility="Collapsed">
-                                          <Run Text="Non-Breaking Spaces may be ented using the text placeholder "/>
+                                          <Run Text="Non-Breaking Spaces may be ented using the text placeholder"/>
                                     <Run  FontStyle="Italic" TextDecorations="Baseline" Text="` `"/>
                             </TextBlock>
                             <TextBlock x:Name="tbPIN" TextAlignment="Center" Visibility="Collapsed">
-                                          <Run Text="Placeholders for Pincites may be marked by adding "/>
+                                          <Run Text="Placeholders for Pincites may be marked by adding"/>
                                     <Run  FontStyle="Italic" TextDecorations="Baseline" Text="{}{{PIN}}"/>
                                 <Run Text=" to your citation text."/>
                             </TextBlock>
@@ -336,9 +335,9 @@
                             <TextBlock TextAlignment="Left" Foreground="DarkSlateGray" TextTrimming="CharacterEllipsis" FontSize="10.5">
                                 <Run Text="Result: " TextDecorations="Baseline"/>
                                 <Run Text="{}Palsgraf v. Long Island R.R. Co." FontWeight="Bold"/>
-                                <Run Text="{}, "/>
+                                <Run Text="{},"/>
                                 <Run Text="162 N.E. 99,101" FontStyle="Italic"/>
-                                <Run Text="{} "/>
+                                <Run Text="{}"/>
                                 <Run Text="{}(N.Y. 1928)" TextDecorations="Underline"/>
                                 <Run Text="{} at 102"/>
                             </TextBlock>

@@ -4,10 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Response"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:ResponseTools="clr-namespace:Tools.Response;assembly=Services.Response"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300">
     <UserControl.Resources>
-        
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ResponseTools:DocType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </UserControl.Resources>
     <Grid x:Name="MainGrid" >
         <Grid.ColumnDefinitions>
@@ -124,7 +131,7 @@
                             Content="Settings" Visibility="Collapsed"
                                />
                         <Image x:Name="SettingsImg"
-                               Margin="2"
+                               Margin="3.5"
                             Source="/LitKit;component/Resources/icons8-settings-Win10-32.png" />
 
                     </StackPanel>
@@ -149,10 +156,53 @@
                     <Run Text="Party Information"/>
                     </TextBlock>
                 </Expander.Header>
-                <Grid>
-                    <TextBlock Text="Holding TEXT BLOCK" FontWeight="Normal" 
-                               Margin="20"/>
-                </Grid>
+                <StackPanel Orientation="Vertical" Margin="15">
+                    <TextBlock Text="Responding Party Name" FontWeight="SemiBold" />
+                    <TextBlock Text="As you would like it to appear in the document" FontWeight="Light" FontStyle="Italic" FontSize="10"/>
+                    <Grid>
+                        <TextBox x:Name="RespondingTB" TextChanged="RespondingTB_TextChanged" />
+                        <TextBlock x:Name="RespondingTB_Placeholder" IsHitTestVisible="False" Text="Responding Party or Parties" VerticalAlignment="Top"  Margin="2,1" Foreground="DarkGray" HorizontalAlignment="Left" FontWeight="Normal">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, ElementName=RespondingTB}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                    <CheckBox x:Name="RespondingPluralCB" HorizontalAlignment="Right" VerticalContentAlignment="Center">
+                        <TextBlock>
+                            <Run Text="Responding Party is Plural" FontWeight="Light" FontStyle="Italic" FontSize="10"/>
+                        </TextBlock>
+                    </CheckBox>
+                    <TextBlock Text="Propounding Party Name" FontWeight="SemiBold" />
+                    <TextBlock Text="As you would like it to appear in the document" FontWeight="Light" FontStyle="Italic" FontSize="10"/>
+                    <Grid>
+                        <TextBox x:Name="PropoundingTB" TextChanged="RespondingTB_TextChanged" />
+                        <TextBlock x:Name="PropoundingTB_Placeholder" IsHitTestVisible="False" Text="Propounding Party or Parties" VerticalAlignment="Top"  Margin="2,1" Foreground="DarkGray" HorizontalAlignment="Left" FontWeight="Normal">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, ElementName=PropoundingTB}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+
+                    <Button x:Name="btnUpdateParties" Margin="0,20" Click="btnUpdateParties_Click">
+                        <Button.Content>
+                            <TextBlock Text="Update Parties"/>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
             </Expander>
         </Border>
 
@@ -161,16 +211,8 @@
         <!--########################################-->
         <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Vertical">
             <ComboBox x:Name="ResponseTypeCB"
-                      Margin="0,0,0,10"
-                      SelectedIndex="0"
-                      >
-                <ComboBoxItem>
-                    <TextBlock Text="Test Item"/>
-                </ComboBoxItem>
-                <ComboBoxItem>
-                    <TextBlock Text="Test Item2"/>
-                </ComboBoxItem>
-
+                      Margin="0,0,0,10" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"
+                      SelectedIndex="0">
             </ComboBox>
             <!--########################################-->
             <!--Search Grid-->
@@ -231,6 +273,9 @@
                   >
             <ListView.ItemTemplate>
                 <DataTemplate>
+                    <Border BorderBrush="Blue" BorderThickness="1">
+                        <TextBlock Text="{Binding}"/>
+                    </Border>
                     <!--<local:CiteBlock DataContext="{Binding}"/>-->
                 </DataTemplate>
             </ListView.ItemTemplate>

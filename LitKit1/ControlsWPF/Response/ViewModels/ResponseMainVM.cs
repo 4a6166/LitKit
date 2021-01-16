@@ -7,18 +7,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Tools.Response;
 
 namespace LitKit1.ControlsWPF.Response.ViewModels
 {
     public class ResponseMainVM : INotifyPropertyChanged
     {
         #region properties
-        public ObservableCollection<string> Responses;
+        private DocType _docType;
+        private ObservableCollection<string> _responses;
+
+        public DocType DocType
+        {
+            get { return _docType; }
+            set
+            {
+                _docType = value;
+                OnPropertyChanged("DocType");
+            }
+        }
+        public ObservableCollection<string> Responses
+        {
+            get { return _responses; }
+            private set
+            {
+                _responses = value;
+            }
+        }
         #endregion
 
         public ResponseMainVM()
         {
-            Responses = new ObservableCollection<string> { "One", "Two", "Three" };
+            Responses = new ObservableCollection<string> 
+            { 
+                "Answer a Complaint",
+                "Respond to Requests for Admission",
+                "Respond to Requests for Production of Documents",
+                "Respond to Interrogatories"
+            };
+
+            _docType = DocType.Admission;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
