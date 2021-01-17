@@ -16,13 +16,13 @@ namespace LitKit1.ControlsWPF.Response.Converters
             switch (type)
             {
                 case DocType.Complaint:
-                    return "Answer a Complaint";
+                    return "Answer to a Complaint";
                 case DocType.Admission:
-                    return "Respond to Requests for Admission";
+                    return "Response to Requests for Admission";
                 case DocType.Production:
-                    return "Respond to Requests for Production of Documents";
+                    return "Response to Requests for Production of Documents";
                 case DocType.Interrogatory:
-                    return "Respond to Interrogatories";
+                    return "Response to Interrogatories";
                 default:
                     throw new Exception("Error passing DocType Enum");
             }
@@ -34,13 +34,13 @@ namespace LitKit1.ControlsWPF.Response.Converters
 
             switch (type)
             {
-                case "Answer a Complaint":
+                case "Answer to a Complaint":
                     return DocType.Complaint;
-                case "Respond to Requests for Admission":
+                case "Response to Requests for Admission":
                     return DocType.Admission;
-                case "Respond to Requests for Production of Documents":
+                case "Response to Requests for Production of Documents":
                     return DocType.Production;
-                case "Respond to Interrogatories":
+                case "Response to Interrogatories":
                     return DocType.Interrogatory;
                 default:
                     throw new Exception("Error passing DocType CB text");

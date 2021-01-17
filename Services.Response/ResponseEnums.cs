@@ -26,16 +26,16 @@ namespace Tools.Response
 
     public enum DocType
     {
-        [Description("Answer a Complaint")]
+        [Description("Answer to a Complaint")]
         Complaint,
 
-        [Description("Respond to Requests for Admission")]
+        [Description("Response to Requests for Admission")]
         Admission,
 
-        [Description("Respond to Requests for Production of Documents")]
+        [Description("Response to Requests for Production of Documents")]
         Production,
 
-        [Description("Respond to Interrogatories")]
+        [Description("Response to Interrogatories")]
         Interrogatory
     }
 

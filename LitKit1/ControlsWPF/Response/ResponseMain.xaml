@@ -156,8 +156,11 @@
             IsExpanded="True"
             ExpandDirection="down">
                 <Expander.Header>
-                    <TextBlock>
+                    <TextBlock TextTrimming="CharacterEllipsis">
                     <Run Text="Response Information"/>
+                        <LineBreak/>
+                        <Run Text="{Binding DocType, Converter={StaticResource DocTypeConverter}, Mode=OneWay}" 
+                             FontWeight="Light" FontStyle="Italic" FontSize="10"/>
                     </TextBlock>
                 </Expander.Header>
                 <StackPanel Orientation="Vertical" Margin="0,15,0,0">
@@ -167,18 +170,24 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Margin="3">
-                            <Run Text="Respond to"/>
+                        <TextBlock Margin="3" TextTrimming="CharacterEllipsis">
+                            <Run Text="Select Responsive Document Type"/>
                         </TextBlock>
                         <ComboBox x:Name="ResponseTypeCB" Grid.Row="1"
                       Margin="0,0,0,10" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"
                       SelectedItem="{Binding DocType}"
                       SelectionChanged="ResponseTypeCB_SelectionChanged">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource DocTypeConverter}}" TextTrimming="CharacterEllipsis"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
                         </ComboBox>
 
                     </Grid>
-                    <TextBlock Text="Responding Party Name" FontWeight="SemiBold" />
-                    <TextBlock Text="As you would like it to appear in the document" FontWeight="Light" FontStyle="Italic" FontSize="10"/>
+                    <TextBlock Text="Responding Party Name" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="As you would like it to appear in the document" 
+                               FontWeight="Light" FontStyle="Italic" FontSize="10" TextTrimming="CharacterEllipsis"/>
                     <Grid MinHeight="22" Margin="0,5,0,0">
                         <TextBox x:Name="RespondingTB" TextChanged="RespondingTB_TextChanged" VerticalAlignment="Stretch"
                                  VerticalContentAlignment="Center" TextWrapping="Wrap"
@@ -201,12 +210,13 @@
                               Margin="5"
                               HorizontalAlignment="Right" VerticalContentAlignment="Center" 
                               IsChecked="{Binding RespondingIsPlural}" >
-                        <TextBlock>
+                        <TextBlock TextTrimming="CharacterEllipsis">
                             <Run Text="Responding Party is Plural" FontWeight="Light" FontStyle="Italic" FontSize="10"/>
                         </TextBlock>
                     </CheckBox>
-                    <TextBlock Text="Propounding Party Name" FontWeight="SemiBold" />
-                    <TextBlock Text="As you would like it to appear in the document" FontWeight="Light" FontStyle="Italic" FontSize="10"/>
+                    <TextBlock Text="Propounding Party Name" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="As you would like it to appear in the document" 
+                               FontWeight="Light" FontStyle="Italic" FontSize="10" TextTrimming="CharacterEllipsis"/>
                     <Grid MinHeight="22" Margin="0,5,0,0">
                         <TextBox x:Name="PropoundingTB" TextChanged="RespondingTB_TextChanged" VerticalAlignment="Stretch"
                                  VerticalContentAlignment="Center" TextWrapping="Wrap"
@@ -308,7 +318,7 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                         <TextBlock Text="{Binding Name}" />
-                        <TextBlock Grid.Row="1" Text="{Binding DisplayText}" Foreground="DarkSlateGray"/>
+                        <TextBlock Grid.Row="1" Text="{Binding DisplayText}" Foreground="DarkSlateGray" TextWrapping="WrapWithOverflow" TextTrimming="WordEllipsis"/>
                         </Grid>
                     </Border>
                     <!--<local:CiteBlock DataContext="{Binding}"/>-->
