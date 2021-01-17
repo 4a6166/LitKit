@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
 using Tools.Response;
+using System.Collections.ObjectModel;
 
 namespace LitKit1.Controls.AnsResControls
 {
@@ -100,7 +101,7 @@ namespace LitKit1.Controls.AnsResControls
             else
             {
                 Response resp = (Response)comboBox1.SelectedItem;
-                repository.UpdateResponse(resp.ID, resp.Name, textBox1.Text);
+                //repository.UpdateResponse(resp.ID, resp.Name, textBox1.Text);
 
                 ctrlAnsResView AnsResCtrl = new ctrlAnsResView();
                 Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
@@ -117,7 +118,7 @@ namespace LitKit1.Controls.AnsResControls
 
         }
 
-        private List<Response> LoadResponsesByDocType(string docType)
+        private ObservableCollection<Response> LoadResponsesByDocType(string docType)
         {
             int docTypeNode = 0;
             switch (docType)
@@ -138,12 +139,12 @@ namespace LitKit1.Controls.AnsResControls
                     throw new Exception("docType incorrect");
             }
 
-            List<Response> responses = new List<Response>();
+            ObservableCollection<Response> responses = new ObservableCollection<Response>();
 
-            foreach (Response res in repository.GetResponses().Where(n => n.DocTypes[docTypeNode]))
-            {
-                    responses.Add(res);
-            }
+            //foreach (Response res in repository.GetResponses().Where(n => n.DocTypes[docTypeNode]))
+            //{
+            //        responses.Add(res);
+            //}
             return responses;
         }
         private void LoadResponseStandardTexts()

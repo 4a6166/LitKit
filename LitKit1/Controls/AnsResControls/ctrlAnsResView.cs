@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
+using System.Collections.ObjectModel;
 
 namespace LitKit1.Controls.AnsResControls
 {
@@ -34,7 +35,7 @@ namespace LitKit1.Controls.AnsResControls
         string respondingPlural;
         string propoundingParty;
         ResponseRepository repository;
-        IEnumerable<Response> responses;
+        ObservableCollection<Response> responses;
 
 
         private void loadCurrentDocProperties(Word.Application _app)
@@ -114,10 +115,10 @@ namespace LitKit1.Controls.AnsResControls
 
                 foreach (var t in responses)
                 {
-                    if (t.DocTypes[type])
-                    {
-                        var item = listBox1.Items.Add(t);
-                    }
+                    //if (t.DocTypes[type])
+                    //{
+                    //    var item = listBox1.Items.Add(t);
+                    //}
                 }
                 listBox1.DisplayMember = "Name";
 
@@ -330,7 +331,7 @@ namespace LitKit1.Controls.AnsResControls
             {
                 LoadListBoxItems();
                 docType = comboBox1.Text;
-                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+                //repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
             }
             catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #308"); }
 
@@ -354,7 +355,7 @@ namespace LitKit1.Controls.AnsResControls
             try
             {
                 respondingParty = textBox1.Text;
-                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+                //repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
             }
             catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #309"); }
 
@@ -366,7 +367,7 @@ namespace LitKit1.Controls.AnsResControls
             try
             {
                 propoundingParty = textBox2.Text;
-                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+                //repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
             }
             catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #310"); }
 
@@ -381,7 +382,7 @@ namespace LitKit1.Controls.AnsResControls
                     respondingPlural = "True";
                 }
                 else respondingPlural = "False";
-                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+                //repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
             }
             catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #311"); }
 

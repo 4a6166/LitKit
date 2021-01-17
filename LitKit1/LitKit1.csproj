@@ -238,6 +238,7 @@
     <Compile Include="ControlsWPF\HoldingControl.Designer.cs">
       <DependentUpon>HoldingControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWPF\Response\Converters\DocTypeCBConverter.cs" />
     <Compile Include="ControlsWPF\Response\ResponseMain.xaml.cs">
       <DependentUpon>ResponseMain.xaml</DependentUpon>
     </Compile>

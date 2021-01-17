@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Word;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using Tools.Response;
 
@@ -14,8 +13,43 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
     public class ResponseMainVM : INotifyPropertyChanged
     {
         #region properties
+        Application _app;
+        private string _responding;
+        private bool _respondingIsPlural;
+        private string _propounding;
         private DocType _docType;
-        private ObservableCollection<string> _responses;
+        private ObservableCollection<DocType> _docTypes;
+        private ResponseRepository _repository;
+        private ObservableCollection<Tools.Response.Response> _responses;
+
+
+        public string Responding
+        {
+            get { return _responding; }
+            set
+            {
+                _responding = value;
+                OnPropertyChanged("Responding");
+            }
+        }
+        public bool RespondingIsPlural
+        {
+            get { return _respondingIsPlural; }
+            set
+            {
+                _respondingIsPlural = value;
+                OnPropertyChanged("RespondingIsPlural");
+            }
+        }
+        public string Propounding
+        {
+            get { return _propounding; }
+            set
+            {
+                _propounding = value;
+                OnPropertyChanged("Propounding");
+            }
+        }
 
         public DocType DocType
         {
@@ -26,7 +60,28 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
                 OnPropertyChanged("DocType");
             }
         }
-        public ObservableCollection<string> Responses
+        public ObservableCollection<DocType> docTypes
+        {
+            get
+            {
+                return _docTypes;
+            }
+            set
+            {
+                _docTypes = value;
+            }
+        }
+
+        public ResponseRepository Repository
+        {
+            get { return _repository; }
+            set
+            {
+                _repository = value;
+                OnPropertyChanged("Repository");
+            }
+        }
+        public ObservableCollection<Tools.Response.Response> Responses
         {
             get { return _responses; }
             private set
@@ -38,15 +93,17 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
 
         public ResponseMainVM()
         {
-            Responses = new ObservableCollection<string> 
-            { 
-                "Answer a Complaint",
-                "Respond to Requests for Admission",
-                "Respond to Requests for Production of Documents",
-                "Respond to Interrogatories"
-            };
+            _app = Globals.ThisAddIn.Application;
 
-            _docType = DocType.Admission;
+            _docTypes = new ObservableCollection<DocType>() { DocType.Complaint, DocType.Admission, DocType.Production, DocType.Interrogatory };
+
+            _repository = new ResponseRepository(_app);
+            _responses = Repository.GetResponses();
+
+            _responding = Repository.GetDocProps(_app, DocPropsNode.Responding);
+            bool.TryParse(Repository.GetDocProps(_app, DocPropsNode.RespondingPlural), out _respondingIsPlural);
+            _propounding = Repository.GetDocProps(_app, DocPropsNode.Propounding);
+            Enum.TryParse(Repository.GetDocProps(_app, DocPropsNode.DocType), out _docType);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -55,6 +112,34 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
             PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
+        #region Repsonses
+        public void AddNewResponse(Tools.Response.Response response)
+        {
+            Repository.AddCustomResponse(response);
+            Responses.Add(response);
+        }
+
+        public void EditResponse(Tools.Response.Response response)
+        {
+            Repository.UpdateResponse(response);
+            Responses = Repository.GetResponses();
+        }
+
+        public void DeleteResponse(Tools.Response.Response response)
+        {
+            Repository.DeleteResponse(response.ID);
+            Responses.Remove(response);
+        }
+        #endregion
+
+        #region Doc Properties
+
+        public void updateDocProperties()
+        {
+            Repository.UpdateDocProps(_app, Responding, RespondingIsPlural, Propounding, DocType);
+        }
+
+        #endregion
 
         #region Import/Export
         internal void BatchImportResponses()
@@ -66,127 +151,116 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
             openFileDialog.Multiselect = false;
             openFileDialog.ShowDialog();
 
-            //try
-            //{
-            //    XmlDocument doc = new XmlDocument();
-            //    doc.Load(openFileDialog.FileName);
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(openFileDialog.FileName);
 
-            //    int formatSuccess;
-            //    int formatFail;
-            //    int citeSuccess;
-            //    int citeFail;
-            //    int citeRepeated;
-
-
-            //    batchFormatting(doc, out formatSuccess, out formatFail);
-            //    batchCites(doc, out citeSuccess, out citeFail, out citeRepeated);
+                int formatSuccess;
+                int formatFail;
+                int respSuccess;
+                int respFail;
+                int respRepeated;
 
 
-            //    System.Windows.Forms.MessageBox.Show(
-            //    "Format Nodes Loaded: " + formatSuccess.ToString() + Environment.NewLine +
-            //    "Format Nodes Failed: " + formatFail.ToString() + Environment.NewLine +
-            //    Environment.NewLine +
-            //    "Citations Added: " + citeSuccess.ToString() + Environment.NewLine +
-            //    "Citations Failed: " + citeFail.ToString() + Environment.NewLine +
-            //    "Redundant Citations Skipped: " + citeRepeated.ToString()
-            //    );
-            //}
-            //catch { throw new FileNotFoundException(); }
+                batchFormatting(doc, out formatSuccess, out formatFail);
+                batchResponses(doc, out respSuccess, out respFail, out respRepeated);
+
+
+                System.Windows.Forms.MessageBox.Show(
+                "Format Nodes Loaded: " + formatSuccess.ToString() + Environment.NewLine +
+                "Format Nodes Failed: " + formatFail.ToString() + Environment.NewLine +
+                Environment.NewLine +
+                "Citations Added: " + respSuccess.ToString() + Environment.NewLine +
+                "Citations Failed: " + respFail.ToString() + Environment.NewLine +
+                "Redundant Citations Skipped: " + respRepeated.ToString()
+                );
+            }
+            catch { throw new FileNotFoundException(); }
         }
 
-        private void batchFormatting(XmlDocument doc/*, out int formatSuccess, out int formatFail*/)
+        private void batchFormatting(XmlDocument doc, out int formatSuccess, out int formatFail)
         {
 
-            //formatSuccess = 0;
-            //formatFail = 0;
+            formatSuccess = 0;
+            formatFail = 0;
 
-            //var formatNode = doc.SelectSingleNode("//Format");
-            //if (formatNode != null)
-            //{
-            //    try
-            //    {
-            //        string introLong = formatNode.SelectSingleNode("//IntroLong").InnerText;
-            //        string introShort = formatNode.SelectSingleNode("//IntroShort").InnerText;
+            var formatNode = /*doc.SelectSingleNode("//Document");*/ doc.ChildNodes[1].FirstChild;
+            if (formatNode != null && formatNode.Name=="Document")
+            {
+                try
+                {
+                    Responding = /*formatNode.SelectSingleNode("//Responding").InnerText;*/ formatNode.ChildNodes[0].InnerText;
+                    RespondingIsPlural = bool.Parse(/*formatNode.SelectSingleNode("//RespondingPlural").InnerText*/ formatNode.ChildNodes[1].InnerText );
+                    Propounding = /*formatNode.SelectSingleNode("//Propounding").InnerText;*/ formatNode.ChildNodes[2].InnerText;
 
-            //        ExhibitIndexStyle indexStyle = ExhibitIndexStyle.Numbers;
-            //        Enum.TryParse(formatNode.SelectSingleNode("//IndexStyle").InnerText, out indexStyle);
-            //        int indexStart = Int32.Parse(formatNode.SelectSingleNode("//IndexStart").InnerText);
-            //        bool idCite = bool.Parse(formatNode.SelectSingleNode("//IdCite").InnerText);
+                    DocType type = DocType.Admission;
+                    Enum.TryParse(
+                        /*formatNode.SelectSingleNode("//DocType").InnerText*/ formatNode.ChildNodes[3].InnerText,
+                        out type);
+                    DocType = type;
 
-            //        ObservableCollection<CiteFormatPiece> longFormat = new ObservableCollection<CiteFormatPiece>();
-            //        var longnodes = formatNode.SelectSingleNode("//Long").ChildNodes;
-            //        for (int i = 0; i < longnodes.Count; i++)
-            //        {
-            //            CiteFormatPieceType type = CiteFormatPieceType.FREETEXT;
-            //            Enum.TryParse(longnodes[i].Name, out type);
+                    //Update the Cite Formatting and save ;
 
-            //            longFormat.Add(new CiteFormatPiece(type, longnodes[i].InnerText));
-            //        }
+                    Repository.UpdateDocProps(_app, Responding, RespondingIsPlural, Propounding, DocType);
 
-            //        ObservableCollection<CiteFormatPiece> shortFormat = new ObservableCollection<CiteFormatPiece>();
-            //        var shortnodes = formatNode.SelectSingleNode("//Short").ChildNodes;
-            //        for (int i = 0; i < shortnodes.Count; i++)
-            //        {
-            //            CiteFormatPieceType type = CiteFormatPieceType.FREETEXT;
-            //            Enum.TryParse(shortnodes[i].Name, out type);
-
-            //            shortFormat.Add(new CiteFormatPiece(type, shortnodes[i].InnerText));
-            //        }
-
-            //        //Update the Cite Formatting and save 
-            //        CiteFormatting formatting = new CiteFormatting(introLong, introShort, longFormat, shortFormat, indexStyle, indexStart, idCite);
-            //        FormatList_Long = longFormat;
-            //        OnPropertyChanged("FormatList_Long");
-
-            //        FormatList_Short = shortFormat;
-            //        OnPropertyChanged("FormatList_Short");
-
-            //        Repository.CiteFormatting = formatting;
-            //        Repository.UpdateCiteFormattingInDB(formatting);
-
-            //        formatSuccess++;
-            //    }
-            //    catch
-            //    {
-            //        formatFail++;
-            //    }
-            //}
+                    formatSuccess++;
+                }
+                catch
+                {
+                    formatFail++;
+                }
+            }
 
         }
 
-        private void batchCites(XmlDocument doc/*, out int citeSuccess, out int citeFail, out int citeRepeated*/)
+        private void batchResponses(XmlDocument doc, out int respSuccess, out int respFail, out int respRepeated)
         {
-            //citeSuccess = 0;
-            //citeFail = 0;
-            //citeRepeated = 0;
+            respSuccess = 0;
+            respFail = 0;
+            respRepeated = 0;
 
-            //var citesNode = doc.SelectNodes("//Citation");
-            //for (int i = 0; i < citesNode.Count; i++)
-            //{
-            //    var children = citesNode[i].ChildNodes;
-            //    try
-            //    {
-            //        string ID = children[0].InnerText;
-            //        string RefName = children[1].InnerText;
+            var ResponseNode = doc.SelectNodes("//Response");
+            for (int i = 0; i < ResponseNode.Count; i++)
+            {
+                var children = ResponseNode[i].ChildNodes;
+                try
+                {
+                    string ID = children[0].InnerText;
+                    string Name = children[1].InnerText;
 
-            //        CiteType Type = CiteType.Exhibit;
-            //        Enum.TryParse(children[2].InnerText, out Type);
+                    List<DocType> list = new List<DocType>();
+                    var DocTypeNodes = children[2].ChildNodes;
 
-            //        string Long = children[3].InnerText;
-            //        string Short = children[4].InnerText;
-            //        string OtherID = children[5].InnerText;
+                    for (int j = 0; j < DocTypeNodes.Count; j++)
+                    {
+                        DocType Type = DocType.Admission;
+                        Enum.TryParse(DocTypeNodes[j].Name, out Type);
+                        list.Add(Type);
+                    }
 
-            //        Tools.Citation.Citation cite = new Tools.Citation.Citation(ID, Type, Long, Short, OtherID, RefName);
+                    string DisplayText = children[3].InnerText;
 
-            //        if (Citations.Where(n => n.ID == cite.ID).Count() == 0)
-            //        {
-            //            AddNewCite(cite);
-            //            citeSuccess++;
-            //        }
-            //        else citeRepeated++;
-            //    }
-            //    catch { citeFail++; }
-            //};
+                    Tools.Response.Response response = new Tools.Response.Response(ID, Name, list, DisplayText);
+
+                    if (Responses.Where(n => n.DisplayText == response.DisplayText).Count() > 0)
+                    {
+                        respRepeated++;
+                    }
+                    else if (Responses.Where(n => n.ID == response.ID).Count() != 0)
+                    {
+                        EditResponse(response);
+                        respSuccess++;
+                    }
+                    else
+                    { 
+                        AddNewResponse(response);
+                        respSuccess++;
+                    }
+
+                }
+                catch { respFail++; }
+            };
 
         }
 
@@ -202,44 +276,44 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
             saveFileDialog.CheckPathExists = true;
             saveFileDialog.ShowDialog();
 
-            //if (saveFileDialog.FileName != "")
-            //{
-            //    Path = saveFileDialog.FileName;
-            //}
-            //else
-            //{ Path = null; }
+            if (saveFileDialog.FileName != "")
+            {
+                Path = saveFileDialog.FileName;
+            }
+            else
+            { Path = null; }
 
-            ////Check if file is available
-            //FileInfo file = new FileInfo(Path);
-            //if (!file.Exists)
-            //{ FileAvailable = true; }
-            //else
-            //{
-            //    try
-            //    {
-            //        using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
-            //        {
-            //            stream.Close();
-            //            FileAvailable = true;
-            //        }
-            //    }
-            //    catch (IOException)
-            //    {
-            //        //the file is unavailable because it is:
-            //        //still being written to
-            //        //or being processed by another thread
-            //        //or does not exist (has already been processed)
-            //        FileAvailable = false;
-            //        System.Windows.Forms.MessageBox.Show("File is open in another window or program. Please close the file and try again.");
+            //Check if file is available
+            FileInfo file = new FileInfo(Path);
+            if (!file.Exists)
+            { FileAvailable = true; }
+            else
+            {
+                try
+                {
+                    using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                    {
+                        stream.Close();
+                        FileAvailable = true;
+                    }
+                }
+                catch (IOException)
+                {
+                    //the file is unavailable because it is:
+                    //still being written to
+                    //or being processed by another thread
+                    //or does not exist (has already been processed)
+                    FileAvailable = false;
+                    System.Windows.Forms.MessageBox.Show("File is open in another window or program. Please close the file and try again.");
 
-            //    }
-            //}
+                }
+            }
 
-            //if (FileAvailable)
-            //{
-            //    Repository.ExportCites(Path);
+            if (FileAvailable)
+            {
+                Repository.ExportResponses(Path);
 
-            //}
+            }
         }
         #endregion
     }

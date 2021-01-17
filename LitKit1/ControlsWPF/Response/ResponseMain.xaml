@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:LitKit1.ControlsWPF.Response"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:ResponseTools="clr-namespace:Tools.Response;assembly=Services.Response"
+             xmlns:Converters="clr-namespace:LitKit1.ControlsWPF.Response.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300">
     <UserControl.Resources>
@@ -15,8 +16,11 @@
                 <x:Type TypeName="ResponseTools:DocType"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+
+        <Converters:DocTypeCBConverter x:Key="DocTypeConverter"/>
+
     </UserControl.Resources>
-    <Grid x:Name="MainGrid" >
+    <Grid x:Name="MainGrid" Background="WhiteSmoke">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="1*"/>
@@ -25,9 +29,9 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -35,9 +39,9 @@
         <!--Top Panel-->
         <!--############################################-->
         <Grid
-            Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
-            Height="50"
-            Margin="5,10,5,5"
+            Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+            Height="40"
+            Margin="5,0"
             >
 
             <!--########################################-->
@@ -60,13 +64,13 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Image x:Name="SBStackPlanelImage"
-                                   Margin="2,2,2,2"
-                                    Source="/LitKit;component/Resources/icons8-plus-math-60.png" HorizontalAlignment="Left" Width="26">
+                                   Margin="3" 
+                                    Source="/LitKit;component/Resources/icons8-plus-math-60.png"  Width="26">
                             </Image>
                             <Label x:Name="AddCiteLabel"
                                 Grid.Column="1" 
                                 VerticalAlignment="Center"
-                                Margin="0,0,5,0"
+                                Margin="-5,0,0,0"
                                 Visibility="Collapsed"
                                Content="Add a New Response"/>
                         </Grid>
@@ -100,11 +104,11 @@
                                 </ContextMenu>
                             </Border.ContextMenu>
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Fill="Black" Opacity=".2" Width="2"
-                                           Height="22" Margin="2,0,0,0"/>
+                                <Rectangle Fill="Black" Opacity=".2" Width="1.3"
+                                           Height="20" Margin="0,0,0,0"/>
                                 <Image x:Name="SBStackPlanelImageDropDown"
                                    Width="10"
-                                   Margin="5,9,7,0"
+                                   Margin="2,9,7,0"
                                    VerticalAlignment="Center"
                                    Opacity="1"
                                    Source="/LitKit;component/Resources/droparrow.png" >
@@ -116,16 +120,16 @@
                 </Border>
             </Grid>
 
-            <Grid>
-                <Border x:Name="RefreshBorder"
+            <Grid x:Name="SettingsGrid" Visibility="Collapsed">
+                <Border x:Name="SettingsBorder"
                         Background="LightGray"
                         CornerRadius="15" HorizontalAlignment="Right"
                         Width="auto" Height="30"
-                    MouseEnter="RefreshBorder_MouseEnter"
-                    MouseLeave="RefreshBorder_MouseLeave"
-                        MouseUp="RefreshBorder_MouseUp">
+                    MouseEnter="SettingsBorder_MouseEnter"
+                    MouseLeave="SettingsBorder_MouseLeave"
+                        MouseUp="SettingsBorder_MouseUp">
                     <StackPanel Orientation="Horizontal">
-                        <Label x:Name="RefreshLabel"
+                        <Label x:Name="SettingsLabel"
                                Margin="7,0,0,0"
                                Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"
                             Content="Settings" Visibility="Collapsed"
@@ -143,25 +147,44 @@
         <!--Party Info Expander-->
         <!--########################################-->
         <Border 
-                Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3"
-                Margin="3,3,3,0"
-                Background="LightGray" CornerRadius="15,15,0,0">
-            <Expander
+                Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0"
+                Margin="3,0,3,3"
+                Background="Gainsboro" CornerRadius="0,0,15,15">
+            <Expander x:Name="DocInfoExpander"
                     FontWeight="DemiBold"
                     Margin="5,5,5,5"
             IsExpanded="True"
             ExpandDirection="down">
                 <Expander.Header>
                     <TextBlock>
-                    <Run Text="Party Information"/>
+                    <Run Text="Response Information"/>
                     </TextBlock>
                 </Expander.Header>
-                <StackPanel Orientation="Vertical" Margin="15">
+                <StackPanel Orientation="Vertical" Margin="0,15,0,0">
+                    <Grid
+                        Margin="0,0,0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Margin="3">
+                            <Run Text="Respond to"/>
+                        </TextBlock>
+                        <ComboBox x:Name="ResponseTypeCB" Grid.Row="1"
+                      Margin="0,0,0,10" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"
+                      SelectedItem="{Binding DocType}"
+                      SelectionChanged="ResponseTypeCB_SelectionChanged">
+                        </ComboBox>
+
+                    </Grid>
                     <TextBlock Text="Responding Party Name" FontWeight="SemiBold" />
                     <TextBlock Text="As you would like it to appear in the document" FontWeight="Light" FontStyle="Italic" FontSize="10"/>
-                    <Grid>
-                        <TextBox x:Name="RespondingTB" TextChanged="RespondingTB_TextChanged" />
-                        <TextBlock x:Name="RespondingTB_Placeholder" IsHitTestVisible="False" Text="Responding Party or Parties" VerticalAlignment="Top"  Margin="2,1" Foreground="DarkGray" HorizontalAlignment="Left" FontWeight="Normal">
+                    <Grid MinHeight="22" Margin="0,5,0,0">
+                        <TextBox x:Name="RespondingTB" TextChanged="RespondingTB_TextChanged" VerticalAlignment="Stretch"
+                                 VerticalContentAlignment="Center" TextWrapping="Wrap"
+                                 Text="{Binding Responding}"/>
+                        <TextBlock x:Name="RespondingTB_Placeholder" IsHitTestVisible="False" 
+                                   Text="Responding Party or Parties" VerticalAlignment="Center" Margin="2,1" Foreground="DarkGray" HorizontalAlignment="Left" FontWeight="Normal">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -174,16 +197,22 @@
                             </TextBlock.Style>
                         </TextBlock>
                     </Grid>
-                    <CheckBox x:Name="RespondingPluralCB" HorizontalAlignment="Right" VerticalContentAlignment="Center">
+                    <CheckBox x:Name="RespondingPluralCB" 
+                              Margin="5"
+                              HorizontalAlignment="Right" VerticalContentAlignment="Center" 
+                              IsChecked="{Binding RespondingIsPlural}" >
                         <TextBlock>
                             <Run Text="Responding Party is Plural" FontWeight="Light" FontStyle="Italic" FontSize="10"/>
                         </TextBlock>
                     </CheckBox>
                     <TextBlock Text="Propounding Party Name" FontWeight="SemiBold" />
                     <TextBlock Text="As you would like it to appear in the document" FontWeight="Light" FontStyle="Italic" FontSize="10"/>
-                    <Grid>
-                        <TextBox x:Name="PropoundingTB" TextChanged="RespondingTB_TextChanged" />
-                        <TextBlock x:Name="PropoundingTB_Placeholder" IsHitTestVisible="False" Text="Propounding Party or Parties" VerticalAlignment="Top"  Margin="2,1" Foreground="DarkGray" HorizontalAlignment="Left" FontWeight="Normal">
+                    <Grid MinHeight="22" Margin="0,5,0,0">
+                        <TextBox x:Name="PropoundingTB" TextChanged="RespondingTB_TextChanged" VerticalAlignment="Stretch"
+                                 VerticalContentAlignment="Center" TextWrapping="Wrap"
+                                 Text="{Binding Propounding}"/>
+                        <TextBlock x:Name="PropoundingTB_Placeholder" IsHitTestVisible="False" 
+                                   Text="Propounding Party or Parties" VerticalAlignment="Center" Margin="2,1" Foreground="DarkGray" HorizontalAlignment="Left" FontWeight="Normal">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -197,10 +226,15 @@
                         </TextBlock>
                     </Grid>
 
-                    <Button x:Name="btnUpdateParties" Margin="0,20" Click="btnUpdateParties_Click">
+                    <Button x:Name="btnUpdateParties" Margin="5,20,5,5" Width="150" Click="btnUpdateParties_Click">
                         <Button.Content>
-                            <TextBlock Text="Update Parties"/>
+                            <Label Content="Update Information"/>
                         </Button.Content>
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </Button.Resources>
                     </Button>
                 </StackPanel>
             </Expander>
@@ -209,14 +243,8 @@
         <!--########################################-->
         <!--Search Stack-->
         <!--########################################-->
-        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Vertical">
-            <ComboBox x:Name="ResponseTypeCB"
-                      Margin="0,0,0,10" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"
-                      SelectedIndex="0">
-            </ComboBox>
-            <!--########################################-->
-            <!--Search Grid-->
-            <!--########################################-->
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Orientation="Vertical" Margin="0,0,0,5">
+            
             <Grid x:Name="SearchGrid"
                     MaxHeight="20">
                 <Grid.ColumnDefinitions>
@@ -267,14 +295,21 @@
 
         <ListView x:Name="CiteBlockStackPanel" ItemsSource="{Binding Responses}"
                         Grid.Column="1" Grid.ColumnSpan="2" 
-                        Grid.Row="2"
+                        Grid.Row="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                   >
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Blue" BorderThickness="1">
-                        <TextBlock Text="{Binding}"/>
+                    <Border BorderBrush="SlateGray"  BorderThickness="1">
+                        <Grid Margin="0.5, 1.5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Grid.Row="1" Text="{Binding DisplayText}" Foreground="DarkSlateGray"/>
+                        </Grid>
                     </Border>
                     <!--<local:CiteBlock DataContext="{Binding}"/>-->
                 </DataTemplate>
@@ -286,6 +321,22 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+        <Grid x:Name="ReloadCitesGrid"
+                    VerticalAlignment="Bottom"
+                    Background="Transparent"
+                    Grid.Column="0" Grid.ColumnSpan="4"
+                    Grid.Row="4">
+            <Border 
+                Margin="3,3,3,0" CornerRadius="15,15,0,0"
+                Background="LightGray">
+                <Expander Visibility="Hidden"/>
+            </Border>
+        </Grid>
 
+        <Grid x:Name="NewResponse" Visibility="Collapsed"
+              Background="LightGoldenrodYellow"
+              Grid.ColumnSpan="4" Grid.RowSpan="5">
+            <TextBlock Text="PLACEHOLDER"/>
+        </Grid>
     </Grid>
 </UserControl>

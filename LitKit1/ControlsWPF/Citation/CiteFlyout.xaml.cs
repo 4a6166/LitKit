@@ -59,5 +59,9 @@ namespace LitKit1.ControlsWPF.Citation
             grid.Children[1].Visibility = Visibility.Collapsed;
         }
 
+        private void Border_MouseEnter(object sender, MouseEventArgs e)
+        {
+
+        }
     }
 }

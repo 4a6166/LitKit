@@ -68,7 +68,7 @@ namespace LitKit1.Controls.AnsResControls
                         throw new Exception("docType incorrect");
                 }
 
-                repository.AddCustomResponse(name, c, a, p, i, text);
+                //repository.AddCustomResponse(name, c, a, p, i, text);
 
                 this.FindForm().Close();
 

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tools.Response;
 
 namespace LitKit1.ControlsWPF.Response
 {
@@ -22,7 +23,7 @@ namespace LitKit1.ControlsWPF.Response
     public partial class ResponseMain : UserControl
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        private bool isInitialized = false;
         #region properties
         private ResponseMainVM ViewModel;
         CollectionView view;
@@ -42,21 +43,37 @@ namespace LitKit1.ControlsWPF.Response
 
             view = (CollectionView)CollectionViewSource.GetDefaultView(CiteBlockStackPanel.ItemsSource);
 
+            
+            isInitialized = true;
+            view.Refresh();
+            view.Filter = TextFilter;
         }
 
         #region ListFilter
 
         private bool TextFilter(object item)
         {
-            //TODO: set filter for responses that have type of ResponseTypeCB (DocType enum)
-
             if (String.IsNullOrEmpty(SearchTextBox.Text))
-                    return true;
-                else
-                //TODO: update with string to Response and add where we're searching 
-                //return ((item as Tools.Citation.Citation).LongDescription.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-                return ((item as string).IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return (item as Tools.Response.Response).DocTypes.Contains((DocType)ResponseTypeCB.SelectedItem); /*ViewModel.DocType*/
+            else
+                return (
+                    (item as Tools.Response.Response).DisplayText.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    &&
+                    (item as Tools.Response.Response).Name.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    &&
+                    (item as Tools.Response.Response).DocTypes.Contains((DocType)ResponseTypeCB.SelectedItem) /*ViewModel.DocType*/
+                    );
         }
+
+        private void ResponseTypeCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                view.Refresh();
+                view.Filter = TextFilter;
+            }
+        }
+
 
 
         #endregion
@@ -119,6 +136,18 @@ namespace LitKit1.ControlsWPF.Response
         #endregion
 
 
+
+
+        private void BatchAddCites_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.BatchImportResponses();
+        }
+        private void ExportCites_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExportResponses();
+        }
+
+        #region Top Panel Visibility Triggers
         private void SBPanelImage_MouseEnter(object sender, MouseEventArgs e)
         {
             AddCiteLabel.Visibility = Visibility.Visible;
@@ -139,7 +168,7 @@ namespace LitKit1.ControlsWPF.Response
 
         private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            //CiteAdd.Visibility = Visibility.Visible;
+            NewResponse.Visibility = Visibility.Visible;
         }
 
         private void SBStackPlanelImageDropDown_MouseDown(object sender, MouseButtonEventArgs e)
@@ -154,29 +183,21 @@ namespace LitKit1.ControlsWPF.Response
 
         private void MenuItem_Click_6(object sender, RoutedEventArgs e)
         {
-            //CiteAdd.Visibility = Visibility.Visible;
+            NewResponse.Visibility = Visibility.Visible;
         }
 
-        private void BatchAddCites_Click(object sender, RoutedEventArgs e)
+
+        private void SettingsBorder_MouseEnter(object sender, MouseEventArgs e)
         {
-            ViewModel.BatchImportResponses();
-        }
-        private void ExportCites_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ExportResponses();
+            SettingsLabel.Visibility = Visibility.Visible;
         }
 
-        private void RefreshBorder_MouseEnter(object sender, MouseEventArgs e)
+        private void SettingsBorder_MouseLeave(object sender, MouseEventArgs e)
         {
-            RefreshLabel.Visibility = Visibility.Visible;
+            SettingsLabel.Visibility = Visibility.Collapsed;
         }
 
-        private void RefreshBorder_MouseLeave(object sender, MouseEventArgs e)
-        {
-            RefreshLabel.Visibility = Visibility.Collapsed;
-        }
-
-        private void RefreshBorder_MouseUp(object sender, MouseButtonEventArgs e)
+        private void SettingsBorder_MouseUp(object sender, MouseButtonEventArgs e)
         {
             //ViewModel.RefreshCites();
         }
@@ -193,6 +214,8 @@ namespace LitKit1.ControlsWPF.Response
 
         }
 
+        #endregion
+
         private void RespondingTB_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -200,6 +223,10 @@ namespace LitKit1.ControlsWPF.Response
 
         private void btnUpdateParties_Click(object sender, RoutedEventArgs e)
         {
+            ViewModel.updateDocProperties();
+            DocInfoExpander.IsExpanded = false;
+
         }
+
     }
 }

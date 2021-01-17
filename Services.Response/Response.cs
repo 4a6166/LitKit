@@ -4,7 +4,7 @@ namespace Tools.Response
 {
     public class Response
     {
-        public Response(string ID, string Name, List<bool> DocTypes, string DisplayText)
+        public Response(string ID, string Name, List<DocType> DocTypes, string DisplayText)
         {
             this.ID = ID;
             this.Name = Name;
@@ -16,7 +16,7 @@ namespace Tools.Response
         public string ID { get; private set; }
         public string Name { get; set; }
 
-        public List<bool> DocTypes { get; set; }
+        public List<DocType> DocTypes { get; set; }
 
         public string DisplayText { get; set; }
 

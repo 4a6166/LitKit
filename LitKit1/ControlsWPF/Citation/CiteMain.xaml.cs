@@ -498,5 +498,10 @@ namespace LitKit1.ControlsWPF.Citation
         {
             ViewModel.CitesReloadAutomatically = false;
         }
+
+        private void CiteBlockStackPanel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
