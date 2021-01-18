@@ -236,7 +236,8 @@
                         </TextBlock>
                     </Grid>
 
-                    <Button x:Name="btnUpdateParties" Margin="5,20,5,5" Width="150" Click="btnUpdateParties_Click">
+                    <Button x:Name="btnUpdateParties" Margin="5,20,5,5" Width="150" 
+                            Click="btnUpdateParties_Click">
                         <Button.Content>
                             <Label Content="Update Information"/>
                         </Button.Content>
@@ -303,7 +304,7 @@
         <!-- Citation blocks -->
         <!--########################################-->
 
-        <ListView x:Name="CiteBlockStackPanel" ItemsSource="{Binding Responses}"
+        <ListView x:Name="ResponseBlockStackPanel" ItemsSource="{Binding Responses}"
                         Grid.Column="1" Grid.ColumnSpan="2" 
                         Grid.Row="3" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -317,8 +318,7 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                        <TextBlock Text="{Binding Name}" />
-                        <TextBlock Grid.Row="1" Text="{Binding DisplayText}" Foreground="DarkSlateGray" TextWrapping="WrapWithOverflow" TextTrimming="WordEllipsis"/>
+                            <local:ResponseBlock DataContext="{Binding}"/>
                         </Grid>
                     </Border>
                     <!--<local:CiteBlock DataContext="{Binding}"/>-->
@@ -343,10 +343,19 @@
             </Border>
         </Grid>
 
-        <Grid x:Name="NewResponse" Visibility="Collapsed"
-              Background="LightGoldenrodYellow"
-              Grid.ColumnSpan="4" Grid.RowSpan="5">
-            <TextBlock Text="PLACEHOLDER"/>
-        </Grid>
+
+        <local:ResponseAdd x:Name="ResponseAdd"
+                            Grid.Column="0" Grid.ColumnSpan="4"
+                            Grid.Row="0" Grid.RowSpan="5"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            Visibility="{Binding ResponseAddVisibility}"/>
+        <local:ResponseEdit x:Name="ResponseEdit"
+                            Grid.Column="0" Grid.ColumnSpan="4"
+                            Grid.Row="0" Grid.RowSpan="5"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            Visibility="{Binding ResponseEditVisibility}"  />
+
     </Grid>
 </UserControl>

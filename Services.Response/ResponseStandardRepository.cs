@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -150,9 +151,9 @@ namespace Tools.Response
             }
         }
 
-        public static List<ResponseStandard> GetResponses(string docType)
+        public static ObservableCollection<ResponseStandard> GetResponses(string docType)
         {
-            List<ResponseStandard> result = new List<ResponseStandard>();
+            ObservableCollection<ResponseStandard> result = new ObservableCollection<ResponseStandard>();
 
             foreach (XmlNode respNode in nodesResponse)
             {

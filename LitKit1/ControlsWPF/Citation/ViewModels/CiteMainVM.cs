@@ -38,6 +38,8 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         private bool _citesReloadAutomatically = true;
 
+        private Visibility _citeAddVisibility = Visibility.Collapsed;
+
         #endregion
 
         #region Public properties
@@ -144,6 +146,16 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             {
                 _citesReloadAutomatically = value;
                 OnPropertyChanged("CitesReloadAutomatically");
+            }
+        }
+
+        public Visibility CiteAddVisibility
+        {
+            get { return _citeAddVisibility; }
+            set
+            {
+                _citeAddVisibility = value;
+                OnPropertyChanged("CiteAddVisibility");
             }
         }
         #endregion

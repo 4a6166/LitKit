@@ -41,7 +41,7 @@ namespace LitKit1.ControlsWPF.Response
 
             InitializeComponent();
 
-            view = (CollectionView)CollectionViewSource.GetDefaultView(CiteBlockStackPanel.ItemsSource);
+            view = (CollectionView)CollectionViewSource.GetDefaultView(ResponseBlockStackPanel.ItemsSource);
 
             
             isInitialized = true;
@@ -168,7 +168,7 @@ namespace LitKit1.ControlsWPF.Response
 
         private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            NewResponse.Visibility = Visibility.Visible;
+            ResponseAdd.Visibility = Visibility.Visible;
         }
 
         private void SBStackPlanelImageDropDown_MouseDown(object sender, MouseButtonEventArgs e)
@@ -183,7 +183,7 @@ namespace LitKit1.ControlsWPF.Response
 
         private void MenuItem_Click_6(object sender, RoutedEventArgs e)
         {
-            NewResponse.Visibility = Visibility.Visible;
+            ResponseAdd.Visibility = Visibility.Visible;
         }
 
 
@@ -224,6 +224,7 @@ namespace LitKit1.ControlsWPF.Response
         private void btnUpdateParties_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.updateDocProperties();
+            view.Refresh();
             DocInfoExpander.IsExpanded = false;
 
         }

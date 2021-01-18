@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.Word;
+using Services.Base;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -267,40 +268,7 @@ namespace Tools.Citation
         {
             contentControl.LockContents = false;
 
-            var find = contentControl.Range.Find;
-            {
-                //Bold **&**
-                find.ClearFormatting();
-                find.Replacement.ClearFormatting();
-
-                find.Text = @"\*\*(*)\*\*";
-                find.Replacement.Text = @"\1";
-                find.Replacement.Font.Bold = -1;
-                find.MatchWildcards = true;
-                find.Execute(Replace: WdReplace.wdReplaceAll);
-            }
-            {
-                //Italics //&//
-                find.ClearFormatting();
-                find.Replacement.ClearFormatting();
-
-                find.Text = @"\/\/(*)\/\/";
-                find.Replacement.Text = @"\1";
-                find.Replacement.Font.Italic = -1;
-                find.MatchWildcards = true;
-                find.Execute(Replace: WdReplace.wdReplaceAll);
-            }
-            {
-                //Underline __&__
-                find.ClearFormatting();
-                find.Replacement.ClearFormatting();
-
-                find.Text = @"\_\_(*)\_\_";
-                find.Replacement.Text = @"\1";
-                find.Replacement.Font.Underline = WdUnderline.wdUnderlineSingle;
-                find.MatchWildcards = true;
-                find.Execute(Replace: WdReplace.wdReplaceAll);
-            }
+            FormatTextInDoc.FormatFont(contentControl.Range);
 
             contentControl.LockContents = true;
         }

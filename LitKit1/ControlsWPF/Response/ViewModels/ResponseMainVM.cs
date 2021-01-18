@@ -1,10 +1,13 @@
-﻿using Microsoft.Office.Interop.Word;
+﻿using LitKit1.ControlsWPF.Citation.ViewModels;
+using Microsoft.Office.Interop.Word;
+using Services.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Xml;
 using Tools.Response;
 
@@ -13,7 +16,10 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
     public class ResponseMainVM : INotifyPropertyChanged
     {
         #region properties
-        Application _app;
+        Microsoft.Office.Interop.Word.Application _app;
+        EditResponseVM _editResponseVM;
+        ResponseTextFill TextFill = new ResponseTextFill();
+
         private string _responding;
         private bool _respondingIsPlural;
         private string _propounding;
@@ -22,6 +28,31 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
         private ResponseRepository _repository;
         private ObservableCollection<Tools.Response.Response> _responses;
 
+        private Visibility _responseAddVisibility = Visibility.Collapsed;
+        private Visibility _responseEditVisibility = Visibility.Collapsed;
+
+        private Tools.Response.Response _selectedResponse;
+
+        private ObservableCollection<ResponseStandard> _standardResponses;
+
+        public ObservableCollection<ResponseStandard> StandardResponses
+        {
+            get { return _standardResponses; }
+            set
+            {
+                _standardResponses = value;
+            }
+        }
+
+        public EditResponseVM EditResponseVM
+        {
+            get { return _editResponseVM; }
+            set
+            {
+                _editResponseVM = value;
+                OnPropertyChanged("EditResponseVM");
+            }
+        }
 
         public string Responding
         {
@@ -51,6 +82,36 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
             }
         }
 
+        public Visibility ResponseAddVisibility
+        {
+            get { return _responseAddVisibility; }
+            set
+            {
+                _responseAddVisibility = value;
+                OnPropertyChanged("ResponseAddVisibility");
+            }
+        }
+
+        public Visibility ResponseEditVisibility
+        {
+            get { return _responseEditVisibility; }
+            set
+            {
+                _responseEditVisibility = value;
+                OnPropertyChanged("ResponseEditVisibility");
+            }
+        }
+
+        public Tools.Response.Response SelectedResponse
+        {
+            get { return _selectedResponse; }
+            set
+            {
+                _selectedResponse = value;
+                OnPropertyChanged("SelectedResponse");
+            }
+        }
+
         public DocType DocType
         {
             get { return _docType; }
@@ -58,6 +119,7 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
             {
                 _docType = value;
                 OnPropertyChanged("DocType");
+                StandardResponses = ResponseStandardRepository.GetResponses(_docType.ToString());
             }
         }
         public ObservableCollection<DocType> docTypes
@@ -113,6 +175,45 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
         }
 
         #region Repsonses
+
+        internal void InsertResponse(Tools.Response.Response response)
+        {
+            _app.UndoRecord.StartCustomRecord("Insert Response");
+
+
+            try
+            {
+
+                string insertText = response.DisplayText;
+
+                insertText = ResponseStandardRepository.FillString(response.ID, response.DisplayText, Responding, RespondingIsPlural.ToString(), Propounding, DocType.ToString());
+
+
+                insertText = insertText.Replace("[X]", TextFill.FillParaNumberForX(_app.Selection));
+
+                _app.Selection.TypeText(insertText);
+
+                var selEnd = _app.Selection.Start;
+
+                _app.Selection.SetRange(selEnd - insertText.Length, selEnd);
+                _app.Selection.Find.Execute(FindText: "\"", ReplaceWith: "\"", Replace: WdReplace.wdReplaceAll);
+                _app.Selection.Find.Execute(FindText: "\'", ReplaceWith: "\'", Replace: WdReplace.wdReplaceAll);
+
+                _app.Selection.Collapse(WdCollapseDirection.wdCollapseEnd);
+
+                FormatTextInDoc.FormatFont(_app.Selection.Range);
+
+
+            }
+            catch { /*MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #304");*/ }
+
+            //Globals.ThisAddIn.ReturnFocus();
+            var addin = (ThisAddIn)_app.Parent;
+            addin.ReturnFocus();
+
+            _app.UndoRecord.EndCustomRecord();
+        }
+
         public void AddNewResponse(Tools.Response.Response response)
         {
             Repository.AddCustomResponse(response);
@@ -316,5 +417,12 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
             }
         }
         #endregion
+
+        internal void OpenEditResponse(Tools.Response.Response response)
+        {
+            EditResponseVM = new EditResponseVM(response, DocType, true);
+        }
+
+
     }
 }

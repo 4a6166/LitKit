@@ -115,7 +115,7 @@
                                        Visibility="Visible"
                                     Content="Exhibit 1,"/>
                             <TextBox x:Name="Format_LongDescriptionTextBox" 
-                                         TextWrapping="WrapWithOverflow" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="100"
+                                         TextWrapping="WrapWithOverflow" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="100"
                                          Grid.Column="2"
                                          VerticalContentAlignment="Center"
                                          Foreground="DarkSlateGray" GotFocus="Format_LongDescriptionTextBox_GotFocus" LostFocus="Format_LongDescriptionTextBox_LostFocus"
@@ -193,7 +193,7 @@
                                          Grid.Column="2"
                                          VerticalContentAlignment="Center"
                                          MinHeight="26"
-                                         TextWrapping="WrapWithOverflow" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="100"
+                                         TextWrapping="WrapWithOverflow" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="100"
                                          Foreground="DarkSlateGray" GotFocus="Format_ShortDescriptionTextBox_GotFocus" LostFocus="Format_ShortDescriptionTextBox_LostFocus"
                                          Text="{Binding ShortDescription}"/>
                         </Grid>
@@ -219,7 +219,7 @@
                                          Grid.Column="2"
                                          VerticalContentAlignment="Center"
                                      MinHeight="26"
-                                     TextWrapping="WrapWithOverflow" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="100"
+                                     TextWrapping="WrapWithOverflow" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="100"
                                      Foreground="DarkSlateGray" GotFocus="Format_OtherIdentifierTextBox_GotFocus" LostFocus="Format_OtherIdentifierTextBox_LostFocus"
                                          Text="{Binding OtherIdentifier}"/>
                                 <TextBlock 
@@ -237,7 +237,7 @@
                                          Grid.Column="2"
                                          VerticalContentAlignment="Center"
                                      MinHeight="26"
-                                     TextWrapping="WrapWithOverflow" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="100"
+                                     TextWrapping="WrapWithOverflow" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="100"
                                      Foreground="DarkSlateGray"
                                          />
                                 <TextBlock 
