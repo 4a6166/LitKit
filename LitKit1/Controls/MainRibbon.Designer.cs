@@ -40,14 +40,13 @@
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl3 = this.Factory.CreateRibbonDialogLauncher();
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl4 = this.Factory.CreateRibbonDialogLauncher();
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl5 = this.Factory.CreateRibbonDialogLauncher();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainRibbon));
             this.MainTab = this.Factory.CreateRibbonTab();
             this.grpRedactions = this.Factory.CreateRibbonGroup();
             this.grpCitationsTool = this.Factory.CreateRibbonGroup();
             this.grpAnsRes = this.Factory.CreateRibbonGroup();
             this.grpFormattingTools = this.Factory.CreateRibbonGroup();
             this.grpSupport = this.Factory.CreateRibbonGroup();
-            this.grpInvisibleReminders = this.Factory.CreateRibbonGroup();
-            this.label1 = this.Factory.CreateRibbonLabel();
             this.tglMarkRedaction = this.Factory.CreateRibbonToggleButton();
             this.markRedact = this.Factory.CreateRibbonButton();
             this.unmarkRedact = this.Factory.CreateRibbonButton();
@@ -65,6 +64,7 @@
             this.testExhibits = this.Factory.CreateRibbonButton();
             this.splitbtnResposeTool = this.Factory.CreateRibbonSplitButton();
             this.button4 = this.Factory.CreateRibbonButton();
+            this.btnResposeTool = this.Factory.CreateRibbonButton();
             this.menuTranscript = this.Factory.CreateRibbonMenu();
             this.btnBlockTranscript = this.Factory.CreateRibbonButton();
             this.btnInLineTranscript = this.Factory.CreateRibbonButton();
@@ -96,8 +96,7 @@
             this.btnReplace = this.Factory.CreateRibbonButton();
             this.CustomerSupport = this.Factory.CreateRibbonButton();
             this.TestButton1 = this.Factory.CreateRibbonButton();
-            this.button2 = this.Factory.CreateRibbonButton();
-            this.btnTesterFeedback = this.Factory.CreateRibbonButton();
+            this.btnHowTo = this.Factory.CreateRibbonButton();
             grpShortcuts = this.Factory.CreateRibbonGroup();
             grpShortcuts.SuspendLayout();
             this.MainTab.SuspendLayout();
@@ -106,7 +105,6 @@
             this.grpAnsRes.SuspendLayout();
             this.grpFormattingTools.SuspendLayout();
             this.grpSupport.SuspendLayout();
-            this.grpInvisibleReminders.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpShortcuts
@@ -131,7 +129,6 @@
             this.MainTab.Groups.Add(this.grpFormattingTools);
             this.MainTab.Groups.Add(grpShortcuts);
             this.MainTab.Groups.Add(this.grpSupport);
-            this.MainTab.Groups.Add(this.grpInvisibleReminders);
             this.MainTab.Label = "LitKit";
             this.MainTab.Name = "MainTab";
             this.MainTab.Position = this.Factory.RibbonPosition.BeforeOfficeId("TabReviewWord");
@@ -168,6 +165,7 @@
             ribbonDialogLauncherImpl4.Visible = false;
             this.grpAnsRes.DialogLauncher = ribbonDialogLauncherImpl4;
             this.grpAnsRes.Items.Add(this.splitbtnResposeTool);
+            this.grpAnsRes.Items.Add(this.btnResposeTool);
             this.grpAnsRes.Label = "Responses";
             this.grpAnsRes.Name = "grpAnsRes";
             // 
@@ -186,26 +184,12 @@
             // grpSupport
             // 
             this.grpSupport.DialogLauncher = ribbonDialogLauncherImpl5;
+            this.grpSupport.Items.Add(this.btnHowTo);
             this.grpSupport.Items.Add(this.CustomerSupport);
             this.grpSupport.Items.Add(this.TestButton1);
             this.grpSupport.Label = "Support";
             this.grpSupport.Name = "grpSupport";
             this.grpSupport.DialogLauncherClick += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Support_DialogLauncherClick);
-            // 
-            // grpInvisibleReminders
-            // 
-            this.grpInvisibleReminders.Items.Add(this.label1);
-            this.grpInvisibleReminders.Items.Add(this.button2);
-            this.grpInvisibleReminders.Items.Add(this.btnTesterFeedback);
-            this.grpInvisibleReminders.Label = "Reminders";
-            this.grpInvisibleReminders.Name = "grpInvisibleReminders";
-            this.grpInvisibleReminders.Visible = false;
-            // 
-            // label1
-            // 
-            this.label1.Enabled = false;
-            this.label1.Label = "Reminder: Change the License Before publishing";
-            this.label1.Name = "label1";
             // 
             // tglMarkRedaction
             // 
@@ -215,7 +199,8 @@
             this.tglMarkRedaction.Name = "tglMarkRedaction";
             this.tglMarkRedaction.ScreenTip = "Mark Selection for Redaction";
             this.tglMarkRedaction.ShowImage = true;
-            this.tglMarkRedaction.SuperTip = "Applies a marking that designates the selected text for redaction";
+            this.tglMarkRedaction.SuperTip = "Applies a marking that designates the selected text for redaction. Redactions are" +
+    " applied using the Create PDF button.";
             this.tglMarkRedaction.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.tglMarkRedaction_Click);
             // 
             // markRedact
@@ -237,8 +222,9 @@
             this.unmarkRedact.Label = "Unmark Selection";
             this.unmarkRedact.Name = "unmarkRedact";
             this.unmarkRedact.OfficeImageId = "DatasheetColumnRename";
+            this.unmarkRedact.ScreenTip = "Unmark Redactions in Selection";
             this.unmarkRedact.ShowImage = true;
-            this.unmarkRedact.SuperTip = "Removes the redaction mark on the selected text";
+            this.unmarkRedact.SuperTip = "Removes the redaction marks in the selected text.";
             this.unmarkRedact.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.unmarkRedact_Click);
             // 
             // btnClearAllRedactions
@@ -247,8 +233,9 @@
             this.btnClearAllRedactions.Label = "Clear All Redactions";
             this.btnClearAllRedactions.Name = "btnClearAllRedactions";
             this.btnClearAllRedactions.OfficeImageId = "ClearFormats";
+            this.btnClearAllRedactions.ScreenTip = "Clear Redaction Marks";
             this.btnClearAllRedactions.ShowImage = true;
-            this.btnClearAllRedactions.SuperTip = "Removes all redactions from the document";
+            this.btnClearAllRedactions.SuperTip = "Removes all redaction marks from the document.";
             this.btnClearAllRedactions.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnClearAllRedactions_Click);
             // 
             // menu2
@@ -273,7 +260,10 @@
             this.redactedPDF.Label = "Create Redacted PDF";
             this.redactedPDF.Name = "redactedPDF";
             this.redactedPDF.OfficeImageId = "FileSaveAsPdfOrXps";
+            this.redactedPDF.ScreenTip = "Create Redacted PDF";
             this.redactedPDF.ShowImage = true;
+            this.redactedPDF.SuperTip = "Creates a PDF of the current document that is redacted where marked with the Reda" +
+    "ction Tool.";
             this.redactedPDF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.redactedPDF_Click);
             // 
             // unredactedPDF
@@ -283,7 +273,10 @@
             this.unredactedPDF.Label = "Create Unredacted PDF";
             this.unredactedPDF.Name = "unredactedPDF";
             this.unredactedPDF.OfficeImageId = "Grammar";
+            this.unredactedPDF.ScreenTip = "Create Unredacted PDF";
             this.unredactedPDF.ShowImage = true;
+            this.unredactedPDF.SuperTip = "Creates a PDF of the current document with no redaction marks and an option confi" +
+    "dentiality header.";
             this.unredactedPDF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.unredactedPDF_Click);
             // 
             // btnHighlightedPDF
@@ -292,7 +285,10 @@
             this.btnHighlightedPDF.Image = global::LitKit1.Properties.Resources.CreateHighlightedPDF_32px_PrelimEdit3;
             this.btnHighlightedPDF.Label = "Create Highlighted PDF";
             this.btnHighlightedPDF.Name = "btnHighlightedPDF";
+            this.btnHighlightedPDF.ScreenTip = "Create Highlighted PDF";
             this.btnHighlightedPDF.ShowImage = true;
+            this.btnHighlightedPDF.SuperTip = "Creates a PDF of the current document that is highlighted where marked with the R" +
+    "edaction Tool and an optional confidentiality header.";
             this.btnHighlightedPDF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnHighlightedPDF_Click);
             // 
             // btnExhibitTool
@@ -313,7 +309,10 @@
             this.menu6.Items.Add(this.btnRemovePinCite);
             this.menu6.Label = "Pincite";
             this.menu6.Name = "menu6";
+            this.menu6.ScreenTip = "Pincite";
             this.menu6.ShowImage = true;
+            this.menu6.SuperTip = "Adds or Removes a pincite from a citation that has been entered with the Citation" +
+    " Tool.";
             // 
             // btnPinCite
             // 
@@ -321,8 +320,10 @@
             this.btnPinCite.Label = "Add Pincite";
             this.btnPinCite.Name = "btnPinCite";
             this.btnPinCite.OfficeImageId = "Pushpin";
+            this.btnPinCite.ScreenTip = "Add Pincite";
             this.btnPinCite.ShowImage = true;
-            this.btnPinCite.SuperTip = "Add a pincite to an existing citation.";
+            this.btnPinCite.SuperTip = "Adds a pincite to an existing citation. This pincite stays with the citation, whe" +
+    "ther or not the format changes.";
             this.btnPinCite.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnPinCite_Click);
             // 
             // btnRemovePinCite
@@ -331,6 +332,7 @@
             this.btnRemovePinCite.Label = "Remove Pincite";
             this.btnRemovePinCite.Name = "btnRemovePinCite";
             this.btnRemovePinCite.OfficeImageId = "CancelRequest";
+            this.btnRemovePinCite.ScreenTip = "Remove a Pincite";
             this.btnRemovePinCite.ShowImage = true;
             this.btnRemovePinCite.SuperTip = "Remove a pincite from an existing citation.";
             this.btnRemovePinCite.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnRemovePinCite_Click);
@@ -341,6 +343,7 @@
             this.btnIndexOfExhibits.Label = "Index of Exhibits";
             this.btnIndexOfExhibits.Name = "btnIndexOfExhibits";
             this.btnIndexOfExhibits.OfficeImageId = "ListSetNumberingValue";
+            this.btnIndexOfExhibits.ScreenTip = "Insert Index of Exhibits";
             this.btnIndexOfExhibits.ShowImage = true;
             this.btnIndexOfExhibits.SuperTip = "Inserts a table index of exhibits in the document at your current selection. This" +
     " table will not be updated when Exhibits are moved, edited, or deleted.";
@@ -362,17 +365,21 @@
             // 
             this.testExhibits.Label = "Add Test Exhibits";
             this.testExhibits.Name = "testExhibits";
+            this.testExhibits.ScreenTip = "FOR TESTING PURPOSES";
+            this.testExhibits.Visible = false;
             this.testExhibits.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AddTestCitations);
             // 
             // splitbtnResposeTool
             // 
             this.splitbtnResposeTool.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.splitbtnResposeTool.Enabled = false;
             this.splitbtnResposeTool.Image = global::LitKit1.Properties.Resources.ResponseTool_32px;
             this.splitbtnResposeTool.Items.Add(this.button4);
             this.splitbtnResposeTool.Label = "Response Tool";
             this.splitbtnResposeTool.Name = "splitbtnResposeTool";
             this.splitbtnResposeTool.OfficeImageId = "ReplyAllWithInstantMessage";
             this.splitbtnResposeTool.SuperTip = "Display the LitKit Discovery Response Tool";
+            this.splitbtnResposeTool.Visible = false;
             this.splitbtnResposeTool.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ResponseTool_Click);
             // 
             // button4
@@ -384,6 +391,19 @@
             this.button4.ShowImage = true;
             this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ResponseCustomize_Click);
             // 
+            // btnResposeTool
+            // 
+            this.btnResposeTool.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnResposeTool.Image = global::LitKit1.Properties.Resources.ResponseTool_32px;
+            this.btnResposeTool.Label = "Response Tool";
+            this.btnResposeTool.Name = "btnResposeTool";
+            this.btnResposeTool.ScreenTip = "Discovery Response Tool";
+            this.btnResposeTool.ShowImage = true;
+            this.btnResposeTool.SuperTip = "Opens the LitKit Discovery Response Tool panel, allowing you to save, adjust, and" +
+    " insert repetitive language in Discovery Response documents with a single click." +
+    "";
+            this.btnResposeTool.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ResponseTool_Click);
+            // 
             // menuTranscript
             // 
             this.menuTranscript.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -393,10 +413,9 @@
             this.menuTranscript.Label = "Paste Transcript Text";
             this.menuTranscript.Name = "menuTranscript";
             this.menuTranscript.OfficeImageId = "MasterDocumentShow";
-            this.menuTranscript.ScreenTip = "Formats and inserts text from transcripts and either block or in-line quotes.";
+            this.menuTranscript.ScreenTip = "Paste Text Copied from a Transcript";
             this.menuTranscript.ShowImage = true;
-            this.menuTranscript.SuperTip = "Removes line numbering from transcript text and formats the text to display corre" +
-    "ctly as either a block or in-line quote.";
+            this.menuTranscript.SuperTip = resources.GetString("menuTranscript.SuperTip");
             // 
             // btnBlockTranscript
             // 
@@ -421,7 +440,9 @@
             this.menu5.Items.Add(this.button1);
             this.menu5.Label = "Latin Words";
             this.menu5.Name = "menu5";
+            this.menu5.ScreenTip = "Italicize Latin Words";
             this.menu5.ShowImage = true;
+            this.menu5.SuperTip = "Italicizes or un-italicizes Latin words and phrases throughout the document.";
             // 
             // btnLatin
             // 
@@ -446,8 +467,9 @@
             this.menu3.Items.Add(this.btnDoubleSpace);
             this.menu3.Label = "Sentence Spacing";
             this.menu3.Name = "menu3";
+            this.menu3.ScreenTip = "Change Spacing Between Sentences";
             this.menu3.ShowImage = true;
-            this.menu3.SuperTip = "Adds or removes a double space following the sentences";
+            this.menu3.SuperTip = "Adds or removes a double space between sentences in the document.";
             // 
             // btnSingleSpace
             // 
@@ -468,8 +490,10 @@
             this.btnSmrtQuotes.Image = global::LitKit1.Properties.Resources.SmartQuotes_16px;
             this.btnSmrtQuotes.Label = "Smart Quotes";
             this.btnSmrtQuotes.Name = "btnSmrtQuotes";
+            this.btnSmrtQuotes.ScreenTip = "Replace With Smart Quotes";
             this.btnSmrtQuotes.ShowImage = true;
-            this.btnSmrtQuotes.SuperTip = "Replaces dumb quotes with smart quotes in the document";
+            this.btnSmrtQuotes.SuperTip = "Replaces dumb (stright) quotes and apostrophes with smart (curly) versions throug" +
+    "hout the document";
             this.btnSmrtQuotes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSmrtQuotes_Click);
             // 
             // btnInsertNBS
@@ -477,13 +501,18 @@
             this.btnInsertNBS.Image = global::LitKit1.Properties.Resources.InsertNBS_16px;
             this.btnInsertNBS.Label = "Insert NBS";
             this.btnInsertNBS.Name = "btnInsertNBS";
+            this.btnInsertNBS.ScreenTip = "Insert Non-Breaking Spaces";
             this.btnInsertNBS.ShowImage = true;
+            this.btnInsertNBS.SuperTip = "Scans the document and inserts non-breaking spaced where preferred but not curren" +
+    "tly present. Examples include: before numerals, between days and months, and fol" +
+    "lowing common titles such as Ms.";
             this.btnInsertNBS.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnInsertNBS_Click);
             // 
             // btnBlockQuotes
             // 
             this.btnBlockQuotes.Label = "Block Quotes";
             this.btnBlockQuotes.Name = "btnBlockQuotes";
+            this.btnBlockQuotes.ScreenTip = "Block Quotes";
             this.btnBlockQuotes.Visible = false;
             this.btnBlockQuotes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnBlockQuotes_Click);
             // 
@@ -494,8 +523,9 @@
             this.menu4.Items.Add(this.btnRemoveOxfordComma);
             this.menu4.Label = "Oxford Comma";
             this.menu4.Name = "menu4";
+            this.menu4.ScreenTip = "Oxford Comma";
             this.menu4.ShowImage = true;
-            this.menu4.SuperTip = "Adds or removes Oxford (serialized) commas within the document";
+            this.menu4.SuperTip = "Adds or removes Oxford (serialized) commas within the document.";
             this.menu4.Visible = false;
             // 
             // btnAddOxfordComma
@@ -527,8 +557,9 @@
             this.menu1.Label = "Legal Symbols";
             this.menu1.Name = "menu1";
             this.menu1.OfficeImageId = "ParagraphMarks";
+            this.menu1.ScreenTip = "Legal Symbols";
             this.menu1.ShowImage = true;
-            this.menu1.SuperTip = "Inserts the selected legal symbol at the cursor position";
+            this.menu1.SuperTip = "Inserts the selected legal symbol at the surrent text selection.";
             // 
             // btnPilcrow
             // 
@@ -600,8 +631,10 @@
             this.btnShowHide.Label = "Show / Hide ¶";
             this.btnShowHide.Name = "btnShowHide";
             this.btnShowHide.OfficeImageId = "ParagraphMarks";
+            this.btnShowHide.ScreenTip = "Show or Hide Formatting Markings";
             this.btnShowHide.ShowImage = true;
-            this.btnShowHide.SuperTip = "Shows or hides formatting marks (non-printed characters) in the document";
+            this.btnShowHide.SuperTip = "Shows formatting marks (non-printed characters) throughout the document. This ena" +
+    "bles you to better see which formatting is being applied in white spaces.";
             this.btnShowHide.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnShowHide_Click_1);
             // 
             // btnKeepWithNext
@@ -610,8 +643,10 @@
             this.btnKeepWithNext.Label = "Keep With Next";
             this.btnKeepWithNext.Name = "btnKeepWithNext";
             this.btnKeepWithNext.OfficeImageId = "StylesStyleSeparator";
+            this.btnKeepWithNext.ScreenTip = "Keep With Next";
             this.btnKeepWithNext.ShowImage = true;
-            this.btnKeepWithNext.SuperTip = "Applies \"keep with next\" formatting to the selected paragraph";
+            this.btnKeepWithNext.SuperTip = "Applies \"keep with next\" formatting to the selected paragraph, preventing it from" +
+    " being separated from the next paragraph by page breaks.";
             this.btnKeepWithNext.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnKeepWithNext_Click);
             // 
             // ClipboardButton
@@ -619,6 +654,7 @@
             this.ClipboardButton.Label = "View Clipboard";
             this.ClipboardButton.Name = "ClipboardButton";
             this.ClipboardButton.OfficeImageId = "ShowClipboard";
+            this.ClipboardButton.ScreenTip = "View Detailed Clipboard";
             this.ClipboardButton.ShowImage = true;
             this.ClipboardButton.SuperTip = "Shows the Windows Clipboard pannel, allowing for multiple items to be copied, pas" +
     "ted, and stored.";
@@ -629,7 +665,10 @@
             this.togglebtnSmallCaps.Label = "Small Caps";
             this.togglebtnSmallCaps.Name = "togglebtnSmallCaps";
             this.togglebtnSmallCaps.OfficeImageId = "TextSmallCaps";
+            this.togglebtnSmallCaps.ScreenTip = "Toggle Small Caps";
             this.togglebtnSmallCaps.ShowImage = true;
+            this.togglebtnSmallCaps.SuperTip = "When activated, text is inputted using small capital letters instead of lowercase" +
+    ".";
             this.togglebtnSmallCaps.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.togglebtnSmallCaps_Click);
             // 
             // btnReplace
@@ -637,7 +676,10 @@
             this.btnReplace.Label = "Find/Replace";
             this.btnReplace.Name = "btnReplace";
             this.btnReplace.OfficeImageId = "ReplaceDialog";
+            this.btnReplace.ScreenTip = "Find and Replace";
             this.btnReplace.ShowImage = true;
+            this.btnReplace.SuperTip = "Opens the Find and Replace dialog instead of the modern Word navigation pane that" +
+    " opens when [ctrl + f] is pressed.";
             this.btnReplace.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnReplace_Click);
             // 
             // CustomerSupport
@@ -646,7 +688,9 @@
             this.CustomerSupport.Label = "Contact Us";
             this.CustomerSupport.Name = "CustomerSupport";
             this.CustomerSupport.OfficeImageId = "TechnicalSupport";
+            this.CustomerSupport.ScreenTip = "Contact Us";
             this.CustomerSupport.ShowImage = true;
+            this.CustomerSupport.SuperTip = "Send an email to support@prelimine.com.";
             this.CustomerSupport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CustomerSupport_Click);
             // 
             // TestButton1
@@ -657,28 +701,19 @@
             this.TestButton1.Name = "TestButton1";
             this.TestButton1.OfficeImageId = "TipWizardHelp";
             this.TestButton1.ShowImage = true;
+            this.TestButton1.Visible = false;
             this.TestButton1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Test_Button_Click);
             // 
-            // button2
+            // btnHowTo
             // 
-            this.button2.Label = "Report a Bug";
-            this.button2.Name = "button2";
-            this.button2.OfficeImageId = "ErrorChecking";
-            this.button2.ShowImage = true;
-            this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ReportBug_Click);
-            // 
-            // btnTesterFeedback
-            // 
-            this.btnTesterFeedback.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnTesterFeedback.Enabled = false;
-            this.btnTesterFeedback.Label = "Submit Feedback";
-            this.btnTesterFeedback.Name = "btnTesterFeedback";
-            this.btnTesterFeedback.OfficeImageId = "Reply";
-            this.btnTesterFeedback.ScreenTip = "Please click on this button to be directed to the form you may use to provide fee" +
-    "dback on LitKit";
-            this.btnTesterFeedback.ShowImage = true;
-            this.btnTesterFeedback.Visible = false;
-            this.btnTesterFeedback.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnTesterFeedback_Click);
+            this.btnHowTo.Label = "User Guide";
+            this.btnHowTo.Name = "btnHowTo";
+            this.btnHowTo.OfficeImageId = "FunctionsLogicalInsertGallery";
+            this.btnHowTo.ScreenTip = "LitKit User Guide";
+            this.btnHowTo.ShowImage = true;
+            this.btnHowTo.SuperTip = "Opens the online User Guide, which contains Prelimine\'s \"How-To\" library, in your" +
+    " browser.";
+            this.btnHowTo.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.HowTo_Click);
             // 
             // MainRibbon
             // 
@@ -700,8 +735,6 @@
             this.grpFormattingTools.PerformLayout();
             this.grpSupport.ResumeLayout(false);
             this.grpSupport.PerformLayout();
-            this.grpInvisibleReminders.ResumeLayout(false);
-            this.grpInvisibleReminders.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -754,18 +787,16 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnRemoveOxfordComma;
         internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu5;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton testExhibits;
-        internal Microsoft.Office.Tools.Ribbon.RibbonLabel label1;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup grpFormattingTools;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton togglebtnSmallCaps;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnReplace;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnTesterFeedback;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup grpInvisibleReminders;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnHighlightedPDF;
         internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu6;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnRemoveCiteLocks;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton tglMarkRedaction;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnResposeTool;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnHowTo;
     }
 
     partial class ThisRibbonCollection

@@ -24,7 +24,7 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
         private bool _respondingIsPlural;
         private string _propounding;
         private DocType _docType;
-        private ObservableCollection<DocType> _docTypes;
+        //private ObservableCollection<DocType> _docTypes;
         private ResponseRepository _repository;
         private ObservableCollection<Tools.Response.Response> _responses;
 
@@ -33,16 +33,16 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
 
         private Tools.Response.Response _selectedResponse;
 
-        private ObservableCollection<ResponseStandard> _standardResponses;
+        //private ObservableCollection<ResponseStandard> _standardResponses;
 
-        public ObservableCollection<ResponseStandard> StandardResponses
-        {
-            get { return _standardResponses; }
-            set
-            {
-                _standardResponses = value;
-            }
-        }
+        //public ObservableCollection<ResponseStandard> StandardResponses
+        //{
+        //    get { return _standardResponses; }
+        //    set
+        //    {
+        //        _standardResponses = value;
+        //    }
+        //}
 
         public EditResponseVM EditResponseVM
         {
@@ -119,20 +119,20 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
             {
                 _docType = value;
                 OnPropertyChanged("DocType");
-                StandardResponses = ResponseStandardRepository.GetResponses(_docType.ToString());
+                //StandardResponses = ResponseStandardRepository.GetResponses(_docType.ToString());
             }
         }
-        public ObservableCollection<DocType> docTypes
-        {
-            get
-            {
-                return _docTypes;
-            }
-            set
-            {
-                _docTypes = value;
-            }
-        }
+        //public ObservableCollection<DocType> docTypes
+        //{
+        //    get
+        //    {
+        //        return _docTypes;
+        //    }
+        //    set
+        //    {
+        //        _docTypes = value;
+        //    }
+        //}
 
         public ResponseRepository Repository
         {
@@ -157,7 +157,8 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
         {
             _app = Globals.ThisAddIn.Application;
 
-            _docTypes = new ObservableCollection<DocType>() { DocType.Complaint, DocType.Admission, DocType.Production, DocType.Interrogatory };
+            //_docTypes = new ObservableCollection<DocType>() { DocType.Complaint, DocType.Admission, DocType.Production, DocType.Interrogatory };
+            _editResponseVM = new EditResponseVM(new Tools.Response.Response("21", "Fill Response", new List<DocType>(), "Fill Response Text"), DocType.Admission);
 
             _repository = new ResponseRepository(_app);
             _responses = Repository.GetResponses();
@@ -224,6 +225,22 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
         {
             Repository.UpdateResponse(response);
             Responses = Repository.GetResponses();
+
+            //Not updating Responses when it is being set
+            OnPropertyChanged("Responses");
+
+            //var fill = new Tools.Response.Response("Test", "Test", new List<DocType>(), "Test");
+            //Responses.Add(fill);
+            //Responses.Remove(fill);
+            UpdateListGridChanged = !UpdateListGridChanged;
+            OnPropertyChanged("UpdateListGridChanged");
+        }
+
+        
+        public bool UpdateListGridChanged
+        {
+            get;
+            set;
         }
 
         public void DeleteResponse(Tools.Response.Response response)
@@ -420,7 +437,9 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
 
         internal void OpenEditResponse(Tools.Response.Response response)
         {
-            EditResponseVM = new EditResponseVM(response, DocType, true);
+            EditResponseVM = new EditResponseVM(response, DocType);
+            EditResponseVM.Visibility = Visibility.Visible;
+            ResponseEditVisibility = Visibility.Visible;
         }
 
 

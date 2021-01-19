@@ -350,12 +350,16 @@
                             VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch"
                             Visibility="{Binding ResponseAddVisibility}"/>
-        <local:ResponseEdit x:Name="ResponseEdit"
+        <local:ResponseEdit x:Name="ResponseEdit" DataContext="{Binding EditResponseVM}"
                             Grid.Column="0" Grid.ColumnSpan="4"
                             Grid.Row="0" Grid.RowSpan="5"
                             VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch"
-                            Visibility="{Binding ResponseEditVisibility}"  />
+                            
+        Visibility="{Binding Visibility}"  />
 
+        <Grid x:Name="UpdateListGrid"
+            IsHitTestVisible="False" 
+              IsEnabled="{Binding UpdateListGridChanged}" IsEnabledChanged="UpdateListGrid_IsEnabledChanged" />
     </Grid>
 </UserControl>

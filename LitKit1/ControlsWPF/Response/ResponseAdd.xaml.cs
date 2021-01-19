@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tools.Response;
 
 namespace LitKit1.ControlsWPF.Response
 {
@@ -75,13 +76,26 @@ namespace LitKit1.ControlsWPF.Response
         private void btnAddResponse_Click(object sender, RoutedEventArgs e)
         {
             this.Visibility = Visibility.Collapsed;
-            throw new NotImplementedException();
+
+            string ID = Guid.NewGuid().ToString();
+            string Name = NameTextBox.Text;
+
+            List<DocType> docTypes = new List<DocType>()
+            {
+                ViewModel.DocType,
+            };
+
+            string text = CustomLanguageTextBox.Text;
+
+            Tools.Response.Response response = new Tools.Response.Response(ID, Name, docTypes, text);
+            ViewModel.AddNewResponse(response);
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Visibility = Visibility.Collapsed;
-            throw new NotImplementedException();
+            NameTextBox.Text = "";
+            CustomLanguageTextBox.Text = "";
         }
     }
 }

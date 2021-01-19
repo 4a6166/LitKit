@@ -28,6 +28,7 @@ namespace LitKit1.ControlsWPF.Response
         private ResponseMainVM ViewModel;
         CollectionView view;
 
+
         #endregion
         public ResponseMain()
         {
@@ -56,12 +57,15 @@ namespace LitKit1.ControlsWPF.Response
             if (String.IsNullOrEmpty(SearchTextBox.Text))
                 return (item as Tools.Response.Response).DocTypes.Contains((DocType)ResponseTypeCB.SelectedItem); /*ViewModel.DocType*/
             else
+
                 return (
-                    (item as Tools.Response.Response).DisplayText.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    &&
-                    (item as Tools.Response.Response).Name.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    &&
                     (item as Tools.Response.Response).DocTypes.Contains((DocType)ResponseTypeCB.SelectedItem) /*ViewModel.DocType*/
+                    &&
+                    (
+                        (item as Tools.Response.Response).DisplayText.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                        ||
+                        (item as Tools.Response.Response).Name.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    )
                     );
         }
 
@@ -74,6 +78,16 @@ namespace LitKit1.ControlsWPF.Response
             }
         }
 
+        private void UpdateListGrid_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                view = (CollectionView)CollectionViewSource.GetDefaultView(ResponseBlockStackPanel.ItemsSource);
+
+                view.Refresh();
+                view.Filter = TextFilter;
+            }
+        }
 
 
         #endregion

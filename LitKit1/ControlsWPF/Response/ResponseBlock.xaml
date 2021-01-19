@@ -31,21 +31,16 @@
     </UserControl.Resources>
     <Grid x:Name="MainGrid" 
           Background="#f3f2f1" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" HorizontalAlignment="Stretch">
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="150" />
-            <ColumnDefinition Width="60"/>
-        </Grid.ColumnDefinitions>-->
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="21"/>
-            <RowDefinition Height="16" />
-        </Grid.RowDefinitions>-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
         <Button x:Name="CiteButton"
-                Grid.Column="0"
-                Grid.RowSpan ="2"
-                BorderThickness ="0"
+                Grid.Column="0" Grid.ColumnSpan="2"
                 Margin="0,0,0,0"
-                Width="auto" 
-                HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick" >
+                HorizontalAlignment="Stretch" Width="1000000" 
+            MouseDoubleClick="CiteButton_MouseDoubleClick" BorderBrush="Transparent"  BorderThickness="0"  >
+            <!--MouseDown="CiteButton_MouseDown">-->
             <Button.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add a New Response to List" Click="Add_Click"/>
@@ -55,55 +50,42 @@
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0" IsHitTestVisible="False">
-                <Border x:Name="CiteTypeIndicator"
-                        Grid.Column="0" 
-                        Grid.RowSpan="2" 
+        <Grid HorizontalAlignment="Left" Margin="0" IsHitTestVisible="False" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border x:Name="CiteTypeIndicator"
                         Width="5" Height="auto" 
                         Margin="0,0,0,0" 
-                        BorderThickness=".5" 
-                        BorderBrush="{StaticResource CiteTypeBrush_Extra}" 
                         Background="{StaticResource CiteTypeBrush_Extra}" Opacity=".7">
-                </Border>
-                <StackPanel>
-                    <TextBlock x:Name="CiteRefName" 
+            </Border>
+            <StackPanel HorizontalAlignment="Stretch" Grid.Column="1">
+                <TextBlock x:Name="CiteRefName" 
                    Grid.Column="1"
                    Grid.Row="0" 
                    Text="{Binding Name}" 
                    FontSize="11" FontWeight="SemiBold"
                    Margin="4,2,0,2" 
                    TextTrimming="CharacterEllipsis"/>
-                    <TextBlock x:Name="CiteLongExample" 
+                <TextBlock x:Name="CiteLongExample" 
                                Grid.Column="2" Grid.ColumnSpan="1" 
                                Grid.Row="2" 
-                               Height="auto" Margin="4,2,0,2"
+                               Height="27" Margin="4,1.5,0,2"
                                HorizontalAlignment="Left" 
                                FontWeight="Light" FontSize="10" 
                                TextTrimming="CharacterEllipsis" TextWrapping="Wrap"
-                               Foreground="DarkSlateGray" 
-                    Text="{Binding DisplayText}"
-                     /> <!--Converter={StaticResource fillTextConverter}-->
+                               Foreground="DarkSlateGray"
+                               Text="{Binding DisplayText}" />
+                <!--Text="{Binding DisplayText, Converter={StaticResource fillTextConverter}}"/>-->
+                
 
             </StackPanel>
-            </StackPanel>
-        <local:ResponseFlyout x:Name="Flyout"
+        </Grid>
+        <local:ResponseFlyout x:Name="Flyout" 
                           DataContext="{Binding}"
                           Visibility="Collapsed"
-                          Grid.ColumnSpan="2"
-                          Grid.RowSpan="2"/>
+                          Grid.Column="1" Margin="0,2"/>
     </Grid>
 </UserControl>
 
-
-<!--<TextBlock x:Name="CiteCount" 
-                   Grid.Column="1" 
-                   Grid.Row="0" 
-                   Text="{Binding InsertedCount}" 
-                   FontSize="20" FontWeight="SemiBold" Foreground="SlateGray" 
-                   HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Margin="0,0,0,-1"/>-->
-<!--<TextBlock 
-            Grid.Column="1" 
-            Grid.Row="1" 
-            Text="Times Cited" FontSize="9" Foreground="SlateGray" 
-            HorizontalAlignment="Center" VerticalAlignment="Center"/>-->

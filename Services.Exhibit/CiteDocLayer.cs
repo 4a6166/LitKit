@@ -99,7 +99,7 @@ namespace Tools.Citation
             if (selection.ContentControls.Count < 1)
             {
                 CiteCC = selection.ParentContentControl;
-                if (CiteCC.Tag == "PIN")
+                if (CiteCC != null && CiteCC.Tag == "PIN")
                 {
                     CiteCC = CiteCC.ParentContentControl;
                 }

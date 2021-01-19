@@ -416,20 +416,27 @@ namespace LitKit1
 
         private void ResponseTool_Click(object sender, RibbonControlEventArgs e)
         {
-
             if (!licenseIsValid) { checkLicenseIsValid(); }
             if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
+                Cursor.Current = Cursors.WaitCursor;
+
                 try
                 {
-                    ctrlAnsResView AnsResCtrl = new ctrlAnsResView();
-                    Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
-                    ActivePane.Control.Controls.Clear();
-                    //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
+                    Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ResponsePanes[_app.ActiveWindow];
 
-                    ActivePane.Control.Controls.Add(AnsResCtrl);
-                    //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
-                    AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+                    HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
+
+                    if (holdingControl.WPFUserControl == null)
+                    {
+
+                        responseVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new ResponseMainVM());
+
+                        ControlsWPF.Response.ResponseMain rm = new ControlsWPF.Response.ResponseMain();
+
+                        holdingControl.AddWPF(rm);
+
+                    }
 
                     if (!ActivePane.Visible)
                     {
@@ -439,12 +446,16 @@ namespace LitKit1
                     {
                         ActivePane.Visible = false;
                     }
-                    //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
+
                 }
-                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #203"); }
+                catch
+                {
+                    Log.Error("An Error Occurred. Please contact Prelimine with this error code: #203");
+                    ErrorHandling.ShowErrorMessage();
+                }
 
+                Cursor.Current = Cursors.Default;
             }
-
         }
 
         private void ResponseCustomize_Click(object sender, RibbonControlEventArgs e)
@@ -826,51 +837,18 @@ namespace LitKit1
             _app.ActiveDocument.FollowHyperlink(Address: link);
         }
 
-        private void ReportBug_Click(object sender, RibbonControlEventArgs e)
+        private void HowTo_Click(object sender, RibbonControlEventArgs e)
         {
-            string link ="https://forms.gle/HkqXuHyjJhzcVjJE6";
+            string link = @"https://www.prelimine.com/how-to";
             _app.ActiveDocument.FollowHyperlink(Address: link);
-
         }
+
         private void Support_DialogLauncherClick(object sender, RibbonControlEventArgs e)
         {
-
-            //Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-            //String Root = Directory.GetCurrentDirectory();
-            //var Files = Directory.EnumerateFileSystemEntries(Root);
-
-            //string filesString = "All Files:" + Environment.NewLine;
-            //foreach (var file in Files)
-            //{
-            //    filesString += file + Environment.NewLine;
-            //}
-
-
-            //string licPath = string.Empty;
-            //try
-            //{
-            //    licPath = Files.Where(n => n.Contains("license.xml")).SingleOrDefault();
-            //}
-            //catch
-            //{ licPath = "Files.Where failed"; }
-
-
-            //string lic = new StreamReader(licPath).ReadToEnd();
-
-
-            //MessageBox.Show("License is valid: " + LicenseChecker.LicenseIsValid() + Environment.NewLine + "Licensed to: " + LicenseChecker.Name() + Environment.NewLine + "Expiration: " + LicenseChecker.Expiration());
-
-            //TODO: Add license checker dialog
+            
+            MessageBox.Show(LicenseChecker.ReadLicense(), "Prelimine LitKit User License", MessageBoxButtons.OK);
 
         }
-
-        private void btnTesterFeedback_Click(object sender, RibbonControlEventArgs e)
-        {
-            string survey = @"https://corexms868hzxvx3tkx7.sjc1.qualtrics.com/jfe/form/SV_6Q2lF3dfTOdE69v";
-            //Process.Start(survey);
-            _app.ActiveDocument.FollowHyperlink(Address: survey);
-        }
-
 
         #endregion
 
@@ -881,7 +859,7 @@ namespace LitKit1
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
-            TestResponseWPF();
+            OldResponsePanel();
 
             /*
              * 
@@ -901,29 +879,22 @@ namespace LitKit1
 
         }
 
-        private void TestResponseWPF()
+        private void OldResponsePanel()
         {
+
             if (!licenseIsValid) { checkLicenseIsValid(); }
             if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
-                Cursor.Current = Cursors.WaitCursor;
-
                 try
                 {
-                    Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.ResponsePanes[_app.ActiveWindow];
+                    ctrlAnsResView AnsResCtrl = new ctrlAnsResView();
+                    Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
+                    ActivePane.Control.Controls.Clear();
+                    //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
 
-                    HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
-
-                    if (holdingControl.WPFUserControl == null)
-                    {
-
-                        responseVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new ResponseMainVM());
-
-                        ControlsWPF.Response.ResponseMain rm = new ControlsWPF.Response.ResponseMain();
-
-                        holdingControl.AddWPF(rm);
-
-                    }
+                    ActivePane.Control.Controls.Add(AnsResCtrl);
+                    //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
+                    AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
 
                     if (!ActivePane.Visible)
                     {
@@ -933,15 +904,10 @@ namespace LitKit1
                     {
                         ActivePane.Visible = false;
                     }
-
+                    //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
                 }
-                catch
-                {
-                    Log.Error("Error loading/showing Active ResponsePane");
-                    ErrorHandling.ShowErrorMessage();
-                }
+                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #203"); }
 
-                Cursor.Current = Cursors.Default;
             }
 
         }

@@ -72,5 +72,12 @@ namespace LitKit1.ControlsWPF.Response
 
         }
 
+        private void CiteButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(e.ClickCount == 2)
+            {
+                CiteButton_MouseDoubleClick(sender, e);
+            }
+        }
     }
 }

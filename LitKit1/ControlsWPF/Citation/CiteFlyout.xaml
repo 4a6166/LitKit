@@ -9,8 +9,9 @@
     <UserControl.Resources>
 
     </UserControl.Resources>
-            <Grid>
-        <Border x:Name="Flyout" MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Width="auto" Height="36" BorderThickness="1" BorderBrush="LightGray" CornerRadius="10,0, 0, 10" Background="LightGray" Visibility="Visible">
+            <Grid Background="Transparent">
+        <Border x:Name="Flyout"  HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="auto" Margin="0,1"
+                BorderThickness="1" BorderBrush="LightGray" CornerRadius="10,0, 0, 10" Background="LightGray" Visibility="Visible">
             <StackPanel  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,0,0,0">
                 <Button x:Name="btnDelete" Click="btnDelete_Click" Mouse.MouseEnter="ShowButtonText" Mouse.MouseLeave="HideButtonText">
                     <Grid x:Name="GridDelete" Width="28" >
