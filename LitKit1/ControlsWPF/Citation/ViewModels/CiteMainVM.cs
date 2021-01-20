@@ -250,17 +250,19 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
         {
             _app.UndoRecord.StartCustomRecord("Insert Citation");
 
-            _docLayer.InsertCiteAtSelection(citation, Repository, CitesReloadAutomatically);
-
-            if (CitesReloadAutomatically)
+            try
             {
-                _docLayer.UpdateCitesInDoc(Repository);
-                _docLayer.UpdateCiteInsertCountandExample(Repository);
+                _docLayer.InsertCiteAtSelection(citation, Repository, CitesReloadAutomatically);
+
+                if (CitesReloadAutomatically)
+                {
+                    _docLayer.UpdateCitesInDoc(Repository);
+                    _docLayer.UpdateCiteInsertCountandExample(Repository);
+                }
+
+                Globals.ThisAddIn.ReturnFocus();
             }
-
-            var addin = (ThisAddIn)_app.Parent;
-            addin.ReturnFocus();
-
+            catch { }
             _app.UndoRecord.EndCustomRecord();
         }
 

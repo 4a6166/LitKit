@@ -410,6 +410,10 @@ namespace Tools.Citation
         {
             //log.Info("Citation Inserted: " + citation.ID);
 
+            bool trackchangesOn = _app.ActiveDocument.TrackRevisions;
+            _app.ActiveDocument.TrackRevisions = false;
+
+
             //int index = GetExhibitIndex(citation, Repository);
 
             //ContentControl CC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
@@ -429,6 +433,7 @@ namespace Tools.Citation
 
             //return CC;
 
+
             ContentControl CC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
             SetCiteCCTagTitleColor(CC, citation, false);
             if (!CitesReloadAutomatically)
@@ -439,6 +444,8 @@ namespace Tools.Citation
             }
 
             CC.LockContents = true;
+            _app.ActiveDocument.TrackRevisions = trackchangesOn;
+
             return CC;
 
         }
@@ -448,6 +455,7 @@ namespace Tools.Citation
         /// </summary>
         public void RemoveCiteCCs(Citation citation, bool DeleteContents = false)
         {
+
             var ccs = GetAllCitesFromDoc_Unordered().Where(n => GetCitationIDFromContentControl(n) == citation.ID);
             foreach (ContentControl cc in ccs)
             {
@@ -462,6 +470,8 @@ namespace Tools.Citation
         public void UpdateCitesInDoc(CitationRepository repository)
         {
             //log.Info("Updating Citations in Doc. Name: " + _app.ActiveDocument.FullName + " ActiveDoc CC Count: " + _app.ActiveDocument.ContentControls.Count);
+            bool trackchangesOn = _app.ActiveDocument.TrackRevisions;
+            _app.ActiveDocument.TrackRevisions = false;
 
             var allCites = GetAllCitesFromDoc_Unordered();
             foreach (ContentControl cc in allCites)
@@ -481,15 +491,14 @@ namespace Tools.Citation
                     index = GetExhibitIndex(citation, repository);
                 }
 
-                ContentControl Pincite = null;
+                string PinciteXML = null;
                 if (CCHasPincite(cc))
                 {
                     foreach(ContentControl c in cc.Range.ContentControls)
                     {
                         if (c.Tag== "PIN")
                         {
-                            Pincite = c; //to avoid a null pass in StPincite
-                            c.Range.Copy();
+                            PinciteXML = c.Range.XML;
                         }
                         else
                         {
@@ -506,12 +515,16 @@ namespace Tools.Citation
                 {
                     CiteFormatting.ItalicizeId(cc);
                 }
-                
-                SetPincite(cc, Pincite);
+
+                //SetPincite(cc, Pincite);
+                SetPincite(cc, PinciteXML);
                 AddHyperlink(cc, citation);
 
                 cc.LockContents = true;
             }
+
+            _app.ActiveDocument.TrackRevisions = trackchangesOn;
+
         }
 
         /// <summary>
@@ -555,8 +568,11 @@ namespace Tools.Citation
 
         #region Pincite
 
-        private void SetPincite(ContentControl citeCC, ContentControl pinCC = null )
+        private void SetPincite(ContentControl citeCC, string PinciteXML = null )/*ContentControl pinCC = null*/
         {
+            bool trackchangesOn = _app.ActiveDocument.TrackRevisions;
+            _app.ActiveDocument.TrackRevisions = false;
+
             citeCC.LockContents = false;
             citeCC.Range.Select();
             var find = _app.Selection.Find;
@@ -569,7 +585,7 @@ namespace Tools.Citation
                 find.Replacement.Text = "";
                 find.Execute(Replace: WdReplace.wdReplaceAll);
             }
-            else if (pinCC == null)
+            else if (PinciteXML == null) //else if (pinCC == null)
             {
                 find.Execute();
                 var newPinCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
@@ -586,15 +602,24 @@ namespace Tools.Citation
                 var newPinCC = _app.Selection.ContentControls.Add(WdContentControlType.wdContentControlRichText);
                 newPinCC.SetPlaceholderText(Text: "{ type Pincite text }");
                 SetPinCCTagTitleColor(newPinCC);
-                newPinCC.Range.Paste();
+
+                newPinCC.Range.InsertXML(PinciteXML);
+                //var b =citeCC.Range.Find.Execute(FindText: "\n", ReplaceWith: "");
+                var c =citeCC.Range.Find.Execute(FindText: "\r", ReplaceWith: "");
+
                 newPinCC.LockContents = false;
 
             }
             citeCC.LockContents = true;
+
+            _app.ActiveDocument.TrackRevisions = trackchangesOn;
         }
 
         public void AddPincite(ContentControl CiteCC, CitationRepository Repository = null)
         {
+            bool trackchangesOn = _app.ActiveDocument.TrackRevisions;
+            _app.ActiveDocument.TrackRevisions = false;
+
             if (Repository == null)
             {
                 Repository = new CitationRepository(_app);
@@ -624,10 +649,15 @@ namespace Tools.Citation
             AddHyperlink(CiteCC, citation);
 
             CiteCC.LockContents = true;
+
+            _app.ActiveDocument.TrackRevisions = trackchangesOn;
         }
 
         public void RemovePincite(ContentControl CiteCC)
         {
+            bool trackchangesOn = _app.ActiveDocument.TrackRevisions;
+            _app.ActiveDocument.TrackRevisions = false;
+
             if (CiteCC != null)
             {
                 bool hasPinciteCC = bool.Parse(CiteCC.Tag.Split('|')[2].Substring(4));
@@ -647,6 +677,8 @@ namespace Tools.Citation
                     System.Windows.Forms.MessageBox.Show("No Pincite was found in the selection.");
                 }
             }
+
+            _app.ActiveDocument.TrackRevisions = trackchangesOn;
         }
 
         #endregion

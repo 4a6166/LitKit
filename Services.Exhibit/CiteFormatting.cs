@@ -246,21 +246,26 @@ namespace Tools.Citation
             return result.Trim(' ');
         }
 
-        public string GetStringFromFormatPieces_Others(string description, string PIN = "")
+        public string GetStringFromFormatPieces_Others(string description)
         {
-            string result = "";
-            var brackets = new string[] { "{{", "}}" };
-
-            var split = description.Split(brackets, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < split.Length; i++)
-            {
-                if (split[i] == "PIN")
+            if (description.Contains(@"{{PIN}}"))
                 {
-                    result += PIN;
-                }
-                else result += split[i];
+                //string result = "";
+                //var brackets = new string[] { "{{", "}}" };
+
+                //var split = description.Split(brackets, StringSplitOptions.RemoveEmptyEntries);
+                //for (int i = 0; i < split.Length; i++)
+                //{
+                //    if (split[i] == "PIN")
+                //    {
+                //        result += PIN;
+                //    }
+                //    else result += split[i];
+                //}
+                //return result;
+                return description;
             }
-            return result;
+            else return description + @"{{PIN}}";
         }
 
 
