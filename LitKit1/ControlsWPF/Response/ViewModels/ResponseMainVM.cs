@@ -200,17 +200,14 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
                 _app.Selection.Find.Execute(FindText: "\"", ReplaceWith: "\"", Replace: WdReplace.wdReplaceAll);
                 _app.Selection.Find.Execute(FindText: "\'", ReplaceWith: "\'", Replace: WdReplace.wdReplaceAll);
 
-                _app.Selection.Collapse(WdCollapseDirection.wdCollapseEnd);
-
                 FormatTextInDoc.FormatFont(_app.Selection.Range);
 
+                _app.Selection.Collapse(WdCollapseDirection.wdCollapseEnd);
 
             }
             catch { /*MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #304");*/ }
 
-            //Globals.ThisAddIn.ReturnFocus();
-            var addin = (ThisAddIn)_app.Parent;
-            addin.ReturnFocus();
+            Globals.ThisAddIn.ReturnFocus();
 
             _app.UndoRecord.EndCustomRecord();
         }
