@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -307,6 +308,9 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
         internal void RefreshCites()
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             Cursor.Current = Cursors.WaitCursor;
             _app.UndoRecord.StartCustomRecord("Reload Citations");
 
@@ -320,6 +324,9 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
 
             _app.UndoRecord.EndCustomRecord();
             Cursor.Current = Cursors.Default;
+
+            sw.Stop();
+            var elapsed = sw.Elapsed.TotalMinutes;
 
         }
 
