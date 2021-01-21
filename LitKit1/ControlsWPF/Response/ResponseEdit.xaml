@@ -111,7 +111,8 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="SlateGray" BorderThickness="0">
-                                        <TextBlock Text="{Binding, Converter={StaticResource DocTypeConverter}}"/>
+                                        <TextBlock Text="{Binding}"/>
+                                        <!--, Converter={StaticResource DocTypeConverter} -->
                                     </Border>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

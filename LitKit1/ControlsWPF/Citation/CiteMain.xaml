@@ -447,20 +447,34 @@
                             </Button>
 
                         </Grid>
-
-
-                        <CheckBox x:Name="IdCheckBox" 
-                                  Margin="0,15,0,15" HorizontalAlignment="Center"
+                        <StackPanel Orientation="Vertical" Margin="0,15" HorizontalAlignment="Center">
+                            <CheckBox x:Name="IdCheckBox" 
+                                  Margin="0,5" HorizontalAlignment="Left"
                                   IsChecked="{Binding Repository.CiteFormatting.hasIdCite}"
                                   >
-                            <TextBlock>
-                                <TextBlock.Inlines>
-                                    <Run Text="Use"/>
-                                    <Run FontStyle="Italic" Text="Id."/>
-                                    <Run Text="to represent repeated citations"/>
-                                </TextBlock.Inlines>
-                            </TextBlock>
-                        </CheckBox>
+                                <TextBlock TextWrapping="Wrap">
+                                    <TextBlock.Inlines>
+                                        <Run Text="Use"/>
+                                        <Run FontStyle="Italic" Text="Id."/>
+                                        <Run Text="to represent repeated citations"/>
+                                    </TextBlock.Inlines>
+                                </TextBlock>
+                            </CheckBox>
+
+                            <CheckBox x:Name="IntroBoldcb" 
+                                  Margin="0,5" HorizontalAlignment="Left"
+                                  IsChecked="{Binding Repository.CiteFormatting.introIsBold}"
+                                  >
+                                <TextBlock TextWrapping="Wrap">
+                                    <TextBlock.Inlines>
+                                        <Run Text="Format the intro and index as"/>
+                                        <Run FontWeight="Bold" Text="Bold"/>
+                                        <Run Text="."/>
+                                    </TextBlock.Inlines>
+                                </TextBlock>
+                            </CheckBox>
+                        </StackPanel>
+                        
                         <!--https://github.com/GuOrg/Gu.Wpf.NumericInput/blob/master/README.md#1-samples-->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
                             <numeric:SpinnerDecorator 

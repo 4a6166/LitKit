@@ -183,8 +183,9 @@ namespace Tools.Citation
             Enum.TryParse(GetFormattingFromDB(FormatNode.IndexStyle), out ExhibitIndexStyle);
             int ExhibitIndexStart = Int32.Parse(GetFormattingFromDB(FormatNode.IndexStart));
             bool HasIdCite = bool.Parse(GetFormattingFromDB(FormatNode.IdCite));
+            bool IntroIsBold = bool.Parse(GetFormattingFromDB(FormatNode.IntroBold));
 
-            CiteFormatting = new CiteFormatting(ExhibitIntroLong, ExhibitIntroShort, ExhibitLongFormat, ExhibitShortFormat, ExhibitIndexStyle, ExhibitIndexStart, HasIdCite);
+            CiteFormatting = new CiteFormatting(ExhibitIntroLong, ExhibitIntroShort, ExhibitLongFormat, ExhibitShortFormat, ExhibitIndexStyle, ExhibitIndexStart, HasIdCite, IntroIsBold);
         }
 
         private void replaceChildren(CustomXMLNode parentNode, ObservableCollection<CiteFormatPiece> FormatBlocks)
@@ -216,6 +217,7 @@ namespace Tools.Citation
             FormattingNode.SelectSingleNode("//IndexStyle").Text = formatting.ExhibitIndexStyle.ToString();
             FormattingNode.SelectSingleNode("//IndexStart").Text = formatting.ExhibitIndexStart.ToString();
             FormattingNode.SelectSingleNode("//IdCite").Text = formatting.hasIdCite.ToString();
+            FormattingNode.SelectSingleNode("//IntroBold").Text = formatting.introIsBold.ToString();
 
 
             replaceChildren(FormattingNode.SelectSingleNode("//Long"), formatting.ExhibitLongFormat);

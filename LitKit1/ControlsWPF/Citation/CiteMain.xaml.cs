@@ -284,6 +284,8 @@ namespace LitKit1.ControlsWPF.Citation
 
             ViewModel.ResetFormatList();
 
+            IntroBoldcb.IsChecked = false;
+
             IdCheckBox.IsChecked = true;
             //ViewModel.Repository.CiteFormatting.hasIdCite = true;
 

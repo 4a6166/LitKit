@@ -14,11 +14,12 @@ namespace Tools.Citation
         public ExhibitIndexStyle ExhibitIndexStyle { get; set; }
         public int ExhibitIndexStart { get; set; }
         public bool hasIdCite { get; set; }
+        public bool introIsBold { get; set; }
 
         public ObservableCollection<CiteFormatPiece> ExhibitLongFormat { get; set; }
         public ObservableCollection<CiteFormatPiece> ExhibitShortFormat { get; set; }
 
-        public CiteFormatting(string ExhibitIntroLong, string ExhibitIntroShort, ObservableCollection<CiteFormatPiece> ExhibitLongFormat, ObservableCollection<CiteFormatPiece> ExhibitShortFormat, ExhibitIndexStyle ExhibitIndexStyle = ExhibitIndexStyle.Numbers, int ExhibitIndexStart = 0, bool HasIdCite = true)
+        public CiteFormatting(string ExhibitIntroLong, string ExhibitIntroShort, ObservableCollection<CiteFormatPiece> ExhibitLongFormat, ObservableCollection<CiteFormatPiece> ExhibitShortFormat, ExhibitIndexStyle ExhibitIndexStyle = ExhibitIndexStyle.Numbers, int ExhibitIndexStart = 0, bool HasIdCite = true, bool IntroIsBold = false)
         {
             this.ExhibitIntroLong = ExhibitIntroLong;
             this.ExhibitIntroShort = ExhibitIntroShort;
@@ -27,6 +28,7 @@ namespace Tools.Citation
             this.ExhibitIndexStyle = ExhibitIndexStyle;
             this.ExhibitIndexStart = ExhibitIndexStart; 
             this.hasIdCite = HasIdCite;
+            this.introIsBold = IntroIsBold;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -276,6 +278,61 @@ namespace Tools.Citation
             FormatTextInDoc.FormatFont(contentControl.Range);
 
             contentControl.LockContents = true;
+        }
+
+        public static void FormatIntroBold(ContentControl contentControl, CiteFormatting citeFormatting, int index)
+        {
+            if(citeFormatting.introIsBold)
+            {
+                contentControl.LockContents = false;
+                bool success;
+
+                var find = contentControl.Range.Find;
+
+                find.ClearFormatting();
+                find.Replacement.ClearFormatting();
+
+                find.Replacement.Font.Bold = -1;
+                find.MatchWholeWord = true;
+                find.MatchCase = true;
+                find.Text = citeFormatting.ExhibitIntroLong;
+                find.Replacement.Text = citeFormatting.ExhibitIntroLong;
+                success = find.Execute(Replace: WdReplace.wdReplaceOne);
+
+                find.ClearFormatting();
+                find.Replacement.ClearFormatting();
+
+                find.Replacement.Font.Bold = -1;
+                find.MatchWholeWord = true;
+                find.MatchCase = true;
+                find.Text = citeFormatting.ExhibitIntroShort;
+                find.Replacement.Text = citeFormatting.ExhibitIntroShort;
+                success = find.Execute(Replace: WdReplace.wdReplaceOne);
+
+
+                // Does not correctly bold the first exhibit numbering (intro does get bolded) if it had been the first thing entered on the page.
+                string indexFormatted = ApplyNumFormat(index, citeFormatting.ExhibitIndexStyle);
+                find.ClearFormatting();
+                find.Replacement.ClearFormatting();
+                
+                find.Replacement.Font.Bold = -1;
+                //find.MatchWholeWord = true;
+                //find.MatchCase = true;
+                find.Text = indexFormatted;
+                find.Replacement.Text = indexFormatted;
+                //find.Forward = true;
+                find.Wrap = WdFindWrap.wdFindContinue;
+                find.Format = true;
+                find.MatchCase = true;
+                find.MatchWholeWord = true;
+                find.MatchWildcards = false;
+                find.MatchSoundsLike = false;
+                find.MatchAllWordForms = false;
+
+                success = find.Execute(Replace: WdReplace.wdReplaceOne);
+
+                contentControl.LockContents = true;
+            }
         }
 
         public static void ItalicizeId(ContentControl contentControl)

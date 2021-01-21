@@ -6,6 +6,7 @@
     <IndexStyle>Numbers</IndexStyle>
     <IndexStart>1</IndexStart>
     <IdCite>True</IdCite>
+    <IntroBold>False</IntroBold>
     <Long>
       <INTROLONG/>
       <INDEX/>
@@ -33,6 +34,7 @@
     <IndexStyle>  //One INDEXSTYLEBLOCK  </IndexStyle>
     <IndexStart>  //Fill with a numeral  </IndexStart>
     <IdCite>  //True or False </IdCite>
+    <IntroBold> //True or False </IntroBold>
     <Long>  //One or more FORMATBLOCKS  </Long>
     <Short> //One or more FORMATBLOCKS </Short>
   </Format>

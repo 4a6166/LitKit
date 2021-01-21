@@ -426,6 +426,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
                     Enum.TryParse(formatNode.SelectSingleNode("//IndexStyle").InnerText, out indexStyle);
                     int indexStart = Int32.Parse(formatNode.SelectSingleNode("//IndexStart").InnerText);
                     bool idCite = bool.Parse(formatNode.SelectSingleNode("//IdCite").InnerText);
+                    bool introBold = bool.Parse(formatNode.SelectSingleNode("//IntroBold").InnerText);
 
                     ObservableCollection<CiteFormatPiece> longFormat = new ObservableCollection<CiteFormatPiece>();
                     var longnodes = formatNode.SelectSingleNode("//Long").ChildNodes;
@@ -448,7 +449,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
                     }
 
                     //Update the Cite Formatting and save 
-                    CiteFormatting formatting = new CiteFormatting(introLong, introShort, longFormat, shortFormat, indexStyle, indexStart, idCite);
+                    CiteFormatting formatting = new CiteFormatting(introLong, introShort, longFormat, shortFormat, indexStyle, indexStart, idCite, introBold);
                     FormatList_Long = longFormat;
                     OnPropertyChanged("FormatList_Long");
 

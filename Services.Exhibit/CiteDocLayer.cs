@@ -514,8 +514,13 @@ namespace Tools.Citation
 
                 //Range Text update has to come after you grab the Pincite CC
                 cc.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
+                cc.Range.Font.Bold = 0;
+                cc.Range.Font.Italic = 0;
+                cc.Range.Font.Underline = 0;
 
                 CiteFormatting.FormatFont(cc);
+                CiteFormatting.FormatIntroBold(cc, repository.CiteFormatting, index +repository.CiteFormatting.ExhibitIndexStart);
+
                 if (placementType == CitePlacementType.Id)
                 {
                     CiteFormatting.ItalicizeId(cc);
@@ -721,7 +726,12 @@ namespace Tools.Citation
                 Range LeadingForId = CiteCC.Range;
 
                 CiteCC.Range.Text = Repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
+                CiteCC.Range.Font.Bold = 0;
+                CiteCC.Range.Font.Italic = 0;
+                CiteCC.Range.Font.Underline = 0;
+
                 CiteFormatting.FormatFont(CiteCC);
+                CiteFormatting.FormatIntroBold(CiteCC, Repository.CiteFormatting, index + Repository.CiteFormatting.ExhibitIndexStart);
                 if (placementType == CitePlacementType.Id)
                 {
                     CiteFormatting.ItalicizeId(CiteCC);

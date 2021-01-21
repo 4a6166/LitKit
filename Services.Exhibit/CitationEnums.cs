@@ -38,7 +38,8 @@ namespace Tools.Citation
         IndexStyle = 16,
         IndexStart = 32,
         Parentheses = 64,
-        IdCite = 128
+        IdCite = 128,
+        IntroBold = 256
     }
 
     [Flags]
