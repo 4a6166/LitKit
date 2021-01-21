@@ -233,6 +233,7 @@
     </Compile>
     <Compile Include="ControlsWPF\Citation\ViewModels\EditCiteVM.cs" />
     <Compile Include="ControlsWPF\Response\Converters\FillTextConverter.cs" />
+    <Compile Include="ControlsWPF\Response\Converters\FillTextConverterString.cs" />
     <Compile Include="ControlsWPF\Response\ViewModels\EditResponseVM.cs" />
     <Compile Include="ControlsWPF\HoldingControl.cs">
       <SubType>UserControl</SubType>

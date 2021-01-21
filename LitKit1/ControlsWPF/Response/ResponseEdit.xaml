@@ -17,7 +17,7 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <Converters:DocTypeCBConverter x:Key="DocTypeConverter"/>
+        <Converters:FillTextConverterString x:Key="FillTextConverterString"/>
 
     </UserControl.Resources>
     <Grid MinHeight="660"
@@ -111,8 +111,8 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="SlateGray" BorderThickness="0">
-                                        <TextBlock Text="{Binding}"/>
-                                        <!--, Converter={StaticResource DocTypeConverter} -->
+                                        <TextBlock Text="{Binding Converter={StaticResource FillTextConverterString}}"/>
+                                        <!-- -->
                                     </Border>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

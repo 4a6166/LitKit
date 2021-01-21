@@ -10,22 +10,24 @@ using Tools.Response;
 namespace LitKit1.ControlsWPF.Response.Converters
 {
     /// <summary>
-    /// For converting response block
+    /// For filling the standard texts in the standard response repository
     /// </summary>
-    [ValueConversion(typeof(Tools.Response.Response), typeof(string))]
-    public class FillTextConverter : IValueConverter
+    [ValueConversion(typeof(string), typeof(string))]
+    public class FillTextConverterString : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             ResponseMainVM ViewModel = Globals.Ribbons.Ribbon1.responseVMDict[Globals.ThisAddIn.Application.ActiveWindow];
 
-            Tools.Response.Response response = (Tools.Response.Response)value;
+            Tools.Response.Response response = ViewModel.EditResponseVM.EditResponseRsp;
+
+            string standardUnfilled = (string)value;
 
             try
             {
-                return ResponseStandardRepository.FillString(response.ID, response.DisplayText, ViewModel.Responding, ViewModel.RespondingIsPlural.ToString(), ViewModel.Propounding, ViewModel.DocType.ToString());
+                return ResponseStandardRepository.FillString(response.ID, standardUnfilled, ViewModel.Responding, ViewModel.RespondingIsPlural.ToString(), ViewModel.Propounding, ViewModel.DocType.ToString());
             }
-            catch { return response.DisplayText; }
+            catch { return standardUnfilled; }
 
         }
 
@@ -34,4 +36,5 @@ namespace LitKit1.ControlsWPF.Response.Converters
             return null;
         }
     }
+
 }

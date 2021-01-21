@@ -76,9 +76,8 @@
                                FontWeight="Light" FontSize="10" 
                                TextTrimming="CharacterEllipsis" TextWrapping="Wrap"
                                Foreground="DarkSlateGray"
-                               Text="{Binding DisplayText}" />
-                <!--Text="{Binding DisplayText, Converter={StaticResource fillTextConverter}}"/>-->
-                
+                Text="{Binding Converter={StaticResource fillTextConverter}}"/>
+                <!--Text="{Binding DisplayText}" />-->
 
             </StackPanel>
         </Grid>
