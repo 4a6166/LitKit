@@ -86,9 +86,9 @@
     <None Include="sn.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Dictionaries\LatinDict.txt" />
-    <Content Include="Dictionaries\NBSDict.txt" />
-    <Content Include="Dictionaries\SentenceSpacingDict.txt" />
+    <None Include="Dictionaries\LatinDict.dic" />
+    <None Include="Dictionaries\NBSDict.dic" />
+    <None Include="Dictionaries\SentenceSpacingDict.dic" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

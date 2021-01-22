@@ -10,7 +10,6 @@ using Word = Microsoft.Office.Interop.Word;
 using Microsoft.Office.Interop.Word;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Core;
-using LitKit1.Controls.AnsResControls;
 
 namespace LitKit1
 {
@@ -55,7 +54,6 @@ namespace LitKit1
             ClearTaskPanes(doc.ActiveWindow);
             AddCitationControlMain(doc.ActiveWindow);
             AddResponseControlMain(doc.ActiveWindow);
-            AddAnsResControlMain(doc.ActiveWindow);
 
         }
 
@@ -89,28 +87,6 @@ namespace LitKit1
         }
 
 
-        #region Old Answer/Response Tool Winforms
-        public ctrlAnsResMain AnsResMain; ///Old Winforms control
-        public Microsoft.Office.Tools.CustomTaskPane AnsResTaskPane;
-        /// <summary>
-        /// Needed to get the correct Answer/Response Pane for each document window. Call Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow]; and ActivePane.Control.Controls.Clear(); when trying to update the controls for a pane.
-        /// </summary>
-        public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> AnsResPanes = new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
-
-        public void AddAnsResControlMain(object window) 
-        {
-            log.Info("AddAnsResControlMain run start");
-
-            AnsResMain = new ctrlAnsResMain();
-            AnsResTaskPane = this.CustomTaskPanes.Add(AnsResMain, "LitKit Response Tool", window);
-            AnsResMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            AnsResTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionLeft;
-            AnsResTaskPane.Width = 350;
-
-            AnsResPanes.Add(window, AnsResTaskPane);
-        }
-
-        #endregion
 
         private void Application_DocumentOpen(Word.Document Doc)
         {

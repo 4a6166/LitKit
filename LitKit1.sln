@@ -27,6 +27,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.ExhibitTool", "Tools.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OldFiles", "OldFiles", "{143BB764-559A-4CD0-BC78-96CBBC80DB0C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AnsResControls", "AnsResControls", "{47A33730-7802-48E8-B68A-0305AF40ABC8}"
+	ProjectSection(SolutionItems) = preProject
+		LitKit1\Controls\AnsResControls\ctrlAnsResCustomize.cs = LitKit1\Controls\AnsResControls\ctrlAnsResCustomize.cs
+		LitKit1\Controls\AnsResControls\ctrlAnsResCustomize.Designer.cs = LitKit1\Controls\AnsResControls\ctrlAnsResCustomize.Designer.cs
+		LitKit1\Controls\AnsResControls\ctrlAnsResCustomize.resx = LitKit1\Controls\AnsResControls\ctrlAnsResCustomize.resx
+		LitKit1\Controls\AnsResControls\ctrlAnsResMain.cs = LitKit1\Controls\AnsResControls\ctrlAnsResMain.cs
+		LitKit1\Controls\AnsResControls\ctrlAnsResMain.Designer.cs = LitKit1\Controls\AnsResControls\ctrlAnsResMain.Designer.cs
+		LitKit1\Controls\AnsResControls\ctrlAnsResMain.resx = LitKit1\Controls\AnsResControls\ctrlAnsResMain.resx
+		LitKit1\Controls\AnsResControls\ctrlAnsResNewName.cs = LitKit1\Controls\AnsResControls\ctrlAnsResNewName.cs
+		LitKit1\Controls\AnsResControls\ctrlAnsResNewName.Designer.cs = LitKit1\Controls\AnsResControls\ctrlAnsResNewName.Designer.cs
+		LitKit1\Controls\AnsResControls\ctrlAnsResNewName.resx = LitKit1\Controls\AnsResControls\ctrlAnsResNewName.resx
+		LitKit1\Controls\AnsResControls\ctrlAnsResView.cs = LitKit1\Controls\AnsResControls\ctrlAnsResView.cs
+		LitKit1\Controls\AnsResControls\ctrlAnsResView.Designer.cs = LitKit1\Controls\AnsResControls\ctrlAnsResView.Designer.cs
+		LitKit1\Controls\AnsResControls\ctrlAnsResView.resx = LitKit1\Controls\AnsResControls\ctrlAnsResView.resx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +161,7 @@ Global
 		{A6ACC4D7-446C-44A8-950C-93BDEBC5FEE1} = {B58D369F-7874-4CB8-8E55-B49CFE95F442}
 		{F7DFE3B3-C6A5-4692-8561-86AFBD093478} = {B58D369F-7874-4CB8-8E55-B49CFE95F442}
 		{413E09F6-2767-410C-B0AB-1AE86C43FBDA} = {143BB764-559A-4CD0-BC78-96CBBC80DB0C}
+		{47A33730-7802-48E8-B68A-0305AF40ABC8} = {143BB764-559A-4CD0-BC78-96CBBC80DB0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56FA0FAD-A837-4C6B-8891-253E85C2A9C0}

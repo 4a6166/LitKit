@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="BaseService.cs" />
     <Compile Include="Delegates.cs" />
+    <Compile Include="ExpressionsRepository.cs" />
     <Compile Include="ErrorHandling.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

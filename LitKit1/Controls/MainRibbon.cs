@@ -9,7 +9,6 @@ using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Tools.Ribbon;
 using Tools.RedactionTool;
 using Tools.Simple;
-using LitKit1.Controls.AnsResControls;
 using System.IO;
 using System.Text.RegularExpressions;
 using Services.Base;
@@ -458,20 +457,6 @@ namespace LitKit1
             }
         }
 
-        private void ResponseCustomize_Click(object sender, RibbonControlEventArgs e)
-        {
-            if (!licenseIsValid) { checkLicenseIsValid(); }
-            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
-            {
-                try
-                {
-                    ctrlAnsResView view = new ctrlAnsResView();
-                    EventArgs eventArgs = new EventArgs();
-                    view.button1_Click(sender, eventArgs);
-                }
-                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #206"); }
-            }
-        }
 
 
         #endregion
@@ -486,7 +471,8 @@ namespace LitKit1
                 try
                 {
                     _app.UndoRecord.StartCustomRecord("Unitalicized Latin");
-                    LatinExpressions.UnItalicize(_app);
+                    LatinExpressions latin = new LatinExpressions();
+                    latin.Italicize(_app, 0);
                     _app.UndoRecord.EndCustomRecord();
                 }
                 catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #223"); }
@@ -502,8 +488,8 @@ namespace LitKit1
                 try
                 {
                     _app.UndoRecord.StartCustomRecord("Italicized Latin");
-
-                    LatinExpressions.Italicize(_app);
+                    LatinExpressions latin = new LatinExpressions();
+                    latin.Italicize(_app, -1);
 
                     _app.UndoRecord.EndCustomRecord();
                 }
@@ -567,7 +553,8 @@ namespace LitKit1
                 try
                 {
                     _app.UndoRecord.StartCustomRecord("Set Spaces to Double");
-                    SpaceBetweenSentences.AddSpace(_app);
+                    SpaceBetweenSentences space = new SpaceBetweenSentences();
+                    space.AddSpace(_app);
                     _app.UndoRecord.EndCustomRecord();
                 }
                 catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #218"); }
@@ -583,7 +570,8 @@ namespace LitKit1
                 try
                 {
                     _app.UndoRecord.StartCustomRecord("Set Spaces to Single");
-                    SpaceBetweenSentences.RemoveSpace(_app);
+                    SpaceBetweenSentences space = new SpaceBetweenSentences();
+                    space.RemoveSpace(_app);
                     _app.UndoRecord.EndCustomRecord();
                 }
                 catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #219"); }
@@ -859,19 +847,6 @@ namespace LitKit1
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
-            OldResponsePanel();
-
-            /*
-             * 
-           +  * get all CiteCCs Ordered 
-             *                          => if cite id == previous cite id, use id format
-             *                          => if cite id is in list previously, use short format
-             *                          => else use Long format
-           +  * get all ExhibitCCs Ordered -> Get uniques 
-             *                          => index of cite = cite index
-           +  * get all citations => update cites not in body, footnotes, endnotes
-             *                          - refresh is initialited (button hit, cite is added to doc, cite is edited)
-             */
 
             //stopwatch.Stop();
             //MessageBox.Show("Time: " + stopwatch.Elapsed);
@@ -879,38 +854,6 @@ namespace LitKit1
 
         }
 
-        private void OldResponsePanel()
-        {
-
-            if (!licenseIsValid) { checkLicenseIsValid(); }
-            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
-            {
-                try
-                {
-                    ctrlAnsResView AnsResCtrl = new ctrlAnsResView();
-                    Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow];
-                    ActivePane.Control.Controls.Clear();
-                    //Globals.ThisAddIn.ExhibitMain.Controls.Clear();
-
-                    ActivePane.Control.Controls.Add(AnsResCtrl);
-                    //Globals.ThisAddIn.ExhibitMain.Controls.Add(exhibitCtrl);
-                    AnsResCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-
-                    if (!ActivePane.Visible)
-                    {
-                        ActivePane.Visible = true;
-                    }
-                    else
-                    {
-                        ActivePane.Visible = false;
-                    }
-                    //Globals.ThisAddIn.ExhibitTaskPane.Visible = true;
-                }
-                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #203"); }
-
-            }
-
-        }
     }
 
 
