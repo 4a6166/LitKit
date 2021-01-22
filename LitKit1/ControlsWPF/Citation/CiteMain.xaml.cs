@@ -284,6 +284,8 @@ namespace LitKit1.ControlsWPF.Citation
 
             ViewModel.ResetFormatList();
 
+            IntroBoldcb.IsChecked = false;
+
             IdCheckBox.IsChecked = true;
             //ViewModel.Repository.CiteFormatting.hasIdCite = true;
 
@@ -497,6 +499,11 @@ namespace LitKit1.ControlsWPF.Citation
         private void cbReloadCites_Unchecked(object sender, RoutedEventArgs e)
         {
             ViewModel.CitesReloadAutomatically = false;
+        }
+
+        private void CiteBlockStackPanel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

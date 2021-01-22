@@ -1,46 +1,41 @@
-﻿
-using LitKit1.ControlsWPF.Citation.ViewModels;
+﻿using LitKit1.ControlsWPF.Response.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
-namespace LitKit1.ControlsWPF.Citation
+namespace LitKit1.ControlsWPF.Response
 {
     /// <summary>
-    /// Interaction logic for CiteFlyout.xaml
+    /// Interaction logic for ResponseFlyout.xaml
     /// </summary>
-    public partial class CiteFlyout : UserControl
+    public partial class ResponseFlyout : UserControl
     {
-        CiteMainVM ViewModel;
-
-        public CiteFlyout()
+        ResponseMainVM ViewModel;
+        public ResponseFlyout()
         {
-            ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
-
+            ViewModel = Globals.Ribbons.Ribbon1.responseVMDict[Globals.ThisAddIn.Application.ActiveWindow];
             InitializeComponent();
         }
 
-
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var cite = (Tools.Citation.Citation)DataContext;
+            var response = (Tools.Response.Response)DataContext;
 
-            ViewModel.DeleteCite(cite);
+            ViewModel.DeleteResponse(response);
 
         }
         private void btnInsert_Click(object sender, RoutedEventArgs e)
         {
-            var cite = (Tools.Citation.Citation)DataContext;
+            var response = (Tools.Response.Response)DataContext;
 
-            ViewModel.InsertCite(cite);
+            ViewModel.InsertResponse(response);
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            var cite = (Tools.Citation.Citation)DataContext;
+            var response = (Tools.Response.Response)DataContext;
 
-            ViewModel.OpenEditCite(cite);
+            ViewModel.OpenEditResponse(response);
         }
 
 
@@ -59,9 +54,5 @@ namespace LitKit1.ControlsWPF.Citation
             grid.Children[1].Visibility = Visibility.Collapsed;
         }
 
-        private void Border_MouseEnter(object sender, MouseEventArgs e)
-        {
-
-        }
     }
 }

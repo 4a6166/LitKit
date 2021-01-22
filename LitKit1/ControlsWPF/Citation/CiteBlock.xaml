@@ -36,13 +36,14 @@
           Background="#f3f2f1" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="150" />
-            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="21"/>
             <RowDefinition Height="16" />
         </Grid.RowDefinitions>
         <TextBlock x:Name="CiteCount" 
+                   IsHitTestVisible="False"
                    Grid.Column="1" 
                    Grid.Row="0" 
                    Text="{Binding InsertedCount}" 
@@ -50,27 +51,33 @@
                    HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Margin="0,0,0,-1"/>
         <TextBlock 
+            IsHitTestVisible="False"
             Grid.Column="1" 
             Grid.Row="1" 
             Text="Times Cited" FontSize="9" Foreground="SlateGray" 
             HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Button x:Name="CiteButton"
-                Grid.Column="0"
+                Grid.Column="0" Grid.ColumnSpan="2"
                 Grid.RowSpan ="2"
                 BorderThickness ="0"
                 Margin="0,0,0,0"
-                Width="1000" 
-                HorizontalContentAlignment="Left" MouseDoubleClick="CiteButton_MouseDoubleClick" >
+                Width="100000" 
+                HorizontalContentAlignment="Stretch" MouseDoubleClick="CiteButton_MouseDoubleClick" >
             <Button.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Add a New Citation to the Citation List" Click="Add_Click"/>
-                    <MenuItem Header="Insert Current Citation at Cursor" Click="Insert_Click"/> 
-                    <MenuItem Header="Edit Current Citation Description" Click="Edit_Click"/>
+                    <MenuItem Header="Add a New Citation to List" Click="Add_Click"/>
+                    <MenuItem Header="Insert Current Citation at Selection" Click="Insert_Click"/> 
+                    <MenuItem Header="Edit Current Citation" Click="Edit_Click"/>
                     <MenuItem Header="Delete Citation from List and Document" Click="Delete_Click"/>
                 </ContextMenu>
             </Button.ContextMenu>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0" >
-                <Border x:Name="CiteTypeIndicator"
+        </Button>
+        <Grid HorizontalAlignment="Stretch" Margin="0" Grid.RowSpan="2" IsHitTestVisible="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border x:Name="CiteTypeIndicator"
                         Grid.Column="0" 
                         Grid.RowSpan="2" 
                         Width="5" Height="auto" 
@@ -78,32 +85,33 @@
                         BorderThickness="2" 
                         BorderBrush="{Binding CiteType, Converter={StaticResource citeTypeConverter}}" 
                         Background="{Binding CiteType, Converter={StaticResource citeTypeConverter}}" Opacity=".7">
-                </Border>
-                <StackPanel>
-                    <TextBlock x:Name="CiteRefName" 
+            </Border>
+            <StackPanel Grid.Column="1">
+                <TextBlock x:Name="CiteRefName" 
                    Grid.Column="1"
                    Grid.Row="0" 
                    Text="{Binding LongDescription}" 
                    FontSize="11" FontWeight="SemiBold"
                    Margin="4,2,0,2" 
                    TextTrimming="CharacterEllipsis"/>
-                    <TextBlock x:Name="CiteLongExample" 
-                   Grid.Column="2" Grid.ColumnSpan="1" 
-                   Grid.Row="2" 
-                   Height="auto" Margin="4,2,0,2"
-                   HorizontalAlignment="Left" 
-                   Text="{Binding LongCiteExample}" 
-                   FontWeight="Light" FontSize="10" 
-                   TextTrimming="CharacterEllipsis"
+                <TextBlock x:Name="CiteLongExample" 
+                               Grid.Column="2" Grid.ColumnSpan="1" 
+                               Grid.Row="2" 
+                               Height="auto" Margin="4,2,0,2"
+                               HorizontalAlignment="Left" 
+                               Text="{Binding LongCiteExample}" 
+                               FontWeight="Light" FontSize="10" 
+                               TextTrimming="CharacterEllipsis"
                                Foreground="DarkSlateGray" 
                      />
-                </StackPanel>
             </StackPanel>
-        </Button>
+        </Grid>
+
         <local:CiteFlyout x:Name="Flyout" DataContext="{Binding}"
                           Visibility="Collapsed"
-            Grid.ColumnSpan="2"
+            Grid.Column="1"
             Grid.RowSpan="2"
+                          Background="Transparent"
             />
 
 

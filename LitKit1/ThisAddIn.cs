@@ -22,13 +22,13 @@ namespace LitKit1
         /// </summary>
         public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> CitationPanes = new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
 
-
-        public ctrlAnsResMain AnsResMain;
-        public Microsoft.Office.Tools.CustomTaskPane AnsResTaskPane;
+        public Microsoft.Office.Tools.CustomTaskPane ResponseTaskPane;
         /// <summary>
-        /// Needed to get the correct Answer/Response Pane for each document window. Call Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow]; and ActivePane.Control.Controls.Clear(); when trying to update the controls for a pane.
+        /// Needed to get the correct Response Pane for each document window. 
         /// </summary>
-        public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> AnsResPanes = new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
+        public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> ResponsePanes = new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
+
+
 
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
@@ -54,6 +54,7 @@ namespace LitKit1
 
             ClearTaskPanes(doc.ActiveWindow);
             AddCitationControlMain(doc.ActiveWindow);
+            AddResponseControlMain(doc.ActiveWindow);
             AddAnsResControlMain(doc.ActiveWindow);
 
         }
@@ -72,8 +73,31 @@ namespace LitKit1
             CitationPanes.Add(window, CitationTaskPane);
         }
 
+        public void AddResponseControlMain(object window)
+        {
+            log.Info("AddCitationControlMain run start");
 
-        public void AddAnsResControlMain(object window)
+            var ResponseMain = new ControlsWPF.HoldingControl();
+            /*new ControlsWPF.HoldingControl(new ControlsWPF.Response.ResponseMain());*/
+            ResponseTaskPane = this.CustomTaskPanes.Add(ResponseMain, "LitKit Response Tool", window);
+            ResponseMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            ResponseTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
+            ResponseTaskPane.Width = 350;
+
+
+            ResponsePanes.Add(window, ResponseTaskPane);
+        }
+
+
+        #region Old Answer/Response Tool Winforms
+        public ctrlAnsResMain AnsResMain; ///Old Winforms control
+        public Microsoft.Office.Tools.CustomTaskPane AnsResTaskPane;
+        /// <summary>
+        /// Needed to get the correct Answer/Response Pane for each document window. Call Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.AnsResPanes[_app.ActiveWindow]; and ActivePane.Control.Controls.Clear(); when trying to update the controls for a pane.
+        /// </summary>
+        public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> AnsResPanes = new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
+
+        public void AddAnsResControlMain(object window) 
         {
             log.Info("AddAnsResControlMain run start");
 
@@ -86,7 +110,7 @@ namespace LitKit1
             AnsResPanes.Add(window, AnsResTaskPane);
         }
 
-
+        #endregion
 
         private void Application_DocumentOpen(Word.Document Doc)
         {

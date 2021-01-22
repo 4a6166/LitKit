@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Xml;
 using System.Security;
 using System.Windows.Forms;
+using LicenseSpring;
 
 [assembly: Obfuscation(Feature = "apply to type Services.Licensing.*: all", Exclude = true, ApplyToMembers = true)]
 
@@ -121,6 +122,43 @@ namespace Services.License
             file.Close();
             
             return path;
+        }
+
+        public static string ReadLicense()
+        {
+            LS ls = new LS();
+            ILicense license = ls.GetLicense();
+
+            if (license != null)
+            {
+                string result = "";
+                result += "Product: " + license.GetProductDetails().ProductName + Environment.NewLine;
+                result += "Product Code: " + license.GetProductDetails().ProductCode + Environment.NewLine;
+                result += "Company License: " + license.Owner().Company + Environment.NewLine;
+                result += Environment.NewLine;
+                if(license.IsValid())
+                {
+                    result += "License is valid";
+                }
+                else
+                {
+                    result += "License is not valid.";
+                }
+
+                result += Environment.NewLine;
+                DateTime expiration = DateTime.Now.AddDays(license.DaysRemaining());
+                if (license.IsExpired())
+                {
+                    result += "License Expired " + expiration.ToShortDateString();
+                }
+                else
+                {
+                    result += "License Expires on " + expiration.ToShortDateString();
+                }
+
+                return result;
+            }
+            else { return "No license was found on your computer. Please contact your system administrator or IT service."; }
         }
     }
 }

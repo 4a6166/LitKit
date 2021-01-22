@@ -65,10 +65,11 @@
     <Compile Include="ResponseRepository.cs" />
     <Compile Include="ResponseStandard.cs" />
     <Compile Include="ResponseStandardRepository.cs" />
+    <Compile Include="ResponseTextFill.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ResponseFrame.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ResponseStandardLanguage.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

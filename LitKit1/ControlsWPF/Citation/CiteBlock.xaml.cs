@@ -38,14 +38,9 @@ namespace LitKit1.ControlsWPF.Citation
             ViewModel.InsertCite(cite);
         }
 
-        private void CiteButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
-            //Need to show the Add Cite popup on the CiteMain view
+            ViewModel.CiteAddVisibility = Visibility.Visible;
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)

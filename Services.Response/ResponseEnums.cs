@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,9 +26,16 @@ namespace Tools.Response
 
     public enum DocType
     {
+        [Description("Answer to a Complaint")]
         Complaint,
+
+        [Description("Response to Requests for Admission")]
         Admission,
+
+        [Description("Response to Requests for Production of Documents")]
         Production,
+
+        [Description("Response to Interrogatories")]
         Interrogatory
     }
 

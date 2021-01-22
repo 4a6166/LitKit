@@ -3,11 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
+using System.Collections.ObjectModel;
 
 namespace LitKit1.Controls.AnsResControls
 {
     public partial class ctrlAnsResView : UserControl
     {
+        ResponseTextFill TextFill = new ResponseTextFill();
+
         public ctrlAnsResView()
         {
             try
@@ -34,7 +37,7 @@ namespace LitKit1.Controls.AnsResControls
         string respondingPlural;
         string propoundingParty;
         ResponseRepository repository;
-        IEnumerable<Response> responses;
+        ObservableCollection<Response> responses;
 
 
         private void loadCurrentDocProperties(Word.Application _app)
@@ -114,10 +117,10 @@ namespace LitKit1.Controls.AnsResControls
 
                 foreach (var t in responses)
                 {
-                    if (t.DocTypes[type])
-                    {
-                        var item = listBox1.Items.Add(t);
-                    }
+                    //if (t.DocTypes[type])
+                    //{
+                    //    var item = listBox1.Items.Add(t);
+                    //}
                 }
                 listBox1.DisplayMember = "Name";
 
@@ -165,6 +168,7 @@ namespace LitKit1.Controls.AnsResControls
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             try
             {
                 if (listBox1.SelectedItems != null)
@@ -177,7 +181,7 @@ namespace LitKit1.Controls.AnsResControls
                     insertText = ResponseStandardRepository.FillString(listboxItem.ID, insertText, respondingParty, respondingPlural, propoundingParty, docType);
 
 
-                    insertText = insertText.Replace("[X]", FillParaNumberForX(_app.Selection));
+                    insertText = insertText.Replace("[X]", TextFill.FillParaNumberForX(_app.Selection));
 
                     _app.Selection.TypeText(insertText);
 
@@ -199,130 +203,130 @@ namespace LitKit1.Controls.AnsResControls
 
         }
 
-        private List<string> ParaNumberLanguages = new List<string>()
-        {
-            "RESPONSE TO REQUEST FOR ADMISSION",
-            "RESPONSE TO PARAGRAPH",
-            "RESPONSE TO INTERROGATORY",
-            "RESPONSE TO REQUEST",
-            "RESPONSE TO REQUEST FOR PRODUCTION OF DOCUMENTS",
-            "ANSWER TO PARAGRAPH",
-            "RESPONSE TO RFA",
-            "RESPONSE TO RFP",
-            "RESPONSE TO REQUEST FOR PRODUCTION",
-            "RESPONSE TO DOCUMENT REQUEST"
-        };
+        //private List<string> ParaNumberLanguages = new List<string>()
+        //{
+        //    "RESPONSE TO REQUEST FOR ADMISSION",
+        //    "RESPONSE TO PARAGRAPH",
+        //    "RESPONSE TO INTERROGATORY",
+        //    "RESPONSE TO REQUEST",
+        //    "RESPONSE TO REQUEST FOR PRODUCTION OF DOCUMENTS",
+        //    "ANSWER TO PARAGRAPH",
+        //    "RESPONSE TO RFA",
+        //    "RESPONSE TO RFP",
+        //    "RESPONSE TO REQUEST FOR PRODUCTION",
+        //    "RESPONSE TO DOCUMENT REQUEST"
+        //};
 
-        private string GetParaNumbers(string text, Word.Paragraph paragraph)
-        {
-            try
-            {
-                string result = string.Empty;
-                int languageEndLength;
-                foreach (string language in ParaNumberLanguages)
-                {
+        //private string GetParaNumbers(string text, Word.Paragraph paragraph)
+        //{
+        //    try
+        //    {
+        //        string result = string.Empty;
+        //        int languageEndLength;
+        //        foreach (string language in ParaNumberLanguages)
+        //        {
                     
-                    if (text.Length < language.Length + 15)
-                    {
-                        languageEndLength = text.Length - 1;
-                    }
-                    else
-                    {
-                        languageEndLength = language.Length + 15;
-                    }
-                    try
-                    {
-                        if (language == text.Substring(0, language.Length))
-                        {
-                            for (int i = language.Length; i <= languageEndLength; i++)
-                            {
+        //            if (text.Length < language.Length + 15)
+        //            {
+        //                languageEndLength = text.Length - 1;
+        //            }
+        //            else
+        //            {
+        //                languageEndLength = language.Length + 15;
+        //            }
+        //            try
+        //            {
+        //                if (language == text.Substring(0, language.Length))
+        //                {
+        //                    for (int i = language.Length; i <= languageEndLength; i++)
+        //                    {
 
-                                try
-                                {
-                                    if (char.IsDigit(text[i]))
-                                    {
-                                        result += text[i];
-                                    }
-                                }
-                                catch { }
-                            }
-                        }
-                    }
-                    catch { }
-                }
+        //                        try
+        //                        {
+        //                            if (char.IsDigit(text[i]))
+        //                            {
+        //                                result += text[i];
+        //                            }
+        //                        }
+        //                        catch { }
+        //                    }
+        //                }
+        //            }
+        //            catch { }
+        //        }
 
-                if (result == string.Empty || result == "")
-                {
-                    if (paragraph.Range.ListParagraphs.Count > 0)
-                    {
-                        for (int i = 0; i <= paragraph.Range.ListFormat.ListString.Length - 1; i++)
-                        {
-                            if (char.IsDigit(paragraph.Range.ListFormat.ListString[i]))
-                            {
-                                result += paragraph.Range.ListFormat.ListString[i];
-                            }
-                        }
-                    }
-                    else
-                    {
-                        int ctLen;
-                        if (text.Length > 5)
-                        { ctLen = 5; }
-                        else { ctLen = text.Length; }
-                        for (int i = 0; i <= ctLen; i++)
-                        {
-                            try
-                            {
-                                if (char.IsDigit(text[i]))
-                                {
-                                    result += text[i];
-                                }
-                            }
-                            catch { }
-                        }
-                    }
-                }
+        //        if (result == string.Empty || result == "")
+        //        {
+        //            if (paragraph.Range.ListParagraphs.Count > 0)
+        //            {
+        //                for (int i = 0; i <= paragraph.Range.ListFormat.ListString.Length - 1; i++)
+        //                {
+        //                    if (char.IsDigit(paragraph.Range.ListFormat.ListString[i]))
+        //                    {
+        //                        result += paragraph.Range.ListFormat.ListString[i];
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                int ctLen;
+        //                if (text.Length > 5)
+        //                { ctLen = 5; }
+        //                else { ctLen = text.Length; }
+        //                for (int i = 0; i <= ctLen; i++)
+        //                {
+        //                    try
+        //                    {
+        //                        if (char.IsDigit(text[i]))
+        //                        {
+        //                            result += text[i];
+        //                        }
+        //                    }
+        //                    catch { }
+        //                }
+        //            }
+        //        }
 
-                return result;
-            }
-            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #306"); return null; }
+        //        return result;
+        //    }
+        //    catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #306"); return null; }
 
-        }
+        //}
 
-        private string FillParaNumberForX(Word.Selection selection)
-        {
-            try
-            {
-                string result = string.Empty;
+        //private string FillParaNumberForX(Word.Selection selection)
+        //{
+        //    try
+        //    {
+        //        string result = string.Empty;
 
-                // Current Paragraph
-                result = GetParaNumbers(selection.Paragraphs.First.Range.Text.ToUpper(), selection.Paragraphs.First);
+        //        // Current Paragraph
+        //        result = GetParaNumbers(selection.Paragraphs.First.Range.Text.ToUpper(), selection.Paragraphs.First);
 
-                // Previous paragraph
-                if (result == string.Empty || result == "")
-                {
-                    try
-                    {
-                        //var previousParagraph = selection.Paragraphs.First.Previous(1);
-                        //string prevText = previousParagraph.Range.Text.ToUpper();
+        //        // Previous paragraph
+        //        if (result == string.Empty || result == "")
+        //        {
+        //            try
+        //            {
+        //                //var previousParagraph = selection.Paragraphs.First.Previous(1);
+        //                //string prevText = previousParagraph.Range.Text.ToUpper();
 
-                        result = GetParaNumbers(selection.Paragraphs.First.Previous(1).Range.Text.ToUpper(), selection.Paragraphs.First.Previous(1)); //will throw null ref exception when no preceeding number. Handle correctly by doing nothing.
-                    }
-                    catch // (NullReferenceException)
-                    {
+        //                result = GetParaNumbers(selection.Paragraphs.First.Previous(1).Range.Text.ToUpper(), selection.Paragraphs.First.Previous(1)); //will throw null ref exception when no preceeding number. Handle correctly by doing nothing.
+        //            }
+        //            catch // (NullReferenceException)
+        //            {
 
-                    }
-                }
+        //            }
+        //        }
 
-                // If above do not work
-                if (result == string.Empty || result == "")
-                { result = "[X]"; }
+        //        // If above do not work
+        //        if (result == string.Empty || result == "")
+        //        { result = "[X]"; }
 
-                return result;
-            }
-            catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #307"); return null; }
+        //        return result;
+        //    }
+        //    catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #307"); return null; }
 
-        }
+        //}
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -330,7 +334,7 @@ namespace LitKit1.Controls.AnsResControls
             {
                 LoadListBoxItems();
                 docType = comboBox1.Text;
-                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+                //repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
             }
             catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #308"); }
 
@@ -354,7 +358,7 @@ namespace LitKit1.Controls.AnsResControls
             try
             {
                 respondingParty = textBox1.Text;
-                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+                //repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
             }
             catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #309"); }
 
@@ -366,7 +370,7 @@ namespace LitKit1.Controls.AnsResControls
             try
             {
                 propoundingParty = textBox2.Text;
-                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+                //repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
             }
             catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #310"); }
 
@@ -381,7 +385,7 @@ namespace LitKit1.Controls.AnsResControls
                     respondingPlural = "True";
                 }
                 else respondingPlural = "False";
-                repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
+                //repository.UpdateDocProps(_app, respondingParty, respondingPlural, propoundingParty, docType);
             }
             catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #311"); }
 

@@ -20,7 +20,7 @@
         <Converters:VisConverterItemCount x:Key="ListCoverVisConverter"/>
         <Converters:VisibilityConverter x:Key="BoolVisConverter"/>
     </UserControl.Resources>
-    <Grid x:Name="MainGrid" >
+    <Grid x:Name="MainGrid" Background="WhiteSmoke">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="1*"/>
@@ -29,21 +29,23 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="55"/>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!--############################################-->
         <!--Top Panel-->
         <!--############################################-->
-        <UniformGrid
-            Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
-            Height="50"
-            Margin="5,10,5,5"
-            Columns="2">
-
+        <Grid
+            Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+            Height="40"
+            Margin="5,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <!--########################################-->
             <!--Split Button - Stack panel-->
             <!--########################################-->
@@ -64,13 +66,13 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Image x:Name="SBStackPlanelImage"
-                                   Margin="2,2,2,2"
-                                    Source="/LitKit;component/Resources/icons8-plus-math-60.png" HorizontalAlignment="Left" Width="26">
+                                   Margin="3"
+                                    Source="/LitKit;component/Resources/icons8-plus-math-60.png"  Width="26">
                             </Image>
                             <Label x:Name="AddCiteLabel"
                                 Grid.Column="1" 
                                 VerticalAlignment="Center"
-                                Margin="0,0,5,0"
+                                Margin="-5,0,0,0"
                                 Visibility="Collapsed"
                                Content="Add a New Cite"/>
                         </Grid>
@@ -111,11 +113,11 @@
                                 </ContextMenu>
                             </Border.ContextMenu>
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Fill="Black" Opacity=".2" Width="2"
-                                           Height="22" Margin="2,0,0,0"/>
+                                <Rectangle Fill="Black" Opacity=".2" Width="1.3"
+                                           Height="20" Margin="0,0,0,0"/>
                                 <Image x:Name="SBStackPlanelImageDropDown"
                                    Width="10"
-                                   Margin="5,9,7,0"
+                                   Margin="2,9,7,0"
                                    VerticalAlignment="Center"
                                    Opacity="1"
                                    Source="/LitKit;component/Resources/droparrow.png" >
@@ -127,7 +129,7 @@
                 </Border>
             </Grid>
 
-            <Grid>
+            <Grid Grid.Column="1">
                 <Border x:Name="RefreshBorder"
                         Background="LightGray"
                         CornerRadius="15" HorizontalAlignment="Right"
@@ -142,17 +144,17 @@
                             Content="Update Citations" Visibility="Collapsed"
                                />
                         <Image x:Name="RefreshImg"
-                               Margin="2"
+                               Margin="3"
                             Source="/LitKit;component/Resources/icons8-refresh-64.png"/>
                     </StackPanel>
                 </Border>
             </Grid>
-        </UniformGrid>
+        </Grid>
 
         <!--########################################-->
         <!--Search Stack-->
         <!--########################################-->
-        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Vertical">
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Orientation="Vertical">
             <!--########################################-->
             <!--Search Grid-->
             <!--########################################-->
@@ -249,7 +251,7 @@
 
         <ListView x:Name="CiteBlockStackPanel" ItemsSource="{Binding Citations}"
                         Grid.Column="1" Grid.ColumnSpan="2" 
-                        Grid.Row="2"
+                        Grid.Row="3"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                   >
@@ -267,7 +269,7 @@
         </ListView>
         <TextBlock x:Name="FreshPanelTextBlock"
             Grid.Column="1" Grid.ColumnSpan="2" 
-            Grid.Row="2" Margin="5,15" Height="20" VerticalAlignment="Top"
+            Grid.Row="3" Margin="5,15" Height="20" VerticalAlignment="Top"
                    Visibility="{Binding Items.Count, ElementName=CiteBlockStackPanel, Converter={StaticResource ListCoverVisConverter}}">
             <Run Text="Click"/>
             <Hyperlink Hyperlink.Click="AddNewCite">Here</Hyperlink>
@@ -282,15 +284,14 @@
             VerticalAlignment="Bottom"
             Background="Transparent"
             Grid.Column="0" Grid.ColumnSpan="4"
-            Grid.Row="3">
+            Grid.Row="0">
             <Border 
-                Margin="3,3,3,0"
-                Background="LightGray" CornerRadius="15,15,0,0">
+                Margin="3,0,3,3"
+                Background="Gainsboro" CornerRadius="0,0,15,15">
                 <Expander x:Name="CitationFormattingExpander" Header="Exhibit Formatting"
-                          
                           FontWeight="DemiBold"
                   Margin="5,5,5,5" 
-                  IsExpanded="True"
+                  IsExpanded="True" ExpandDirection="Down"
                       >
                     <StackPanel Orientation="Vertical"
                                 Margin="0,0,0,0"
@@ -446,20 +447,34 @@
                             </Button>
 
                         </Grid>
-
-
-                        <CheckBox x:Name="IdCheckBox" 
-                                  Margin="0,15,0,15" HorizontalAlignment="Center"
+                        <StackPanel Orientation="Vertical" Margin="0,15" HorizontalAlignment="Center">
+                            <CheckBox x:Name="IdCheckBox" 
+                                  Margin="0,5" HorizontalAlignment="Left"
                                   IsChecked="{Binding Repository.CiteFormatting.hasIdCite}"
                                   >
-                            <TextBlock>
-                                <TextBlock.Inlines>
-                                    <Run Text="Use "/>
-                                    <Run FontStyle="Italic" Text="Id."/>
-                                    <Run Text=" to represent repeated citations"/>
-                                </TextBlock.Inlines>
-                            </TextBlock>
-                        </CheckBox>
+                                <TextBlock TextWrapping="Wrap">
+                                    <TextBlock.Inlines>
+                                        <Run Text="Use"/>
+                                        <Run FontStyle="Italic" Text="Id."/>
+                                        <Run Text="to represent repeated citations"/>
+                                    </TextBlock.Inlines>
+                                </TextBlock>
+                            </CheckBox>
+
+                            <CheckBox x:Name="IntroBoldcb" 
+                                  Margin="0,5" HorizontalAlignment="Left"
+                                  IsChecked="{Binding Repository.CiteFormatting.introIsBold}"
+                                  >
+                                <TextBlock TextWrapping="Wrap">
+                                    <TextBlock.Inlines>
+                                        <Run Text="Format the intro and index as"/>
+                                        <Run FontWeight="Bold" Text="Bold"/>
+                                        <Run Text="."/>
+                                    </TextBlock.Inlines>
+                                </TextBlock>
+                            </CheckBox>
+                        </StackPanel>
+                        
                         <!--https://github.com/GuOrg/Gu.Wpf.NumericInput/blob/master/README.md#1-samples-->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
                             <numeric:SpinnerDecorator 
@@ -482,16 +497,31 @@
                             <Label Margin="10,0,0,0"
                                 Content="Exhibit Index Starting Value"/>
                         </StackPanel>
-                        <UniformGrid Margin="5,80,5,0">
+                        <Grid Margin="5,20,5,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
                             <Button x:Name="UpdateFormatting"
                                      Margin="0,0,10,0"  Click="UpdateFormatting_Click">
                                 <Label Content="Update Formatting"/>
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources>
                             </Button>
                             <Button x:Name="FormattingReset"
+                                    Grid.Column="1"
                                     Margin="10,0,0,0"  Click="FormattingReset_Click">
                                 <Label Content="Reset Formatting"/>
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources>
                             </Button>
-                        </UniformGrid>
+                        </Grid>
                     </StackPanel>
                 </Expander>
             </Border>
@@ -502,20 +532,20 @@
                     Grid.Column="0" Grid.ColumnSpan="4"
                     Grid.Row="4">
             <Border 
-                Margin="3,0"
+                Margin="3,3,3,0" CornerRadius="15,15,0,0"
                 Background="LightGray">
                 <Grid>
-                    <Rectangle Margin="45,0" 
+                    <!--<Rectangle Margin="45,0" 
                                Fill="DarkSlateGray"
                                Height=".5"
-                               VerticalAlignment="Top"/>
+                               VerticalAlignment="Top"/>-->
                     <CheckBox x:Name="cbReloadCites" 
-                      HorizontalAlignment="Center" Margin="0,15"
+                      HorizontalAlignment="Center" Margin="5,15"
                       IsChecked="{Binding CitesReloadAutomatically}"
                       Checked="cbReloadCites_Checked" Unchecked="cbReloadCites_Unchecked">
-                    <TextBlock TextWrapping="Wrap">
+                        <TextBlock TextWrapping="Wrap">
                     <Run Text="Update content automatically when new citation is added" />
-                    </TextBlock>
+                        </TextBlock>
                 </CheckBox>
                 </Grid>
             </Border>
@@ -526,10 +556,10 @@
 
         <local:CiteAdd x:Name="CiteAdd"
             Grid.Column="0" Grid.ColumnSpan="4"
-            Grid.Row="0" Grid.RowSpan="4"
+            Grid.Row="0" Grid.RowSpan="5"
                        VerticalAlignment="Stretch"
                        HorizontalAlignment="Stretch"
-            Visibility="Collapsed"
+            Visibility="{Binding CiteAddVisibility}"
             />
 
 
@@ -539,7 +569,7 @@
 
         <local:CiteEdit x:Name="CiteEdit" DataContext="{Binding EditCiteVM}"
             Grid.Column="0" Grid.ColumnSpan="4"
-            Grid.Row="0" Grid.RowSpan="4"
+            Grid.Row="0" Grid.RowSpan="5"
                        VerticalAlignment="Stretch"
                        HorizontalAlignment="Stretch" Loaded="CiteEdit_Loaded"
                         Visibility="Collapsed"

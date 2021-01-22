@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -15,6 +16,12 @@ namespace Tools.Response
         //private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         //***********NO FACTORY OR INTERFACE YET -> plan is to refactor to improve performance following user testing.
+
+        private readonly Application _app;
+        static string NameSpace = "Prelimine Litkit Response Tool";
+        static XNamespace name = NameSpace;
+        static XName rootName = name + "Responses";
+
         public ResponseRepository(Application _app)
         {
             //log4net.Config.XmlConfigurator.Configure();
@@ -25,7 +32,6 @@ namespace Tools.Response
             {
                 FrameCustomXMLDoc();
             }
-
         }
 
         
@@ -35,11 +41,6 @@ namespace Tools.Response
             String Root = Directory.GetCurrentDirectory();
             string path = string.Empty;
 
-            try // For debugging
-            {
-                path = Root + @"\Services\Response\ResponseFrame.xml";
-            }
-            catch { }
             //try //For user testing
             //{
             //    string Parent = Directory.GetCurrentDirectory() + @"\..\";
@@ -49,7 +50,11 @@ namespace Tools.Response
 
             //    path = Rootdll + @"\Services\Response\ResponseFrame.xml";
             //}
-            //catch { }
+            //catch
+            //{ }
+                //path for debugging
+                path = Root + @"\Services\Response\ResponseFrame.xml";
+            //}
 
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(path);
@@ -57,41 +62,58 @@ namespace Tools.Response
             _app.ActiveDocument.CustomXMLParts.Add(xmlDocument.OuterXml);
         }
 
+        #region Doc Properties
 
-        private readonly Application _app;
-        static string NameSpace = "Prelimine Litkit Response Tool";
-        static XNamespace name = NameSpace;
-        static XName rootName = name + "Responses";
-
-        public void AddCustomResponse(string Name, bool Complaint, bool Admission, bool Production, bool Interrogatory, string DisplayText)
+        public string GetDocProps(Application _app, DocPropsNode node)
         {
-            List<bool> DocTypes = new List<bool>
-            {
-                Complaint, Admission, Production, Interrogatory
-            };
+            int i = (int)node + 1;
 
-            Response newResponse = new Response(Guid.NewGuid().ToString(), Name, DocTypes, DisplayText);
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNode ResponsesNode = customXmlDoc.DocumentElement;
 
+            CustomXMLNode PropsNode = ResponsesNode.ChildNodes[1];
+            return PropsNode.ChildNodes[i].Text;
+
+        }
+
+        public void UpdateDocProps(Application _app, string responding, bool respondingPlural, string propounding, DocType docType)
+        {
+            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
+            CustomXMLNode ResponsesNode = customXmlDoc.DocumentElement;
+            CustomXMLNode PropsNode = ResponsesNode.ChildNodes[1];
+
+            PropsNode.ChildNodes[1].Text = responding;
+            PropsNode.ChildNodes[2].Text = respondingPlural.ToString();
+            PropsNode.ChildNodes[3].Text = propounding;
+            PropsNode.ChildNodes[4].Text = docType.ToString();
+
+        }
+
+        #endregion
+
+        #region Responses
+
+        public void AddCustomResponse(Response response)
+        {
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNode ResponsesNode = customXmlDoc.DocumentElement;
             customXmlDoc.AddNode(ResponsesNode, "Response", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, "");
 
             CustomXMLNodes ResponseNodes = customXmlDoc.SelectNodes("//Response");
             CustomXMLNode ResponseNode = ResponseNodes[ResponseNodes.Count];
-            customXmlDoc.AddNode(ResponseNode, "ID", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newResponse.ID);
-            customXmlDoc.AddNode(ResponseNode, "Name", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newResponse.Name);
+            customXmlDoc.AddNode(ResponseNode, "ID", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, response.ID);
+            customXmlDoc.AddNode(ResponseNode, "Name", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, response.Name);
             customXmlDoc.AddNode(ResponseNode, "DocType", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, "");
 
             CustomXMLNode DocTypesNode = ResponseNode.SelectSingleNode("DocType");
-            customXmlDoc.AddNode(DocTypesNode, "Complaint", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, Complaint.ToString());
-            customXmlDoc.AddNode(DocTypesNode, "Admission", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, Admission.ToString());
-            customXmlDoc.AddNode(DocTypesNode, "Production", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, Production.ToString());
-            customXmlDoc.AddNode(DocTypesNode, "Interrogatory", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, Interrogatory.ToString());
+            if(response.DocTypes.Contains(DocType.Complaint)) { customXmlDoc.AddNode(DocTypesNode, "Complaint"); }
+            if (response.DocTypes.Contains(DocType.Admission)) { customXmlDoc.AddNode(DocTypesNode, "Admission"); }
+            if (response.DocTypes.Contains(DocType.Production)) { customXmlDoc.AddNode(DocTypesNode, "Production"); }
+            if (response.DocTypes.Contains(DocType.Interrogatory)) { customXmlDoc.AddNode(DocTypesNode, "Interrogatory"); }
             
-            customXmlDoc.AddNode(ResponseNode, "DisplayText", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, newResponse.DisplayText);
+            customXmlDoc.AddNode(ResponseNode, "DisplayText", "", null, MsoCustomXMLNodeType.msoCustomXMLNodeElement, response.DisplayText);
         }
 
-        
         public OperationResult DeleteResponse(string id)
         {
             bool success = false;
@@ -115,7 +137,6 @@ namespace Tools.Response
 
         }
 
-
         public Response GetResponse(string id)
         {
             Response response = null;
@@ -130,16 +151,14 @@ namespace Tools.Response
                 {
                     string Name = resp.SelectSingleNode("Name").Text;
 
-                    bool c = bool.Parse(resp.SelectSingleNode("DocType").SelectSingleNode("Complaint").Text);
-                    bool a = bool.Parse(resp.SelectSingleNode("DocType").SelectSingleNode("Admission").Text);
-                    bool p = bool.Parse(resp.SelectSingleNode("DocType").SelectSingleNode("Production").Text);
-                    bool i = bool.Parse(resp.SelectSingleNode("DocType").SelectSingleNode("Interrogatory").Text);
-
-                    List<bool> docTypes = new List<bool>
-                        {
-                            c, a, p, i
-                        };
-
+                    List<DocType> docTypes = new List<DocType>();
+                    var nodes = resp.SelectSingleNode("DocType").ChildNodes;
+                    for (int i = 1; i <= nodes.Count; i++)
+                    {
+                        DocType d = DocType.Admission;
+                        Enum.TryParse(nodes[i].BaseName, out d);
+                        docTypes.Add(d);
+                    }
                     string DisplayText = resp.SelectSingleNode("DisplayText").Text;
 
                     response = new Response(id, Name, docTypes, DisplayText);
@@ -147,36 +166,9 @@ namespace Tools.Response
             }
             return response;
         }
-
-        public string GetDocProps(Application _app, DocPropsNode node)
+        public ObservableCollection<Response> GetResponses()
         {
-            int i = (int)node+1;
-
-            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
-            CustomXMLNode ResponsesNode = customXmlDoc.DocumentElement;
-
-            CustomXMLNode PropsNode = ResponsesNode.ChildNodes[1];
-            return PropsNode.ChildNodes[i].Text;
-
-        }
-
-        public void UpdateDocProps(Application _app, string responding, string respondingPlural, string propounding, string docType)
-        {
-            var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
-            CustomXMLNode ResponsesNode = customXmlDoc.DocumentElement;
-            CustomXMLNode PropsNode = ResponsesNode.ChildNodes[1];
-
-            PropsNode.ChildNodes[1].Text = responding;
-            PropsNode.ChildNodes[2].Text = respondingPlural;
-            PropsNode.ChildNodes[3].Text = propounding;
-            PropsNode.ChildNodes[4].Text = docType;
-
-        }
-
-        
-        public IEnumerable<Response> GetResponses()
-        {
-            List<Response> responses = new List<Response>();
+            ObservableCollection<Response> responses = new ObservableCollection<Response>();
 
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNodes ResponseNodes = customXmlDoc.SelectNodes("//Response");
@@ -185,25 +177,39 @@ namespace Tools.Response
             {
                 string ID = element.SelectSingleNode("ID").Text;
                 Response response = GetResponse(ID);
-               
+
                 responses.Add(response);
             }
 
-            return responses.AsEnumerable();
+            return responses;
         }
-        
-        public void UpdateResponse(string id, string Name, string DisplayText)
+
+        public void UpdateResponse(Response response)
         {
             var customXmlDoc = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(NameSpace)[1];
             CustomXMLNodes ResponseNodes = customXmlDoc.SelectNodes("//Response");
-            foreach (CustomXMLNode response in ResponseNodes)
+            foreach (CustomXMLNode node in ResponseNodes)
             {
-                if (response.SelectSingleNode("ID").Text == id)
+                if (node.SelectSingleNode("ID").Text == response.ID)
                 {
-                    response.SelectSingleNode("Name").Text = Name;
-                    response.SelectSingleNode("DisplayText").Text = DisplayText;
+                    node.SelectSingleNode("Name").Text = response.Name;
+                    node.SelectSingleNode("DisplayText").Text = response.DisplayText;
                 }
             }
         }
+
+        public void ExportResponses(string path)
+        {
+            string xml = _app.ActiveDocument.CustomXMLParts.SelectByNamespace(ResponseRepository.NameSpace)[1].XML;
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            XmlTextWriter writer = new XmlTextWriter(path, null);
+            writer.Formatting = Formatting.Indented;
+            doc.Save(writer);
+
+        }
+
+        #endregion
     }
 }

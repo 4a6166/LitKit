@@ -59,34 +59,34 @@ namespace Tools.Citation
             switch (Type)
             {
                 case CiteFormatPieceType.INTROLONG:
-                    DisplayText = "Exhibit";
+                    _displayText = "Exhibit";
                     break;
                 case CiteFormatPieceType.INTROSHORT:
-                    DisplayText = "Exhibit";
+                    _displayText = "Exhibit";
                     break;
                 case CiteFormatPieceType.INDEX:
-                    DisplayText = "#";
+                    _displayText = "#";
                     break;
                 case CiteFormatPieceType.DESC:
-                    DisplayText = "Description";
+                    _displayText = "Description";
                     break;
                 case CiteFormatPieceType.OTHERID:
-                    DisplayText = "ID Number";
+                    _displayText = "ID Number";
                     break;
                 case CiteFormatPieceType.PIN:
-                    DisplayText = "PINCITE";
+                    _displayText = "PINCITE";
                     break;
                 case CiteFormatPieceType.FREETEXT:
-                    DisplayText = "Edit Me";
+                    _displayText = "Edit Me";
                     break;
                 case CiteFormatPieceType.LPARENS:
-                    DisplayText = "(";
+                    _displayText = "(";
                     break;
                 case CiteFormatPieceType.RPARENS:
-                    DisplayText = ")";
+                    _displayText = ")";
                     break;
                 case CiteFormatPieceType.COMMA:
-                    DisplayText = ",";
+                    _displayText = ",";
                     break;
                 default:
                     throw new Exception("Unrecognized CiteFormatPieceType entered.");
