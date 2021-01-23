@@ -854,6 +854,24 @@ namespace LitKit1
 
         }
 
+        private void btnRemoveLineBreaks_Click(object sender, RibbonControlEventArgs e)
+        {
+            _app.UndoRecord.StartCustomRecord("Remove Line Breaks");
+
+            LineBreaks.RemoveBreaks(_app.Selection);
+
+            _app.UndoRecord.EndCustomRecord();
+        }
+
+        private void HyphenToEnDashbtn_Click(object sender, RibbonControlEventArgs e)
+        {
+            _app.UndoRecord.StartCustomRecord("Replace Hyphens with En-Dashes");
+
+            HyphenToEnDash.ReplaceWithEnDash(_app);
+
+            _app.UndoRecord.EndCustomRecord();
+
+        }
     }
 
 

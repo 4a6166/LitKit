@@ -34,7 +34,7 @@ namespace Tools.Simple
 
                     var rng = _app.Selection.Range;
 
-                    _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
+                    _app.Selection.Find.Execute(FindText: @"(?)", ReplaceWith: @"\1", MatchWildcards: true); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
 
                     foreach (Range story in _app.ActiveDocument.StoryRanges)
                     {

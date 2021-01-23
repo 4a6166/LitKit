@@ -49,16 +49,17 @@ namespace Tools.Simple
             try
             {
                 _app.ActiveDocument.Select();
-                _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
+                _app.Selection.Find.Execute(FindText: @"(?)", ReplaceWith: @"\1", MatchWildcards: true); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
 
                 foreach (Range rng in _app.ActiveDocument.StoryRanges)
                 {
                     foreach (string expression in Expressions)
                     {
                         rng.Find.Replacement.Font.Italic = italics;
-                        rng.Find.Text = expression;
-                        rng.Find.Replacement.Text = expression;
+                        rng.Find.Text = "("+expression+")";
+                        rng.Find.Replacement.Text = @"\1";
                         rng.Find.MatchWholeWord = true;
+                        rng.Find.MatchWildcards = true;
 
                         rng.Find.Execute(Replace: WdReplace.wdReplaceAll);
                     }

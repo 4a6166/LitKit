@@ -64,8 +64,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockQuotes.cs" />
+    <Compile Include="HyphenToEnDash.cs" />
     <Compile Include="InsertNBS.cs" />
     <Compile Include="LatinExpressions.cs" />
+    <Compile Include="LineBreaks.cs" />
     <Compile Include="OxfordComma.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Replace.cs" />

@@ -63,7 +63,7 @@ namespace Tools.Simple
                 catch { }
                 _app.ActiveDocument.TrackRevisions = false;
 
-                _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
+                _app.Selection.Find.Execute(FindText: @"(?)", ReplaceWith: @"\1", MatchWildcards: true); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
 
                 int sentenceCount = 0;
                 foreach (Range rng in _app.ActiveDocument.StoryRanges)
@@ -214,7 +214,7 @@ namespace Tools.Simple
                 }catch { }
                 _app.ActiveDocument.TrackRevisions = false;
 
-                _app.Selection.Find.Execute(FindText: " ", ReplaceWith: " "); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
+                _app.Selection.Find.Execute(FindText: @"(?)", ReplaceWith: @"\1", MatchWildcards: true); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
 
                 _app.Application.System.Cursor = WdCursorType.wdCursorWait;
                 var layoutType = _app.ActiveWindow.View.Type;

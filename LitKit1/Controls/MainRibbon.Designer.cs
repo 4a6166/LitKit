@@ -77,6 +77,7 @@
             this.menu4 = this.Factory.CreateRibbonMenu();
             this.btnAddOxfordComma = this.Factory.CreateRibbonButton();
             this.btnRemoveOxfordComma = this.Factory.CreateRibbonButton();
+            this.btnRemoveLineBreaks = this.Factory.CreateRibbonButton();
             this.menu1 = this.Factory.CreateRibbonMenu();
             this.btnPilcrow = this.Factory.CreateRibbonButton();
             this.btnSectionMark = this.Factory.CreateRibbonButton();
@@ -94,6 +95,7 @@
             this.btnHowTo = this.Factory.CreateRibbonButton();
             this.CustomerSupport = this.Factory.CreateRibbonButton();
             this.TestButton1 = this.Factory.CreateRibbonButton();
+            this.HyphenToEnDashbtn = this.Factory.CreateRibbonButton();
             grpShortcuts = this.Factory.CreateRibbonGroup();
             grpShortcuts.SuspendLayout();
             this.MainTab.SuspendLayout();
@@ -173,6 +175,8 @@
             this.grpFormattingTools.Items.Add(this.btnInsertNBS);
             this.grpFormattingTools.Items.Add(this.btnBlockQuotes);
             this.grpFormattingTools.Items.Add(this.menu4);
+            this.grpFormattingTools.Items.Add(this.btnRemoveLineBreaks);
+            this.grpFormattingTools.Items.Add(this.HyphenToEnDashbtn);
             this.grpFormattingTools.Label = "Formatting Tools";
             this.grpFormattingTools.Name = "grpFormattingTools";
             // 
@@ -503,6 +507,16 @@
             this.btnRemoveOxfordComma.ShowImage = true;
             this.btnRemoveOxfordComma.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnRemoveOxfordComma_Click);
             // 
+            // btnRemoveLineBreaks
+            // 
+            this.btnRemoveLineBreaks.Label = "Remove Line Breaks";
+            this.btnRemoveLineBreaks.Name = "btnRemoveLineBreaks";
+            this.btnRemoveLineBreaks.OfficeImageId = "BreakInsertDialog";
+            this.btnRemoveLineBreaks.ScreenTip = "Remove Line Breaks from Selection";
+            this.btnRemoveLineBreaks.ShowImage = true;
+            this.btnRemoveLineBreaks.SuperTip = "Remove Line Breaks ( new line returns) from the current selection.";
+            this.btnRemoveLineBreaks.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnRemoveLineBreaks_Click);
+            // 
             // menu1
             // 
             this.menu1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -684,6 +698,16 @@
             this.TestButton1.Visible = false;
             this.TestButton1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Test_Button_Click);
             // 
+            // HyphenToEnDashbtn
+            // 
+            this.HyphenToEnDashbtn.Label = "Replace with En-Dash";
+            this.HyphenToEnDashbtn.Name = "HyphenToEnDashbtn";
+            this.HyphenToEnDashbtn.OfficeImageId = "HyphenationMenu";
+            this.HyphenToEnDashbtn.ScreenTip = "Replace Hyphens with an En-Dash (–) Between Number Ranges";
+            this.HyphenToEnDashbtn.ShowImage = true;
+            this.HyphenToEnDashbtn.SuperTip = "Replace hyphens in the middle of number ranges with En-Dashes: #-# to #–#";
+            this.HyphenToEnDashbtn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.HyphenToEnDashbtn_Click);
+            // 
             // MainRibbon
             // 
             this.Name = "MainRibbon";
@@ -763,6 +787,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton tglMarkRedaction;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnResposeTool;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnHowTo;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnRemoveLineBreaks;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton HyphenToEnDashbtn;
     }
 
     partial class ThisRibbonCollection
