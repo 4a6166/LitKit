@@ -333,11 +333,15 @@ namespace Tools.RedactionTool
             //UnmarkRedactionsChart();
         }
 
-        public static void UnMarkAll(Document doc, WdColorIndex highlight = WdColorIndex.wdNoHighlight)
+        public static void UnMarkAll(Document doc, WdColorIndex highlight = WdColorIndex.wdNoHighlight, bool ShowWarning = false)
         {
-            var confirm = MessageBox.Show("This action will remove all the marked redactions in the document. Continue with removing all redaction marks?", "Confirm", MessageBoxButtons.OKCancel);
+            DialogResult confirm = DialogResult.Cancel;
+            if (ShowWarning)
+            {
+                confirm = MessageBox.Show("This action will remove all the marked redactions in the document. Continue with removing all redaction marks?", "Confirm", MessageBoxButtons.OKCancel);
+            }
 
-            if (confirm == DialogResult.OK)
+            if (!ShowWarning || confirm == DialogResult.OK)
             {
                 foreach (Range story in doc.StoryRanges)
                 {

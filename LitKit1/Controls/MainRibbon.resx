@@ -120,6 +120,9 @@
   <metadata name="grpShortcuts.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="btnExhibitTool.SuperTip" xml:space="preserve">
+    <value>Opens the LitKit Citations Tool, a place where you can store Exhibits, Legal or Record Citations, and more. Linked citations inserted into the document may  have numbering and formatting updated automatically.</value>
+  </data>
   <data name="menuTranscript.SuperTip" xml:space="preserve">
     <value>Formats and inserts text you have copied from transcripts as either block or in-line quotes. Paste Transcript Text removes line numbering and formats the text to fit in your document with minimal manual adjustments.</value>
   </data>

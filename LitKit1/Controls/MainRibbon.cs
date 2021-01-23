@@ -109,7 +109,7 @@ namespace LitKit1
             {
                 _app.UndoRecord.StartCustomRecord("Redactions Cleared");
 
-                Redactions.UnMarkAll(_app.ActiveDocument);
+                Redactions.UnMarkAll(_app.ActiveDocument, ShowWarning: true);
 
                 _app.UndoRecord.EndCustomRecord();
             }
@@ -827,7 +827,7 @@ namespace LitKit1
 
         private void HowTo_Click(object sender, RibbonControlEventArgs e)
         {
-            string link = @"https://www.prelimine.com/how-to";
+            string link = @"https://www.prelimine.com/user-guide";
             _app.ActiveDocument.FollowHyperlink(Address: link);
         }
 

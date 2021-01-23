@@ -481,54 +481,58 @@ namespace Tools.Citation
             {
                 cc.LockContents = false;
 
-                var CCCiteID = GetCitationIDFromContentControl(cc);
-                Citation citation = repository.Citations.Where(n => n.ID == CCCiteID).FirstOrDefault();
-
-                CitePlacementType placementType = GetLongShorOrId(cc, repository);
-
-                Range LeadingForId = cc.Range;
-
-                int index = 0;
-                if (citation.CiteType == CiteType.Exhibit)
+                try //defensive in case a certain cite does not update as expected
                 {
-                    index = GetExhibitIndex(citation, repository);
-                }
+                    var CCCiteID = GetCitationIDFromContentControl(cc);
+                    Citation citation = repository.Citations.Where(n => n.ID == CCCiteID).FirstOrDefault();
 
-                //XmlDocument PinciteXML = null; //for if setting with xml
-                string PinciteText = "";
-                if (CCHasPincite(cc))
-                {
-                    foreach(ContentControl c in cc.Range.ContentControls)
+                    CitePlacementType placementType = GetLongShorOrId(cc, repository);
+
+                    Range LeadingForId = cc.Range;
+
+                    int index = 0;
+                    if (citation.CiteType == CiteType.Exhibit)
                     {
-                        if (c.Tag== "PIN")
+                        index = GetExhibitIndex(citation, repository);
+                    }
+
+                    //XmlDocument PinciteXML = null; //for if setting with xml
+                    string PinciteText = "";
+                    if (CCHasPincite(cc))
+                    {
+                        foreach (ContentControl c in cc.Range.ContentControls)
                         {
-                            //PinciteXML.LoadXml(c.Range.XML); //for if setting with xml. Throws and error currently
-                            PinciteText = c.Range.Text;
-                        }
-                        else
-                        {
-                            throw new Exception("CC != PIN");
+                            if (c.Tag == "PIN")
+                            {
+                                //PinciteXML.LoadXml(c.Range.XML); //for if setting with xml. Throws and error currently
+                                PinciteText = c.Range.Text;
+                            }
+                            else
+                            {
+                                throw new Exception("CC != PIN");
+                            }
                         }
                     }
+
+                    //Range Text update has to come after you grab the Pincite CC
+                    cc.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
+                    cc.Range.Font.Bold = 0;
+                    cc.Range.Font.Italic = 0;
+                    cc.Range.Font.Underline = 0;
+
+                    CiteFormatting.FormatFont(cc);
+                    CiteFormatting.FormatIntroBold(cc, repository.CiteFormatting, index + repository.CiteFormatting.ExhibitIndexStart);
+
+                    if (placementType == CitePlacementType.Id)
+                    {
+                        CiteFormatting.ItalicizeId(cc);
+                    }
+
+                    //SetPincite(cc, PinciteXML);
+                    SetPincite(cc, PinciteText);
+                    AddHyperlink(cc, citation);
                 }
-
-                //Range Text update has to come after you grab the Pincite CC
-                cc.Range.Text = repository.CiteFormatting.FormatCiteText(citation, placementType, LeadingForId, index);
-                cc.Range.Font.Bold = 0;
-                cc.Range.Font.Italic = 0;
-                cc.Range.Font.Underline = 0;
-
-                CiteFormatting.FormatFont(cc);
-                CiteFormatting.FormatIntroBold(cc, repository.CiteFormatting, index +repository.CiteFormatting.ExhibitIndexStart);
-
-                if (placementType == CitePlacementType.Id)
-                {
-                    CiteFormatting.ItalicizeId(cc);
-                }
-
-                //SetPincite(cc, PinciteXML);
-                SetPincite(cc,PinciteText);
-                AddHyperlink(cc, citation);
+                catch { }
 
                 cc.LockContents = true;
             }
