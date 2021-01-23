@@ -147,7 +147,7 @@ namespace LitKit1
                     frmPopup frm = new frmPopup();
                     frm.Text = "Create Unredacted PDF";
                     frm.ControlBox = false;
-                    ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker();
+                    ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker(false);
 
 
                     frm.Controls.Add(confidentialMarker);
@@ -185,7 +185,7 @@ namespace LitKit1
                     frmPopup frm = new frmPopup();
                     frm.Text = "Create Unredacted PDF";
                     frm.ControlBox = false;
-                    ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker();
+                    ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker(true);
 
 
                     frm.Controls.Add(confidentialMarker);

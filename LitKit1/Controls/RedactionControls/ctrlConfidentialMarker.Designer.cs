@@ -44,6 +44,8 @@
             this.OtherLabel = new System.Windows.Forms.Button();
             this.label_Other = new System.Windows.Forms.Label();
             this.OtherLabel_txt = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.HighlightColorLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // NoLabel
@@ -225,10 +227,49 @@
             this.OtherLabel_txt.TextChanged += new System.EventHandler(this.OtherLabel_txt_TextChanged_1);
             this.OtherLabel_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OtherLabel_txt_KeyDown);
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Yellow",
+            "Dark Yellow",
+            "Bright Green",
+            "Green",
+            "Teal",
+            "Turquoise",
+            "Blue",
+            "Dark Blue",
+            "Violet",
+            "Pink",
+            "Red",
+            "Dark Red",
+            "Gray 25",
+            "Gray 50"});
+            this.comboBox1.Location = new System.Drawing.Point(581, 21);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(140, 21);
+            this.comboBox1.TabIndex = 39;
+            this.comboBox1.Text = "Yellow";
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // HighlightColorLabel
+            // 
+            this.HighlightColorLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.HighlightColorLabel.AutoSize = true;
+            this.HighlightColorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.HighlightColorLabel.Location = new System.Drawing.Point(475, 23);
+            this.HighlightColorLabel.Name = "HighlightColorLabel";
+            this.HighlightColorLabel.Size = new System.Drawing.Size(100, 17);
+            this.HighlightColorLabel.TabIndex = 40;
+            this.HighlightColorLabel.Text = "Highlight Color";
+            this.HighlightColorLabel.UseMnemonic = false;
+            // 
             // ctrlConfidentialMarker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.HighlightColorLabel);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.NoLabel);
             this.Controls.Add(this.ProtectiveOrder);
             this.Controls.Add(this.HealthInfo);
@@ -246,7 +287,7 @@
             this.Controls.Add(this.label_Other);
             this.Controls.Add(this.OtherLabel_txt);
             this.Name = "ctrlConfidentialMarker";
-            this.Size = new System.Drawing.Size(761, 487);
+            this.Size = new System.Drawing.Size(776, 508);
             this.Load += new System.EventHandler(this.ctrlConfidentialMarker_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -271,5 +312,7 @@
         private System.Windows.Forms.Button OtherLabel;
         private System.Windows.Forms.Label label_Other;
         private System.Windows.Forms.TextBox OtherLabel_txt;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label HighlightColorLabel;
     }
 }

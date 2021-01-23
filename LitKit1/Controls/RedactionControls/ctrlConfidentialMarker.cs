@@ -17,11 +17,24 @@ namespace LitKit1.Controls.RedactionControls
         public string Marker { get; private set; }
         public WdColorIndex Highlight = WdColorIndex.wdYellow; //TODO: add form for user to choose highlight color, if necessary
         public bool Aborted { get; private set; }
-        public ctrlConfidentialMarker()
+        public ctrlConfidentialMarker(bool ShowColorDialog)
         {
             InitializeComponent();
-        }
 
+            if (ShowColorDialog)
+            { ShowColorChooser(); }
+            else
+            { HighlightColorLabel.Visible = false; comboBox1.Visible = false; }
+
+        }
+        private void ShowColorChooser()
+        {
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.DisplayMember = "Yellow";
+            HighlightColorLabel.Visible = true;
+            comboBox1.Visible = true;
+
+        }
 
         //public string ConfidentialityLabel;
         private string ConfidentialityLabel_other;
@@ -128,6 +141,56 @@ namespace LitKit1.Controls.RedactionControls
         private void ctrlConfidentialMarker_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox1.SelectedItem)
+            {
+                case "Yellow":
+                    Highlight = WdColorIndex.wdYellow;
+                    break;
+                case "Dark Yellow":
+                    Highlight = WdColorIndex.wdDarkYellow;
+                    break;
+                case "Bright Green":
+                    Highlight = WdColorIndex.wdBrightGreen;
+                    break;
+                case "Green":
+                    Highlight = WdColorIndex.wdGreen;
+                    break;
+                case "Teal":
+                    Highlight = WdColorIndex.wdTeal;
+                    break;
+                case "Turquoise":
+                    Highlight = WdColorIndex.wdTurquoise;
+                    break;
+                case "Blue":
+                    Highlight = WdColorIndex.wdBlue;
+                    break;
+                case "Dark Blue":
+                    Highlight = WdColorIndex.wdDarkBlue;
+                    break;
+                case "Violet":
+                    Highlight = WdColorIndex.wdViolet;
+                    break;
+                case "Pink":
+                    Highlight = WdColorIndex.wdPink;
+                    break;
+                case "Red":
+                    Highlight = WdColorIndex.wdRed;
+                    break;
+                case "Dark Red":
+                    Highlight = WdColorIndex.wdDarkRed;
+                    break;
+                case "Gray 25":
+                    Highlight = WdColorIndex.wdGray25;
+                    break;
+                case "Gray 50":
+                    Highlight = WdColorIndex.wdGray50;
+                    break;
+
+            }
         }
     }
 }
