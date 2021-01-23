@@ -188,18 +188,18 @@
             // 
             // btnNDash
             // 
-            this.btnNDash.Label = "N-Dash (–)";
+            this.btnNDash.Label = "En-Dash (–)";
             this.btnNDash.Name = "btnNDash";
             this.btnNDash.ShowImage = true;
-            this.btnNDash.SuperTip = "Inserts an N-Dash: –";
+            this.btnNDash.SuperTip = "Inserts an En-Dash: –";
             this.btnNDash.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.insertNDash_Click);
             // 
             // btnMDash
             // 
-            this.btnMDash.Label = "M-Dash (—)";
+            this.btnMDash.Label = "Em-Dash (—)";
             this.btnMDash.Name = "btnMDash";
             this.btnMDash.ShowImage = true;
-            this.btnMDash.SuperTip = "Inserts an M-Dash: —";
+            this.btnMDash.SuperTip = "Inserts an Em-Dash: —";
             this.btnMDash.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.insertMDash_Click);
             // 
             // btnShowHide

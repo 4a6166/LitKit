@@ -176,6 +176,7 @@ namespace Tools.Simple
             "million",
             "billion",
             "trillion",
+            "– ",
         };
     }
 

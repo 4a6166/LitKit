@@ -494,7 +494,7 @@ namespace Tools.Citation
                     index = GetExhibitIndex(citation, repository);
                 }
 
-                XmlDocument PinciteXML = null; //for if setting with xml
+                //XmlDocument PinciteXML = null; //for if setting with xml
                 string PinciteText = "";
                 if (CCHasPincite(cc))
                 {
@@ -502,7 +502,7 @@ namespace Tools.Citation
                     {
                         if (c.Tag== "PIN")
                         {
-                            PinciteXML.LoadXml(c.Range.XML); //for if setting with xml
+                            //PinciteXML.LoadXml(c.Range.XML); //for if setting with xml. Throws and error currently
                             PinciteText = c.Range.Text;
                         }
                         else
