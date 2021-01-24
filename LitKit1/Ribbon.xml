@@ -27,7 +27,7 @@
                     label="Create Highlighted PDF" />
           </menu>
           <dialogBoxLauncher>
-            <button id="grpRedactions__btn" />
+            <button id="grpRedactions__btn" visible="false"/>
           </dialogBoxLauncher>
         </group>
         <group id="grpCitationsTool" label="Citations" getImage="grpCitations_Image">
@@ -52,7 +52,7 @@
                   label="Remove Locks" />
           <button id="testExhibits" onAction="AddTestCitations" visible="false" screentip="FOR TESTING PURPOSES" label="Add Test Exhibits" showImage="false" />
           <dialogBoxLauncher>
-            <button id="grpCitationsTool__btn" />
+            <button id="grpCitationsTool__btn" visible="false"/>
           </dialogBoxLauncher>
         </group>
         <group id="grpResponses" label="Responses" getImage="grpResponses_Image">
@@ -60,7 +60,7 @@
                   screentip="Discovery Response Tool" supertip="Opens the LitKit Discovery Response Tool panel, allowing you to save, adjust, and insert repetitive language in Discovery Response documents with a single click."
                   label="Response Tool" size="large" />
           <dialogBoxLauncher>
-            <button id="grpAnsRes__btn" />
+            <button id="grpAnsRes__btn" visible="false"/>
           </dialogBoxLauncher>
         </group>
         <group id="grpFormattingTools" label="Formatting Tools" getImage="grpFormatting_Image">
@@ -113,6 +113,9 @@
           <button id="HyphenToEnDashbtn" imageMso="HyphenationMenu" onAction="HyphenToEnDashbtn_Click"
                   screentip="Replace Hyphens with an En-Dash (–) Between Number Ranges" supertip="Replace hyphens in the middle of number ranges with En-Dashes: #-# to #–#"
                   label="Replace with En-Dash" />
+          <dialogBoxLauncher>
+            <button id="grpFormatting__btn" visible="false"/>
+          </dialogBoxLauncher>
         </group>
         <group id="grpShortcuts" label="Shortcuts" getImage="grpShortcuts_Image">
           <menu id="SymbolsMenu" getImage="grpShortcuts_Image"
@@ -159,7 +162,7 @@
                   screentip="Find and Replace" supertip="Opens the Find and Replace dialog instead of the modern Word navigation pane that opens when [ctrl + f] is pressed."
                   label="Find/Replace" />
           <dialogBoxLauncher>
-            <button id="grpShortcuts__btn" />
+            <button id="grpShortcuts__btn" visible="false"/>
           </dialogBoxLauncher>
         </group>
         <group id="grpSupport" label="Support" getImage="grpSupport_Image">
