@@ -37,7 +37,7 @@
           <menu id="PinciteMenuRibbon" getImage="PinciteMenu_Image" getEnabled="PinciteMenu_Enabled"
                 screentip="Pincite" supertip="Adds or Removes a pincite from a citation that has been entered with the Citation Tool."
                 label="Pincite">
-            <button id="btnPinCite" onAction="btnPinCite_Click" getImage="btnAddPincite_Image"
+            <button id="btnPinCite" onAction="btnPinCite_Click" getImage="btnAddPincite_Image" getEnabled="btnAddPincite_Enabled"
                     screentip="Add Pincite" supertip="Adds a pincite to an existing citation. This pincite stays with the citation, whether or not the format changes."
                     label="Add Pincite" />
             <button id="btnRemovePinCite" onAction="btnRemovePinCite_Click" getImage="btnRemovePincite_Image" getEnabled="btnRemovePinCite_Enabled"
@@ -193,6 +193,7 @@
       getImage="PinciteMenu_Image"
       getVisible="PinciteMenu_Enabled">
         <button id="menuAddPincite" label="Add a Pincite"
+                getEnabled="btnAddPincite_Enabled"
                 getImage="btnAddPincite_Image"
                 onAction="btnPinCite_Click"/>
         <button id="menuRemovePincites" label="Remove Pincites"
@@ -205,6 +206,12 @@
         <button id="AddExhibit" label="Add to to Citation List as Exhibit"
                 getImage="menubtnAddExhibt_Image"
                 onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
         <button id="AddOther" label="Add to to Citation List as Other Citation"
                   getImage="menubtnAddOther_Image"
                   onAction="menubtnAddOther_Click"/>

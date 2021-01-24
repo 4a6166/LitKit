@@ -73,7 +73,6 @@ namespace LitKit1
 
         }
 
-
         #region IRibbonExtensibility Members
 
         public string GetCustomUI(string ribbonID)
@@ -101,7 +100,6 @@ namespace LitKit1
             _app.WindowSelectionChange += new ApplicationEvents4_WindowSelectionChangeEventHandler(Application_WindowSelectionChange); //Event handler for selecting text after clicking a button. To use: add case to Application_WindowSelectionChange, add option to ToggleToolSelected enum, and have toggle set toggleToolSelected to the new enum option 
 
         }
-
 
         #region Custom Ribbon Actions
         public bool checkLicenseIsValid()
@@ -223,7 +221,7 @@ namespace LitKit1
             {
                 return true;
             }
-            else if (sel.ContentControls[0].Title != null && sel.ContentControls[0].Title.StartsWith("Redaction"))
+            else if (sel.ContentControls.Count >0 && sel.ContentControls[1].Tag != null && sel.ContentControls[1].Tag.StartsWith("Redaction"))
             {
                 return true;
             }
@@ -469,15 +467,19 @@ namespace LitKit1
         {
             var sel = _app.Selection;
 
-            if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("CITE"))
-            {
+            if (
+                (sel.ContentControls.Count < 1 
+                && sel.ParentContentControl != null
+                && sel.ParentContentControl.Title != null
+                && (sel.ParentContentControl.Tag.StartsWith("CITE") || sel.ParentContentControl.Tag.StartsWith("PIN")) ) 
+                || 
+                (sel.ContentControls.Count > 0
+                && sel.ContentControls[1].Tag != null
+                && (sel.ContentControls[1].Tag.StartsWith("CITE") || sel.ContentControls[1].Tag.StartsWith("PIN")) )
+               )
                 return true;
-            }
-            else if (sel.ContentControls[0].Title != null && sel.ContentControls[0].Title.StartsWith("CITE"))
-            {
-                return true;
-            }
             else return false;
+
         }
 
         #endregion
@@ -486,6 +488,23 @@ namespace LitKit1
         {
             return Resources.AddPincite_32px_PrelimEdit;
         }
+        public bool btnAddPincite_Enabled(Office.IRibbonControl control)
+        {
+
+            // Does not keep activate if whole cite content control is selected
+            var sel = _app.Selection;
+
+            if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Tag != null && sel.ParentContentControl.Tag.EndsWith("PIN:False"))
+            {
+                return true;
+            }
+            else if (sel.ContentControls.Count > 0 && ((sel.ContentControls[1].Tag != null && sel.ContentControls[1].Tag.EndsWith("PIN:False")) || (sel.ParentContentControl != null && sel.ParentContentControl.Tag.EndsWith("PIN:False"))))
+            {
+                return true;
+            }
+            else return false;
+        }
+
         public bool btnPinCite_Click(Office.IRibbonControl control)
         {
             bool result = false;
@@ -529,11 +548,11 @@ namespace LitKit1
         {
             var sel = _app.Selection;
 
-            if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("PIN"))
+            if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Tag != null && (sel.ParentContentControl.Tag.StartsWith("PIN") || sel.ParentContentControl.Tag.EndsWith("PIN:True")))
             {
                 return true;
             }
-            else if (sel.ContentControls[0].Title != null && sel.ContentControls[0].Title.StartsWith("PIN"))
+            else if (sel.ContentControls.Count > 0 && ((sel.ContentControls[1].Tag != null && ((sel.ContentControls[1].Tag.StartsWith("PIN")) || sel.ContentControls[1].Tag.EndsWith("PIN:True")) || (sel.ParentContentControl != null && sel.ParentContentControl.Tag.EndsWith("PIN:True")))))
             {
                 return true;
             }
@@ -984,7 +1003,6 @@ namespace LitKit1
             return Resources.LegalSymbol_32px;
         }
 
-
         #region Insert Symbols Button Click
 
         public void btnPilcrow_Click(Office.IRibbonControl control)
@@ -1080,7 +1098,6 @@ namespace LitKit1
             }
         }
         #endregion
-
         #region Clipboard
         public void ClipboardButton_Click(Office.IRibbonControl control)
         {
@@ -1092,7 +1109,7 @@ namespace LitKit1
         }
 
         #endregion
-        #region small caps
+        #region Small caps
 
         public void togglebtnSmallCaps_Click(Office.IRibbonControl control, bool pressed)
         {
@@ -1100,7 +1117,11 @@ namespace LitKit1
 
             if (pressed)
             {
-                _app.Selection.Font.SmallCaps = -1;
+                try
+                {
+                    _app.Selection.Font.SmallCaps = -1;
+                }
+                catch { MessageBox.Show("Could not tooggle Small Caps. Please check the selection and try again.");}
             }
             else _app.Selection.Font.SmallCaps = 0;
             _app.UndoRecord.EndCustomRecord();
@@ -1108,14 +1129,18 @@ namespace LitKit1
 
         public bool SmallCaps_Pressed(Office.IRibbonControl control)
         {
-            if (_app.Selection.Font.SmallCaps == 0)
+            try
             {
-                return false;
+                if (_app.Selection.Font.SmallCaps == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
-            else
-            {
-                return true;
-            }
+            catch { return false; }
 
         }
         #endregion
@@ -1172,13 +1197,8 @@ namespace LitKit1
         {
             return Resources.ExhibitTool_32px;
         }
-        #region Add Exhibit
-        public Bitmap menubtnAddExhibt_Image(Office.IRibbonControl control)
-        {
-            return Resources.ExhibitTool_32px;
-        }
 
-        public bool menubtnAddExhibit_Click(Office.IRibbonControl control)
+        private bool AddCite(CiteType citeType)
         {
             bool result = false;
             _app.UndoRecord.StartCustomRecord("Insert Citation");
@@ -1216,7 +1236,7 @@ namespace LitKit1
                     Desc = _app.Selection.Text;
                 }
 
-                Citation cite = new Citation(CiteType: CiteType.Exhibit, LongDescription: Desc, ShortDescription: Desc);
+                Citation cite = new Citation(CiteType: citeType, LongDescription: Desc, ShortDescription: Desc);
                 ViewModel.AddNewCite(cite);
                 ViewModel.InsertCite(cite);
 
@@ -1236,6 +1256,41 @@ namespace LitKit1
 
             return result;
         }
+
+        #region Add Exhibit
+        public Bitmap menubtnAddExhibt_Image(Office.IRibbonControl control)
+        {
+            return Resources.ExhibitTool_32px;
+        }
+
+        public bool menubtnAddExhibit_Click(Office.IRibbonControl control)
+        {
+            return AddCite(CiteType.Exhibit);
+        }
+
+        #endregion
+        #region Add Legal
+        public Bitmap menubtnAddLegal_Image(Office.IRibbonControl control)
+        {
+            return Resources.ExhibitTool_32px;
+        }
+
+        public bool menubtnAddLegal_Click(Office.IRibbonControl control)
+        {
+            return AddCite(CiteType.Legal);
+        }
+        #endregion
+        #region Add Record
+        public Bitmap menubtnAddRecord_Image(Office.IRibbonControl control)
+        {
+            return Resources.ExhibitTool_32px;
+        }
+
+        public bool menubtnAddRecord_Click(Office.IRibbonControl control)
+        {
+            return AddCite(CiteType.Record);
+        }
+
         #endregion
         #region Add Other Cite
         public Bitmap menubtnAddOther_Image(Office.IRibbonControl control)
@@ -1245,62 +1300,7 @@ namespace LitKit1
 
         public bool menubtnAddOther_Click(Office.IRibbonControl control)
         {
-            bool result = false;
-            _app.UndoRecord.StartCustomRecord("Insert Citation");
-
-            Cursor.Current = Cursors.WaitCursor;
-
-            try
-            {
-                Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
-
-                HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
-
-                if (holdingControl.WPFUserControl == null)
-                {
-                    Globals.ThisAddIn.citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
-
-                    ControlsWPF.Citation.CiteMain cm = new ControlsWPF.Citation.CiteMain();
-
-                    holdingControl.AddWPF(cm);
-                }
-
-                ActivePane.Visible = true;
-
-                var ViewModel = Globals.ThisAddIn.citeVMDict[_app.ActiveWindow];
-
-                string Desc;
-                if (_app.Selection.Text.Length > 1)
-                {
-                    Desc = _app.Selection.Text.Replace("\r", "").Trim();
-                }
-                else
-                {
-                    _app.Selection.MoveStartUntil(Cset: " \r\t", WdConstants.wdBackward);
-                    _app.Selection.MoveEndUntil(Cset: " \r\t", WdConstants.wdForward);
-                    Desc = _app.Selection.Text;
-                }
-
-
-                Citation cite = new Citation(CiteType: CiteType.Other, LongDescription: Desc, ShortDescription: Desc);
-                ViewModel.AddNewCite(cite);
-                ViewModel.InsertCite(cite);
-
-                result = true;
-
-
-            }
-            catch
-            {
-                Log.Error("Error loading/showing Active Citation Pane");
-                ErrorHandling.ShowErrorMessage();
-                result = false;
-            }
-
-
-            Cursor.Current = Cursors.Default;
-
-            return result;
+            return AddCite(CiteType.Other);
         }
 
         #endregion
@@ -1353,6 +1353,7 @@ namespace LitKit1
 
 
         #endregion
+
         #endregion
 
         #region Helpers
