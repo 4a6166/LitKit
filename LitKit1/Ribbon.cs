@@ -1180,7 +1180,61 @@ namespace LitKit1
 
         public bool menubtnAddExhibit_Click(Office.IRibbonControl control)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            _app.UndoRecord.StartCustomRecord("Insert Citation");
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            try
+            {
+                Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
+
+                HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
+
+                if (holdingControl.WPFUserControl == null)
+                {
+                    Globals.ThisAddIn.citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
+
+                    ControlsWPF.Citation.CiteMain cm = new ControlsWPF.Citation.CiteMain();
+
+                    holdingControl.AddWPF(cm);
+                }
+
+                ActivePane.Visible = true;
+
+                var ViewModel = Globals.ThisAddIn.citeVMDict[_app.ActiveWindow];
+
+                string Desc;
+                if (_app.Selection.Text.Length > 1)
+                {
+                    Desc = _app.Selection.Text.Replace("\r", "").Trim();
+                }
+                else
+                {
+                    _app.Selection.MoveStartUntil(Cset: " \r\t", WdConstants.wdBackward);
+                    _app.Selection.MoveEndUntil(Cset: " \r\t", WdConstants.wdForward);
+                    Desc = _app.Selection.Text;
+                }
+
+                Citation cite = new Citation(CiteType: CiteType.Exhibit, LongDescription: Desc, ShortDescription: Desc);
+                ViewModel.AddNewCite(cite);
+                ViewModel.InsertCite(cite);
+
+                result = true;
+
+
+            }
+            catch
+            {
+                Log.Error("Error loading/showing Active Citation Pane");
+                ErrorHandling.ShowErrorMessage();
+                result = false;
+            }
+
+
+            Cursor.Current = Cursors.Default;
+
+            return result;
         }
         #endregion
         #region Add Other Cite
@@ -1191,7 +1245,62 @@ namespace LitKit1
 
         public bool menubtnAddOther_Click(Office.IRibbonControl control)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            _app.UndoRecord.StartCustomRecord("Insert Citation");
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            try
+            {
+                Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
+
+                HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
+
+                if (holdingControl.WPFUserControl == null)
+                {
+                    Globals.ThisAddIn.citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
+
+                    ControlsWPF.Citation.CiteMain cm = new ControlsWPF.Citation.CiteMain();
+
+                    holdingControl.AddWPF(cm);
+                }
+
+                ActivePane.Visible = true;
+
+                var ViewModel = Globals.ThisAddIn.citeVMDict[_app.ActiveWindow];
+
+                string Desc;
+                if (_app.Selection.Text.Length > 1)
+                {
+                    Desc = _app.Selection.Text.Replace("\r", "").Trim();
+                }
+                else
+                {
+                    _app.Selection.MoveStartUntil(Cset: " \r\t", WdConstants.wdBackward);
+                    _app.Selection.MoveEndUntil(Cset: " \r\t", WdConstants.wdForward);
+                    Desc = _app.Selection.Text;
+                }
+
+
+                Citation cite = new Citation(CiteType: CiteType.Other, LongDescription: Desc, ShortDescription: Desc);
+                ViewModel.AddNewCite(cite);
+                ViewModel.InsertCite(cite);
+
+                result = true;
+
+
+            }
+            catch
+            {
+                Log.Error("Error loading/showing Active Citation Pane");
+                ErrorHandling.ShowErrorMessage();
+                result = false;
+            }
+
+
+            Cursor.Current = Cursors.Default;
+
+            return result;
         }
 
         #endregion

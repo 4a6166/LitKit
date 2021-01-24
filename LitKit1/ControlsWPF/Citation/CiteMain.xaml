@@ -253,7 +253,7 @@
                         Grid.Column="1" Grid.ColumnSpan="2" 
                         Grid.Row="3"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   >
             <ListView.ItemTemplate>
                 <DataTemplate>
