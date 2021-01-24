@@ -223,7 +223,7 @@ namespace LitKit1
             {
                 return true;
             }
-            else if (sel.ContentControls[1].Title != null && sel.ContentControls[1].Title.StartsWith("Redaction"))
+            else if (sel.ContentControls[0].Title != null && sel.ContentControls[0].Title.StartsWith("Redaction"))
             {
                 return true;
             }
@@ -473,7 +473,7 @@ namespace LitKit1
             {
                 return true;
             }
-            else if (sel.ContentControls[1].Title != null && sel.ContentControls[1].Title.StartsWith("CITE"))
+            else if (sel.ContentControls[0].Title != null && sel.ContentControls[0].Title.StartsWith("CITE"))
             {
                 return true;
             }
@@ -533,7 +533,7 @@ namespace LitKit1
             {
                 return true;
             }
-            else if (sel.ContentControls[1].Title != null && sel.ContentControls[1].Title.StartsWith("PIN"))
+            else if (sel.ContentControls[0].Title != null && sel.ContentControls[0].Title.StartsWith("PIN"))
             {
                 return true;
             }
@@ -1314,31 +1314,37 @@ namespace LitKit1
 
         public bool menuMarkRedaction_Click(Office.IRibbonControl control)
         {
+            bool result = false;
             if (!licenseIsValid)
             {
                 checkLicenseIsValid();
             }
             if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
+                _app.UndoRecord.StartCustomRecord("Mark Redaction");
+
                 try
                 {
                     if (_app.Selection.Text.Length > 1)
                     {
-                        try
-                        {
-                            _app.UndoRecord.StartCustomRecord("Mark Redaction");
-                            Redactions.Mark(_app.Selection);
-                            _app.UndoRecord.EndCustomRecord();
-                        }
-                        catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #207"); }
+                        Redactions.Mark(_app.Selection);
+                        result = true;
                     }
-                    return true;
+                    else
+                    {
+                        _app.Selection.MoveStartUntil(Cset: " \r\t", WdConstants.wdBackward);
+                        _app.Selection.MoveEndUntil(Cset: " \r\t", WdConstants.wdForward);
+                        Redactions.Mark(_app.Selection);
+                        result = true;
+                    }
                 }
-                catch { return false; }
+                catch { result = false; MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #207"); }
+
 
             }
+            _app.UndoRecord.EndCustomRecord();
 
-            return false;
+            return result;
 
         }
 
