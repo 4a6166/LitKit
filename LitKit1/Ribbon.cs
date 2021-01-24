@@ -1,37 +1,56 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using Office = Microsoft.Office.Core;
+using Microsoft.Office.Interop.Word;
+//using Microsoft.Office.Tools.Ribbon;
+using System.Diagnostics;
 using System.Windows.Forms;
 using LitKit1.Controls;
 using LitKit1.Controls.RedactionControls;
-using Microsoft.Office.Core;
-using Microsoft.Office.Interop.Word;
-using Microsoft.Office.Tools.Ribbon;
+using LitKit1.ControlsWPF;
 using Tools.RedactionTool;
 using Tools.Simple;
-using System.IO;
-using System.Text.RegularExpressions;
-using Services.Base;
-using LitKit1.ControlsWPF;
-using LitKit1.ControlsWPF.Citation.ViewModels;
-using System.Collections.Generic;
 using Tools.Citation;
+using Tools.Response;
+using Services.Base;
 using Services.License;
-using System.Security;
+using LitKit1.ControlsWPF.Citation.ViewModels;
 using LitKit1.ControlsWPF.Response.ViewModels;
+
+// TODO:  Follow these steps to enable the Ribbon (XML) item:
+
+// 1: Copy the following code block into the ThisAddin, ThisWorkbook, or ThisDocument class.
+
+//  protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
+//  {
+//      return new Ribbon();
+//  }
+
+// 2. Create callback methods in the "Ribbon Callbacks" region of this class to handle user
+//    actions, such as clicking a button. Note: if you have exported this Ribbon from the Ribbon designer,
+//    move your code from the event handlers to the callback methods and modify the code to work with the
+//    Ribbon extensibility (RibbonX) programming model.
+
+// 3. Assign attributes to the control tags in the Ribbon XML file to identify the appropriate callback methods in your code.  
+
+// For more information, see the Ribbon XML documentation in the Visual Studio Tools for Office Help.
+
 
 namespace LitKit1
 {
-    public partial class MainRibbon
+    [ComVisible(true)]
+    public class Ribbon : Office.IRibbonExtensibility
     {
+        #region properties
+        private Office.IRibbonUI ribbon;
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-
-        public Microsoft.Office.Interop.Word.Application _app; //This is necessary for passing ThisAddIn.Application to the Services project
-        //public CustomXMLParts XMLParts => Globals.ThisAddIn.Application.ActiveDocument.CustomXMLParts;
+        public Microsoft.Office.Interop.Word.Application _app;
 
         private ToggleToolSelected toggleToolSelected;
-
         private enum ToggleToolSelected
         {
             None,
@@ -43,25 +62,44 @@ namespace LitKit1
 
         }
 
+        private bool licenseIsValid = false;
 
-        // Set designer properties of tab: ContorlID Type: Custom, Position: AfterOfficeId TabHome
-        private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
+
+        #endregion
+
+        public Ribbon()
         {
+
+        }
+
+
+        #region IRibbonExtensibility Members
+
+        public string GetCustomUI(string ribbonID)
+        {
+            return GetResourceText("LitKit1.Ribbon.xml");
+        }
+
+        #endregion
+
+        #region Ribbon Callbacks
+        //Create callback methods here. For more information about adding callback methods, visit https://go.microsoft.com/fwlink/?LinkID=271226
+
+        public void Ribbon_Load(Office.IRibbonUI ribbonUI)
+        {
+            this.ribbon = ribbonUI;
+
             log4net.Config.XmlConfigurator.Configure();
 
-            /// may have to export to XML to add an image to the shrunken button groups. More here: https://stackoverflow.com/questions/45805664/how-to-set-icon-for-resized-buttom-group-in-excel-ribbon and https://docs.microsoft.com/en-us/windows/win32/windowsribbon/windowsribbon-templates
             _app = Globals.ThisAddIn.Application;
 
             btnInsertNBS.SuperTip = NBSSuperTip();
 
             toggleToolSelected = ToggleToolSelected.None;
 
-            _app.WindowSelectionChange += new ApplicationEvents4_WindowSelectionChangeEventHandler(Application_WindowSelectionChange); 
-            //Event handler for selecting text after clicking a button. To use: add case to Application_WindowSelectionChange, add option to ToggleToolSelected enum, and have toggle set toggleToolSelected to the new enum option 
+            _app.WindowSelectionChange += new ApplicationEvents4_WindowSelectionChangeEventHandler(Application_WindowSelectionChange); //Event handler for selecting text after clicking a button. To use: add case to Application_WindowSelectionChange, add option to ToggleToolSelected enum, and have toggle set toggleToolSelected to the new enum option 
 
         }
-
-        private bool licenseIsValid = false;
 
         public bool checkLicenseIsValid()
         {
@@ -215,10 +253,10 @@ namespace LitKit1
 
         private void tglMarkRedaction_Click(object sender, RibbonControlEventArgs e)
         {
-            if (!licenseIsValid) 
-            { 
-                tglMarkRedaction.Checked = false; 
-                checkLicenseIsValid(); 
+            if (!licenseIsValid)
+            {
+                tglMarkRedaction.Checked = false;
+                checkLicenseIsValid();
             }
             if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
             {
@@ -231,7 +269,7 @@ namespace LitKit1
                         _app.UndoRecord.EndCustomRecord();
                     }
                     catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #207"); }
-                    finally { tglMarkRedaction.Checked = false;  }
+                    finally { tglMarkRedaction.Checked = false; }
                 }
                 else if (tglMarkRedaction.Checked)
                 {
@@ -245,16 +283,13 @@ namespace LitKit1
             }
         }
 
-
         private void ChangeCursor_MarkRedaction(object sender, EventArgs e)
         {
             string c = @"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\LitKit1\Resources\Redact Cursor.cur";
             Cursor.Current = new Cursor(c);
             //Input.Mouse.SetCursor(new Input.Cursor(c));
-            
+
         }
-
-
 
         #endregion
 
@@ -297,7 +332,7 @@ namespace LitKit1
                     }
 
                 }
-                catch 
+                catch
                 {
                     Log.Error("Error loading/showing Active Citation Pane");
                     ErrorHandling.ShowErrorMessage();
@@ -317,7 +352,7 @@ namespace LitKit1
             {
                 citeVMDict[_app.ActiveWindow].Repository.AddTestCitations();
             }
-            catch { MessageBox.Show("Load the Citation Tool First");}
+            catch { MessageBox.Show("Load the Citation Tool First"); }
 
 
         }
@@ -356,7 +391,7 @@ namespace LitKit1
 
                     _app.UndoRecord.EndCustomRecord();
                 }
-                catch { Log.Error("Could not remove Pincite. CC count:"+_app.Selection.ContentControls.Count + " Parent Tag:" + _app.Selection.ParentContentControl?.Tag); }
+                catch { Log.Error("Could not remove Pincite. CC count:" + _app.Selection.ContentControls.Count + " Parent Tag:" + _app.Selection.ParentContentControl?.Tag); }
             }
         }
 
@@ -392,7 +427,7 @@ namespace LitKit1
                 }
                 else
                 {
-                    DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all citations in the document? The text will remain but will no longer update when adjustments to the Citation Tool are made."+Environment.NewLine + Environment.NewLine+ "Note: If you want to remove references to citations from a certain selection, highlight that selection and click Remove Locks again.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                    DialogResult result = MessageBox.Show("Are you sure you want to remove the references to all citations in the document? The text will remain but will no longer update when adjustments to the Citation Tool are made." + Environment.NewLine + Environment.NewLine + "Note: If you want to remove references to citations from a certain selection, highlight that selection and click Remove Locks again.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                     if (result == DialogResult.Yes)
                     {
                         _app.UndoRecord.StartCustomRecord("Remove Citations");
@@ -456,8 +491,6 @@ namespace LitKit1
                 Cursor.Current = Cursors.Default;
             }
         }
-
-
 
         #endregion
 
@@ -692,49 +725,49 @@ namespace LitKit1
 
         #region Shortcuts
 
-        #region Insert Symbols Button Click
+            #region Insert Symbols Button Click
 
-        private void btnPilcrow_Click(object sender, RibbonControlEventArgs e)
-        {
-            //_app.Selection.TypeText("¶");
-            _app.Selection.InsertSymbol(182);
-        }
+            private void btnPilcrow_Click(object sender, RibbonControlEventArgs e)
+            {
+                //_app.Selection.TypeText("¶");
+                _app.Selection.InsertSymbol(182);
+            }
 
-        private void insertCopyright_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.Application.Selection.InsertSymbol(0169);
-        }
+            private void insertCopyright_Click(object sender, RibbonControlEventArgs e)
+            {
+                Globals.ThisAddIn.Application.Selection.InsertSymbol(0169);
+            }
 
-        private void insertNBS_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.Application.Selection.InsertSymbol(160);
-        }
-        private void btnNBHyphen_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.Application.Selection.TypeText("\u2011");
-        }
+            private void insertNBS_Click(object sender, RibbonControlEventArgs e)
+            {
+                Globals.ThisAddIn.Application.Selection.InsertSymbol(160);
+            }
+            private void btnNBHyphen_Click(object sender, RibbonControlEventArgs e)
+            {
+                Globals.ThisAddIn.Application.Selection.TypeText("\u2011");
+            }
 
-        private void insertTM_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.Application.Selection.InsertSymbol(0153);
-        }
+            private void insertTM_Click(object sender, RibbonControlEventArgs e)
+            {
+                Globals.ThisAddIn.Application.Selection.InsertSymbol(0153);
+            }
 
-        private void insertSectionMark_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.Application.Selection.InsertSymbol(167);
-        }
+            private void insertSectionMark_Click(object sender, RibbonControlEventArgs e)
+            {
+                Globals.ThisAddIn.Application.Selection.InsertSymbol(167);
+            }
 
-        private void insertNDash_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.Application.Selection.InsertSymbol(0150);
-        }
+            private void insertNDash_Click(object sender, RibbonControlEventArgs e)
+            {
+                Globals.ThisAddIn.Application.Selection.InsertSymbol(0150);
+            }
 
-        private void insertMDash_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.Application.Selection.InsertSymbol(0151);
-        }
+            private void insertMDash_Click(object sender, RibbonControlEventArgs e)
+            {
+                Globals.ThisAddIn.Application.Selection.InsertSymbol(0151);
+            }
 
-        #endregion
+            #endregion
         private void ClipboardButton_Click(object sender, RibbonControlEventArgs e)
         {
             if (!licenseIsValid) { checkLicenseIsValid(); }
@@ -797,43 +830,6 @@ namespace LitKit1
         }
         #endregion
 
-        #region Toggle Events
-
-        private void Application_WindowSelectionChange(Selection Sel)
-        {
-            switch (toggleToolSelected)
-            {
-                case (ToggleToolSelected.None):
-                    break;
-
-                case (ToggleToolSelected.Test):
-                    Sel.Range.HighlightColorIndex = WdColorIndex.wdBlue;
-                    break;
-
-                case (ToggleToolSelected.MarkRedaction):
-                    _app.UndoRecord.StartCustomRecord("Mark Redaction");
-                    Redactions.Mark(_app.Selection);
-                    _app.UndoRecord.EndCustomRecord();
-                    tglMarkRedaction.Checked = false;
-                    toggleToolSelected = ToggleToolSelected.None;
-                    break;
-
-                case (ToggleToolSelected.UnMarkRedaction):
-                    break;
-
-                case (ToggleToolSelected.AddCitation):
-                    break;
-
-                case (ToggleToolSelected.AddResponse):
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        #endregion
-
         #region Support
         private void CustomerSupport_Click(object sender, RibbonControlEventArgs e)
         {
@@ -851,7 +847,7 @@ namespace LitKit1
 
         private void Support_DialogLauncherClick(object sender, RibbonControlEventArgs e)
         {
-            
+
             MessageBox.Show(LicenseChecker.ReadLicense(), "Prelimine LitKit User License", MessageBoxButtons.OK);
 
         }
@@ -865,6 +861,7 @@ namespace LitKit1
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
+            MessageBox.Show("Test");
 
             //stopwatch.Stop();
             //MessageBox.Show("Time: " + stopwatch.Elapsed);
@@ -872,7 +869,33 @@ namespace LitKit1
 
         }
 
+
+
+
+        #endregion
+
+        #region Helpers
+
+        private static string GetResourceText(string resourceName)
+        {
+            Assembly asm = Assembly.GetExecutingAssembly();
+            string[] resourceNames = asm.GetManifestResourceNames();
+            for (int i = 0; i < resourceNames.Length; ++i)
+            {
+                if (string.Compare(resourceName, resourceNames[i], StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    using (StreamReader resourceReader = new StreamReader(asm.GetManifestResourceStream(resourceNames[i])))
+                    {
+                        if (resourceReader != null)
+                        {
+                            return resourceReader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        #endregion
     }
-
-
 }

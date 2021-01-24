@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI onLoad="Ribbon_Load" xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+    <ribbon>
+        <tabs>
+            <tab id="MainTab" insertBeforeMso="TabReviewWord" label="LitKit">
+                <group id="grpRedactions" label="Redactions">
+                    <toggleButton id="tglMarkRedaction" onAction="tglMarkRedaction_Click" screentip="Mark Selection for Redaction" supertip="Applies a marking that designates the selected text for redaction. Redactions are applied using the Create PDF button." label="Mark Selection for Redaction" size="large" />
+                    <button id="unmarkRedact" imageMso="DatasheetColumnRename" onAction="unmarkRedact_Click" screentip="Unmark Redactions in Selection" supertip="Removes the redaction marks in the selected text." label="Unmark Selection" />
+                    <button id="btnClearAllRedactions" imageMso="ClearFormats" onAction="btnClearAllRedactions_Click" screentip="Clear Redaction Marks" supertip="Removes all redaction marks from the document." label="Clear All Redactions" />
+                    <menu id="menu2" imageMso="MailMergeMergeToPrinter" supertip="Creates a PDF of the document, either applying the inserted redactions or removing them and allowing the user to apply a header marking the confidentiality of the document" label="Create PDF" itemSize="large">
+                        <button id="redactedPDF" imageMso="FileSaveAsPdfOrXps" onAction="redactedPDF_Click" screentip="Create Redacted PDF" supertip="Creates a PDF of the current document that is redacted where marked with the Redaction Tool." label="Create Redacted PDF" />
+                        <button id="unredactedPDF" imageMso="Grammar" onAction="unredactedPDF_Click" screentip="Create Unredacted PDF" supertip="Creates a PDF of the current document with no redaction marks and an option confidentiality header." label="Create Unredacted PDF" />
+                        <button id="btnHighlightedPDF" onAction="btnHighlightedPDF_Click" screentip="Create Highlighted PDF" supertip="Creates a PDF of the current document that is highlighted where marked with the Redaction Tool and an optional confidentiality header." label="Create Highlighted PDF" />
+                    </menu>
+                    <dialogBoxLauncher>
+                        <button id="grpRedactions__btn" />
+                    </dialogBoxLauncher>
+                </group>
+                <group id="grpCitationsTool" label="Citations">
+                    <button id="btnExhibitTool" imageMso="BaselineSave" onAction="CitationsTool_Click" screentip="LitKit Citations Tool" supertip="Opens the LitKit Citations Tool, a place where you can store Exhibits, Legal or Record Citations, and more. Linked citations inserted into the document may  have numbering and formatting updated automatically." label="Citations Tool" size="large" />
+                    <menu id="menu6" screentip="Pincite" supertip="Adds or Removes a pincite from a citation that has been entered with the Citation Tool." label="Pincite">
+                        <button id="btnPinCite" imageMso="Pushpin" onAction="btnPinCite_Click" screentip="Add Pincite" supertip="Adds a pincite to an existing citation. This pincite stays with the citation, whether or not the format changes." label="Add Pincite" />
+                        <button id="btnRemovePinCite" imageMso="CancelRequest" onAction="btnRemovePinCite_Click" screentip="Remove a Pincite" supertip="Remove a pincite from an existing citation." label="Remove Pincite" />
+                    </menu>
+                    <button id="btnIndexOfExhibits" imageMso="ListSetNumberingValue" onAction="IndexOfExhibits_Click" screentip="Insert Index of Exhibits" supertip="Inserts a table index of exhibits in the document at your current selection. This table will not be updated when Exhibits are moved, edited, or deleted." label="Index of Exhibits" />
+                    <button id="btnRemoveCiteLocks" imageMso="MasterDocumentLockSubdocument" onAction="btnRemoveCiteLocks_Click" screentip="Remove Citation Locks" supertip="Removes the Content Controls containing citations that have been inserted with the Citation Tool. The citation text remains in the document but will not be updated or refreshed." label="Remove Locks" />
+                    <button id="testExhibits" onAction="AddTestCitations" visible="false" screentip="FOR TESTING PURPOSES" label="Add Test Exhibits" showImage="false" />
+                    <dialogBoxLauncher>
+                        <button id="grpCitationsTool__btn" />
+                    </dialogBoxLauncher>
+                </group>
+                <group id="grpAnsRes" label="Responses">
+                    <button id="btnResposeTool" onAction="ResponseTool_Click" screentip="Discovery Response Tool" supertip="Opens the LitKit Discovery Response Tool panel, allowing you to save, adjust, and insert repetitive language in Discovery Response documents with a single click." label="Response Tool" size="large" />
+                    <dialogBoxLauncher>
+                        <button id="grpAnsRes__btn" />
+                    </dialogBoxLauncher>
+                </group>
+                <group id="grpFormattingTools" label="Formatting Tools">
+                    <menu id="menuTranscript" imageMso="MasterDocumentShow" screentip="Paste Text Copied from a Transcript" supertip="Formats and inserts text you have copied from transcripts as either block or in-line quotes. Paste Transcript Text removes line numbering and formats the text to fit in your document with minimal manual adjustments." label="Paste Transcript Text" size="large">
+                        <button id="btnBlockTranscript" imageMso="MailMergeMergeFieldInsert" onAction="btnBlockTranscript_Click" label="Paste Transcript Text as Block Quote" />
+                        <button id="btnInLineTranscript" imageMso="MailMergeGreetingLineInsert" onAction="btnInLineTranscript_Click" label="Paste Transcript Text as In-Text Quote" />
+                    </menu>
+                    <menu id="menu5" screentip="Italicize Latin Words" supertip="Italicizes or un-italicizes Latin words and phrases throughout the document." label="Latin Words">
+                        <button id="btnLatin" onAction="btnLatin_Click" supertip="Italicizes Latin words and phrases commonly used in the legal world" label="Italicize Latin" />
+                        <button id="button1" onAction="UnItalicizeLatin_Click_1" supertip="Removes italics from Latin words and phrases commonly used in the legal world" label="Un-italicize Latin" />
+                    </menu>
+                    <menu id="menu3" screentip="Change Spacing Between Sentences" supertip="Adds or removes a double space between sentences in the document." label="Sentence Spacing">
+                        <button id="btnSingleSpace" onAction="btnSingleSpace_Click" label="Single Space Between Sentences" />
+                        <button id="btnDoubleSpace" onAction="btnDoubleSpace_Click" label="Double Space Between Sentences" />
+                    </menu>
+                    <button id="btnSmrtQuotes" onAction="btnSmrtQuotes_Click" screentip="Replace With Smart Quotes" supertip="Replaces dumb (stright) quotes and apostrophes with smart (curly) versions throughout the document" label="Smart Quotes" />
+                    <button id="btnInsertNBS" onAction="btnInsertNBS_Click" screentip="Insert Non-Breaking Spaces" supertip="Scans the document and inserts non-breaking spaced where preferred but not currently present. Examples include: before numerals, between days and months, and following common titles such as Ms." label="Insert NBS" />
+                    <button id="btnBlockQuotes" onAction="btnBlockQuotes_Click" visible="false" screentip="Block Quotes" label="Block Quotes" showImage="false" />
+                    <menu id="menu4" visible="false" screentip="Oxford Comma" supertip="Adds or removes Oxford (serialized) commas within the document." label="Oxford Comma">
+                        <button id="btnAddOxfordComma" onAction="btnOxfordComma_Click" label="Add Oxford Commas" />
+                        <button id="btnRemoveOxfordComma" onAction="btnRemoveOxfordComma_Click" label="Remove Oxford Commas" />
+                    </menu>
+                    <button id="btnRemoveLineBreaks" imageMso="BreakInsertDialog" onAction="btnRemoveLineBreaks_Click" screentip="Remove Line Breaks from Selection" supertip="Remove Line Breaks ( new line returns) from the current selection." label="Remove Line Breaks" />
+                    <button id="HyphenToEnDashbtn" imageMso="HyphenationMenu" onAction="HyphenToEnDashbtn_Click" screentip="Replace Hyphens with an En-Dash (–) Between Number Ranges" supertip="Replace hyphens in the middle of number ranges with En-Dashes: #-# to #–#" label="Replace with En-Dash" />
+                </group>
+                <group id="grpShortcuts" label="Shortcuts">
+                    <menu id="menu1" imageMso="ParagraphMarks" screentip="Legal Symbols" supertip="Inserts the selected legal symbol at the surrent text selection." label="Legal Symbols" size="large">
+                        <button id="btnPilcrow" onAction="btnPilcrow_Click" screentip="Paragraph Symbol (¶)" supertip="Inserts a Paragraph Symbol (Pilcrow): ¶" label="Paragraph Symbol (¶)" />
+                        <button id="btnSectionMark" onAction="insertSectionMark_Click" screentip="Section Symbol (§)" supertip="Inserts a Section Symbol: §" label="Section Symbol (§)" />
+                        <button id="btnTM" onAction="insertTM_Click" screentip="Trademark Symbol (™)" supertip="Inserts a Trademark Symbol: ™" label="Trademark Symbol (™)" />
+                        <button id="btnCopyright" onAction="insertCopyright_Click" screentip="Copyright Symbol (©)" supertip="Inserts a Copyright Symbol: ©" label="Copyright Symbol (©)" />
+                        <button id="btnNBS" onAction="insertNBS_Click" screentip="Non-Breaking Space (°)" supertip="Inserts a Non-Breaking Space: °" label="Non-Breaking Space (°)" />
+                        <button id="btnNBHyphen" onAction="btnNBHyphen_Click" screentip="Non-Breaking Hyphen (-)" supertip="Inserts a Non-Breaking Hyphen: -" label="Non-Breaking Hyphen (-)" />
+                        <button id="btnNDash" onAction="insertNDash_Click" screentip="En-Dash (–)" supertip="Inserts an En-Dash: –" label="En-Dash (–)" />
+                        <button id="btnMDash" onAction="insertMDash_Click" screentip="Em-Dash (—)" supertip="Inserts an Em-Dash: —" label="Em-Dash (—)" />
+                    </menu>
+                    <toggleButton id="btnShowHide" imageMso="ParagraphMarks" onAction="btnShowHide_Click_1" screentip="Show or Hide Formatting Markings" supertip="Shows formatting marks (non-printed characters) throughout the document. This enables you to better see which formatting is being applied in white spaces." label="Show / Hide ¶" />
+                    <button id="btnKeepWithNext" imageMso="StylesStyleSeparator" onAction="btnKeepWithNext_Click" screentip="Keep With Next" supertip="Applies &quot;keep with next&quot; formatting to the selected paragraph, preventing it from being separated from the next paragraph by page breaks." label="Keep With Next" />
+                    <button id="ClipboardButton" imageMso="ShowClipboard" onAction="ClipboardButton_Click" screentip="View Detailed Clipboard" supertip="Shows the Windows Clipboard pannel, allowing for multiple items to be copied, pasted, and stored." label="View Clipboard" />
+                    <toggleButton id="togglebtnSmallCaps" imageMso="TextSmallCaps" onAction="togglebtnSmallCaps_Click" screentip="Toggle Small Caps" supertip="When activated, text is inputted using small capital letters instead of lowercase." label="Small Caps" />
+                    <button id="btnReplace" imageMso="ReplaceDialog" onAction="btnReplace_Click" screentip="Find and Replace" supertip="Opens the Find and Replace dialog instead of the modern Word navigation pane that opens when [ctrl + f] is pressed." label="Find/Replace" />
+                    <dialogBoxLauncher>
+                        <button id="grpShortcuts__btn" />
+                    </dialogBoxLauncher>
+                </group>
+                <group id="grpSupport" label="Support">
+                    <button id="btnHowTo" imageMso="FunctionsLogicalInsertGallery" onAction="HowTo_Click" screentip="LitKit User Guide" supertip="Opens the online User Guide, which contains Prelimine's &quot;How-To&quot; library, in your browser." label="User Guide" />
+                    <button id="CustomerSupport" imageMso="TechnicalSupport" onAction="CustomerSupport_Click" screentip="Contact Us" supertip="Send an email to support@prelimine.com." label="Contact Us" />
+                    <button id="TestButton1" imageMso="TipWizardHelp" onAction="Test_Button_Click" visible="false" label="TestClass Button" size="large" />
+                    <dialogBoxLauncher>
+                        <button id="grpSupport__btn" />
+                    </dialogBoxLauncher>
+                </group>
+            </tab>
+        </tabs>
+    </ribbon>
+</customUI>

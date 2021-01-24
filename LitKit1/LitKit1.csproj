@@ -343,6 +343,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Ribbon.cs">
+      <XmlRibbon>true</XmlRibbon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
@@ -383,6 +386,7 @@
     <None Include="Resources\Group.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Ribbon.xml" />
     <Resource Include="Resources\clear-thumb.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
