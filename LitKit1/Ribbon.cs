@@ -222,17 +222,18 @@ namespace LitKit1
         }
         public bool UnMarkRedaction_Enabled(Office.IRibbonControl control)
         {
-            var sel = _app.Selection;
+            return true;
+            //var sel = _app.Selection;
 
-            if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("Redaction"))
-            {
-                return true;
-            }
-            else if (sel.ContentControls[1].Title != null && sel.ContentControls[1].Title.StartsWith("Redaction"))
-            {
-                return true;
-            }
-            else return false;
+            //if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("Redaction"))
+            //{
+            //    return true;
+            //}
+            //else if (sel.ContentControls[1].Title != null && sel.ContentControls[1].Title.StartsWith("Redaction"))
+            //{
+            //    return true;
+            //}
+            //else return false;
         }
 
         public bool unmarkRedact_Click(Office.IRibbonControl control)
@@ -472,17 +473,18 @@ namespace LitKit1
 
         public bool PinciteMenu_Enabled(Office.IRibbonControl control)
         {
-            var sel = _app.Selection;
+            return true;
+            //var sel = _app.Selection;
 
-            if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("CITE"))
-            {
-                return true;
-            }
-            else if (sel.ContentControls[1].Title != null && sel.ContentControls[1].Title.StartsWith("CITE"))
-            {
-                return true;
-            }
-            else return false;
+            //if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("CITE"))
+            //{
+            //    return true;
+            //}
+            //else if (sel.ContentControls[1].Title != null && sel.ContentControls[1].Title.StartsWith("CITE"))
+            //{
+            //    return true;
+            //}
+            //else return false;
         }
 
         #endregion

@@ -40,7 +40,7 @@
             <button id="btnPinCite" onAction="btnPinCite_Click" getImage="btnAddPincite_Image"
                     screentip="Add Pincite" supertip="Adds a pincite to an existing citation. This pincite stays with the citation, whether or not the format changes."
                     label="Add Pincite" />
-            <button id="btnRemovePinCite" onAction="btnRemovePinCite_Click" getImage="btnRemovePincite_Image" getEnabled="btnRemovePinciteEnabled"
+            <button id="btnRemovePinCite" onAction="btnRemovePinCite_Click" getImage="btnRemovePincite_Image" getEnabled="btnRemovePinCite_Enabled"
                     screentip="Remove a Pincite" supertip="Remove a pincite from an existing citation."
                     label="Remove Pincite" />
           </menu>
@@ -180,17 +180,18 @@
   </ribbon>
   <contextMenus>
     <contextMenu idMso="ContextMenuText">
-      <menu id="AddCite" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
-        <button id="AddExhibit" label="Add to to Citation List as Exhibit"
-                getImage="menubtnAddExhibt_Image"
-                onAction="menubtnAddExhibit_Click"/>
-        <button id="AddOther" label="Add to to Citation List as Other Citation"
-                  getImage="menubtnAddOther_Image"
-                  onAction="menubtnAddOther_Click"/>
-      </menu>
+      
+      <button id="menuMarkRedaction" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
       <menu id="menuPincite" label="Pincite" insertAfterMso="ParagraphDialog"
-            getImage="PinciteMenu_Image"
-            getVisible="PinciteMenu_Visible">
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">
         <button id="menuAddPincite" label="Add a Pincite"
                 getImage="btnAddPincite_Image"
                 onAction="btnPinCite_Click"/>
@@ -199,17 +200,20 @@
                 getImage="btnRemovePinCite_Image"
                 onAction="btnRemovePinCite_Click"/>
       </menu>
+
+      <menu id="AddCite" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddOther" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+            <menuSeparator id="sep1" insertAfterMso="ParagraphDialog"/>
+
       <button id="RemoveLineBreaks" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
               imageMso="BreakInsertDialog"
               onAction="btnRemoveLineBreaks_Click"/>
-      <menuSeparator id="sep1" insertAfterMso="ParagraphDialog"/>
-      <button id="menuMarkRedaction" label="Mark for Redaction" insertBeforeMso="Cut"
-              getImage="MarkRedaction_Image"
-              onAction="menuMarkRedaction_Click"/>
-      <button id="menuUnMarkRedaction" label="Remove Redaction Marks" insertBeforeMso="Cut"
-              getEnabled="menuUnMarkRedaction_Enabled"
-              getImage="UnMarkRedaction_Image"
-              onAction="unmarkRedact_Click"/>
     </contextMenu>
   </contextMenus>
 </customUI>
