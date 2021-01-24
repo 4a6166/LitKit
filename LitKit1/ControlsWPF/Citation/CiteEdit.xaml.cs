@@ -47,7 +47,7 @@ namespace LitKit1.ControlsWPF.Citation
 
         public CiteEdit()
         {
-            ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
+            ViewModel = Globals.ThisAddIn.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
             ExhibitIntroLong = ViewModel.Repository.CiteFormatting.ExhibitIntroLong;
             ExhibitIntroShort = ViewModel.Repository.CiteFormatting.ExhibitIntroLong;
 

@@ -24,7 +24,7 @@ namespace LitKit1.ControlsWPF.Response
         ResponseMainVM ViewModel;
         public ResponseBlock()
         {
-            ViewModel = Globals.Ribbons.Ribbon1.responseVMDict[Globals.ThisAddIn.Application.ActiveWindow];
+            ViewModel = Globals.ThisAddIn.responseVMDict[Globals.ThisAddIn.Application.ActiveWindow];
             InitializeComponent();
         }
 

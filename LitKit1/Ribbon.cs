@@ -66,11 +66,6 @@ namespace LitKit1
 
         public bool licenseIsValid = false;
 
-        public Dictionary<Window, CiteMainVM> citeVMDict = new Dictionary<Window, CiteMainVM>();
-        public Dictionary<Window, ResponseMainVM> responseVMDict = new Dictionary<Window, ResponseMainVM>();
-
-
-
         #endregion
 
         public Ribbon()
@@ -222,18 +217,17 @@ namespace LitKit1
         }
         public bool UnMarkRedaction_Enabled(Office.IRibbonControl control)
         {
-            return true;
-            //var sel = _app.Selection;
+            var sel = _app.Selection;
 
-            //if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("Redaction"))
-            //{
-            //    return true;
-            //}
-            //else if (sel.ContentControls[1].Title != null && sel.ContentControls[1].Title.StartsWith("Redaction"))
-            //{
-            //    return true;
-            //}
-            //else return false;
+            if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("Redaction"))
+            {
+                return true;
+            }
+            else if (sel.ContentControls[1].Title != null && sel.ContentControls[1].Title.StartsWith("Redaction"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         public bool unmarkRedact_Click(Office.IRibbonControl control)
@@ -402,7 +396,7 @@ namespace LitKit1
         {
             try
             {
-                citeVMDict[_app.ActiveWindow].Repository.AddTestCitations();
+                Globals.ThisAddIn.citeVMDict[_app.ActiveWindow].Repository.AddTestCitations();
             }
             catch { MessageBox.Show("Load the Citation Tool First"); }
         }
@@ -431,7 +425,7 @@ namespace LitKit1
 
                     if (holdingControl.WPFUserControl == null)
                     {
-                        citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
+                        Globals.ThisAddIn.citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
 
                         ControlsWPF.Citation.CiteMain cm = new ControlsWPF.Citation.CiteMain();
 
@@ -473,18 +467,17 @@ namespace LitKit1
 
         public bool PinciteMenu_Enabled(Office.IRibbonControl control)
         {
-            return true;
-            //var sel = _app.Selection;
+            var sel = _app.Selection;
 
-            //if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("CITE"))
-            //{
-            //    return true;
-            //}
-            //else if (sel.ContentControls[1].Title != null && sel.ContentControls[1].Title.StartsWith("CITE"))
-            //{
-            //    return true;
-            //}
-            //else return false;
+            if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("CITE"))
+            {
+                return true;
+            }
+            else if (sel.ContentControls[1].Title != null && sel.ContentControls[1].Title.StartsWith("CITE"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         #endregion
@@ -653,7 +646,7 @@ namespace LitKit1
                     if (holdingControl.WPFUserControl == null)
                     {
 
-                        responseVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new ResponseMainVM());
+                        Globals.ThisAddIn.responseVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new ResponseMainVM());
 
                         ControlsWPF.Response.ResponseMain rm = new ControlsWPF.Response.ResponseMain();
 

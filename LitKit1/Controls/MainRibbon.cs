@@ -260,7 +260,7 @@ namespace LitKit1
 
         #region Citations
 
-        public Dictionary<Window, CiteMainVM> citeVMDict = new Dictionary<Window, CiteMainVM>();
+        //public Dictionary<Window, CiteMainVM> citeVMDict = new Dictionary<Window, CiteMainVM>();
         private void CitationsTool_Click(object sender, RibbonControlEventArgs e)
         {
             Stopwatch stopwatch = new Stopwatch();
@@ -280,7 +280,7 @@ namespace LitKit1
 
                     if (holdingControl.WPFUserControl == null)
                     {
-                        citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
+                        //citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
 
                         ControlsWPF.Citation.CiteMain cm = new ControlsWPF.Citation.CiteMain();
 
@@ -315,7 +315,7 @@ namespace LitKit1
         {
             try
             {
-                citeVMDict[_app.ActiveWindow].Repository.AddTestCitations();
+                //citeVMDict[_app.ActiveWindow].Repository.AddTestCitations();
             }
             catch { MessageBox.Show("Load the Citation Tool First");}
 
@@ -411,7 +411,7 @@ namespace LitKit1
         #endregion
 
         #region Responses
-        public Dictionary<Window, ResponseMainVM> responseVMDict = new Dictionary<Window, ResponseMainVM>();
+        //public Dictionary<Window, ResponseMainVM> responseVMDict = new Dictionary<Window, ResponseMainVM>();
 
         private void ResponseTool_Click(object sender, RibbonControlEventArgs e)
         {
@@ -429,7 +429,7 @@ namespace LitKit1
                     if (holdingControl.WPFUserControl == null)
                     {
 
-                        responseVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new ResponseMainVM());
+                        //responseVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new ResponseMainVM());
 
                         ControlsWPF.Response.ResponseMain rm = new ControlsWPF.Response.ResponseMain();
 

@@ -10,6 +10,8 @@ using Word = Microsoft.Office.Interop.Word;
 using Microsoft.Office.Interop.Word;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Core;
+using LitKit1.ControlsWPF.Response.ViewModels;
+using LitKit1.ControlsWPF.Citation.ViewModels;
 
 namespace LitKit1
 {
@@ -20,12 +22,15 @@ namespace LitKit1
         /// Needed to get the correct Citation Pane for each document window. 
         /// </summary>
         public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> CitationPanes = new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
+        public Dictionary<Window, CiteMainVM> citeVMDict = new Dictionary<Window, CiteMainVM>();
 
         public Microsoft.Office.Tools.CustomTaskPane ResponseTaskPane;
         /// <summary>
         /// Needed to get the correct Response Pane for each document window. 
         /// </summary>
         public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> ResponsePanes = new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
+        public Dictionary<Window, ResponseMainVM> responseVMDict = new Dictionary<Window, ResponseMainVM>();
+
 
 
 
