@@ -1045,6 +1045,13 @@ namespace LitKit1
             Globals.ThisAddIn.Application.Selection.InsertSymbol(0151);
         }
 
+        public bool insertSpacedEllipses_Click(Office.IRibbonControl control)
+        {
+            Globals.ThisAddIn.Application.Selection.TypeText(".\u00A0.\u00A0.");
+            return true;
+        }
+
+
         #endregion
         #region Formatting Marks
         public Bitmap btnShowHide_Image(Office.IRibbonControl control)
@@ -1151,6 +1158,48 @@ namespace LitKit1
             replace.SendKey();
         }
         #endregion
+
+        #region Exactly 24
+        public bool btnExactly24_Click(Office.IRibbonControl control)
+        {
+            try
+            {
+                _app.UndoRecord.StartCustomRecord("Exactly 24");
+
+                Shortcuts shortcuts = new Shortcuts(_app);
+                shortcuts.Exactly24(_app.Selection);
+
+                _app.UndoRecord.EndCustomRecord();
+                return true;
+            } 
+            catch { _app.UndoRecord.EndCustomRecord(); return false; }
+            
+        }
+        #endregion
+
+        #region Widow Orphan Control
+
+        public bool toggleWidowControl_Click(Office.IRibbonControl control, bool pressed)
+        {
+            if (pressed)
+            {
+                _app.Selection.ParagraphFormat.WidowControl = -1;
+            }
+            else _app.Selection.ParagraphFormat.WidowControl = 0;
+
+            return true;
+        }
+
+        public bool toggleWidowControl_Pressed(Office.IRibbonControl control)
+        {
+            if (_app.Selection.ParagraphFormat.WidowControl == -1)
+            {
+                return true;
+            }
+            else return false;
+        }
+        #endregion
+
         #endregion
 
         #region Support

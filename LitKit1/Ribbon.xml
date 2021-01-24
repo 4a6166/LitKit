@@ -145,6 +145,9 @@
             <button id="btnMDash" onAction="insertMDash_Click"
                     screentip="Em-Dash (—)" supertip="Inserts an Em-Dash: —"
                     label="Em-Dash (—)" />
+            <button id="spacedEllipsis" onAction="insertSpacedEllipses_Click"
+                    screentip="Spaced Ellipsis (. . .)" supertip="Inserts an ellipsis with non-breaking spaces, as defined by the Chicago Manual of Style"
+                    label="Spaced Ellipsis (. . .)"/>
           </menu>
           <toggleButton id="btnShowHide" onAction="btnShowHide_Click_1" getImage="btnShowHide_Image" getPressed="btnShowHide_Pressed"
                         screentip="Show or Hide Formatting Markings" supertip="Shows formatting marks (non-printed characters) throughout the document. This enables you to better see which formatting is being applied in white spaces."
@@ -158,9 +161,15 @@
           <toggleButton id="togglebtnSmallCaps" imageMso="TextSmallCaps" onAction="togglebtnSmallCaps_Click" getPressed="SmallCaps_Pressed"
                         screentip="Toggle Small Caps" supertip="When activated, text is inputted using small capital letters instead of lowercase."
                         label="Small Caps" />
-          <button id="btnReplace" imageMso="ReplaceDialog" onAction="btnReplace_Click"
+          <!--<button id="btnReplace" imageMso="ReplaceDialog" onAction="btnReplace_Click"
                   screentip="Find and Replace" supertip="Opens the Find and Replace dialog instead of the modern Word navigation pane that opens when [ctrl + f] is pressed."
-                  label="Find/Replace" />
+                  label="Find/Replace" />-->
+          <button id="btnExactly24" imageMso="LineSpacing" onAction="btnExactly24_Click"
+                  screentip="Set Spacing to Exactly 24" supertip="Sets the spacing for the selection to Exactly 24 (as opposed to double-spaced) as required by some courts."
+                  label="Exactly 24"/>
+          <toggleButton id="toggleWidowControl" imageMso="WordCloseParaBelow" onAction="toggleWidowControl_Click" getPressed="toggleWidowControl_Pressed"
+                        screentip="Widow/Orphan Control" supertip="Toggles whether a single line of a paragraph in the selection can be left alone at the top or bottom of a page."
+                        label="Widow/Orphan"/>
           <dialogBoxLauncher>
             <button id="grpShortcuts__btn" visible="false"/>
           </dialogBoxLauncher>
