@@ -283,7 +283,7 @@
     <Compile Include="Controls\RedactionControls\ctrlConfidentialMarker.Designer.cs">
       <DependentUpon>ctrlConfidentialMarker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SearchBar.xaml.cs">
+    <Compile Include="ControlsWPF\SearchBar.xaml.cs">
       <DependentUpon>SearchBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -530,7 +530,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SearchBar.xaml">
+    <Page Include="ControlsWPF\SearchBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

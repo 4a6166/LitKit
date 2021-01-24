@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LitKit1.Controls
+namespace LitKit1.ControlsWPF
 {
     /// <summary>
     /// Interaction logic for SearchBar.xaml
