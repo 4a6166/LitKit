@@ -15,6 +15,7 @@ namespace LitKit1.Controls
 {
     public partial class frmTranscript : Form
     {
+        private float marginNumber = 1;
         public frmTranscript(InLineOrBlock QuoteType)
         {
             InitializeComponent();
@@ -22,11 +23,14 @@ namespace LitKit1.Controls
             if (QuoteType == InLineOrBlock.InLine)
             {
                 this.Text = "Insert transcript text as an In-Line quote.";
+                indentPanel.Visible = false;
             }
             else this.Text = "Insert transcript text as a Block quote.";
 
             this._app = Globals.ThisAddIn.Application;
 
+            marginNumber = Globals.ThisAddIn.InTextMarginInches;
+            numericUpDown1.Value = new decimal(marginNumber);
             this.txtTranscriptText.ContextMenuStrip = contextMenuStrip1;
         }
 
@@ -47,7 +51,7 @@ namespace LitKit1.Controls
             }
             else if (QuoteType == InLineOrBlock.Block)
             {
-                transcript.PasteAsBlockQuote(txtTranscriptText.Text);
+                transcript.PasteAsBlockQuote(txtTranscriptText.Text, marginNumber);
             }
             this.Close();
         }
@@ -64,6 +68,23 @@ namespace LitKit1.Controls
         }
 
         private void frmTranscript_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            marginNumber = (float)numericUpDown1.Value;
+            Globals.ThisAddIn.InTextMarginInches = marginNumber;
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

@@ -41,7 +41,7 @@ namespace Tools.Simple
         /// //Remove all line breaks except if a line starts with “Q.” or “A.” or “Mr.” or “Mrs.” or “Ms.” or “Dr.” or “Court Reporter”, do not remove preceding line break and add a space before that line, Single space, Add  1 inch indent on each side
         /// </summary>
         /// <param name="Quote"></param>
-        public void PasteAsBlockQuote(string Quote)
+        public void PasteAsBlockQuote(string Quote, float indentInches = 1)
         {
             //TODO: when the first char is a quotation mark, it disappears from text to be inserted
 
@@ -57,7 +57,7 @@ namespace Tools.Simple
             rng.Find.Execute(FindText: "\'", ReplaceWith: "\'", Replace: Word.WdReplace.wdReplaceAll);
 
             _app.Selection.Paragraphs.Format.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceSingle;
-            float indentInches = 1;
+            
             _app.Selection.Paragraphs.Format.LeftIndent = _app.InchesToPoints(indentInches);
             _app.Selection.Paragraphs.Format.RightIndent = _app.InchesToPoints(indentInches);
 

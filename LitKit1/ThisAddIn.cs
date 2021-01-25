@@ -31,9 +31,7 @@ namespace LitKit1
         public Dictionary<object, Microsoft.Office.Tools.CustomTaskPane> ResponsePanes = new Dictionary<object, Microsoft.Office.Tools.CustomTaskPane>();
         public Dictionary<Window, ResponseMainVM> responseVMDict = new Dictionary<Window, ResponseMainVM>();
 
-
-
-
+        public float InTextMarginInches = 1;
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
