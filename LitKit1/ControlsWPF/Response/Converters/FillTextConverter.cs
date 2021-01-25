@@ -17,7 +17,7 @@ namespace LitKit1.ControlsWPF.Response.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            ResponseMainVM ViewModel = Globals.Ribbons.Ribbon1.responseVMDict[Globals.ThisAddIn.Application.ActiveWindow];
+            ResponseMainVM ViewModel = Globals.ThisAddIn.responseVMDict[Globals.ThisAddIn.Application.ActiveWindow];
 
             Tools.Response.Response response = (Tools.Response.Response)value;
 

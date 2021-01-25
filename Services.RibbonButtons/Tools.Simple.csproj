@@ -71,7 +71,7 @@
     <Compile Include="OxfordComma.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Replace.cs" />
-    <Compile Include="SmallCaps.cs" />
+    <Compile Include="Shortcuts.cs" />
     <Compile Include="SmartQuotesAndApostrophes.cs" />
     <Compile Include="SpaceBetweenSentences.cs" />
     <Compile Include="Transcript.cs" />
@@ -83,7 +83,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="sn.pfx" />
   </ItemGroup>

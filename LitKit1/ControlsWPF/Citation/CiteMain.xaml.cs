@@ -40,7 +40,7 @@ namespace LitKit1.ControlsWPF.Citation
 
             log.Debug("CiteMain started");
 
-            ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
+            ViewModel = Globals.ThisAddIn.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
 
             this.DataContext = ViewModel;
 

@@ -7,10 +7,10 @@ using Microsoft.Office.Interop.Word;
 
 namespace Tools.Simple
 {
-    public class SmallCaps
+    public class Shortcuts
     {
         // Change selection to Small Caps
-        public SmallCaps(Application _app)
+        public Shortcuts(Application _app)
         {
             this._app = _app;
         }
@@ -33,5 +33,22 @@ namespace Tools.Simple
 
             return true;
         }
+
+        public bool Exactly24(Selection selection)
+        {
+            selection.ParagraphFormat.LineSpacingRule = WdLineSpacing.wdLineSpaceExactly;
+            selection.ParagraphFormat.LineSpacing = 24;
+
+            return true;
+        }
+
+        public bool OrphanControl(Selection selection)
+        {
+            selection.ParagraphFormat.WidowControl = -1;
+
+            return true;
+        }
+
+
     }
 }

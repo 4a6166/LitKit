@@ -29,7 +29,7 @@ namespace LitKit1.ControlsWPF.Response
         #endregion
         public ResponseAdd()
         {
-            ViewModel = Globals.Ribbons.Ribbon1.responseVMDict[Globals.ThisAddIn.Application.ActiveWindow];
+            ViewModel = Globals.ThisAddIn.responseVMDict[Globals.ThisAddIn.Application.ActiveWindow];
 
             InitializeComponent();
 

@@ -131,32 +131,48 @@ namespace Services.License
 
             if (license != null)
             {
-                string result = "";
-                result += "Product: " + license.GetProductDetails().ProductName + Environment.NewLine;
-                result += "Product Code: " + license.GetProductDetails().ProductCode + Environment.NewLine;
-                result += "Company License: " + license.Owner().Company + Environment.NewLine;
-                result += Environment.NewLine;
-                if(license.IsValid())
+                try
                 {
-                    result += "License is valid";
-                }
-                else
-                {
-                    result += "License is not valid.";
-                }
+                    string result = "";
+                    result += "Product: " + license.GetProductDetails().ProductName + Environment.NewLine;
+                    result += "Product Code: " + license.GetProductDetails().ProductCode + Environment.NewLine;
+                    result += "Company License: " + license.Owner().Company + Environment.NewLine;
+                    result += Environment.NewLine;
+                    if (license.IsValid())
+                    {
+                        result += "License is valid";
+                    }
+                    else
+                    {
+                        result += "License is not valid.";
+                    }
 
-                result += Environment.NewLine;
-                DateTime expiration = DateTime.Now.AddDays(license.DaysRemaining());
-                if (license.IsExpired())
-                {
-                    result += "License Expired " + expiration.ToShortDateString();
-                }
-                else
-                {
-                    result += "License Expires on " + expiration.ToShortDateString();
-                }
+                    result += Environment.NewLine;
+                    DateTime expiration = DateTime.Now.AddDays(license.DaysRemaining());
+                    if (license.IsExpired())
+                    {
+                        result += "License Expired " + expiration.ToShortDateString();
+                    }
+                    else
+                    {
+                        result += "License Expires on " + expiration.ToShortDateString();
+                    }
 
-                return result;
+                    return result;
+                }
+                catch
+                {
+                    string result = "";
+                    if (license.IsValid())
+                    {
+                        result += "License is valid";
+                    }
+                    else
+                    {
+                        result += "License is not valid.";
+                    }
+                    return result;
+                }
             }
             else { return "No license was found on your computer. Please contact your system administrator or IT service."; }
         }

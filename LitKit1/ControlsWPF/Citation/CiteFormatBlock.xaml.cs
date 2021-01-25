@@ -27,7 +27,7 @@ namespace LitKit1.ControlsWPF.Citation
 
         public CiteFormatBlock()
         {
-            ViewModel = Globals.Ribbons.Ribbon1.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
+            ViewModel = Globals.ThisAddIn.citeVMDict[Globals.ThisAddIn.Application.ActiveWindow];
             InitializeComponent();
         }
 
