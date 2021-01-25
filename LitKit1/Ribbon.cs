@@ -1249,61 +1249,65 @@ namespace LitKit1
 
         private bool AddCite(CiteType citeType)
         {
-            bool result = false;
-            _app.UndoRecord.StartCustomRecord("Insert Citation");
-
-            Cursor.Current = Cursors.WaitCursor;
-
-            try
+            if (!String.IsNullOrWhiteSpace(_app.Selection.Text))
             {
-                Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
+                bool result = false;
+                _app.UndoRecord.StartCustomRecord("Insert Citation");
 
-                HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
+                Cursor.Current = Cursors.WaitCursor;
 
-                if (holdingControl.WPFUserControl == null)
+                try
                 {
-                    Globals.ThisAddIn.citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
+                    Microsoft.Office.Tools.CustomTaskPane ActivePane = Globals.ThisAddIn.CitationPanes[_app.ActiveWindow];
 
-                    ControlsWPF.Citation.CiteMain cm = new ControlsWPF.Citation.CiteMain();
+                    HoldingControl holdingControl = (HoldingControl)ActivePane.Control;
 
-                    holdingControl.AddWPF(cm);
+                    if (holdingControl.WPFUserControl == null)
+                    {
+                        Globals.ThisAddIn.citeVMDict.Add(Globals.ThisAddIn.Application.ActiveWindow, new CiteMainVM());
+
+                        ControlsWPF.Citation.CiteMain cm = new ControlsWPF.Citation.CiteMain();
+
+                        holdingControl.AddWPF(cm);
+                    }
+
+                    ActivePane.Visible = true;
+
+                    var ViewModel = Globals.ThisAddIn.citeVMDict[_app.ActiveWindow];
+
+                    string Desc;
+                    if (_app.Selection.Text.Length > 1)
+                    {
+                        Desc = _app.Selection.Text.Replace("\r", "").Trim();
+                    }
+                    else
+                    {
+                        _app.Selection.MoveStartUntil(Cset: " \r\t", WdConstants.wdBackward);
+                        _app.Selection.MoveEndUntil(Cset: " \r\t", WdConstants.wdForward);
+                        Desc = _app.Selection.Text;
+                    }
+
+                    Citation cite = new Citation(CiteType: citeType, LongDescription: Desc, ShortDescription: Desc);
+                    ViewModel.AddNewCite(cite);
+                    ViewModel.InsertCite(cite);
+
+                    result = true;
+
+
+                }
+                catch
+                {
+                    Log.Error("Error loading/showing Active Citation Pane");
+                    ErrorHandling.ShowErrorMessage();
+                    result = false;
                 }
 
-                ActivePane.Visible = true;
 
-                var ViewModel = Globals.ThisAddIn.citeVMDict[_app.ActiveWindow];
+                Cursor.Current = Cursors.Default;
 
-                string Desc;
-                if (_app.Selection.Text.Length > 1)
-                {
-                    Desc = _app.Selection.Text.Replace("\r", "").Trim();
-                }
-                else
-                {
-                    _app.Selection.MoveStartUntil(Cset: " \r\t", WdConstants.wdBackward);
-                    _app.Selection.MoveEndUntil(Cset: " \r\t", WdConstants.wdForward);
-                    Desc = _app.Selection.Text;
-                }
-
-                Citation cite = new Citation(CiteType: citeType, LongDescription: Desc, ShortDescription: Desc);
-                ViewModel.AddNewCite(cite);
-                ViewModel.InsertCite(cite);
-
-                result = true;
-
-
+                return result;
             }
-            catch
-            {
-                Log.Error("Error loading/showing Active Citation Pane");
-                ErrorHandling.ShowErrorMessage();
-                result = false;
-            }
-
-
-            Cursor.Current = Cursors.Default;
-
-            return result;
+            else return false;
         }
 
         #region Add Exhibit

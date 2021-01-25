@@ -46,7 +46,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTranscriptText.Location = new System.Drawing.Point(12, 32);
             this.txtTranscriptText.Name = "txtTranscriptText";
-            this.txtTranscriptText.Size = new System.Drawing.Size(405, 240);
+            this.txtTranscriptText.Size = new System.Drawing.Size(405, 315);
             this.txtTranscriptText.TabIndex = 0;
             this.txtTranscriptText.Text = "";
             this.txtTranscriptText.TextChanged += new System.EventHandler(this.txtTranscriptText_TextChanged);
@@ -63,7 +63,7 @@
             // btnInsert
             // 
             this.btnInsert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnInsert.Location = new System.Drawing.Point(304, 278);
+            this.btnInsert.Location = new System.Drawing.Point(304, 353);
             this.btnInsert.Name = "btnInsert";
             this.btnInsert.Size = new System.Drawing.Size(113, 23);
             this.btnInsert.TabIndex = 2;
@@ -74,7 +74,7 @@
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnCancel.Location = new System.Drawing.Point(15, 278);
+            this.btnCancel.Location = new System.Drawing.Point(15, 353);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(113, 23);
             this.btnCancel.TabIndex = 3;
@@ -111,7 +111,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(438, 310);
+            this.ClientSize = new System.Drawing.Size(438, 385);
             this.Controls.Add(this.btnPaste);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnInsert);
