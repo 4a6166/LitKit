@@ -767,7 +767,6 @@ namespace LitKit1
                     _app.UndoRecord.StartCustomRecord("Italicized Latin");
                     LatinExpressions latin = new LatinExpressions();
                     latin.Italicize(_app, -1);
-
                     _app.UndoRecord.EndCustomRecord();
                 }
                 catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #215"); }

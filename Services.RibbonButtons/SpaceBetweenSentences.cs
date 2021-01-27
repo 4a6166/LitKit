@@ -21,19 +21,9 @@ namespace Tools.Simple
 
         public SpaceBetweenSentences()
         {
-            DictionaryLoaded = ExpressionsRepository.ReadRepository(getAbbreviationsFilePath(), abbreviations);
+            DictionaryLoaded = ExpressionsRepository.ReadRepository(Dicts.GetExpressionFilePath(@"SentenceSpacingDict.dic"), abbreviations);
         }
 
-        private string getAbbreviationsFilePath()
-        {
-            return @"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\Services.RibbonButtons\Dictionaries\SentenceSpacingDict.dic";
-
-            /*TODO:
-             * if file is in roaming data/prelimine, get path
-             * else get file from program files / prelimine
-             */
-
-        }
 
         public bool UpdateAbbreviationsFile(string AbbreviationsList)
         {

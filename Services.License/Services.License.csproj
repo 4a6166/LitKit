@@ -73,9 +73,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="license.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Resources\Logo_Wide_650x3741.jpg" />
     <None Include="Resources\Logo_Wide_650x374.jpg" />
     <None Include="Resources\Logo_Wide.jpg" />

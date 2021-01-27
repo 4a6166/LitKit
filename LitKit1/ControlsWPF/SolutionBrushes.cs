@@ -34,6 +34,37 @@ namespace LitKit1.ControlsWPF
         public static Color OtherCiteColor = new Color() { R = 255, G = 186, B = 8, A = 20 };
         public static Color ExtraColor = new Color() { R = 3, G = 43, B = 67, A = 20 };
 
+
+        public static Brush Icon_Orange = (Brush)new BrushConverter().ConvertFromString("#dd6d4f");
+        public static Brush Icon_Blue = (Brush)new BrushConverter().ConvertFromString("#4d82b8");
+        public static Brush Icon_Gray = (Brush)new BrushConverter().ConvertFromString("#808080");
+
+        /*
+         #dbdbd7 
+        #070808
+        #656a7c
+        #373f5e
+        #96969c
+        #9fa9b1
+        #9f9583
+        #b8b1a6
+        #64593f
+        #b2b3ba
+        #fadc95
+
+        white
+        #e9e9e0
+        #eaebe6
+        #efecdf
+        #d1cfc1
+
+        Green
+        #466339
+        #4e6d43
+        #9cac97
+
+
+         */
     }
 
 }

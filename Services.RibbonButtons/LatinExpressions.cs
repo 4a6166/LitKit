@@ -1,8 +1,12 @@
 ﻿using Microsoft.Office.Interop.Word;
 using Services.Base;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Security;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
 
 
@@ -18,19 +22,9 @@ namespace Tools.Simple
 
         public LatinExpressions()
         {
-            DictionaryLoaded = ExpressionsRepository.ReadRepository(getExpressionFilePath(), Expressions);
+            DictionaryLoaded = ExpressionsRepository.ReadRepository(path: Dicts.GetExpressionFilePath(@"LatinDict.dic"), Expressions);
         }
 
-        private string getExpressionFilePath()
-        {
-            return @"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\Services.RibbonButtons\Dictionaries\LatinDict.dic";
-
-            /*TODO:
-             * if file is in roaming data/prelimine, get path
-             * else get file from program files / prelimine
-             */
-
-        }
 
         public bool UpdateExpressionFile(string ExpressionsList)
         {
@@ -55,8 +49,10 @@ namespace Tools.Simple
                 {
                     foreach (string expression in Expressions)
                     {
+                        string expression_firstLetter = "["+expression.Substring(0,1).ToLower() + expression.Substring(0, 1).ToUpper()+"]";
+                        string expression_rest = expression.Substring(1);
                         rng.Find.Replacement.Font.Italic = italics;
-                        rng.Find.Text = "("+expression+")";
+                        rng.Find.Text = "("+expression_firstLetter+expression_rest+")";
                         rng.Find.Replacement.Text = @"\1";
                         rng.Find.MatchWholeWord = true;
                         rng.Find.MatchWildcards = true;
@@ -67,7 +63,10 @@ namespace Tools.Simple
 
                 result = true;
             }
-            catch { };
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
             return result;
