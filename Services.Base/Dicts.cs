@@ -13,8 +13,9 @@ namespace Services.Base
     {
         public static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static string GetExpressionFilePath(string filename)
+        public static string GetExpressionFilePath(string filename, out bool pulledStandardDict)
         {
+            pulledStandardDict = false;
             try
             {
                 var personalDict = GetPersonalDict(filename);
@@ -29,11 +30,16 @@ namespace Services.Base
                     {
                         return personalDict;
                     }
-                    else return standardDictPath;
+                    else
+                    {
+                        pulledStandardDict = true;
+                        return standardDictPath;
+                    }
                 }
             }
             catch (Exception e)
             {
+                pulledStandardDict = true;
                 Log.Error(e.Message);
                 MessageBox.Show("Personal dictionary Could not be loaded. Applying changes using standard dictionary.");
                 return getStandardDict(filename); 
@@ -64,7 +70,7 @@ namespace Services.Base
             }
         }
 
-        private static string getStandardDict(string filename)
+        public static string getStandardDict(string filename)
         {
 
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
@@ -96,5 +102,26 @@ namespace Services.Base
                 return false;
             }            
         }
+
+        public static bool UpdatePersonalDict(string filename, string UpdateText, bool pulledStandardDict)
+        {
+            if (pulledStandardDict)
+            {
+                MessageBox.Show("There was an error collecting the dictionary. Please try again.");
+                Log.Info("Error updating personal dictionary " + filename);
+                return false;
+            }
+            else
+            {
+                string path = GetPersonalDict(filename);
+                StreamWriter sw = new StreamWriter(path, append: false);
+
+                sw.Write(UpdateText);
+                sw.Close();
+                return true;
+
+            }
+        }
+
     }
 }

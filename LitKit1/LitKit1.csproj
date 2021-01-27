@@ -259,6 +259,12 @@
     </Compile>
     <Compile Include="ControlsWPF\Response\ViewModels\ResponseMainVM.cs" />
     <Compile Include="ControlsWPF\SolutionBrushes.cs" />
+    <Compile Include="Controls\frmDicts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\frmDicts.Designer.cs">
+      <DependentUpon>frmDicts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\frmPopup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -295,6 +301,9 @@
     <Compile Include="Controls\frmLoading.Designer.cs">
       <DependentUpon>frmLoading.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\frmDicts.resx">
+      <DependentUpon>frmDicts.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\frmPopup.resx">
       <DependentUpon>frmPopup.cs</DependentUpon>
     </EmbeddedResource>

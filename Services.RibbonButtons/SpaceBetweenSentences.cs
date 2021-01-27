@@ -18,21 +18,20 @@ namespace Tools.Simple
     {
         private List<string> abbreviations = new List<string>();
         private bool DictionaryLoaded = false;
+        private string filename = @"SentenceSpacingDict.dic";
+        private bool _pulledStandardDict;
+        public bool pulledStandardDict { get { return _pulledStandardDict; } }
 
         public SpaceBetweenSentences()
         {
-            DictionaryLoaded = ExpressionsRepository.ReadRepository(Dicts.GetExpressionFilePath(@"SentenceSpacingDict.dic"), abbreviations);
+            DictionaryLoaded = ExpressionsRepository.ReadRepository(Dicts.GetExpressionFilePath(filename, out _pulledStandardDict), abbreviations);
         }
 
 
         public bool UpdateAbbreviationsFile(string AbbreviationsList)
         {
-            return true;
+            return Dicts.UpdatePersonalDict(filename, AbbreviationsList, pulledStandardDict);
 
-            /*TODO:
-             * if roaming data/prelimine doesn't exist, make it
-             * overwrite roaming data/prelimine to ExpressionsList
-             */
         }
 
 

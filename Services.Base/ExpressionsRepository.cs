@@ -11,22 +11,28 @@ namespace Services.Base
     {
         public static bool ReadRepository(string path, List<string> Expressions)
         {
+            StreamReader reader = new StreamReader(path);
+
             try
             {
-                StreamReader reader = new StreamReader(path);
 
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (!line.StartsWith("//") && !String.IsNullOrWhiteSpace(line))
+                    if (!line.StartsWith(@"\\") && !String.IsNullOrWhiteSpace(line))
                     {
                         Expressions.Add(line);
                     }
                 }
 
+                reader.Close();
                 return true;
             }
-            catch { return false; }
+            catch 
+            { 
+                reader.Close();
+                return false; 
+            }
 
         }
 

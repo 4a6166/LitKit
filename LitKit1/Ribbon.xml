@@ -78,9 +78,12 @@
             <button id="btnLatin" onAction="btnLatin_Click"
                     supertip="Italicizes Latin words and phrases commonly used in the legal world"
                     label="Italicize Latin" />
-            <button id="button1" onAction="UnItalicizeLatin_Click_1"
+            <button id="btnUnLatin" onAction="UnItalicizeLatin_Click_1"
                     supertip="Removes italics from Latin words and phrases commonly used in the legal world"
                     label="Un-italicize Latin" />
+            <button id="btnLatinDic" onAction="btnLatinDic_Click" imageMso="SlideMasterTextPlaceholderInsert"
+                    supertip="Add or Remove words to be affected by the italicizing and unitalicizing Latin Words actions"
+                    label="Edit Latin Words List"/>
           </menu>
           <menu id="SentenceSpacing" getImage="SentenceSpacing_Image"
                 screentip="Change Spacing Between Sentences" supertip="Adds or removes a double space between sentences in the document."
@@ -89,6 +92,10 @@
                     label="Single Space Between Sentences" />
             <button id="btnDoubleSpace" onAction="btnDoubleSpace_Click"
                     label="Double Space Between Sentences" />
+            <button id="btnSpacingDic" onAction="btnSpacingDic_Click" imageMso="SlideMasterTextPlaceholderInsert"
+                    supertip="Add or Remove words to be affected by the sentence spacing actions"
+                    label="Edit Sentence Spacing Words List"/>
+
           </menu>
           <button id="btnSmrtQuotes" onAction="btnSmrtQuotes_Click" getImage="btnSmrtQuotes_Image"
                   screentip="Replace With Smart Quotes" supertip="Replaces dumb (stright) quotes and apostrophes with smart (curly) versions throughout the document"

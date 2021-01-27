@@ -795,6 +795,24 @@ namespace LitKit1
 
         #endregion
 
+        #region Latin Dictionary
+        public bool btnLatinDic_Click(Office.IRibbonControl control)
+        {
+            try
+            {
+                frmDicts frmDicts = new frmDicts("Latin");
+                frmDicts.ShowDialog();
+
+                return true;
+            }
+            catch (Exception e)
+            { 
+                Log.Error(e.Message);
+                return false;
+            }
+        }
+        #endregion
+
         public Bitmap SentenceSpacing_Image(Office.IRibbonControl control)
         {
             return Resources.SenteceSpacing_16px;
@@ -819,7 +837,7 @@ namespace LitKit1
         }
         #endregion
 
-        #region Double Spacee
+        #region Double Space
         public void btnDoubleSpace_Click(Office.IRibbonControl control)
         {
             if (!licenseIsValid) { checkLicenseIsValid(); }
@@ -835,6 +853,25 @@ namespace LitKit1
                 catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #218"); }
 
             }
+        }
+        #endregion
+
+        #region Spacing Dictionary
+        public bool btnSpacingDic_Click(Office.IRibbonControl control)
+        {
+            try
+            {
+                frmDicts frmDicts = new frmDicts("Spacing");
+                frmDicts.ShowDialog();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                return false;
+            }
+
         }
         #endregion
 

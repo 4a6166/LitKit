@@ -19,21 +19,19 @@ namespace Tools.Simple
     {
         private List<string> Expressions = new List<string>();
         private bool DictionaryLoaded = false;
+        private bool _pulledStandardDict;
+        public bool pulledStandardDict { get { return _pulledStandardDict; } }
+        private string filename = @"LatinDict.dic";
 
         public LatinExpressions()
         {
-            DictionaryLoaded = ExpressionsRepository.ReadRepository(path: Dicts.GetExpressionFilePath(@"LatinDict.dic"), Expressions);
+            DictionaryLoaded = ExpressionsRepository.ReadRepository(path: Dicts.GetExpressionFilePath(filename, out _pulledStandardDict), Expressions);
         }
 
 
         public bool UpdateExpressionFile(string ExpressionsList)
         {
-            return true;
-
-            /*TODO:
-             * if roaming data/prelimine doesn't exist, make it
-             * overwrite roaming data/prelimine to ExpressionsList
-             */
+            return Dicts.UpdatePersonalDict(filename, ExpressionsList, pulledStandardDict);
         }
 
         public bool Italicize(Word.Application _app, int italics)
