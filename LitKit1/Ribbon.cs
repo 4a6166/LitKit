@@ -351,7 +351,7 @@ namespace LitKit1
                 {
                     ///////// Services.RedactionTool.Redactions lead-in
                     frmPopup frm = new frmPopup();
-                    frm.Text = "Create Unredacted PDF";
+                    frm.Text = "Create Highlighted PDF";
                     frm.ControlBox = false;
                     ctrlConfidentialMarker confidentialMarker = new ctrlConfidentialMarker(true);
 

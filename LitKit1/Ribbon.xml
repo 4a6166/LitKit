@@ -20,11 +20,12 @@
                     screentip="Create Redacted PDF" supertip="Creates a PDF of the current document that is redacted where marked with the Redaction Tool."
                     label="Create Redacted PDF" />
             <button id="unredactedPDF" onAction="unredactedPDF_Click" getImage="UnredactedPDF_Image"
-                    screentip="Create Unredacted PDF" supertip="Creates a PDF of the current document with no redaction marks and an option confidentiality header."
+                    screentip="Create Unredacted PDF" supertip="Creates a PDF of the current document with no redaction marks and an optional confidentiality header."
                     label="Create Unredacted PDF" />
             <button id="btnHighlightedPDF" onAction="btnHighlightedPDF_Click" getImage="HighlightedPDF_Image"
                     screentip="Create Highlighted PDF" supertip="Creates a PDF of the current document that is highlighted where marked with the Redaction Tool and an optional confidentiality header."
                     label="Create Highlighted PDF" />
+            
           </menu>
           <dialogBoxLauncher>
             <button id="grpRedactions__btn" visible="false"/>
@@ -32,7 +33,7 @@
         </group>
         <group id="grpCitationsTool" label="Citations" getImage="grpCitations_Image">
           <button id="btnCitationsTool" getImage="CitationsTool_Image" onAction="CitationsTool_Click"
-                  screentip="LitKit Citations Tool" supertip="Opens the LitKit Citations Tool, a place where you can store Exhibits, Legal or Record Citations, and more. Linked citations inserted into the document may  have numbering and formatting updated automatically."
+                  screentip="LitKit Citations Tool" supertip="Opens the LitKit Citations Tool, where you can add, insert, and keep track of citations, and easily update exhibit numbering."
                   label="Citations Tool" size="large" />
           <menu id="PinciteMenuRibbon" getImage="PinciteMenu_Image" getEnabled="PinciteMenu_Enabled"
                 screentip="Pincite" supertip="Adds or Removes a pincite from a citation that has been entered with the Citation Tool."
@@ -45,10 +46,10 @@
                     label="Remove Pincite" />
           </menu>
           <button id="btnIndexOfExhibits" onAction="IndexOfExhibits_Click" getImage="IndexOfExhibits_Image"
-                  screentip="Insert Index of Exhibits" supertip="Inserts a table index of exhibits in the document at your current selection. This table will not be updated when Exhibits are moved, edited, or deleted."
+                  screentip="Insert Index of Exhibits" supertip="Inserts a table index of exhibits in the document at your current selection. This table will not be updated when citations to exhibits are moved, edited, or deleted."
                   label="Index of Exhibits" />
           <button id="btnRemoveCiteLocks" imageMso="MasterDocumentLockSubdocument" onAction="btnRemoveCiteLocks_Click"
-                  screentip="Remove Citation Locks" supertip="Removes the Content Controls containing citations that have been inserted with the Citation Tool. The citation text remains in the document but will not be updated or refreshed."
+                  screentip="Remove Citation Locks" supertip="Removes the Content Controls containing citations that have been inserted with the Citations Tool. The citation text remains in the document but will not be updated or refreshed."
                   label="Remove Locks" />
           <button id="testExhibits" onAction="AddTestCitations" visible="false" screentip="FOR TESTING PURPOSES" label="Add Test Exhibits" showImage="false" />
           <dialogBoxLauncher>

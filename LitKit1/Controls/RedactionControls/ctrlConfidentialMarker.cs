@@ -17,18 +17,20 @@ namespace LitKit1.Controls.RedactionControls
         public string Marker { get; private set; }
         public WdColorIndex Highlight = WdColorIndex.wdYellow; //TODO: add form for user to choose highlight color, if necessary
         public bool Aborted { get; private set; }
-        public ctrlConfidentialMarker(bool ShowColorDialog)
+        public ctrlConfidentialMarker(bool HighlightedDoc)
         {
             InitializeComponent();
 
-            if (ShowColorDialog)
-            { ShowColorChooser(); }
+            if (HighlightedDoc)
+            { SetForHighlighting(); }
             else
             { HighlightColorLabel.Visible = false; comboBox1.Visible = false; }
 
         }
-        private void ShowColorChooser()
+        private void SetForHighlighting()
         {
+            title_textbox.Text = "Create Highlighted PDF";
+            label_Instructions.Text = "LitKit will produce an unredacted PDF with highlights indicating where redactions have been applied in the public version.  Please select the color of the highlights to be applied and any confidentiality notation you would like to appear in the header of your highlighted document.";
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.DisplayMember = "Yellow";
             HighlightColorLabel.Visible = true;

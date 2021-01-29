@@ -413,7 +413,9 @@
     <None Include="Resources\CreateRedactedPDF_32px.png" />
     <None Include="Resources\CreateUnredactedPDF_32px.png" />
     <None Include="Resources\ExhibitTool_32px.png" />
-    <None Include="Resources\AddPincite_16px.png" />
+    <Resource Include="Resources\AddPincite_16px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\IndexOfExhibits_16px.png" />
     <None Include="Resources\CustomizeObjAndResp_32px.png" />
     <None Include="Resources\PasteTranscript_32px.png" />

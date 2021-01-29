@@ -73,7 +73,7 @@ namespace LitKit1
 
             var CitationMain = new ControlsWPF.HoldingControl();
                 /*new ControlsWPF.HoldingControl(new ControlsWPF.Citation.CiteMain());*/
-            CitationTaskPane = this.CustomTaskPanes.Add(CitationMain, "LitKit Citation Tool", window);
+            CitationTaskPane = this.CustomTaskPanes.Add(CitationMain, "LitKit Citations Tool", window);
             CitationMain.Dock = System.Windows.Forms.DockStyle.Fill;
             CitationTaskPane.DockPosition = MsoCTPDockPosition.msoCTPDockPositionRight;
             CitationTaskPane.Width = 350;

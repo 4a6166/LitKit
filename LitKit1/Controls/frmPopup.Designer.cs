@@ -34,8 +34,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(763, 563);
             this.ControlBox = false;
+            this.MaximumSize = new System.Drawing.Size(779, 602);
+            this.MinimumSize = new System.Drawing.Size(779, 602);
             this.Name = "frmPopup";
             this.ShowIcon = false;
             this.Text = "frmPopup";

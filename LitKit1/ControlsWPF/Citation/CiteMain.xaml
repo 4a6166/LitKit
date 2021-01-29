@@ -298,7 +298,7 @@
                         MaxHeight="620" Height="auto">
                         <TextBlock Margin="0,0,0,15"
                                    FontSize="10" FontStyle="Italic" FontWeight="Normal"  TextWrapping="WrapWithOverflow" TextAlignment="Center"
-                               Text="Drag to reorder the blocks and adjust Exhibit formatting"/>
+                               Text="Drag to reorder the blocks and customize exhibit formatting."/>
                         <!--https://github.com/punker76/gong-wpf-dragdrop/wiki/Usage-->
 
                         <!--###################################################################-->
@@ -467,9 +467,8 @@
                                   >
                                 <TextBlock TextWrapping="Wrap">
                                     <TextBlock.Inlines>
-                                        <Run Text="Format the intro and index as"/>
                                         <Run FontWeight="Bold" Text="Bold"/>
-                                        <Run Text="."/>
+                                        <Run Text="the exhibit intro and index."/>
                                     </TextBlock.Inlines>
                                 </TextBlock>
                             </CheckBox>
@@ -559,7 +558,7 @@
             Grid.Row="0" Grid.RowSpan="5"
                        VerticalAlignment="Stretch"
                        HorizontalAlignment="Stretch"
-            Visibility="{Binding CiteAddVisibility}"
+            Visibility="{Binding CiteAddVisibility}" d:IsHidden="True"
             />
 
 

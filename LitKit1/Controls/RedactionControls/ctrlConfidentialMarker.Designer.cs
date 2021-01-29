@@ -46,12 +46,13 @@
             this.OtherLabel_txt = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.HighlightColorLabel = new System.Windows.Forms.Label();
+            this.title_textbox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // NoLabel
             // 
             this.NoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NoLabel.Location = new System.Drawing.Point(385, 251);
+            this.NoLabel.Location = new System.Drawing.Point(385, 346);
             this.NoLabel.Name = "NoLabel";
             this.NoLabel.Size = new System.Drawing.Size(336, 27);
             this.NoLabel.TabIndex = 10;
@@ -62,7 +63,7 @@
             // ProtectiveOrder
             // 
             this.ProtectiveOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.ProtectiveOrder.Location = new System.Drawing.Point(385, 218);
+            this.ProtectiveOrder.Location = new System.Drawing.Point(385, 313);
             this.ProtectiveOrder.Name = "ProtectiveOrder";
             this.ProtectiveOrder.Size = new System.Drawing.Size(336, 27);
             this.ProtectiveOrder.TabIndex = 9;
@@ -73,7 +74,7 @@
             // HealthInfo
             // 
             this.HealthInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.HealthInfo.Location = new System.Drawing.Point(385, 185);
+            this.HealthInfo.Location = new System.Drawing.Point(385, 280);
             this.HealthInfo.Name = "HealthInfo";
             this.HealthInfo.Size = new System.Drawing.Size(336, 27);
             this.HealthInfo.TabIndex = 8;
@@ -84,7 +85,7 @@
             // PersonalInfo
             // 
             this.PersonalInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.PersonalInfo.Location = new System.Drawing.Point(385, 152);
+            this.PersonalInfo.Location = new System.Drawing.Point(385, 247);
             this.PersonalInfo.Name = "PersonalInfo";
             this.PersonalInfo.Size = new System.Drawing.Size(336, 27);
             this.PersonalInfo.TabIndex = 7;
@@ -95,7 +96,7 @@
             // ProtectedInformation
             // 
             this.ProtectedInformation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.ProtectedInformation.Location = new System.Drawing.Point(43, 251);
+            this.ProtectedInformation.Location = new System.Drawing.Point(43, 346);
             this.ProtectedInformation.Name = "ProtectedInformation";
             this.ProtectedInformation.Size = new System.Drawing.Size(336, 27);
             this.ProtectedInformation.TabIndex = 5;
@@ -106,7 +107,7 @@
             // InCamera
             // 
             this.InCamera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.InCamera.Location = new System.Drawing.Point(385, 119);
+            this.InCamera.Location = new System.Drawing.Point(385, 214);
             this.InCamera.Name = "InCamera";
             this.InCamera.Size = new System.Drawing.Size(336, 27);
             this.InCamera.TabIndex = 6;
@@ -117,7 +118,7 @@
             // FiledUnderSeal
             // 
             this.FiledUnderSeal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.FiledUnderSeal.Location = new System.Drawing.Point(43, 218);
+            this.FiledUnderSeal.Location = new System.Drawing.Point(43, 313);
             this.FiledUnderSeal.Name = "FiledUnderSeal";
             this.FiledUnderSeal.Size = new System.Drawing.Size(336, 27);
             this.FiledUnderSeal.TabIndex = 4;
@@ -128,7 +129,7 @@
             // AttorneysEyes
             // 
             this.AttorneysEyes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.AttorneysEyes.Location = new System.Drawing.Point(43, 185);
+            this.AttorneysEyes.Location = new System.Drawing.Point(43, 280);
             this.AttorneysEyes.Name = "AttorneysEyes";
             this.AttorneysEyes.Size = new System.Drawing.Size(336, 27);
             this.AttorneysEyes.TabIndex = 3;
@@ -139,7 +140,7 @@
             // HighlyConfidential
             // 
             this.HighlyConfidential.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.HighlyConfidential.Location = new System.Drawing.Point(43, 152);
+            this.HighlyConfidential.Location = new System.Drawing.Point(43, 247);
             this.HighlyConfidential.Name = "HighlyConfidential";
             this.HighlyConfidential.Size = new System.Drawing.Size(336, 27);
             this.HighlyConfidential.TabIndex = 2;
@@ -150,7 +151,7 @@
             // Confidential
             // 
             this.Confidential.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.Confidential.Location = new System.Drawing.Point(43, 119);
+            this.Confidential.Location = new System.Drawing.Point(43, 214);
             this.Confidential.Name = "Confidential";
             this.Confidential.Size = new System.Drawing.Size(336, 27);
             this.Confidential.TabIndex = 1;
@@ -160,7 +161,7 @@
             // 
             // Cancel
             // 
-            this.Cancel.Location = new System.Drawing.Point(43, 413);
+            this.Cancel.Location = new System.Drawing.Point(43, 508);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(102, 27);
             this.Cancel.TabIndex = 13;
@@ -173,7 +174,7 @@
             this.label_Notation.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.label_Notation.AutoSize = true;
             this.label_Notation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label_Notation.Location = new System.Drawing.Point(40, 97);
+            this.label_Notation.Location = new System.Drawing.Point(40, 192);
             this.label_Notation.Name = "label_Notation";
             this.label_Notation.Size = new System.Drawing.Size(61, 17);
             this.label_Notation.TabIndex = 38;
@@ -184,19 +185,19 @@
             // 
             this.label_Instructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Instructions.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label_Instructions.Location = new System.Drawing.Point(119, 46);
+            this.label_Instructions.Location = new System.Drawing.Point(119, 71);
             this.label_Instructions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_Instructions.Name = "label_Instructions";
-            this.label_Instructions.Size = new System.Drawing.Size(551, 47);
+            this.label_Instructions.Size = new System.Drawing.Size(551, 75);
             this.label_Instructions.TabIndex = 37;
             this.label_Instructions.Text = "LitKit will produce an unredacted PDF of your document. Please select any confide" +
-    "ntiality notations you would like to appear in the header of your unredacted doc" +
-    "ument.";
+    "ntiality notation you would like to appear in the header of your unredacted docu" +
+    "ment.";
             this.label_Instructions.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // OtherLabel
             // 
-            this.OtherLabel.Location = new System.Drawing.Point(600, 340);
+            this.OtherLabel.Location = new System.Drawing.Point(600, 435);
             this.OtherLabel.Name = "OtherLabel";
             this.OtherLabel.Size = new System.Drawing.Size(121, 23);
             this.OtherLabel.TabIndex = 12;
@@ -209,7 +210,7 @@
             this.label_Other.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.label_Other.AutoSize = true;
             this.label_Other.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label_Other.Location = new System.Drawing.Point(40, 319);
+            this.label_Other.Location = new System.Drawing.Point(40, 414);
             this.label_Other.Name = "label_Other";
             this.label_Other.Size = new System.Drawing.Size(112, 17);
             this.label_Other.TabIndex = 35;
@@ -219,7 +220,7 @@
             // OtherLabel_txt
             // 
             this.OtherLabel_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.OtherLabel_txt.Location = new System.Drawing.Point(43, 340);
+            this.OtherLabel_txt.Location = new System.Drawing.Point(43, 435);
             this.OtherLabel_txt.Name = "OtherLabel_txt";
             this.OtherLabel_txt.Size = new System.Drawing.Size(551, 23);
             this.OtherLabel_txt.TabIndex = 11;
@@ -245,7 +246,7 @@
             "Dark Red",
             "Gray 25",
             "Gray 50"});
-            this.comboBox1.Location = new System.Drawing.Point(581, 21);
+            this.comboBox1.Location = new System.Drawing.Point(581, 153);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(140, 21);
             this.comboBox1.TabIndex = 39;
@@ -257,17 +258,33 @@
             this.HighlightColorLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.HighlightColorLabel.AutoSize = true;
             this.HighlightColorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.HighlightColorLabel.Location = new System.Drawing.Point(475, 23);
+            this.HighlightColorLabel.Location = new System.Drawing.Point(475, 155);
             this.HighlightColorLabel.Name = "HighlightColorLabel";
             this.HighlightColorLabel.Size = new System.Drawing.Size(100, 17);
             this.HighlightColorLabel.TabIndex = 40;
             this.HighlightColorLabel.Text = "Highlight Color";
             this.HighlightColorLabel.UseMnemonic = false;
             // 
+            // title_textbox
+            // 
+            this.title_textbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.title_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.title_textbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.title_textbox.Location = new System.Drawing.Point(0, 33);
+            this.title_textbox.Multiline = true;
+            this.title_textbox.Name = "title_textbox";
+            this.title_textbox.ReadOnly = true;
+            this.title_textbox.Size = new System.Drawing.Size(779, 40);
+            this.title_textbox.TabIndex = 42;
+            this.title_textbox.Text = "Create Unredacted PDF";
+            this.title_textbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // ctrlConfidentialMarker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.title_textbox);
             this.Controls.Add(this.HighlightColorLabel);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.NoLabel);
@@ -286,8 +303,10 @@
             this.Controls.Add(this.OtherLabel);
             this.Controls.Add(this.label_Other);
             this.Controls.Add(this.OtherLabel_txt);
+            this.MaximumSize = new System.Drawing.Size(779, 602);
+            this.MinimumSize = new System.Drawing.Size(779, 602);
             this.Name = "ctrlConfidentialMarker";
-            this.Size = new System.Drawing.Size(776, 508);
+            this.Size = new System.Drawing.Size(779, 602);
             this.Load += new System.EventHandler(this.ctrlConfidentialMarker_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -314,5 +333,6 @@
         private System.Windows.Forms.TextBox OtherLabel_txt;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label HighlightColorLabel;
+        private System.Windows.Forms.TextBox title_textbox;
     }
 }
