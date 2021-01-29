@@ -734,23 +734,39 @@ namespace Tools.RedactionTool
             // marks the header with "confidential," updated to add a floating text box to the header rather than replace the header text
             foreach (Section section in doc.Sections)
             {
-                var header = section.Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Shapes.AddTextbox(
-                    Microsoft.Office.Core.MsoTextOrientation.msoTextOrientationHorizontal,
-                    doc.PageSetup.PageWidth - 525,
-                    10,
-                    500,
-                    20);
-                header.TextFrame.TextRange.Text = saveFile.FileMarking.ToUpper();
-
-                header.TextFrame.TextRange.Font.Name = headerfont;
-
-                header.TextFrame.TextRange.Font.Size = 12;
-                header.TextFrame.TextRange.Font.Bold = -1;
-
-                header.Line.Visible = Microsoft.Office.Core.MsoTriState.msoFalse;
-                header.TextFrame.TextRange.HighlightColorIndex = WdColorIndex.wdWhite;
-                header.TextFrame.TextRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+                if (section.Headers[WdHeaderFooterIndex.wdHeaderFooterFirstPage].Exists)
+                {
+                    CreateHeader(saveFile, doc, headerfont, section, WdHeaderFooterIndex.wdHeaderFooterFirstPage);
+                }
+                if (section.Headers[WdHeaderFooterIndex.wdHeaderFooterEvenPages].Exists)
+                {
+                    CreateHeader(saveFile, doc, headerfont, section, WdHeaderFooterIndex.wdHeaderFooterEvenPages);
+                }
+                if (section.Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Exists)
+                {
+                    CreateHeader(saveFile, doc, headerfont, section, WdHeaderFooterIndex.wdHeaderFooterPrimary);
+                }
             }
+        }
+
+        private static void CreateHeader(SaveFile saveFile, Document doc, string headerfont, Section section, WdHeaderFooterIndex headerIndex)
+        {
+            var header = section.Headers[headerIndex].Shapes.AddTextbox(
+                Microsoft.Office.Core.MsoTextOrientation.msoTextOrientationHorizontal,
+                doc.PageSetup.PageWidth - 525,
+                10,
+                500,
+                20);
+            header.TextFrame.TextRange.Text = saveFile.FileMarking.ToUpper();
+
+            header.TextFrame.TextRange.Font.Name = headerfont;
+
+            header.TextFrame.TextRange.Font.Size = 12;
+            header.TextFrame.TextRange.Font.Bold = -1;
+
+            header.Line.Visible = Microsoft.Office.Core.MsoTriState.msoFalse;
+            header.TextFrame.TextRange.HighlightColorIndex = WdColorIndex.wdWhite;
+            header.TextFrame.TextRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
         }
 
         private static bool HasUnsupportedType(Selection selection, out string UnsupportedTypes)

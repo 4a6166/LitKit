@@ -1002,7 +1002,7 @@ namespace LitKit1
         #region Remove Line Breaks
         public Bitmap RemoveLineBreaks_Image(Office.IRibbonControl control)
         {
-            return null;
+            return Resources.RemoveHardReturns_16px;
         }
         public void btnRemoveLineBreaks_Click(Office.IRibbonControl control)
         {
@@ -1017,7 +1017,7 @@ namespace LitKit1
         #region Hyphen to En-Dashes
         public Bitmap HyphenToEnDashbtn_Image(Office.IRibbonControl control)
         {
-            return null;
+            return Resources.ReplaceHyphens_2_16px;
         }
 
         public void HyphenToEnDashbtn_Click(Office.IRibbonControl control)

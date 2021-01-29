@@ -353,6 +353,16 @@ namespace LitKit1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap RemoveHardReturns_16px {
+            get {
+                object obj = ResourceManager.GetObject("RemoveHardReturns_16px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap RemovePincite_16px {
             get {
                 object obj = ResourceManager.GetObject("RemovePincite_16px", resourceCulture);
@@ -366,6 +376,16 @@ namespace LitKit1.Properties {
         public static System.Drawing.Bitmap RemovePincite_32px {
             get {
                 object obj = ResourceManager.GetObject("RemovePincite_32px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap ReplaceHyphens_2_16px {
+            get {
+                object obj = ResourceManager.GetObject("ReplaceHyphens_2_16px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

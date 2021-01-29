@@ -15,7 +15,7 @@
                   label="Clear All Redactions" />
           <menu id="PrintPDF" getImage="PrintPDF_Image"
                 supertip="Creates a PDF of the document, either applying the inserted redactions or removing them and allowing the user to apply a header marking the confidentiality of the document"
-                label="Create PDF" itemSize="large">
+                label="Create PDF">
             <button id="redactedPDF" onAction="redactedPDF_Click" getImage="RedactedPDF_Image"
                     screentip="Create Redacted PDF" supertip="Creates a PDF of the current document that is redacted where marked with the Redaction Tool."
                     label="Create Redacted PDF" />
@@ -114,10 +114,10 @@
             <button id="btnRemoveOxfordComma" onAction="btnRemoveOxfordComma_Click"
                     label="Remove Oxford Commas" />
           </menu>
-          <button id="btnRemoveLineBreaks" imageMso="BreakInsertDialog" onAction="btnRemoveLineBreaks_Click"
+          <button id="btnRemoveLineBreaks" onAction="btnRemoveLineBreaks_Click" getImage="RemoveLineBreaks_Image"
                   screentip="Remove Line Breaks from Selection" supertip="Remove Line Breaks ( new line returns) from the current selection."
                   label="Remove Line Breaks" />
-          <button id="HyphenToEnDashbtn" imageMso="HyphenationMenu" onAction="HyphenToEnDashbtn_Click"
+          <button id="HyphenToEnDashbtn" onAction="HyphenToEnDashbtn_Click" getImage="HyphenToEnDashbtn_Image"
                   screentip="Replace Hyphens with an En-Dash (–) Between Number Ranges" supertip="Replace hyphens in the middle of number ranges with En-Dashes: #-# to #–#"
                   label="Replace with En-Dash" />
           <dialogBoxLauncher>
@@ -238,8 +238,267 @@
             <menuSeparator id="sep1" insertAfterMso="ParagraphDialog"/>
 
       <button id="RemoveLineBreaks" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
-              imageMso="BreakInsertDialog"
+              getImage="RemoveLineBreaks_Image"
               onAction="btnRemoveLineBreaks_Click"/>
     </contextMenu>
+    <contextMenu idMso="ContextMenuList">
+
+      <button id="menuMarkRedaction_list" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_list" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <menu id="menuPincite_list" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">
+        <button id="menuAddPincite_list" label="Add a Pincite"
+                getEnabled="btnAddPincite_Enabled"
+                getImage="btnAddPincite_Image"
+                onAction="btnPinCite_Click"/>
+        <button id="menuRemovePincites_list" label="Remove Pincites"
+                getEnabled="btnRemovePinCite_Enabled"
+                getImage="btnRemovePinCite_Image"
+                onAction="btnRemovePinCite_Click"/>
+      </menu>
+
+      <menu id="AddCite_list" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_list" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_list" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_list" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_list" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_list" insertAfterMso="ParagraphDialog"/>-->
+
+      <!--<button id="RemoveLineBreaks_list" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+    <contextMenu idMso="ContextMenuHyperlink">
+
+      <button id="menuMarkRedaction_hyperlink" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_hyperlink" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <menu id="menuPincite_hyperlink" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">
+        <button id="menuAddPincite_hyperlink" label="Add a Pincite"
+                getEnabled="btnAddPincite_Enabled"
+                getImage="btnAddPincite_Image"
+                onAction="btnPinCite_Click"/>
+        <button id="menuRemovePincites_hyperlink" label="Remove Pincites"
+                getEnabled="btnRemovePinCite_Enabled"
+                getImage="btnRemovePinCite_Image"
+                onAction="btnRemovePinCite_Click"/>
+      </menu>
+
+      <menu id="AddCite_hyperlink" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_hyperlink" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_hyperlink" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_hyperlink" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_hyperlink" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_hyperlink" insertAfterMso="ParagraphDialog"/>
+
+      <button id="RemoveLineBreaks_hyperlink" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+    <contextMenu idMso="ContextMenuHeaderArea">
+
+      <button id="menuMarkRedaction_HeaderArea" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_HeaderArea" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <menu id="menuPincite_HeaderArea" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">
+        <button id="menuAddPincite_HeaderArea" label="Add a Pincite"
+                getEnabled="btnAddPincite_Enabled"
+                getImage="btnAddPincite_Image"
+                onAction="btnPinCite_Click"/>
+        <button id="menuRemovePincites_HeaderArea" label="Remove Pincites"
+                getEnabled="btnRemovePinCite_Enabled"
+                getImage="btnRemovePinCite_Image"
+                onAction="btnRemovePinCite_Click"/>
+      </menu>
+
+      <menu id="AddCite_HeaderArea" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_HeaderArea" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_HeaderArea" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_HeaderArea" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_HeaderArea" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_HeaderArea" insertAfterMso="ParagraphDialog"/>
+
+      <button id="RemoveLineBreaks_HeaderArea" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+    <contextMenu idMso="ContextMenuFooterArea">
+
+      <button id="menuMarkRedaction_FooterArea" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_FooterArea" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <menu id="menuPincite_FooterArea" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">
+        <button id="menuAddPincite_FooterArea" label="Add a Pincite"
+                getEnabled="btnAddPincite_Enabled"
+                getImage="btnAddPincite_Image"
+                onAction="btnPinCite_Click"/>
+        <button id="menuRemovePincites_FooterArea" label="Remove Pincites"
+                getEnabled="btnRemovePinCite_Enabled"
+                getImage="btnRemovePinCite_Image"
+                onAction="btnRemovePinCite_Click"/>
+      </menu>
+
+      <menu id="AddCite_FooterArea" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_FooterArea" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_FooterArea" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_FooterArea" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_FooterArea" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_FooterArea" insertAfterMso="ParagraphDialog"/>
+
+      <button id="RemoveLineBreaks_FooterArea" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+    <contextMenu idMso="ContextMenuFootnote">
+
+      <button id="menuMarkRedaction_FootNote" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_FootNote" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <menu id="menuPincite_FootNote" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">
+        <button id="menuAddPincite_FootNote" label="Add a Pincite"
+                getEnabled="btnAddPincite_Enabled"
+                getImage="btnAddPincite_Image"
+                onAction="btnPinCite_Click"/>
+        <button id="menuRemovePincites_FootNote" label="Remove Pincites"
+                getEnabled="btnRemovePinCite_Enabled"
+                getImage="btnRemovePinCite_Image"
+                onAction="btnRemovePinCite_Click"/>
+      </menu>
+
+      <menu id="AddCite_FootNote" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_FootNote" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_FootNote" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_FootNote" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_FootNote" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_FootNote" insertAfterMso="ParagraphDialog"/>
+
+      <button id="RemoveLineBreaks_FootNote" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+    <contextMenu idMso="ContextMenuEndnote">
+
+      <button id="menuMarkRedaction_EndNote" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_EndNote" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <menu id="menuPincite_EndNote" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">
+        <button id="menuAddPincite_EndNote" label="Add a Pincite"
+                getEnabled="btnAddPincite_Enabled"
+                getImage="btnAddPincite_Image"
+                onAction="btnPinCite_Click"/>
+        <button id="menuRemovePincites_EndNote" label="Remove Pincites"
+                getEnabled="btnRemovePinCite_Enabled"
+                getImage="btnRemovePinCite_Image"
+                onAction="btnRemovePinCite_Click"/>
+      </menu>
+
+      <menu id="AddCite_EndNote" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_EndNote" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_EndNote" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_EndNote" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_EndNote" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_EndNote" insertAfterMso="ParagraphDialog"/>
+
+      <button id="RemoveLineBreaks_EndNote" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+
   </contextMenus>
 </customUI>

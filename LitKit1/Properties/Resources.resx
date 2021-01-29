@@ -229,4 +229,10 @@
   <data name="AddPincite_16px_PrelimineEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddPincite_16px_PrelimineEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="RemoveHardReturns_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RemoveHardReturns_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReplaceHyphens_2_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReplaceHyphens_2_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

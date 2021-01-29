@@ -385,6 +385,8 @@
     <None Include="Resources\Group.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\RemoveHardReturns_16px.png" />
+    <None Include="Resources\ReplaceHyphens_2_16px.png" />
     <EmbeddedResource Include="Ribbon.xml" />
     <Resource Include="Resources\clear-thumb.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
