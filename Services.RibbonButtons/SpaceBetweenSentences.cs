@@ -81,18 +81,18 @@ namespace Tools.Simple
 
         public void DoubleSpace(Range range) //TODO: Still does not correctly add spaces to sentences that contain a content control. Works fine with sentences where the ". " is followed by a CC.
         {
-            string regString = ")(\\!|\\?|\\.)\"*( )(?! |\\.)";
+            string regString = ")(\\!|\\?|\\.)[\"”’]*( )(?! |\\.)";
 
-            string leadingBoundariers = @"[\b\(\[\\{'" + "\\\"]";
+            string leadingBoundariers = @"[\r\n \(\[\\{\'\" + "\""+ "“" + "‘"+"\\\"]"; //TODO: double space after 
 
-            foreach (string s in abbreviations)
+            for(int s = 0; s < /*abbreviations.Count*/2; s++)
             {
                 var sReplaced = "";
-                if (s.Contains("."))
+                if (abbreviations[s].Contains("."))
                 {
-                    sReplaced = s.Replace(".", @"\.");
+                    sReplaced = abbreviations[s].Replace(".", @"\.");
                 }
-                else sReplaced = s;
+                else sReplaced = abbreviations[s];
 
                 if (sReplaced.EndsWith(@"\."))
                 {
