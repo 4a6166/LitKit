@@ -68,10 +68,12 @@ namespace Tools.Simple
                     var layoutType = _app.ActiveWindow.View.Type;
 
                     // Iterates through all the Story Ranges (header, footer, footnotes, end notes, etc. if they are present in the document.
-                    foreach (Range story in _app.ActiveDocument.StoryRanges)
-                    {
-                        DoubleSpace(story);
-                    }
+                    //foreach (Range story in _app.ActiveDocument.StoryRanges)
+                    //{
+                    //    DoubleSpace(story);
+                    //}
+                    DoubleSpace(_app.ActiveDocument.StoryRanges[WdStoryType.wdMainTextStory]); //only range that seems to work with WordOpenXML Insert
+
                     _app.ActiveWindow.View.Type = layoutType;
 
                     _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
@@ -83,9 +85,7 @@ namespace Tools.Simple
         {
             string regString = ")(\\!|\\?|\\.)[\"”’]*( )(?! |\\.)";
 
-            string leadingBoundariers = @"[\r\n \(\[\\{\'\" + "\""+ "“" + "‘"+"\\\"]"; //TODO: double space after 
-
-            for(int s = 0; s < /*abbreviations.Count*/2; s++)
+            for (int s = 0; s < abbreviations.Count; s++)
             {
                 var sReplaced = "";
                 if (abbreviations[s].Contains("."))
@@ -96,14 +96,22 @@ namespace Tools.Simple
 
                 if (sReplaced.EndsWith(@"\."))
                 {
-                    regString = "|"+leadingBoundariers + sReplaced.Substring(0, sReplaced.Length - 2) + regString;
+                    regString = "|\\b" + sReplaced.Substring(0, sReplaced.Length - 2) + regString;
                 }
-                else regString = "|" + sReplaced + regString;
+                else regString = "|\\b" + sReplaced + regString;
             }
-            regString = @"(?<!" + regString.Substring(1);
-            Regex regex = new Regex(regString);
-            //@"(?<!Mr|Mrs)(\!|\?|\.)( )(?! )");
+            regString = "(?<!" + regString.Substring(1);
 
+
+            Regex regex = new Regex(regString);
+            //(?<!\bMr|\bU.S)[\?\!\.]["”’]*( )(?! |\.)
+
+            // WordOpenXML does not catch all occurances. Also only seems to work with the main body, but captures footnotes and endnotes when it does.
+            var xml = range.WordOpenXML;
+            xml = regex.Replace(xml, @".  ");
+            range.InsertXML(xml);
+
+            /* Index creates spaces in the middle of words (likely due to XML causing the range to differ from the plain text range)
             foreach (Paragraph paragraph in range.Paragraphs)
             {
 
@@ -111,7 +119,6 @@ namespace Tools.Simple
                 {
 
                     var location = paragraph.Range;
-                    //_app.ActiveDocument.StoryRanges[WdStoryType.wdMainTextStory];
 
                     var matches = regex.Matches(location.Text);
 
@@ -127,8 +134,6 @@ namespace Tools.Simple
                     for (int i = 0; i < indexList.Count; i++)
                     {
                         Range replaceRange = range.Document.Range(paragraph.Range.Start + indexList[i] + indexShift, paragraph.Range.Start + indexList[i] + indexShift);
-                        //_app.ActiveDocument.Range(indexList[i] + indexShift, indexList[i] + indexShift);
-                        //range.Move(WdUnits.wdCharacter, indexList[i] + indexShift);
                         replaceRange.InsertAfter(" ");
                         indexShift++;
                     }
@@ -144,7 +149,6 @@ namespace Tools.Simple
 
 
                             var location = paragraph.Range.Sentences[i];
-                            //_app.ActiveDocument.StoryRanges[WdStoryType.wdMainTextStory];
 
                             var matches = regex.Matches(location.Text);
 
@@ -161,8 +165,6 @@ namespace Tools.Simple
                             {
                                 int rangeStart = sentence.Start + indexList[j] + indexShift;
                                 Range replaceRange = range.Document.Range(rangeStart, rangeStart);
-                                //_app.ActiveDocument.Range(indexList[i] + indexShift, indexList[i] + indexShift);
-                                //range.Move(WdUnits.wdCharacter, indexList[i] + indexShift);
                                 replaceRange.InsertAfter(" ");
                                 indexShift++;
                             }
@@ -184,6 +186,7 @@ namespace Tools.Simple
                     }
                 }
             }
+            */
         }
 
         public void RemoveSpace(Word.Application _app)
