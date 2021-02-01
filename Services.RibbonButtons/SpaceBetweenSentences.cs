@@ -108,7 +108,7 @@ namespace Tools.Simple
 
             // WordOpenXML does not catch all occurances. Also only seems to work with the main body, but captures footnotes and endnotes when it does.
             var xml = range.WordOpenXML;
-            xml = regex.Replace(xml, @".  ");
+            xml = regex.Replace(xml, @".  "); //TODO: Replace this with the find over openXML from OpenXmlPowerTools package (nuget)
             range.InsertXML(xml);
 
             /* Index creates spaces in the middle of words (likely due to XML causing the range to differ from the plain text range)
