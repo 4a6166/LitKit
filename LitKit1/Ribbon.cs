@@ -481,6 +481,24 @@ namespace LitKit1
             else return false;
 
         }
+        public bool PinciteMenu_Visible(Office.IRibbonControl control)
+        {
+            var sel = _app.Selection;
+
+            if (
+                (sel.ContentControls.Count < 1
+                && sel.ParentContentControl != null
+                && sel.ParentContentControl.Title != null
+                && (sel.ParentContentControl.Tag.StartsWith("CITE") || sel.ParentContentControl.Tag.StartsWith("PIN")))
+                ||
+                (sel.ContentControls.Count > 0
+                && sel.ContentControls[1].Tag != null
+                && (sel.ContentControls[1].Tag.StartsWith("CITE") || sel.ContentControls[1].Tag.StartsWith("PIN")))
+               )
+                return false;
+            else return true; //opposite of whether it is enabled
+
+        }
 
         #endregion
         #region Add Pincite

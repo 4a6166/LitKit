@@ -35,16 +35,19 @@
           <button id="btnCitationsTool" getImage="CitationsTool_Image" onAction="CitationsTool_Click"
                   screentip="LitKit Citations Tool" supertip="Opens the LitKit Citations Tool, where you can add, insert, and keep track of citations, and easily update exhibit numbering."
                   label="Citations Tool" size="large" />
-          <menu id="PinciteMenuRibbon" getImage="PinciteMenu_Image" getEnabled="PinciteMenu_Enabled"
+          <!--<menu id="PinciteMenuRibbon" getImage="PinciteMenu_Image" getEnabled="PinciteMenu_Enabled"
                 screentip="Pincite" supertip="Adds or Removes a pincite from a citation that has been entered with the Citation Tool."
-                label="Pincite">
-            <button id="btnPinCite" onAction="btnPinCite_Click" getImage="btnAddPincite_Image" getEnabled="btnAddPincite_Enabled"
+                label="Pincite">-->
+          <button id="PinciteMenuRibbon" getImage="PinciteMenu_Image" getVisible="PinciteMenu_Visible" enabled="false"
+                screentip="Pincite" supertip="Adds or Removes a pincite from a citation that has been entered with the Citation Tool."
+                label="Pincite" />
+            <button id="btnPinCite" onAction="btnPinCite_Click" getImage="btnAddPincite_Image" getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled"
                     screentip="Add Pincite" supertip="Adds a pincite to an existing citation. This pincite stays with the citation, whether or not the format changes."
                     label="Add Pincite" />
-            <button id="btnRemovePinCite" onAction="btnRemovePinCite_Click" getImage="btnRemovePincite_Image" getEnabled="btnRemovePinCite_Enabled"
+            <button id="btnRemovePinCite" onAction="btnRemovePinCite_Click" getImage="btnRemovePincite_Image" getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled"
                     screentip="Remove a Pincite" supertip="Remove a pincite from an existing citation."
                     label="Remove Pincite" />
-          </menu>
+          <!--</menu>-->
           <button id="btnIndexOfExhibits" onAction="IndexOfExhibits_Click" getImage="IndexOfExhibits_Image"
                   screentip="Insert Index of Exhibits" supertip="Inserts a table index of exhibits in the document at your current selection. This table will not be updated when citations to exhibits are moved, edited, or deleted."
                   label="Index of Exhibits" />
@@ -209,18 +212,18 @@
               getImage="UnMarkRedaction_Image"
               onAction="unmarkRedact_Click"/>
 
-      <menu id="menuPincite" label="Pincite" insertAfterMso="ParagraphDialog"
+      <!--<menu id="menuPincite" label="Pincite" insertAfterMso="ParagraphDialog"
       getImage="PinciteMenu_Image"
-      getVisible="PinciteMenu_Enabled">
+      getVisible="PinciteMenu_Enabled">-->
         <button id="menuAddPincite" label="Add a Pincite"
-                getEnabled="btnAddPincite_Enabled"
+                getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
                 getImage="btnAddPincite_Image"
                 onAction="btnPinCite_Click"/>
         <button id="menuRemovePincites" label="Remove Pincites"
-                getEnabled="btnRemovePinCite_Enabled"
+                getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
                 getImage="btnRemovePinCite_Image"
                 onAction="btnRemovePinCite_Click"/>
-      </menu>
+      <!--</menu>-->
 
       <menu id="AddCite" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
         <button id="AddExhibit" label="Add to to Citation List as Exhibit"
@@ -252,18 +255,18 @@
               getImage="UnMarkRedaction_Image"
               onAction="unmarkRedact_Click"/>
 
-      <menu id="menuPincite_list" label="Pincite" insertAfterMso="ParagraphDialog"
+      <!--<menu id="menuPincite_list" label="Pincite" insertAfterMso="ParagraphDialog"
       getImage="PinciteMenu_Image"
-      getVisible="PinciteMenu_Enabled">
-        <button id="menuAddPincite_list" label="Add a Pincite"
-                getEnabled="btnAddPincite_Enabled"
-                getImage="btnAddPincite_Image"
-                onAction="btnPinCite_Click"/>
-        <button id="menuRemovePincites_list" label="Remove Pincites"
-                getEnabled="btnRemovePinCite_Enabled"
-                getImage="btnRemovePinCite_Image"
-                onAction="btnRemovePinCite_Click"/>
-      </menu>
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_list" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_list" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
 
       <menu id="AddCite_list" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
         <button id="AddExhibit_list" label="Add to to Citation List as Exhibit"
@@ -295,18 +298,18 @@
               getImage="UnMarkRedaction_Image"
               onAction="unmarkRedact_Click"/>
 
-      <menu id="menuPincite_hyperlink" label="Pincite" insertAfterMso="ParagraphDialog"
+      <!--<menu id="menuPincite_hyperlink" label="Pincite" insertAfterMso="ParagraphDialog"
       getImage="PinciteMenu_Image"
-      getVisible="PinciteMenu_Enabled">
-        <button id="menuAddPincite_hyperlink" label="Add a Pincite"
-                getEnabled="btnAddPincite_Enabled"
-                getImage="btnAddPincite_Image"
-                onAction="btnPinCite_Click"/>
-        <button id="menuRemovePincites_hyperlink" label="Remove Pincites"
-                getEnabled="btnRemovePinCite_Enabled"
-                getImage="btnRemovePinCite_Image"
-                onAction="btnRemovePinCite_Click"/>
-      </menu>
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_hyperlink" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_hyperlink" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
 
       <menu id="AddCite_hyperlink" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
         <button id="AddExhibit_hyperlink" label="Add to to Citation List as Exhibit"
@@ -338,18 +341,18 @@
               getImage="UnMarkRedaction_Image"
               onAction="unmarkRedact_Click"/>
 
-      <menu id="menuPincite_HeaderArea" label="Pincite" insertAfterMso="ParagraphDialog"
+      <!--<menu id="menuPincite_HeaderArea" label="Pincite" insertAfterMso="ParagraphDialog"
       getImage="PinciteMenu_Image"
-      getVisible="PinciteMenu_Enabled">
-        <button id="menuAddPincite_HeaderArea" label="Add a Pincite"
-                getEnabled="btnAddPincite_Enabled"
-                getImage="btnAddPincite_Image"
-                onAction="btnPinCite_Click"/>
-        <button id="menuRemovePincites_HeaderArea" label="Remove Pincites"
-                getEnabled="btnRemovePinCite_Enabled"
-                getImage="btnRemovePinCite_Image"
-                onAction="btnRemovePinCite_Click"/>
-      </menu>
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_HeaderArea" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_HeaderArea" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
 
       <menu id="AddCite_HeaderArea" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
         <button id="AddExhibit_HeaderArea" label="Add to to Citation List as Exhibit"
@@ -381,18 +384,18 @@
               getImage="UnMarkRedaction_Image"
               onAction="unmarkRedact_Click"/>
 
-      <menu id="menuPincite_FooterArea" label="Pincite" insertAfterMso="ParagraphDialog"
+      <!--<menu id="menuPincite_FooterArea" label="Pincite" insertAfterMso="ParagraphDialog"
       getImage="PinciteMenu_Image"
-      getVisible="PinciteMenu_Enabled">
-        <button id="menuAddPincite_FooterArea" label="Add a Pincite"
-                getEnabled="btnAddPincite_Enabled"
-                getImage="btnAddPincite_Image"
-                onAction="btnPinCite_Click"/>
-        <button id="menuRemovePincites_FooterArea" label="Remove Pincites"
-                getEnabled="btnRemovePinCite_Enabled"
-                getImage="btnRemovePinCite_Image"
-                onAction="btnRemovePinCite_Click"/>
-      </menu>
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_FooterArea" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_FooterArea" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
 
       <menu id="AddCite_FooterArea" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
         <button id="AddExhibit_FooterArea" label="Add to to Citation List as Exhibit"
@@ -424,18 +427,18 @@
               getImage="UnMarkRedaction_Image"
               onAction="unmarkRedact_Click"/>
 
-      <menu id="menuPincite_FootNote" label="Pincite" insertAfterMso="ParagraphDialog"
+      <!--<menu id="menuPincite_FootNote" label="Pincite" insertAfterMso="ParagraphDialog"
       getImage="PinciteMenu_Image"
-      getVisible="PinciteMenu_Enabled">
-        <button id="menuAddPincite_FootNote" label="Add a Pincite"
-                getEnabled="btnAddPincite_Enabled"
-                getImage="btnAddPincite_Image"
-                onAction="btnPinCite_Click"/>
-        <button id="menuRemovePincites_FootNote" label="Remove Pincites"
-                getEnabled="btnRemovePinCite_Enabled"
-                getImage="btnRemovePinCite_Image"
-                onAction="btnRemovePinCite_Click"/>
-      </menu>
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_FootNote" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_FootNote" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
 
       <menu id="AddCite_FootNote" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
         <button id="AddExhibit_FootNote" label="Add to to Citation List as Exhibit"
@@ -467,18 +470,18 @@
               getImage="UnMarkRedaction_Image"
               onAction="unmarkRedact_Click"/>
 
-      <menu id="menuPincite_EndNote" label="Pincite" insertAfterMso="ParagraphDialog"
+      <!--<menu id="menuPincite_EndNote" label="Pincite" insertAfterMso="ParagraphDialog"
       getImage="PinciteMenu_Image"
-      getVisible="PinciteMenu_Enabled">
-        <button id="menuAddPincite_EndNote" label="Add a Pincite"
-                getEnabled="btnAddPincite_Enabled"
-                getImage="btnAddPincite_Image"
-                onAction="btnPinCite_Click"/>
-        <button id="menuRemovePincites_EndNote" label="Remove Pincites"
-                getEnabled="btnRemovePinCite_Enabled"
-                getImage="btnRemovePinCite_Image"
-                onAction="btnRemovePinCite_Click"/>
-      </menu>
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_EndNote" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_EndNote" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
 
       <menu id="AddCite_EndNote" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
         <button id="AddExhibit_EndNote" label="Add to to Citation List as Exhibit"

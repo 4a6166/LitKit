@@ -190,7 +190,7 @@
                         <TextBlock x:Name="BottomText3"
                             Margin="0,15,0,5" FontWeight="Normal" TextWrapping="WrapWithOverflow" TextAlignment="Center">
                             <TextBlock.Inlines>
-                                <Run Text="If used in the Response Language, placeholders from the below table will be replaced with their cooresponding properties when inserted."/>
+                                <Run Text="If used in the Custom Language, placeholders from the below table will be replaced with their cooresponding properties when inserted."/>
                             </TextBlock.Inlines>
                         </TextBlock>
                         <Grid Width="250" Margin="0,0,0,10">
@@ -213,7 +213,7 @@
                             <TextBlock Grid.Column="1" Grid.Row="1" TextAlignment="Center"
                                        Text="[Propounding]"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" TextAlignment="Center"
-                                    FontStyle="Italic" Text="Paragraph Number"/>
+                                    FontStyle="Italic" Text="Paragraph or Request #"/>
                             <TextBlock Grid.Column="1" Grid.Row="2" TextAlignment="Center"
                                        Text="[X]"/>
                         </Grid>
@@ -225,11 +225,11 @@
                                           <Run Text="Formatting Example" TextDecorations="BaseLine"/>
                         </TextBlock>
 
-                        <TextBlock TextAlignment="Left" Foreground="DarkSlateGray" TextTrimming="CharacterEllipsis" FontSize="10.5">
+                        <TextBlock TextAlignment="Left" Foreground="DarkSlateGray" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontSize="10.5">
                                           <Run Text="Input: " TextDecorations="Baseline"/>
                                     <Run  Text="{}[Responding] **denies** the //remainder// of the __allegations__ in paragraph [X]."/>
                         </TextBlock>
-                        <TextBlock TextAlignment="Left" Foreground="DarkSlateGray" TextTrimming="CharacterEllipsis" FontSize="10.5">
+                        <TextBlock TextAlignment="Left" Foreground="DarkSlateGray" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontSize="10.5">
                                 <Run Text="Result: " TextDecorations="Baseline"/>
                                 <Run Text="{}Mr. Smith"/>
                                 <Run Text="{}denies" FontWeight="Bold"/>

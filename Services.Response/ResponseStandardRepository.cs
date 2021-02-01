@@ -78,7 +78,7 @@ namespace Tools.Response
 
         static string RequestInterrog(string docType)
         {
-            if (docType == "Respond to Interrogatories")
+            if (docType == "Interrogatory")
             {
                 return "Interrogatory";
             }
@@ -105,7 +105,7 @@ namespace Tools.Response
 
         static string paraRequest(string docType)
         {
-            if (docType == "Respond to Requests for Admission")
+            if (docType == "Admission")
             {
                 return "Request";
             }

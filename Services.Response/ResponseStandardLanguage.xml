@@ -210,8 +210,8 @@
 			<Interrogatory>False</Interrogatory>
 		</DocType>
 		<Text>
-			<Primary>Subject to and without waiving the foregoing objections, [Responding] [verb1] that they will not produce any documents in response to this Request.</Primary>
-			<Alt1>Subject to the foregoing objections, [Responding] [verb1] that they will not produce any documents in response to Request No. [X].</Alt1>
+			<Primary>Subject to and without waiving the foregoing objections, [Responding] [verb1] that no documents will be produced in response to this Request.</Primary>
+			<Alt1>Subject to and without waiving the foregoing objections, [Responding] [verb1] that no documents will be produced in response to Request No. [X].</Alt1>
 		</Text>
 		<Verbs>
 			<Verb1>

@@ -292,7 +292,7 @@ namespace LitKit1.ControlsWPF.Citation.ViewModels
             {
                 Citations.Remove(citation);
                 _repository.DeleteCitation(citation);
-                _docLayer.RemoveCiteCCs(citation, false);
+                _docLayer.RemoveCiteCCs(citation, true);
                 if (CitesReloadAutomatically)
                 {
                     _docLayer.UpdateCitesInDoc(Repository);
