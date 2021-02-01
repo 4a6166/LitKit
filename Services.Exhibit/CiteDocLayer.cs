@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Interop.Word;
+﻿using DocumentFormat.OpenXml.Packaging;
+using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -476,6 +477,9 @@ namespace Tools.Citation
             bool trackchangesOn = _app.ActiveDocument.TrackRevisions;
             _app.ActiveDocument.TrackRevisions = false;
 
+            //for setting the selection back when finished
+            Range currentRange = _app.Selection.Range;
+
             var allCites = GetAllCitesFromDoc_Unordered();
             foreach (ContentControl cc in allCites)
             {
@@ -537,6 +541,9 @@ namespace Tools.Citation
                 cc.LockContents = true;
             }
 
+            //setting the selection back to where it was before update
+            _app.Selection.SetRange(currentRange.Start, currentRange.End);
+            _app.Selection.Range.Select();
             _app.ActiveDocument.TrackRevisions = trackchangesOn;
 
         }
@@ -644,6 +651,34 @@ namespace Tools.Citation
             _app.ActiveDocument.TrackRevisions = trackchangesOn;
         }
 
+        
+        private void SetPinciteOpenXml(ContentControl citeCC, string PinciteText = "")
+        {
+            throw new NotImplementedException();
+
+            bool trackchangesOn = _app.ActiveDocument.TrackRevisions;
+            _app.ActiveDocument.TrackRevisions = false;
+
+            citeCC.LockContents = false;
+            try
+            {
+                WordprocessingDocument processingDoc = WordprocessingDocument.FromFlatOpcString(citeCC.Range.WordOpenXML);
+                var body = processingDoc.MainDocumentPart.Document.Body;
+                //At this point, body (cite CC's sdtBlock) contain the CC's sdtPr (sdtBlock properties) and a paragraph. The paragraph does not seem to be inside a sdtContent (sdtContent content block that can hold paragraphs, with runs and other sdtBlocks)
+
+
+                citeCC.Range.InsertXML(processingDoc.ToFlatOpcString());
+            }
+            catch
+            {
+                //exceptions aren't really enumerated
+            }
+
+            citeCC.LockContents = true;
+
+            _app.ActiveDocument.TrackRevisions = trackchangesOn;
+
+        }
         private void SetPincite(ContentControl citeCC, string PinciteText = "")
         {
             bool trackchangesOn = _app.ActiveDocument.TrackRevisions;
