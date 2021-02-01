@@ -11,7 +11,8 @@ using System.Security;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
-
+using OpenXmlPowerTools;
+using System.Xml.Linq;
 
 namespace Tools.Simple
 {
@@ -41,34 +42,12 @@ namespace Tools.Simple
         {
             bool result = false;
             _app.Application.System.Cursor = WdCursorType.wdCursorWait;
+            Cursor.Current = Cursors.WaitCursor;
             try
             {
-                //_app.ActiveDocument.Select();
-                //_app.Selection.Find.Execute(FindText: @"(?)", ReplaceWith: @"\1", MatchWildcards: true); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
+                //LatinByOpenXML(_app, italics);
 
-                //foreach (Range rng in _app.ActiveDocument.StoryRanges)
-                //{
-                //    foreach (string expression in Expressions)
-                //    {
-                //        string expression_firstLetter = "[" + expression.Substring(0, 1).ToLower() + expression.Substring(0, 1).ToUpper() + "]";
-                //        string expression_rest = expression.Substring(1);
-                //        rng.Find.ClearFormatting();
-                //        rng.Find.Replacement.ClearFormatting();
-
-                //        rng.Find.Replacement.Font.Italic = italics;
-                //        //rng.Find.Text = "(" + expression_firstLetter + expression_rest + ")";
-                //        //rng.Find.Replacement.Text = @"\1";
-                //        rng.Find.Text = "(" + expression + ")";
-                //        rng.Find.Replacement.Text = expression;
-
-                //        rng.Find.MatchWholeWord = true;
-                //        rng.Find.MatchWildcards = true;
-
-                //        rng.Find.Execute(Replace: WdReplace.wdReplaceAll);
-                //    }
-                //}
-
-                LatinByOpenXML(_app, italics);
+                LatinByOpenXMLPowerTools(_app, italics);
 
                 result = true;
             }
@@ -78,6 +57,7 @@ namespace Tools.Simple
             }
 
             _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
+            Cursor.Current = Cursors.Default;
             return result;
         }
 
@@ -163,5 +143,47 @@ namespace Tools.Simple
             }
 
         }
+
+        public void LatinByOpenXMLPowerTools(Word.Application _app, int italics)
+        {
+            var mainStoryRange = _app.ActiveDocument.StoryRanges[Microsoft.Office.Interop.Word.WdStoryType.wdMainTextStory];
+
+            XElement document = XElement.Parse(mainStoryRange.WordOpenXML);
+            var content = document.Descendants(W.p);
+
+
+            OpenXmlRegex.Replace(content, LatinRegex(), "<<$&>>", doReplacement: null, trackRevisions: true, author: "Prelimine LitKit");
+
+            //wordprocessingDocument.MainDocumentPart.PutXDocument(new XDocument(document));
+
+            mainStoryRange.InsertXML(document.ToString());
+
+            foreach (Range range in _app.ActiveDocument.StoryRanges)
+            {
+                range.Find.MatchWildcards = true;
+                range.Find.ClearFormatting();
+                range.Find.Replacement.ClearFormatting();
+                range.Find.Replacement.Font.Italic = italics;
+
+                range.Find.Text = @"\<\<(*)\>\>";
+                range.Find.Replacement.Text = @"\1";
+                range.Find.Execute(Replace: WdReplace.wdReplaceAll);
+            }
+        }
+        private Regex LatinRegex()
+        {
+
+            string regString = "(";
+            foreach (string exp in Expressions)
+            {
+                regString += "[" + exp.Substring(0, 1).ToUpper() + exp.Substring(0, 1).ToLower() + "]" + exp.Substring(1) + "|";
+
+            }
+
+
+            var regex = new Regex("(?<![A-z])" + regString.Trim('|') + ")(?![A-z])");
+            return regex;
+        }
+
     }
 }

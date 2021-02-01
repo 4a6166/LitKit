@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.Word;
+using OpenXmlPowerTools;
 using Services.Base;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using Word = Microsoft.Office.Interop.Word;
 
 namespace Tools.Simple
@@ -52,36 +54,49 @@ namespace Tools.Simple
                 catch { }
                 _app.ActiveDocument.TrackRevisions = false;
 
-                _app.Selection.Find.Execute(FindText: @"(?)", ReplaceWith: @"\1", MatchWildcards: true); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
+                _app.Application.System.Cursor = WdCursorType.wdCursorWait;
 
-                int sentenceCount = 0;
-                foreach (Range rng in _app.ActiveDocument.StoryRanges)
+                var layoutType = _app.ActiveWindow.View.Type;
+
+                Regex regex = SentenceSpacingRegex();
+
+                string exceptions = "";
+                //Iterates through all the Story Ranges(header, footer, footnotes, end notes, etc. if they are present in the document.
+                foreach (Range story in _app.ActiveDocument.StoryRanges)
                 {
-                    sentenceCount += rng.Sentences.Count;
+                    try
+                    {
+                        DoubleSpace(story, regex);
+                    }
+                    catch (Exception e)
+                    {
+                        exceptions += Environment.NewLine + story.StoryType;
+                    }
                 }
-                var warning = System.Windows.Forms.MessageBox.Show($"Sentences found: {sentenceCount}" + Environment.NewLine + "This may take a while. Do you want to proceed?", "Two Spaces Between Sentences", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 
-                if (warning == DialogResult.OK)
+                _app.ActiveWindow.View.Type = layoutType;
+
+                _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
+
+                if(exceptions.Length >1)
                 {
-                    _app.Application.System.Cursor = WdCursorType.wdCursorWait;
-
-                    var layoutType = _app.ActiveWindow.View.Type;
-
-                    // Iterates through all the Story Ranges (header, footer, footnotes, end notes, etc. if they are present in the document.
-                    //foreach (Range story in _app.ActiveDocument.StoryRanges)
-                    //{
-                    //    DoubleSpace(story);
-                    //}
-                    DoubleSpace(_app.ActiveDocument.StoryRanges[WdStoryType.wdMainTextStory]); //only range that seems to work with WordOpenXML Insert
-
-                    _app.ActiveWindow.View.Type = layoutType;
-
-                    _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
+                    MessageBox.Show("LitKit was unable to affect the following Document Parts: " + exceptions);
                 }
-            } 
+            }
         }
 
-        public void DoubleSpace(Range range) //TODO: Still does not correctly add spaces to sentences that contain a content control. Works fine with sentences where the ". " is followed by a CC.
+        public void DoubleSpace(Range range, Regex regex) 
+        {
+
+            XElement document = XElement.Parse(range.WordOpenXML);
+            var content = document.Descendants(W.p);
+
+            OpenXmlRegex.Replace(content, regex, "$& ", null, trackRevisions: false, author: "Prelimine LitKit");
+
+            range.InsertXML(document.ToString());
+        }
+
+        private Regex SentenceSpacingRegex()
         {
             string regString = ")(\\!|\\?|\\.)[\"”’]*( )(?! |\\.)";
 
@@ -102,91 +117,9 @@ namespace Tools.Simple
             }
             regString = "(?<!" + regString.Substring(1);
 
-
             Regex regex = new Regex(regString);
             //(?<!\bMr|\bU.S)[\?\!\.]["”’]*( )(?! |\.)
-
-            // WordOpenXML does not catch all occurances. Also only seems to work with the main body, but captures footnotes and endnotes when it does.
-            var xml = range.WordOpenXML;
-            xml = regex.Replace(xml, @".  "); //TODO: Replace this with the find over openXML from OpenXmlPowerTools package (nuget)
-            range.InsertXML(xml);
-
-            /* Index creates spaces in the middle of words (likely due to XML causing the range to differ from the plain text range)
-            foreach (Paragraph paragraph in range.Paragraphs)
-            {
-
-                if (paragraph.Range.ContentControls.Count < 1)
-                {
-
-                    var location = paragraph.Range;
-
-                    var matches = regex.Matches(location.Text);
-
-                    List<int> indexList = new List<int>();
-                    int indexShift = 0;
-                    for (int i = 0; i < matches.Count; i++)
-                    {
-                        var matchStart = matches[i].Groups[2].Index;
-
-                        indexList.Add(matchStart);
-                    }
-
-                    for (int i = 0; i < indexList.Count; i++)
-                    {
-                        Range replaceRange = range.Document.Range(paragraph.Range.Start + indexList[i] + indexShift, paragraph.Range.Start + indexList[i] + indexShift);
-                        replaceRange.InsertAfter(" ");
-                        indexShift++;
-                    }
-                }
-                else
-                {
-                    for (int i = 1; i <= paragraph.Range.Sentences.Count; i++)
-                    {
-                        var sentence = paragraph.Range.Sentences[i];
-
-                        if (sentence.ContentControls.Count < 1)
-                        {
-
-
-                            var location = paragraph.Range.Sentences[i];
-
-                            var matches = regex.Matches(location.Text);
-
-                            List<int> indexList = new List<int>();
-                            int indexShift = 0;
-                            for (int j = 0; j < matches.Count; j++)
-                            {
-                                var matchStart = matches[j].Groups[2].Index;
-
-                                indexList.Add(matchStart);
-                            }
-
-                            for (int j = 0; j < indexList.Count; j++)
-                            {
-                                int rangeStart = sentence.Start + indexList[j] + indexShift;
-                                Range replaceRange = range.Document.Range(rangeStart, rangeStart);
-                                replaceRange.InsertAfter(" ");
-                                indexShift++;
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                var find = sentence.Find;
-                                find.ClearFormatting();
-                                find.Replacement.ClearFormatting();
-                                find.Text = @"(.)";
-                                find.Replacement.Text = @"^& ";
-
-                                find.Execute(Replace: WdReplace.wdReplaceAll);
-                            }
-                            catch { };
-                        }
-                    }
-                }
-            }
-            */
+            return regex;
         }
 
         public void RemoveSpace(Word.Application _app)

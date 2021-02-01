@@ -850,7 +850,8 @@ namespace LitKit1
                     space.AddSpace(_app);
                     _app.UndoRecord.EndCustomRecord();
                 }
-                catch { MessageBox.Show("An Error Occurred. Please contact Prelimine with this error code: #218"); }
+                catch (Exception e)
+                { MessageBox.Show(e.Message); }
 
             }
         }
