@@ -281,6 +281,13 @@
                                     </Trigger>
                                     <Trigger Property="IsMouseOver" Value="true">
                                         <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                                        <Setter Property="Effect" >
+                                            <Setter.Value>
+                                                <DropShadowEffect ShadowDepth="10" Direction="0" 
+                                      Opacity="1" BlurRadius="5" 
+                                      Color="LightGray" />
+                                            </Setter.Value>
+                                        </Setter>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -384,12 +391,12 @@
                             <TextBox x:Name="Long_EditFreeText"
                                        Grid.Column="0"
                                      Text="{Binding FreeTextFormatPiece_Long.DisplayText, Mode=OneWay}"
-                                     Visibility="{Binding FreeTextBeingEdited_Long, Converter={StaticResource BoolVisConverter}}"
+                                     Visibility="{Binding FreeTextBeingEdited_Long, Converter={StaticResource BoolVisConverter}}" d:IsHidden="True"
                                      />
                             <Button x:Name="Long_EditFreeTextBtn"
                                     Grid.Column="1"
                                      Visibility="{Binding FreeTextBeingEdited_Long, Converter={StaticResource BoolVisConverter}}"
-                                    Click="Long_EditFreeTextBtn_Click"
+                                    Click="Long_EditFreeTextBtn_Click" d:IsHidden="True"
                                     >
                                 <TextBlock Text="Update"/>
                             </Button>

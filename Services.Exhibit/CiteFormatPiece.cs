@@ -20,11 +20,11 @@ namespace Tools.Citation
             set
             {
                 _displayText = value;
-                if (DisplayInitialized)
+                //if (DisplayInitialized)
                 {
                     OnPropertyChanged("DisplayText");
                 }
-                else DisplayInitialized = true;
+                //else DisplayInitialized = true;
             }
         }
         private bool DisplayInitialized = false;

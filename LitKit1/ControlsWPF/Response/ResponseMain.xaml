@@ -350,6 +350,14 @@
                                     </Trigger>
                                     <Trigger Property="IsMouseOver" Value="true">
                                         <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                                        <Setter Property="Effect" >
+                                            <Setter.Value>
+                                                <DropShadowEffect ShadowDepth="10" Direction="0" 
+                                      Opacity="1" BlurRadius="5" 
+                                      Color="LightGray" />
+                                            </Setter.Value>
+                                        </Setter>
+
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
