@@ -277,6 +277,17 @@ namespace Tools.Citation
 
             FormatTextInDoc.FormatFont(contentControl.Range);
 
+            var find = contentControl.Range.Find;
+            find.ClearFormatting();
+            find.Replacement.ClearFormatting();
+            find.Text = "\"";
+            find.Replacement.Text = "\"";
+            find.Execute(Replace: WdReplace.wdReplaceAll);
+
+            find.Text = "\'";
+            find.Replacement.Text = "\'";
+            find.Execute(Replace: WdReplace.wdReplaceAll);
+
             contentControl.LockContents = true;
         }
 

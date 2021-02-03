@@ -30,7 +30,8 @@
 
     </UserControl.Resources>
     <Grid x:Name="MainGrid" 
-          Background="#f3f2f1" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" HorizontalAlignment="Stretch">
+          Background="White" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" HorizontalAlignment="Stretch">
+        <!--background f3f2f1-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="auto"/>
@@ -49,6 +50,25 @@
                     <MenuItem Header="Delete Response from List" Click="Delete_Click"/>
                 </ContextMenu>
             </Button.ContextMenu>
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="GhostWhite"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
         </Button>
         <Grid HorizontalAlignment="Left" Margin="0" IsHitTestVisible="False" Grid.Column="0">
             <Grid.ColumnDefinitions>

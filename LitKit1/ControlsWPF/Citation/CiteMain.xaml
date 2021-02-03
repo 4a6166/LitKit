@@ -112,19 +112,21 @@
                                     </MenuItem>
                                 </ContextMenu>
                             </Border.ContextMenu>
-                            <StackPanel Orientation="Horizontal">
-                                <Rectangle Fill="Black" Opacity=".2" Width="1.3"
+                            <Grid>
+                                <Rectangle Fill="Transparent" Height="30" Width="15"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Fill="Black" Opacity=".2" Width="1.3"
                                            Height="20" Margin="0,0,0,0"/>
-                                <Image x:Name="SBStackPlanelImageDropDown"
+                                    <Image x:Name="SBStackPlanelImageDropDown"
                                    Width="10"
                                    Margin="2,9,7,0"
                                    VerticalAlignment="Center"
                                    Opacity="1"
                                    Source="/LitKit;component/Resources/droparrow.png" >
-                                </Image>
-                            </StackPanel>
+                                    </Image>
+                                </StackPanel>
+                            </Grid>
                         </Border>
-
                     </Grid>
                 </Border>
             </Grid>
@@ -264,6 +266,26 @@
                 <Style TargetType="ListViewItem">
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border Name="Border" Padding="2" SnapsToDevicePixels="true" Background="Transparent">
+                                    <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Foreground" Value="Transparent"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>

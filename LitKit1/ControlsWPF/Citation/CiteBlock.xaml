@@ -33,15 +33,18 @@
 
     </UserControl.Resources>
     <Grid x:Name="MainGrid" 
-          Background="#f3f2f1" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" HorizontalAlignment="Stretch">
+          Background="White"  MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="150" />
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="21"/>
-            <RowDefinition Height="16" />
+            <RowDefinition Height="25"/> <!--21-->
+            <RowDefinition Height="20" /> <!--16-->
         </Grid.RowDefinitions>
+        <!--<Grid.BitmapEffect>
+            <DropShadowBitmapEffect Color="#f3f2f1" Direction="180" ShadowDepth="3" Softness="5" />
+        </Grid.BitmapEffect>-->
         <TextBlock x:Name="CiteCount" 
                    IsHitTestVisible="False"
                    Grid.Column="1" 
@@ -71,6 +74,25 @@
                     <MenuItem Header="Delete Citation from List and Document" Click="Delete_Click"/>
                 </ContextMenu>
             </Button.ContextMenu>
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="GhostWhite"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
         </Button>
         <Grid HorizontalAlignment="Stretch" Margin="0" Grid.RowSpan="2" IsHitTestVisible="False">
             <Grid.ColumnDefinitions>
