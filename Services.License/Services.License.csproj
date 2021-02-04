@@ -37,8 +37,8 @@
     <AssemblyOriginatorKeyFile>sn.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LicenseSpring, Version=6.3.1.0, Culture=neutral, PublicKeyToken=2d5c13cc31edbaaf, processorArchitecture=MSIL">
-      <HintPath>..\packages\LicenseSpring.NetSDK.6.3.1\lib\net472\LicenseSpring.dll</HintPath>
+    <Reference Include="LicenseSpring, Version=6.4.0.0, Culture=neutral, PublicKeyToken=2d5c13cc31edbaaf, processorArchitecture=MSIL">
+      <HintPath>..\packages\LicenseSpring.NetSDK.6.4.0\lib\net472\LicenseSpring.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
