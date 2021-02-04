@@ -51,7 +51,9 @@ namespace Tools.Citation
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
-            catch { }
+            catch (Exception e) { 
+                //Thows an exception when updating cites because citation pieces are created and used for the formatting of citiations, but they are not included in the WPF listbox
+            }
         }
 
         private void setDisplayText()

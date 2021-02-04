@@ -42,7 +42,30 @@ namespace Tools.Citation
             var tag = "CITE:" + citation.CiteType.ToString() + "|" + citation.ID + "|PIN:" + HasPincite.ToString();
             contentControl.Tag = tag;
             contentControl.Title = citation.CiteType.ToString() + ": " + citation.LongDescription;
-            contentControl.Color = WdColor.wdColorLightBlue;
+            
+            switch (citation.CiteType)
+            {
+                case CiteType.Exhibit:
+                    contentControl.Color = WdColor.wdColorSeaGreen;
+                    break;
+
+                case CiteType.Record:
+                    int red = 151;
+                    int green = 83;
+                    int blue = 189;
+                    contentControl.Color = (WdColor)(red + 0x100 * green + 0x10000 * blue);
+                    break;
+
+                case CiteType.Legal:
+                    contentControl.Color = WdColor.wdColorLightBlue;
+                    break;
+
+                case CiteType.Other:
+                    contentControl.Color = WdColor.wdColorGold;
+                    break;
+
+            }
+            //contentControl.Color = WdColor.wdColorLightBlue;
             return tag;
         }
 
@@ -143,6 +166,21 @@ namespace Tools.Citation
         #endregion
 
         #region Get from doc
+        public List<ContentControl> GetCitesFromStory(Range story)
+        {
+            List<ContentControl> result = new List<ContentControl>();
+
+            string StartsWithString = "CITE:";
+
+            foreach (ContentControl contentControl in story.ContentControls)
+            {
+                if (contentControl.Tag != null && contentControl.Tag.StartsWith(StartsWithString))
+                {
+                    result.Add(contentControl);
+                }
+            }
+            return result;
+        }
         /// <summary>
         /// Gets a list of ContentControls representing all citations in the document, including thoes outside main body, footnotes, and endnotes
         /// </summary>
@@ -150,17 +188,9 @@ namespace Tools.Citation
         {
             List<ContentControl> citationCCs = new List<ContentControl>();
 
-            string StartsWithString = "CITE:";
-
             foreach (Range story in _app.ActiveDocument.StoryRanges)
             {
-                foreach (ContentControl contentControl in story.ContentControls)
-                {
-                    if (contentControl.Tag != null && contentControl.Tag.StartsWith(StartsWithString))
-                    {
-                        citationCCs.Add(contentControl);
-                    }
-                }
+                citationCCs.AddRange(GetCitesFromStory(story));
             }
             return citationCCs;
         }
@@ -223,7 +253,6 @@ namespace Tools.Citation
             }
             return CCList;
         }
-
 
         /// <summary>
         /// Gets a list of unique Citations type Exhibit from ContnetControls in the main body, footnotes, and endnotes and orders them by location reference so indexof(Citation) provides zero-based Cite Formatting index
@@ -320,35 +349,59 @@ namespace Tools.Citation
             try
             {
                 var InputCiteID = GetCitationIDFromContentControl(contentControl);
-                var OrderedCiteContentControls = GetCitesFromDoc_Ordered(Repository);
 
-                List<string> CCIDsList = new List<string>();
-                foreach (ContentControl cc in OrderedCiteContentControls)
+                var ccStory = contentControl.Range.StoryType;
+                var OrderedCiteContentControls_Story = GetCitesFromStory(_app.ActiveDocument.StoryRanges[ccStory]);
+
+
+                List<string> CCIDsList_Story = new List<string>();
+                foreach (ContentControl cc in OrderedCiteContentControls_Story)
                 {
-                    CCIDsList.Add(cc.ID);
+                    CCIDsList_Story.Add(cc.ID);
                 }
 
-                var contentControlIndex = CCIDsList.IndexOf(contentControl.ID); 
+                var contentControlIndex_Story = CCIDsList_Story.IndexOf(contentControl.ID);
 
-
-                List<string> PreceedingIDs = new List<string>();
-                for (int i = 0; i < contentControlIndex; i++)
+                List<string> PreceedingIDs_Story = new List<string>();
+                for (int i = 0; i < contentControlIndex_Story; i++)
                 {
-                    var CCCiteID = GetCitationIDFromContentControl((ContentControl)OrderedCiteContentControls[i]);
-                    PreceedingIDs.Add(CCCiteID);
+                    var CCCiteID = GetCitationIDFromContentControl((ContentControl)OrderedCiteContentControls_Story[i]);
+                    PreceedingIDs_Story.Add(CCCiteID);
                 }
 
-                if (PreceedingIDs.Count>0 && PreceedingIDs.Last() == InputCiteID)
+
+
+                if (PreceedingIDs_Story.Count > 0 && PreceedingIDs_Story.Last() == InputCiteID)
                 {
                     return CitePlacementType.Id;
                 }
-                else if (PreceedingIDs.Count > 0 && PreceedingIDs.Contains(InputCiteID))
-                {
-                    return CitePlacementType.Short;
-                }
                 else
                 {
-                    return CitePlacementType.Long;
+                    var OrderedCiteContentControls_All = GetCitesFromDoc_Ordered(Repository);
+
+                    List<string> CCIDsList = new List<string>();
+                    foreach (ContentControl cc in OrderedCiteContentControls_All)
+                    {
+                        CCIDsList.Add(cc.ID);
+                    }
+
+                    var contentControlIndex = CCIDsList.IndexOf(contentControl.ID);
+
+                    List<string> PreceedingIDs_All = new List<string>();
+                    for (int i = 0; i < contentControlIndex; i++)
+                    {
+                        var CCCiteID = GetCitationIDFromContentControl((ContentControl)OrderedCiteContentControls_All[i]);
+                        PreceedingIDs_All.Add(CCCiteID);
+                    }
+
+                    if (PreceedingIDs_All.Count > 0 && PreceedingIDs_All.Contains(InputCiteID))
+                    {
+                        return CitePlacementType.Short;
+                    }
+                    else
+                    {
+                        return CitePlacementType.Long;
+                    }
                 }
             }
             catch
@@ -403,6 +456,9 @@ namespace Tools.Citation
             }
 
         }
+
+
+
 
         #endregion
         #region Change doc
@@ -532,7 +588,7 @@ namespace Tools.Citation
                         CiteFormatting.ItalicizeId(cc);
                     }
 
-                    //SetPincite(cc, PinciteXML);
+                    SetCiteCCTagTitleColor(cc, citation, CCHasPincite(cc));
                     SetPincite(cc, PinciteText);
                     AddHyperlink(cc, citation);
                 }
@@ -863,5 +919,7 @@ namespace Tools.Citation
         }
 
         #endregion
+
+        
     }
 }
