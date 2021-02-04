@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI onLoad="Ribbon_Load" xmlns="http://schemas.microsoft.com/office/2009/07/customui">
+  <ribbon>
+    <tabs>
+      <tab id="MainTab" insertBeforeMso="TabReviewWord" label="LitKit">
+        <group id="grpRedactions" label="Redactions" getImage="grpRedactions_Image" >
+          <toggleButton id="tglMarkRedaction" onAction="tglMarkRedaction_Click" getPressed="tglMarkRedaction_Pressed" getImage="MarkRedaction_Image"
+                        screentip="Mark Selection for Redaction" supertip="Applies a marking that designates the selected text for redaction. Redactions are applied using the Create PDF button."
+                        label="Mark Selection for Redaction" size="large" />
+          <button id="unmarkRedact" onAction="unmarkRedact_Click" getEnabled="UnMarkRedaction_Enabled" getImage="UnMarkRedaction_Image"
+                  screentip="Unmark Redactions in Selection" supertip="Removes the redaction marks in the selected text."
+                  label="Unmark Selection" />
+          <button id="btnClearAllRedactions" onAction="btnClearAllRedactions_Click" getImage="btnClearAllRedactions_Image"
+                  screentip="Clear Redaction Marks" supertip="Removes all redaction marks from the document."
+                  label="Clear All Redactions" />
+          <menu id="PrintPDF" getImage="PrintPDF_Image"
+                supertip="Creates a PDF of the document, either applying the inserted redactions or removing them and allowing the user to apply a header marking the confidentiality of the document"
+                label="Create PDF">
+            <button id="redactedPDF" onAction="redactedPDF_Click" getImage="RedactedPDF_Image"
+                    screentip="Create Redacted PDF" supertip="Creates a PDF of the current document that is redacted where marked with the Redaction Tool."
+                    label="Create Redacted PDF" />
+            <button id="unredactedPDF" onAction="unredactedPDF_Click" getImage="UnredactedPDF_Image"
+                    screentip="Create Unredacted PDF" supertip="Creates a PDF of the current document with no redaction marks and an optional confidentiality header."
+                    label="Create Unredacted PDF" />
+            <button id="btnHighlightedPDF" onAction="btnHighlightedPDF_Click" getImage="HighlightedPDF_Image"
+                    screentip="Create Highlighted PDF" supertip="Creates a PDF of the current document that is highlighted where marked with the Redaction Tool and an optional confidentiality header."
+                    label="Create Highlighted PDF" />
+            
+          </menu>
+          <dialogBoxLauncher>
+            <button id="grpRedactions__btn" visible="false"/>
+          </dialogBoxLauncher>
+        </group>
+        <group id="grpCitationsTool" label="Citations" getImage="grpCitations_Image">
+          <button id="btnCitationsTool" getImage="CitationsTool_Image" onAction="CitationsTool_Click"
+                  screentip="LitKit Citations Tool" supertip="Opens the LitKit Citations Tool, where you can add, insert, and keep track of citations, and easily update exhibit numbering."
+                  label="Citations Tool" size="large" />
+          <!--<menu id="PinciteMenuRibbon" getImage="PinciteMenu_Image" getEnabled="PinciteMenu_Enabled"
+                screentip="Pincite" supertip="Adds or Removes a pincite from a citation that has been entered with the Citation Tool."
+                label="Pincite">-->
+          <button id="PinciteMenuRibbon" getImage="PinciteMenu_Image" getVisible="PinciteMenu_Visible" enabled="false"
+                screentip="Pincite" supertip="Adds or Removes a pincite from a citation that has been entered with the Citation Tool."
+                label="Pincite" />
+            <button id="btnPinCite" onAction="btnPinCite_Click" getImage="btnAddPincite_Image" getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled"
+                    screentip="Add Pincite" supertip="Adds a pincite to an existing citation. This pincite stays with the citation, whether or not the format changes."
+                    label="Add Pincite" />
+            <button id="btnRemovePinCite" onAction="btnRemovePinCite_Click" getImage="btnRemovePincite_Image" getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled"
+                    screentip="Remove a Pincite" supertip="Remove a pincite from an existing citation."
+                    label="Remove Pincite" />
+          <!--</menu>-->
+          <button id="btnIndexOfExhibits" onAction="IndexOfExhibits_Click" getImage="IndexOfExhibits_Image"
+                  screentip="Insert Index of Exhibits" supertip="Inserts a table index of exhibits in the document at your current selection. This table will not be updated when citations to exhibits are moved, edited, or deleted."
+                  label="Index of Exhibits" />
+          <button id="btnRemoveCiteLocks" imageMso="MasterDocumentLockSubdocument" onAction="btnRemoveCiteLocks_Click"
+                  screentip="Remove Citation Locks" supertip="Removes the Content Controls containing citations that have been inserted with the Citations Tool. The citation text remains in the document but will not be updated or refreshed."
+                  label="Remove Locks" />
+          <button id="testExhibits" onAction="AddTestCitations" visible="false" screentip="FOR TESTING PURPOSES" label="Add Test Exhibits" showImage="false" />
+          <dialogBoxLauncher>
+            <button id="grpCitationsTool__btn" visible="false"/>
+          </dialogBoxLauncher>
+        </group>
+        <group id="grpResponses" label="Responses" getImage="grpResponses_Image">
+          <button id="btnResposeTool" onAction="ResponseTool_Click" getImage="grpResponses_Image"
+                  screentip="Discovery Response Tool" supertip="Opens the LitKit Discovery Response Tool panel, allowing you to save, adjust, and insert repetitive language in Discovery Response documents with a single click."
+                  label="Response Tool" size="large" />
+          <dialogBoxLauncher>
+            <button id="grpAnsRes__btn" visible="false"/>
+          </dialogBoxLauncher>
+        </group>
+        <group id="grpFormattingTools" label="Formatting Tools" getImage="grpFormatting_Image">
+          <menu id="menuTranscript" getImage="Transcript_Image"
+                screentip="Paste Text Copied from a Transcript" supertip="Formats and inserts text you have copied from transcripts as either block or in-line quotes. Paste Transcript Text removes line numbering and formats the text to fit in your document with minimal manual adjustments."
+                label="Paste Transcript Text" size="large">
+            <button id="btnBlockTranscript" onAction="btnBlockTranscript_Click" imageMso="MailMergeMergeFieldInsert"
+                    label="Paste Transcript Text as Block Quote" />
+            <button id="btnInLineTranscript" onAction="btnInLineTranscript_Click" imageMso="MailMergeGreetingLineInsert"
+                    label="Paste Transcript Text as In-Text Quote" />
+          </menu>
+          <menu id="Latin" getImage="LatinMenu_Image"
+                screentip="Italicize Latin Words" supertip="Italicizes or un-italicizes Latin words and phrases throughout the document."
+                label="Latin Words">
+            <button id="btnLatin" onAction="btnLatin_Click"
+                    supertip="Italicizes Latin words and phrases commonly used in the legal world"
+                    label="Italicize Latin" />
+            <button id="btnUnLatin" onAction="UnItalicizeLatin_Click_1"
+                    supertip="Removes italics from Latin words and phrases commonly used in the legal world"
+                    label="Un-italicize Latin" />
+            <button id="btnLatinDic" onAction="btnLatinDic_Click" imageMso="SlideMasterTextPlaceholderInsert"
+                    supertip="Add or Remove words to be affected by the italicizing and unitalicizing Latin Words actions"
+                    label="Edit Latin Words List"/>
+          </menu>
+          <menu id="SentenceSpacing" getImage="SentenceSpacing_Image"
+                screentip="Change Spacing Between Sentences" supertip="Adds or removes a double space between sentences in the document."
+                label="Sentence Spacing">
+            <button id="btnSingleSpace" onAction="btnSingleSpace_Click"
+                    label="Single Space Between Sentences" />
+            <button id="btnDoubleSpace" onAction="btnDoubleSpace_Click"
+                    label="Double Space Between Sentences" />
+            <button id="btnSpacingDic" onAction="btnSpacingDic_Click" imageMso="SlideMasterTextPlaceholderInsert"
+                    supertip="Add or Remove words to be affected by the sentence spacing actions"
+                    label="Edit Sentence Spacing Words List"/>
+
+          </menu>
+          <button id="btnSmrtQuotes" onAction="btnSmrtQuotes_Click" getImage="btnSmrtQuotes_Image"
+                  screentip="Replace With Smart Quotes" supertip="Replaces dumb (stright) quotes and apostrophes with smart (curly) versions throughout the document"
+                  label="Smart Quotes" />
+          <button id="btnInsertNBS" getImage="InsertNBS_Image" onAction="btnInsertNBS_Click"
+                  screentip="Insert Non-Breaking Spaces" getSupertip="InsertNBS_SuperTip"
+                  label="Insert NBS" />
+          <button id="btnBlockQuotes" onAction="btnBlockQuotes_Click" visible="false"
+                  screentip="Block Quotes"
+                  label="Block Quotes" showImage="false" />
+          <menu id="OxfordComma" getImage="OxfordComma_Image" visible="false"
+                screentip="Oxford Comma" supertip="Adds or removes Oxford (serialized) commas within the document."
+                label="Oxford Comma">
+            <button id="btnAddOxfordComma" onAction="btnOxfordComma_Click"
+                    label="Add Oxford Commas" />
+            <button id="btnRemoveOxfordComma" onAction="btnRemoveOxfordComma_Click"
+                    label="Remove Oxford Commas" />
+          </menu>
+          <button id="btnRemoveLineBreaks" onAction="btnRemoveLineBreaks_Click" getImage="RemoveLineBreaks_Image"
+                  screentip="Remove Line Breaks from Selection" supertip="Remove Line Breaks ( new line returns) from the current selection."
+                  label="Remove Line Breaks" />
+          <button id="HyphenToEnDashbtn" onAction="HyphenToEnDashbtn_Click" getImage="HyphenToEnDashbtn_Image"
+                  screentip="Replace Hyphens with an En-Dash (–) Between Number Ranges" supertip="Replace hyphens in the middle of number ranges with En-Dashes: #-# to #–#"
+                  label="Replace with En-Dash" />
+          <dialogBoxLauncher>
+            <button id="grpFormatting__btn" visible="false"/>
+          </dialogBoxLauncher>
+        </group>
+        <group id="grpShortcuts" label="Shortcuts" getImage="grpShortcuts_Image">
+          <menu id="SymbolsMenu" getImage="grpShortcuts_Image"
+                screentip="Legal Symbols" supertip="Inserts the selected legal symbol at the surrent text selection."
+                label="Legal Symbols" size="large">
+            <button id="btnPilcrow" onAction="btnPilcrow_Click"
+                    screentip="Paragraph Symbol (¶)" supertip="Inserts a Paragraph Symbol (Pilcrow): ¶"
+                    label="Paragraph Symbol (¶)" />
+            <button id="btnSectionMark" onAction="insertSectionMark_Click"
+                    screentip="Section Symbol (§)" supertip="Inserts a Section Symbol: §"
+                    label="Section Symbol (§)" />
+            <button id="btnTM" onAction="insertTM_Click"
+                    screentip="Trademark Symbol (™)" supertip="Inserts a Trademark Symbol: ™"
+                    label="Trademark Symbol (™)" />
+            <button id="btnCopyright" onAction="insertCopyright_Click"
+                    screentip="Copyright Symbol (©)" supertip="Inserts a Copyright Symbol: ©"
+                    label="Copyright Symbol (©)" />
+            <button id="btnNBS" onAction="insertNBS_Click"
+                    screentip="Non-Breaking Space (°)" supertip="Inserts a Non-Breaking Space: °"
+                    label="Non-Breaking Space (°)" />
+            <button id="btnNBHyphen" onAction="btnNBHyphen_Click"
+                    screentip="Non-Breaking Hyphen (-)" supertip="Inserts a Non-Breaking Hyphen: -"
+                    label="Non-Breaking Hyphen (-)" />
+            <button id="btnNDash" onAction="insertNDash_Click"
+                    screentip="En-Dash (–)" supertip="Inserts an En-Dash: –"
+                    label="En-Dash (–)" />
+            <button id="btnMDash" onAction="insertMDash_Click"
+                    screentip="Em-Dash (—)" supertip="Inserts an Em-Dash: —"
+                    label="Em-Dash (—)" />
+            <button id="spacedEllipsis" onAction="insertSpacedEllipses_Click"
+                    screentip="Spaced Ellipsis (. . .)" supertip="Inserts an ellipsis with non-breaking spaces, as defined by the Chicago Manual of Style"
+                    label="Spaced Ellipsis (. . .)"/>
+          </menu>
+          <toggleButton id="btnShowHide" onAction="btnShowHide_Click_1" getImage="btnShowHide_Image" getPressed="btnShowHide_Pressed"
+                        screentip="Show or Hide Formatting Markings" supertip="Shows formatting marks (non-printed characters) throughout the document. This enables you to better see which formatting is being applied in white spaces."
+                        label="Show / Hide ¶" />
+          <button id="btnKeepWithNext" onAction="btnKeepWithNext_Click" getImage="btnKeepWithNext_Image"
+                  screentip="Keep With Next" supertip="Applies &quot;keep with next&quot; formatting to the selected paragraph, preventing it from being separated from the next paragraph by page breaks."
+                  label="Keep With Next" />
+          <button id="ClipboardButton" imageMso="ShowClipboard" onAction="ClipboardButton_Click"
+                  screentip="View Detailed Clipboard" supertip="Shows the Windows Clipboard pannel, allowing for multiple items to be copied, pasted, and stored."
+                  label="View Clipboard" />
+          <toggleButton id="togglebtnSmallCaps" imageMso="TextSmallCaps" onAction="togglebtnSmallCaps_Click" getPressed="SmallCaps_Pressed"
+                        screentip="Toggle Small Caps" supertip="When activated, text is inputted using small capital letters instead of lowercase."
+                        label="Small Caps" />
+          <!--<button id="btnReplace" imageMso="ReplaceDialog" onAction="btnReplace_Click"
+                  screentip="Find and Replace" supertip="Opens the Find and Replace dialog instead of the modern Word navigation pane that opens when [ctrl + f] is pressed."
+                  label="Find/Replace" />-->
+          <button id="btnExactly24" imageMso="LineSpacing" onAction="btnExactly24_Click"
+                  screentip="Set Spacing to Exactly 24" supertip="Sets the spacing for the selection to Exactly 24 (as opposed to double-spaced) as required by some courts."
+                  label="Exactly 24"/>
+          <toggleButton id="toggleWidowControl" imageMso="WordCloseParaBelow" onAction="toggleWidowControl_Click" getPressed="toggleWidowControl_Pressed"
+                        screentip="Widow/Orphan Control" supertip="Toggles whether a single line of a paragraph in the selection can be left alone at the top or bottom of a page."
+                        label="Widow/Orphan"/>
+          <dialogBoxLauncher>
+            <button id="grpShortcuts__btn" visible="false"/>
+          </dialogBoxLauncher>
+        </group>
+        <group id="grpSupport" label="Support" getImage="grpSupport_Image">
+          <button id="btnHowTo" imageMso="FunctionsLogicalInsertGallery" onAction="HowTo_Click"
+                  screentip="LitKit User Guide" supertip="Opens the online User Guide, which contains Prelimine's &quot;How-To&quot; library, in your browser."
+                  label="User Guide" />
+          <button id="CustomerSupport" onAction="CustomerSupport_Click" getImage="CustomerSupport_Image"
+                  screentip="Contact Us" supertip="Send an email to support@prelimine.com."
+                  label="Contact Us" />
+          <button id="TestButton1" imageMso="TipWizardHelp" onAction="Test_Button_Click" visible="false"
+                  label="TestClass Button" size="large" />
+          <dialogBoxLauncher>
+            <button id="grpSupport_dialog" onAction="Support_DialogLauncherClick"/>
+          </dialogBoxLauncher>
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+  <contextMenus>
+    <contextMenu idMso="ContextMenuText">
+      
+      <button id="menuMarkRedaction" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <!--<menu id="menuPincite" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">-->
+        <button id="menuAddPincite" label="Add a Pincite"
+                getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+                getImage="btnAddPincite_Image"
+                onAction="btnPinCite_Click"/>
+        <button id="menuRemovePincites" label="Remove Pincites"
+                getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+                getImage="btnRemovePinCite_Image"
+                onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
+
+      <menu id="AddCite" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+            <menuSeparator id="sep1" insertAfterMso="ParagraphDialog"/>
+
+      <button id="RemoveLineBreaks" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>
+    </contextMenu>
+    <contextMenu idMso="ContextMenuList">
+
+      <button id="menuMarkRedaction_list" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_list" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <!--<menu id="menuPincite_list" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_list" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_list" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
+
+      <menu id="AddCite_list" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_list" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_list" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_list" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_list" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_list" insertAfterMso="ParagraphDialog"/>-->
+
+      <!--<button id="RemoveLineBreaks_list" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+    <contextMenu idMso="ContextMenuHyperlink">
+
+      <button id="menuMarkRedaction_hyperlink" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_hyperlink" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <!--<menu id="menuPincite_hyperlink" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_hyperlink" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_hyperlink" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
+
+      <menu id="AddCite_hyperlink" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_hyperlink" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_hyperlink" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_hyperlink" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_hyperlink" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_hyperlink" insertAfterMso="ParagraphDialog"/>
+
+      <button id="RemoveLineBreaks_hyperlink" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+    <contextMenu idMso="ContextMenuHeaderArea">
+
+      <button id="menuMarkRedaction_HeaderArea" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_HeaderArea" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <!--<menu id="menuPincite_HeaderArea" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_HeaderArea" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_HeaderArea" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
+
+      <menu id="AddCite_HeaderArea" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_HeaderArea" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_HeaderArea" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_HeaderArea" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_HeaderArea" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_HeaderArea" insertAfterMso="ParagraphDialog"/>
+
+      <button id="RemoveLineBreaks_HeaderArea" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+    <contextMenu idMso="ContextMenuFooterArea">
+
+      <button id="menuMarkRedaction_FooterArea" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_FooterArea" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <!--<menu id="menuPincite_FooterArea" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_FooterArea" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_FooterArea" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
+
+      <menu id="AddCite_FooterArea" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_FooterArea" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_FooterArea" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_FooterArea" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_FooterArea" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_FooterArea" insertAfterMso="ParagraphDialog"/>
+
+      <button id="RemoveLineBreaks_FooterArea" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+    <contextMenu idMso="ContextMenuFootnote">
+
+      <button id="menuMarkRedaction_FootNote" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_FootNote" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <!--<menu id="menuPincite_FootNote" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_FootNote" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_FootNote" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
+
+      <menu id="AddCite_FootNote" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_FootNote" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_FootNote" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_FootNote" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_FootNote" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_FootNote" insertAfterMso="ParagraphDialog"/>
+
+      <button id="RemoveLineBreaks_FootNote" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+    <contextMenu idMso="ContextMenuEndnote">
+
+      <button id="menuMarkRedaction_EndNote" label="Mark for Redaction" insertBeforeMso="Cut"
+              getImage="MarkRedaction_Image"
+              onAction="menuMarkRedaction_Click"/>
+      <button id="menuUnMarkRedaction_EndNote" label="Remove Redaction Marks" insertBeforeMso="Cut"
+              getEnabled="UnMarkRedaction_Enabled"
+              getImage="UnMarkRedaction_Image"
+              onAction="unmarkRedact_Click"/>
+
+      <!--<menu id="menuPincite_EndNote" label="Pincite" insertAfterMso="ParagraphDialog"
+      getImage="PinciteMenu_Image"
+      getVisible="PinciteMenu_Enabled">-->
+      <button id="menuAddPincite_EndNote" label="Add a Pincite"
+              getEnabled="btnAddPincite_Enabled" getVisible="btnAddPincite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnAddPincite_Image"
+              onAction="btnPinCite_Click"/>
+      <button id="menuRemovePincites_EndNote" label="Remove Pincites"
+              getEnabled="btnRemovePinCite_Enabled" getVisible="btnRemovePinCite_Enabled" insertAfterMso="ParagraphDialog"
+              getImage="btnRemovePinCite_Image"
+              onAction="btnRemovePinCite_Click"/>
+      <!--</menu>-->
+
+      <menu id="AddCite_EndNote" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+        <button id="AddExhibit_EndNote" label="Add to to Citation List as Exhibit"
+                getImage="menubtnAddExhibt_Image"
+                onAction="menubtnAddExhibit_Click"/>
+        <button id="AddLegal_EndNote" label="Add to to Citation List as Legal Citation"
+                getImage="menubtnAddLegal_Image"
+                onAction="menubtnAddLegal_Click"/>
+        <button id="AddRecord_EndNote" label="Add to to Citation List as Record Citation"
+                getImage="menubtnAddRecord_Image"
+                onAction="menubtnAddRecord_Click"/>
+        <button id="AddOther_EndNote" label="Add to to Citation List as Other Citation"
+                  getImage="menubtnAddOther_Image"
+                  onAction="menubtnAddOther_Click"/>
+      </menu>
+      <!--<menuSeparator id="sep1_EndNote" insertAfterMso="ParagraphDialog"/>
+
+      <button id="RemoveLineBreaks_EndNote" insertAfterMso="ParagraphDialog" label="Remove Line Breaks from Selection"
+              getImage="RemoveLineBreaks_Image"
+              onAction="btnRemoveLineBreaks_Click"/>-->
+    </contextMenu>
+
+  </contextMenus>
+</customUI>

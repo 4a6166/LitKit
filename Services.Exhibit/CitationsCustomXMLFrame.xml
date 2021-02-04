@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Citations xmlns="Prelimine Litkit Citation Tool">
+  <Format xmlns="">
+    <IntroLong>Exhibit</IntroLong>
+    <IntroShort>Exhibit</IntroShort>
+    <IndexStyle>Numbers</IndexStyle>
+    <IndexStart>1</IndexStart>
+    <IdCite>True</IdCite>
+    <IntroBold>False</IntroBold>
+    <Long>
+      <INTROLONG/>
+      <INDEX/>
+      <PIN/>
+      <COMMA/>
+      <DESC/>
+    </Long>
+    <Short>
+      <INTROSHORT/>
+      <INDEX/>
+      <PIN/>
+    </Short>
+  </Format>
+</Citations>
+
+<!-- 
+### Examples  ###
+
+<?xml version="1.0" encoding="utf-8" ?>
+<Citations xmlns="Prelimine Litkit Citation Tool">
+  
+  <Format xmlns="">
+    <IntroLong>  //One INTROBLOCK  </IntroLong>
+    <IntroShort>  //One INTROBLOCK  </IntroShort>
+    <IndexStyle>  //One INDEXSTYLEBLOCK  </IndexStyle>
+    <IndexStart>  //Fill with a numeral  </IndexStart>
+    <IdCite>  //True or False </IdCite>
+    <IntroBold> //True or False </IntroBold>
+    <Long>  //One or more FORMATBLOCKS  </Long>
+    <Short> //One or more FORMATBLOCKS </Short>
+  </Format>
+
+  <Citation xmlns="">
+    <ID>4cfee769-2333-42d8-bbe1-7e65e1961f7c</ID>
+    <RefName>An Example Exhibit</RefName>
+    <Type>Exhibit</Type>
+    <Long>This is an example of a long description</Long>
+    <Short>e.g. short desc</Short>
+    <OtherID>978742a49976200ae5b1c1c2</OtherID>
+    <Hyperlink>www.YourSiteHere.com</Hyperlink>
+  </Citation>
+  
+  <Citation xmlns="">
+    <ID>5fac24a5-27ee-419a-ae91-a77b708585eb</ID>
+    <RefName>A Second Example Citation</RefName>
+    <Type>Legal</Type>
+    <Long>This is another example of a long description</Long>
+    <Short>e.g. 2nd short desc</Short>
+    <OtherID>snaggkjbdgksdafklajshdfg</OtherID>
+    <Hyperlink>www.YourSiteHere.com</Hyperlink>
+  </Citation>
+
+</Citations>
+
+###################################################
+##  INTROBLOCKS
+  <Intro>Exhibit</Intro>
+  <Intro>Ex.</Intro>
+  <Intro>Exh.</Intro>
+  <Intro>Appendix</Intro>
+  <Intro>Appx.</Intro>
+  <Intro>Tab</Intro>
+
+##  INDEXSTYLEBLOCKS
+  <IndexStyle>Numbers</IndexStyle>
+  <IndexStyle>Letters</IndexStyle>
+  <IndexStyle>Roman</IndexStyle>
+
+## FORMATBLOCKS
+  <INTROLONG/>
+  <INTROSHORT/>
+  <INDEX/>
+  <COMMA/>
+  <PIN/>
+  <DESC/>
+  <LPARENS/>
+  <RPARENS/>
+  <FREETEXT>Enter Text Here</FREETEXT>
+  <OTHERID/>
+
+##  CITETYPEBLOCKS
+  <Type>Exhibit</Type>
+  <Type>Legal</Type>
+  <Type>Record</Type>
+  <Type>Other</Type>
+
+-->

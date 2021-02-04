@@ -29,6 +29,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>C:\Users\Jake\Google Drive %28jacob.field%40prelimine.com%29\repos\LitKit1_git\DeploymentFiles\LitKitInstallTest\</PublishUrl>
     <InstallUrl />
@@ -44,7 +45,6 @@
     <FriendlyName>Prelimine LitKit</FriendlyName>
     <OfficeApplicationDescription>Litigation-oriented software aiming to automate repetitive tasks while minimizing errors, as well as overhead costs for law firms in the shape of paralegal, word processing, and secretarial help</OfficeApplicationDescription>
     <LoadBehavior>16</LoadBehavior>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -124,26 +124,40 @@
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    <Reference Include="GongSolutions.WPF.DragDrop, Version=2.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
+      <HintPath>..\packages\gong-wpf-dragdrop.2.3.2\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
+    </Reference>
+    <Reference Include="Gu.Wpf.NumericInput, Version=0.5.5.0, Culture=neutral, PublicKeyToken=e6e2e1b32408e0fd, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gu.Wpf.NumericInput.0.5.5\lib\net45\Gu.Wpf.NumericInput.dll</HintPath>
+    </Reference>
+    <Reference Include="LicenseSpring, Version=6.4.0.0, Culture=neutral, PublicKeyToken=2d5c13cc31edbaaf, processorArchitecture=MSIL">
+      <HintPath>..\packages\LicenseSpring.NetSDK.6.4.0\lib\net472\LicenseSpring.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Rhino.Licensing, Version=1.2.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Rhino.Licensing.1.2\lib\net40\Rhino.Licensing.dll</HintPath>
-    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Log" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Tools.v4.0.Framework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -191,59 +205,65 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="Controls\AnsResControls\ctrlAnsResCustomize.cs">
+    <Compile Include="ControlsWPF\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteAdd.xaml.cs">
+      <DependentUpon>CiteAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteBlock.xaml.cs">
+      <DependentUpon>CiteBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteEdit.xaml.cs">
+      <DependentUpon>CiteEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteFlyout.xaml.cs">
+      <DependentUpon>CiteFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Citation\CiteMain.xaml.cs">
+      <DependentUpon>CiteMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Citation\Converters\CiteTypeColorConverter.cs" />
+    <Compile Include="ControlsWPF\Citation\Converters\FormatBlockTypeColorConverter.cs" />
+    <Compile Include="ControlsWPF\Citation\Converters\VisConverterItemCount.cs" />
+    <Compile Include="ControlsWPF\Citation\Converters\VisibilityConverter.cs" />
+    <Compile Include="ControlsWPF\Citation\ViewModels\CiteMainVM.cs" />
+    <Compile Include="ControlsWPF\Citation\CiteFormatBlock.xaml.cs">
+      <DependentUpon>CiteFormatBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsWPF\Citation\ViewModels\EditCiteVM.cs" />
+    <Compile Include="ControlsWPF\Response\Converters\FillTextConverter.cs" />
+    <Compile Include="ControlsWPF\Response\Converters\FillTextConverterString.cs" />
+    <Compile Include="ControlsWPF\Response\ViewModels\EditResponseVM.cs" />
+    <Compile Include="ControlsWPF\HoldingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\AnsResControls\ctrlAnsResCustomize.Designer.cs">
-      <DependentUpon>ctrlAnsResCustomize.cs</DependentUpon>
+    <Compile Include="ControlsWPF\HoldingControl.Designer.cs">
+      <DependentUpon>HoldingControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AnsResControls\ctrlAnsResMain.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="ControlsWPF\Response\Converters\DocTypeCBConverter.cs" />
+    <Compile Include="ControlsWPF\Response\ResponseAdd.xaml.cs">
+      <DependentUpon>ResponseAdd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AnsResControls\ctrlAnsResMain.Designer.cs">
-      <DependentUpon>ctrlAnsResMain.cs</DependentUpon>
+    <Compile Include="ControlsWPF\Response\ResponseBlock.xaml.cs">
+      <DependentUpon>ResponseBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AnsResControls\ctrlAnsResNewName.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="ControlsWPF\Response\ResponseEdit.xaml.cs">
+      <DependentUpon>ResponseEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AnsResControls\ctrlAnsResNewName.Designer.cs">
-      <DependentUpon>ctrlAnsResNewName.cs</DependentUpon>
+    <Compile Include="ControlsWPF\Response\ResponseFlyout.xaml.cs">
+      <DependentUpon>ResponseFlyout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AnsResControls\ctrlAnsResView.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="ControlsWPF\Response\ResponseMain.xaml.cs">
+      <DependentUpon>ResponseMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AnsResControls\ctrlAnsResView.Designer.cs">
-      <DependentUpon>ctrlAnsResView.cs</DependentUpon>
+    <Compile Include="ControlsWPF\Response\ViewModels\ResponseMainVM.cs" />
+    <Compile Include="ControlsWPF\SolutionBrushes.cs" />
+    <Compile Include="Controls\frmDicts.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitFormat.Designer.cs">
-      <DependentUpon>ctrlExhibitFormat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitMain.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitMain.Designer.cs">
-      <DependentUpon>ctrlExhibitMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitView.Designer.cs">
-      <DependentUpon>ctrlExhibitView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.Designer.cs">
-      <DependentUpon>ctrlExhibitUpdateAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\UITests.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ExhibitControls\UITests.Designer.cs">
-      <DependentUpon>UITests.cs</DependentUpon>
+    <Compile Include="Controls\frmDicts.Designer.cs">
+      <DependentUpon>frmDicts.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\frmPopup.cs">
       <SubType>Form</SubType>
@@ -269,6 +289,9 @@
     <Compile Include="Controls\RedactionControls\ctrlConfidentialMarker.Designer.cs">
       <DependentUpon>ctrlConfidentialMarker.cs</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWPF\SearchBar.xaml.cs">
+      <DependentUpon>SearchBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -278,42 +301,8 @@
     <Compile Include="Controls\frmLoading.Designer.cs">
       <DependentUpon>frmLoading.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MainRibbon.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\MainRibbon.Designer.cs">
-      <DependentUpon>MainRibbon.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResCustomize.resx">
-      <DependentUpon>ctrlAnsResCustomize.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResMain.resx">
-      <DependentUpon>ctrlAnsResMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResNewName.resx">
-      <DependentUpon>ctrlAnsResNewName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\AnsResControls\ctrlAnsResView.resx">
-      <DependentUpon>ctrlAnsResView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitFormat.resx">
-      <DependentUpon>ctrlExhibitFormat.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitMain.resx">
-      <DependentUpon>ctrlExhibitMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitView.resx">
-      <DependentUpon>ctrlExhibitView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\ctrlExhibitUpdateAdd.resx">
-      <DependentUpon>ctrlExhibitUpdateAdd.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ExhibitControls\UITests.resx">
-      <DependentUpon>UITests.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\frmDicts.resx">
+      <DependentUpon>frmDicts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\frmPopup.resx">
       <DependentUpon>frmPopup.cs</DependentUpon>
@@ -330,65 +319,32 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Controls\frmLoading.resx">
       <DependentUpon>frmLoading.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\MainRibbon.resx">
-      <DependentUpon>MainRibbon.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="LitKit1_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\Delegates.cs" />
-    <Compile Include="Services\Exhibit\Exhibit.cs" />
-    <Compile Include="Services\Exhibit\ExhibitEnums.cs" />
-    <Compile Include="Services\Exhibit\ExhibitHelper.cs" />
-    <Compile Include="Services\Exhibit\ExhibitRepository.cs" />
-    <Compile Include="Services\Exhibit\ExhibitRepositoryFactory.cs" />
-    <Compile Include="Services\Exhibit\ExhibitsReference.cs" />
-    <Compile Include="Services\Exhibit\IExhibitRepository.cs" />
-    <Compile Include="Services\Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Services\Extensions\StringExtensions.cs" />
-    <Compile Include="Services\Extensions\TimeDateExtensions.cs" />
-    <Compile Include="Services\Extensions\XMLDocumentExtensions.cs" />
-    <Compile Include="Services\Licensing\LicenseChecker.cs" />
-    <Compile Include="Services\OperationResult.cs" />
-    <Compile Include="Services\RedactionTool\IRedaction.cs" />
-    <Compile Include="Services\RedactionTool\OldRedact.cs" />
-    <Compile Include="Services\RedactionTool\Redactions.cs" />
-    <Compile Include="Services\RedactionTool\RedactionText.cs" />
-    <Compile Include="Services\Response\Response.cs" />
-    <Compile Include="Services\Response\ResponseEnums.cs" />
-    <Compile Include="Services\Response\ResponseRepository.cs" />
-    <Compile Include="Services\Response\ResponseStandard.cs" />
-    <Compile Include="Services\Response\ResponseStandardRepository.cs" />
-    <Compile Include="Services\RibbonButtons\BlockQuotes.cs" />
-    <Compile Include="Services\RibbonButtons\InsertNBS.cs" />
-    <Compile Include="Services\RibbonButtons\LatinExpressions.cs" />
-    <Compile Include="Services\RibbonButtons\OxfordComma.cs" />
-    <Compile Include="Services\RibbonButtons\SmartQuotesAndApostrophes.cs" />
-    <Compile Include="Services\RibbonButtons\SpaceBetweenSentences.cs" />
-    <Compile Include="Services\RibbonButtons\Transcript.cs" />
-    <Compile Include="Services\SaveFile.cs" />
+    <Compile Include="Ribbon.cs">
+      <XmlRibbon>true</XmlRibbon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
@@ -403,16 +359,24 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8-plus-math-60.png" />
+    <Resource Include="Resources\icons8-plus-math-60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8-pencil-drawing-64.png" />
+    <Resource Include="Resources\icons8-pencil-drawing-64.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8-delete-64.png" />
+    <Resource Include="Resources\icons8-delete-64.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8-refresh-64.png" />
+    <Resource Include="Resources\icons8-refresh-64.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-erase-64.png" />
@@ -421,20 +385,164 @@
     <None Include="Resources\Group.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Test Resource File.txt" />
-    <None Include="bin\Debug\Services\Licensing\license.xml" />
+    <None Include="Resources\RemoveHardReturns_16px.png" />
+    <None Include="Resources\ReplaceHyphens_2_16px.png" />
+    <EmbeddedResource Include="Ribbon.xml" />
+    <Resource Include="Resources\clear-thumb.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\search-thumb.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <EmbeddedResource Include="Resources\Redact Cursor.cur">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="Resources\RemovePincite_32px.png" />
+    <None Include="Resources\Support_16px.png" />
+    <None Include="Resources\ShowHideFMarks_16px.png" />
+    <None Include="Resources\SmartQuotes_16px.png" />
+    <None Include="Resources\SenteceSpacing_16px.png" />
+    <None Include="Resources\ResponseTool_32px.png" />
+    <None Include="Resources\RemovePincite_16px.png" />
+    <None Include="Resources\UnmarkSelection_16px.png" />
+    <None Include="Resources\ClearAllRedactions_32px.png" />
+    <None Include="Resources\CreatePDF_32px.png" />
+    <None Include="Resources\MarkSelection_32px.png" />
+    <None Include="Resources\ClearAllRedactions_16px.png" />
+    <None Include="Resources\CreatePDF_16px.png" />
+    <None Include="Resources\CreateRedactedPDF_32px.png" />
+    <None Include="Resources\CreateUnredactedPDF_32px.png" />
+    <None Include="Resources\ExhibitTool_32px.png" />
+    <Resource Include="Resources\AddPincite_16px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\IndexOfExhibits_16px.png" />
+    <None Include="Resources\CustomizeObjAndResp_32px.png" />
+    <None Include="Resources\PasteTranscript_32px.png" />
+    <None Include="Resources\LatinWords_16px.png" />
+    <None Include="Resources\OxfordComma_16px.png" />
+    <None Include="Resources\InsertNBS_16px.png" />
+    <None Include="Resources\LegalSymbol_32px.png" />
+    <None Include="Resources\KeepWithNext_16px.png" />
+    <None Include="Resources\AddPincite_32px.png" />
+    <None Include="Resources\CreateHighlightedPDF_32px_PrelimEdit3.png" />
+    <Resource Include="Resources\icons8-delete1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-insert1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\droparrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <None Include="Resources\AddPincite_32px_PrelimEdit.png" />
+    <None Include="Resources\AddPincite_16px_PrelimineEdit.png" />
+    <Resource Include="Resources\icons8-export.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-import.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Resources\icons8-insert2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\icons8-insert3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-insert3.2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Logo_Wide.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-settings-Win10-32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Resources\outline_border_color_black_18dp.png" />
+    <Content Include="Resources\outline_border_color_black_36dp.png" />
     <Content Include="Resources\PilcrowLone1_B.ico" />
-    <Content Include="Services\Exhibit\TestXMLFile.xml" />
-    <Content Include="Services\Response\ResponseStandardLanguage.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Services\Response\ResponseFrame.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Services\Licensing\license.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Services.Base\Services.Base.csproj">
+      <Project>{a6acc4d7-446c-44a8-950c-93bdebc5fee1}</Project>
+      <Name>Services.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Exhibit\Tools.Citation.csproj">
+      <Project>{82857471-938d-409a-9c09-b147d287c706}</Project>
+      <Name>Tools.Citation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.License\Services.License.csproj">
+      <Project>{f7dfe3b3-c6a5-4692-8561-86afbd093478}</Project>
+      <Name>Services.License</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.RedactionTool\Tools.Redaction.csproj">
+      <Project>{e5f99a67-b9d4-475e-80af-4f3c6845b060}</Project>
+      <Name>Tools.Redaction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Response\Tools.Response.csproj">
+      <Project>{d89d2952-3a1b-4248-ab28-a01986422ba8}</Project>
+      <Name>Tools.Response</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.RibbonButtons\Tools.Simple.csproj">
+      <Project>{e0783a21-83f7-4ff3-afc4-4c1eaf167c2d}</Project>
+      <Name>Tools.Simple</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ControlsWPF\App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Citation\CiteFormatBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Response\ResponseAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Response\ResponseBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Response\ResponseEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Response\ResponseFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\Response\ResponseMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlsWPF\SearchBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -512,6 +620,9 @@
     <LangVersion>7.3</LangVersion>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- Include additional build rules for an Office application add-in. -->
@@ -530,7 +641,4 @@
   <Target Name="AfterCompile">
     <Exec Command="echo &quot;&quot;" />
   </Target>
-  <PropertyGroup>
-    <PostBuildEvent>if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 2020.2</PostBuildEvent>
-  </PropertyGroup>
 </Project>

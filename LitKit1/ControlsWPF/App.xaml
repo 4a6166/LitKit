@@ -1,0 +1,49 @@
+﻿<Application x:Class="LitKit1.ControlsWPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             StartupUri="CiteMain.xaml"> 
+    
+    <!--Change Startup URI to first XAML holding other XAML-->
+    
+    <Application.Resources>
+        <Style TargetType="{x:Type Button}">
+             <!--Default Values--> 
+            <Setter Property="Opacity" Value="0.5"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Button.Opacity" Value="1" />
+                    <Setter Property="Button.Background" Value="Transparent" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--<Style x:Key="InvisibleButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" Background="Transparent">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Transparent" TargetName="Border" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+
+        <Brush x:Key="CiteTypeBrush_Exhibit">#136F63</Brush>
+        <Brush x:Key="CiteTypeBrush_LegalCite">#3F88C5</Brush>
+        <Brush x:Key="CiteTypeBrush_RecordCite">#D00000</Brush>
+        <Brush x:Key="CiteTypeBrush_OtherCite">#FFBA08</Brush>
+        <Brush x:Key="CiteTypeBrush_Extra">#032B43</Brush>
+        
+    </Application.Resources>
+</Application>
