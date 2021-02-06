@@ -15,7 +15,7 @@ namespace Services.License
 {
     public class LicenseChecker
     {
-        public static bool CheckValidity()
+        public static bool? CheckValidity()
         {
             
             // LicenseSpring
@@ -31,9 +31,18 @@ namespace Services.License
                     license.Check(); //online check
                 }
 
-                if (!license.IsValid())
+                if (!license.IsValid() && !(license.ValidityPeriod()>= DateTime.Now))
                 {
                     license = ActivateKey(ls, license);
+                }
+
+                if (license.IsTrial())
+                {
+                    TrialForm trialForm = new TrialForm();
+                    trialForm.UpdateDays(license.DaysRemaining());
+
+                    trialForm.ShowDialog();
+
                 }
             }
             else
@@ -44,19 +53,9 @@ namespace Services.License
             return license.IsValid();
         }
 
-        private static LicenseSpring.ILicense ActivateKey(LS ls, LicenseSpring.ILicense license)
+        private static LicenseSpring.ILicense ActivateKey(LS ls, LicenseSpring.ILicense license, bool FirstTime = true)
         {
             string key = GetLicKeyFromFile();
-            if (key == null)
-            {
-                var keyEntryForm = new KeyEntryForm();
-                keyEntryForm.ShowDialog();
-
-                if (keyEntryForm.KeyEntered)
-                {
-                    key = keyEntryForm.Key;
-                }
-            }
 
             try
             {
@@ -66,8 +65,25 @@ namespace Services.License
             }
             catch
             {
-                MessageBox.Show("Key could not be activated.");
-                return null;
+                
+                var keyEntryForm = new KeyEntryForm();
+                if (!FirstTime)
+                {
+                    keyEntryForm.ChangeErrorMessage("License Key entered is not valid");
+                }
+                keyEntryForm.Show();
+
+                if (keyEntryForm.DialogResult != DialogResult.None)
+                {
+                    return ActivateKey(ls, license, false);
+
+                }
+                else
+                {
+                    throw new Exception("License Exception: Valid license key not found.");
+                }
+
+
             }
         }
 

@@ -76,6 +76,7 @@ namespace Services.License
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             SendLicenseKey();
+            this.DialogResult = DialogResult.OK;
         }
 
         private void KeyEntryForm_Load(object sender, EventArgs e)
@@ -83,6 +84,10 @@ namespace Services.License
 
         }
 
+        public void ChangeErrorMessage(string message)
+        {
+            tbErrorMessage.Text = message;
+        }
         private void tbErrorMessage_TextChanged(object sender, EventArgs e)
         {
 

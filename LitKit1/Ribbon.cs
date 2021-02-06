@@ -106,7 +106,7 @@ namespace LitKit1
         {
             if (!licenseIsValid)
             {
-                licenseIsValid = LicenseChecker.CheckValidity();
+                licenseIsValid = (bool)LicenseChecker.CheckValidity();
             }
 
             return licenseIsValid;

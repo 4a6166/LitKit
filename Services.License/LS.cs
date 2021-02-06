@@ -24,13 +24,22 @@ namespace Services.License
         private ILicenseManager getInstance()
         {
 
+            //var configuration = new LicenseSpringConfiguration(
+            //      apiKey: "1c6cf10d-58eb-4e40-9a44-aa3bf36414e2",
+            //      sharedKey: "J-58rsdq7zRa6KYv9MD4hS1Wj7IQyxLmC4y9rIAN5mY",
+            //      productCode: "test1",
+            //      appName: "LitKit Test",
+            //      appVersion: "0.0.01Test"
+            //      );
+
             var configuration = new LicenseSpringConfiguration(
                   apiKey: "1c6cf10d-58eb-4e40-9a44-aa3bf36414e2",
                   sharedKey: "J-58rsdq7zRa6KYv9MD4hS1Wj7IQyxLmC4y9rIAN5mY",
-                  productCode: "test1",
-                  appName: "LitKit Test",
-                  appVersion: "0.0.01Test"
+                  productCode: "litkit",
+                  appName: "Prelimine LitKit",
+                  appVersion: ""
                   );
+
 
             var licenseManager = LicenseManager.GetInstance();
 
@@ -81,15 +90,15 @@ namespace Services.License
         public void ActivateLicenseKey(string LicenseKey)
         {
             Log.Info("License Key activating");
-            try
-            {
+            //try
+            //{
                 ILicense activated = _licenseManager.ActivateLicense(LicenseKey);
-            }
-            catch(LicenseActivationException e)
-            {
-                MessageBox.Show("The License Key provided could not be activated.");
-                Log.Error(e.Message);
-            }
+            //}
+            //catch(LicenseActivationException e)
+            //{
+            //    MessageBox.Show("The License Key provided could not be activated.");
+            //    Log.Error(e.Message);
+            //}
         }
 
         public void ActivateLicenseKeyOffline(string OfflineLicensePath)
