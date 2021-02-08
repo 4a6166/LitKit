@@ -39,21 +39,9 @@ namespace Tools.Simple
 
         public void AddSpace(Word.Application _app)
         {
-            DialogResult mb = DialogResult.Yes;
-            if (_app.ActiveDocument.TrackRevisions == true && _app.ActiveDocument.Revisions.Count > 0)
+            TrackChanges tc = new TrackChanges();
+            if (tc.AcceptTrackChanges(_app.ActiveDocument))
             {
-                mb = MessageBox.Show("This action requires that track changes be off. Do you want to accept any currently tracked changes now?.", "Accept Tracked Changes", MessageBoxButtons.YesNo);
-            }
-            if (mb == DialogResult.Yes)
-            {
-                _app.ActiveDocument.Select();
-                try
-                {
-                    _app.ActiveDocument.AcceptAllRevisions();
-                }
-                catch { }
-                _app.ActiveDocument.TrackRevisions = false;
-
                 _app.Application.System.Cursor = WdCursorType.wdCursorWait;
 
                 var layoutType = _app.ActiveWindow.View.Type;
@@ -73,6 +61,8 @@ namespace Tools.Simple
                         exceptions += Environment.NewLine + story.StoryType;
                     }
                 }
+
+                tc.RelockCCs();
 
                 _app.ActiveWindow.View.Type = layoutType;
 
@@ -100,26 +90,34 @@ namespace Tools.Simple
         {
             string regString = ")(\\!|\\?|\\.)[\"”’]*( )(?! |\\.)";
 
-            for (int s = 0; s < abbreviations.Count; s++)
+            if (abbreviations.Count != 0)
             {
-                var sReplaced = "";
-                if (abbreviations[s].Contains("."))
+                for (int s = 0; s < abbreviations.Count; s++)
                 {
-                    sReplaced = abbreviations[s].Replace(".", @"\.");
-                }
-                else sReplaced = abbreviations[s];
+                    var sReplaced = "";
+                    if (abbreviations[s].Contains("."))
+                    {
+                        sReplaced = abbreviations[s].Replace(".", @"\.");
+                    }
+                    else sReplaced = abbreviations[s];
 
-                if (sReplaced.EndsWith(@"\."))
-                {
-                    regString = "|\\b" + sReplaced.Substring(0, sReplaced.Length - 2) + regString;
+                    if (sReplaced.EndsWith(@"\."))
+                    {
+                        regString = "|\\b" + sReplaced.Substring(0, sReplaced.Length - 2) + regString;
+                    }
+                    else regString = "|\\b" + sReplaced + regString;
                 }
-                else regString = "|\\b" + sReplaced + regString;
+                regString = "(?<!" + regString.Substring(1);
+
+                Regex regex = new Regex(regString);
+                //(?<!\bMr|\bU.S)[\?\!\.]["”’]*( )(?! |\.)
+                return regex;
             }
-            regString = "(?<!" + regString.Substring(1);
-
-            Regex regex = new Regex(regString);
-            //(?<!\bMr|\bU.S)[\?\!\.]["”’]*( )(?! |\.)
-            return regex;
+            else
+            {
+                //if dictionary is empty, just affect every ". "
+                return new Regex("(\\!|\\?|\\.)[\"”’]*( )(?! |\\.)");
+            }
         }
 
         public void RemoveSpace(Word.Application _app)

@@ -77,13 +77,23 @@ namespace Services.Base
 
             string Parent = Directory.GetCurrentDirectory();            
             
-            string result = Parent + @"\Services\" + filename; 
+            string result = Parent + @"\Services\" + filename;
 
             if (File.Exists(result))
             {
                 return result;
             }
-            else return null;
+            else
+            {
+                // Path for debug purposes. Should not exist/be activated in installed version
+                result = @"C:\Users\Jake\Google Drive (jacob.field@prelimine.com)\repos\LitKit1_git\LitKit1\Services.RibbonButtons\Dictionaries\" + filename;
+
+                if(!File.Exists(result))
+                {
+                    result = null;
+                }
+                return result;
+            }
 
         }
 
