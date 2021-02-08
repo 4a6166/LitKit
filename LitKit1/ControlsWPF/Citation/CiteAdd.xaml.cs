@@ -208,6 +208,12 @@ namespace LitKit1.ControlsWPF.Citation
 
         private void btnAddCitation_Click(object sender, RoutedEventArgs e)
         {
+            AddCitation();
+
+        }
+
+        private void AddCitation()
+        {
             bool goodCite = true;
             string longText = Format_LongDescriptionTextBox.Text;
             if (longText == LongDescPlaceholderText || longText == "")
@@ -234,13 +240,17 @@ namespace LitKit1.ControlsWPF.Citation
                 ViewModel.AddNewCite(cite);
 
                 this.Visibility = Visibility.Collapsed;
-                btnCANCELAddCitation_Click(sender, e);
+                cancelAdd();
             }
             else System.Windows.Forms.MessageBox.Show("A description must be provided to continue");
-
         }
 
         private void btnCANCELAddCitation_Click(object sender, RoutedEventArgs e)
+        {
+            cancelAdd();
+        }
+
+        private void cancelAdd()
         {
             Format_TypeComboBox.SelectedIndex = 0;
             Format_LongDescriptionTextBox.Text = LongDescPlaceholderText;
@@ -471,5 +481,13 @@ namespace LitKit1.ControlsWPF.Citation
             }
         }
         #endregion
+
+        private void EnterToSubmit(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                AddCitation();
+            }
+        }
     }
 }
