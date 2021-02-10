@@ -12,7 +12,7 @@ namespace Services.Base
     {
         Dictionary<ContentControl, bool> LockState = new Dictionary<ContentControl, bool>();
 
-        public bool AcceptTrackChanges(Document doc, string message = "This action requires that track changes be off. Do you want to accept any currently tracked changes now?")
+        public bool AcceptTrackChanges(Document doc, string message = "For this tool to work correctly, track changes must be accepted and turned off. Do you want to accept any currently tracked changes now?")
         {
             Forms.DialogResult mb = Forms.DialogResult.Yes;
             if (/*_app.ActiveDocument.TrackRevisions == true &&*/ doc.Revisions.Count > 0)

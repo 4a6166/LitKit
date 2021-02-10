@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.Word;
+using Services.Base;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
@@ -16,16 +17,12 @@ namespace Tools.Simple
         static readonly string nbs = "\u00A0";
         public static bool Insert(Word.Application _app)
         {
-            DialogResult mb = DialogResult.Yes;
-            if (_app.ActiveDocument.TrackRevisions == true && _app.ActiveDocument.Revisions.Count > 0)
-            {
-                mb = MessageBox.Show("This action requires that track changes be off. Do you want to accept any currently tracked changes now?.", "Accept Tracked Changes", MessageBoxButtons.YesNo);
-            }
-            if (mb == DialogResult.Yes)
-            {
-                bool result = false;
-                _app.Application.System.Cursor = WdCursorType.wdCursorWait;
+            bool result = false;
+            TrackChanges tc = new TrackChanges();
 
+            if (tc.AcceptTrackChanges(_app.ActiveDocument))
+            {
+                _app.Application.System.Cursor = WdCursorType.wdCursorWait;
                 try
                 {
                     _app.ActiveDocument.Select();
@@ -43,13 +40,15 @@ namespace Tools.Simple
                         InsertSpaceInsideAt(story);
                         FixLawyerEllipses(story);
                     }
+
+                    result = true;
                 }
                 catch { }
 
+                tc.RelockCCs();
                 _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
-                return result;
             }
-            else return false;
+            return result;
         }
 
         private static void InsertSpaceAfterText(Range rng)
