@@ -29,13 +29,11 @@ namespace Tools.Simple
             DictionaryLoaded = ExpressionsRepository.ReadRepository(Dicts.GetExpressionFilePath(filename, out _pulledStandardDict), abbreviations);
         }
 
-
         public bool UpdateAbbreviationsFile(string AbbreviationsList)
         {
             return Dicts.UpdatePersonalDict(filename, AbbreviationsList, pulledStandardDict);
 
         }
-
 
         public void AddSpace(Word.Application _app)
         {
@@ -49,18 +47,20 @@ namespace Tools.Simple
                 Regex regex = SentenceSpacingRegex();
 
                 string exceptions = "";
-                //Iterates through all the Story Ranges(header, footer, footnotes, end notes, etc. if they are present in the document.
-                foreach (Range story in _app.ActiveDocument.StoryRanges)
-                {
-                    try
-                    {
-                        DoubleSpace(story, regex);
-                    }
-                    catch (Exception e)
-                    {
-                        exceptions += Environment.NewLine + story.StoryType;
-                    }
-                }
+                //// For some reason, iterating through all the stories does not work but the wdMainTextStory catches footnotes and endnotes? Iterates through all the Story Ranges(header, footer, footnotes, end notes, etc. if they are present in the document.
+                //foreach (Range story in _app.ActiveDocument.StoryRanges)
+                //{
+                //    try
+                //    {
+                //        DoubleSpace(story, regex);
+                //    }
+                //    catch (Exception e)
+                //    {
+                //        exceptions += Environment.NewLine + story.StoryType;
+                //    }
+                //}
+
+                DoubleSpace(_app.ActiveDocument.StoryRanges[WdStoryType.wdMainTextStory], regex);
 
                 tc.RelockCCs();
 
@@ -536,29 +536,5 @@ namespace Tools.Simple
 //            "P.C.",
 
 //        };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        #region Regex
-        private static Regex punctuationAfterChars = new Regex("(?<=[a-zA-Z][a-z])[.!?'\"]+");
-        private static Regex AcronymsThreeLetters = new Regex(@"\b(?:[a-z]*[A-Z][a-z]*){2,}");
-
-        
-
-
-
-
-        #endregion
     }
 }
