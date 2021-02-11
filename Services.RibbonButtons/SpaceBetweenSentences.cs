@@ -81,7 +81,7 @@ namespace Tools.Simple
             XElement document = XElement.Parse(range.WordOpenXML);
             var content = document.Descendants(W.p);
 
-            OpenXmlRegex.Replace(content, regex, "$& ", null, trackRevisions: false, author: "Prelimine LitKit");
+            OpenXmlRegex.Replace(content, regex, "$& ", null, trackRevisions: true, author: "Prelimine LitKit");
 
             range.InsertXML(document.ToString());
         }

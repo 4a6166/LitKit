@@ -15,10 +15,11 @@ namespace Services.Base
         public bool AcceptTrackChanges(Document doc, string message = "For this tool to work correctly, track changes must be accepted and turned off. Do you want to accept any currently tracked changes now?")
         {
             Forms.DialogResult mb = Forms.DialogResult.Yes;
-            if (/*_app.ActiveDocument.TrackRevisions == true &&*/ doc.Revisions.Count > 0)
-            {
+            // Apparent issue with doc.revisions where not all revisions are collected each time this is called
+            //if (/*_app.ActiveDocument.TrackRevisions == true &&*/ doc.Revisions.Count > 0)
+            //{
                 mb = Forms.MessageBox.Show(message, "Accept Tracked Changes", Forms.MessageBoxButtons.YesNo);
-            }
+            //}
             if (mb == Forms.DialogResult.Yes)
             {
 

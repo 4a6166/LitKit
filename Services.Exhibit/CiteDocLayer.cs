@@ -461,6 +461,7 @@ namespace Tools.Citation
 
 
         #endregion
+
         #region Change doc
 
         /// <summary>
