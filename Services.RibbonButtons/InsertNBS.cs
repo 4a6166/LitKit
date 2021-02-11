@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.Word;
+using Services.Base;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
@@ -11,21 +12,17 @@ namespace Tools.Simple
     /// </summary>
     public class InsertNBS
     {
-        static readonly string WordRegexNot = @")[!^s0-a,.;:'?\!\)\]" + "\""+"]"; //This is Word regex to remove non-breaking space, comma, period, etc.
+        //static readonly string WordRegexNot = @")[!^s0-a,.;:'?\!\)\¶§]"; //This is Word regex to remove non-breaking space, comma, period, etc.
 
         static readonly string nbs = "\u00A0";
         public static bool Insert(Word.Application _app)
         {
-            DialogResult mb = DialogResult.Yes;
-            if (_app.ActiveDocument.TrackRevisions == true && _app.ActiveDocument.Revisions.Count > 0)
-            {
-                mb = MessageBox.Show("This action requires that track changes be off. Do you want to accept any currently tracked changes now?.", "Accept Tracked Changes", MessageBoxButtons.YesNo);
-            }
-            if (mb == DialogResult.Yes)
-            {
-                bool result = false;
-                _app.Application.System.Cursor = WdCursorType.wdCursorWait;
+            bool result = false;
+            TrackChanges tc = new TrackChanges();
 
+            if (tc.AcceptTrackChanges(_app.ActiveDocument))
+            {
+                _app.Application.System.Cursor = WdCursorType.wdCursorWait;
                 try
                 {
                     _app.ActiveDocument.Select();
@@ -43,43 +40,67 @@ namespace Tools.Simple
                         InsertSpaceInsideAt(story);
                         FixLawyerEllipses(story);
                     }
+
+                    result = true;
                 }
                 catch { }
 
+                tc.RelockCCs();
                 _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
-                return result;
             }
-            else return false;
+            return result;
         }
 
         private static void InsertSpaceAfterText(Range rng)
         {
             foreach (string expression in ExpressionsSpaceAfter)
             {
-                //string expr = expression.Substring(0, expression.Length) + nbs;
-                rng.Find.MatchCase = true;
-                rng.Find.MatchWholeWord = true;
-                rng.Find.MatchWildcards = true;
-                rng.Find.Forward = true;
-                rng.Find.Text = "( " + expression + WordRegexNot; 
-                rng.Find.Replacement.Text = @"\1^s";
+                if (expression.Length < 8)
+                {
+                    string expr = "";
+                    foreach (char c in expression)
+                    {
+                        expr += "[" + char.ToUpper(c) + c + "]";
+                    }
 
-                rng.Find.Replacement.ClearFormatting(); //prevents "at" from getting italicized in pincites. Test auto replacement.
+                    rng.Find.MatchWholeWord = true;
+                    rng.Find.MatchWildcards = true;
+                    rng.Find.Forward = true;
+                    rng.Find.Text = "( " + expr + ") ";
+                    rng.Find.Replacement.Text = @"\1^s";
 
-                rng.Find.Execute(Replace: WdReplace.wdReplaceAll);
+                    rng.Find.Replacement.ClearFormatting(); //prevents "at" from getting italicized in pincites. Test auto replacement.
+
+                    rng.Find.Execute(Replace: WdReplace.wdReplaceAll);
+                }
+                else
+                {
+
+                    rng.Find.MatchCase = true;
+                    rng.Find.MatchWholeWord = true;
+                    rng.Find.MatchWildcards = true;
+                    rng.Find.Forward = true;
+                    rng.Find.Text = "( " + expression + ") " /*WordRegexNot*/;
+                    rng.Find.Replacement.Text = @"\1^s";
+
+                    rng.Find.Replacement.ClearFormatting(); //prevents "at" from getting italicized in pincites. Test auto replacement.
+
+                    rng.Find.Execute(Replace: WdReplace.wdReplaceAll);
 
 
-                // Same find/Replace but with all caps
-                rng.Find.MatchCase = true;
-                rng.Find.MatchWholeWord = true;
-                rng.Find.MatchWildcards = true;
-                rng.Find.Forward = true;
-                rng.Find.Text = "( " + expression.ToUpper() + WordRegexNot;
-                rng.Find.Replacement.Text = @"\1^s";
+                    //Same find/ Replace but with all caps
+                    rng.Find.MatchCase = true;
+                    rng.Find.MatchWholeWord = true;
+                    rng.Find.MatchWildcards = true;
+                    rng.Find.Forward = true;
+                    rng.Find.Text = "( " + expression.ToUpper() + ") " /*WordRegexNot*/;
+                    rng.Find.Replacement.Text = @"\1^s";
 
-                rng.Find.Replacement.ClearFormatting(); //prevents "at" from getting italicized in pincites. Test auto replacement.
+                    rng.Find.Replacement.ClearFormatting(); //prevents "at" from getting italicized in pincites. Test auto replacement.
 
-                rng.Find.Execute(Replace: WdReplace.wdReplaceAll);
+                    rng.Find.Execute(Replace: WdReplace.wdReplaceAll);
+                }
+
 
             }
         }
@@ -147,13 +168,17 @@ namespace Tools.Simple
             "£", /*"\u00A3",*/
             "€", /*"\u20AC",*/
             "$", /*"\u0024",*/
-            "¶", /*"\u00B6",*/
             "¶¶", /*"\u00B6\u00B6",*/
+            "¶", /*"\u00B6",*/
+            "§§", /*"\u00A7",*/
             "§", /*"\u00A7",*/
 
             "Section",
             "Exh.",
             "Ex.",
+
+            "Dep.",
+            "Dkt.",
 
             #region Months
             "January", "Jan", "Jan.",

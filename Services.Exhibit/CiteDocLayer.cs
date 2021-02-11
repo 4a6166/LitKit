@@ -461,6 +461,7 @@ namespace Tools.Citation
 
 
         #endregion
+
         #region Change doc
 
         /// <summary>
@@ -592,7 +593,8 @@ namespace Tools.Citation
                     SetPincite(cc, PinciteText);
                     AddHyperlink(cc, citation);
                 }
-                catch { }
+                catch (Exception e) {
+                }
 
                 cc.LockContents = true;
             }
@@ -744,6 +746,7 @@ namespace Tools.Citation
             citeCC.Range.Select();
             var find = _app.Selection.Find;
             find.ClearFormatting();
+            find.MatchWildcards = false;
             find.Replacement.ClearFormatting();
             find.Text = @"{{PIN}}";
 

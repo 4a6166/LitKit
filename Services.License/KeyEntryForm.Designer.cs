@@ -150,7 +150,7 @@
             this.MinimumSize = new System.Drawing.Size(440, 352);
             this.Name = "KeyEntryForm";
             this.ShowIcon = false;
-            this.Text = "KeyEntryForm";
+            this.Text = "License Key";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.KeyEntryForm_Load);
             this.cmLicenseKey.ResumeLayout(false);

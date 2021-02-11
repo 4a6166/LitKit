@@ -116,6 +116,7 @@
                                          Grid.Column="2"
                                          VerticalContentAlignment="Center"
                                          Foreground="DarkSlateGray" GotFocus="Format_LongDescriptionTextBox_GotFocus" LostFocus="Format_LongDescriptionTextBox_LostFocus"
+                                     KeyUp="EnterToSubmit"
                                          >
                             </TextBox>
 
@@ -195,6 +196,7 @@
                                          MinHeight="26"
                                          TextWrapping="WrapWithOverflow" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="100"
                                          Foreground="DarkSlateGray" GotFocus="Format_ShortDescriptionTextBox_GotFocus" LostFocus="Format_ShortDescriptionTextBox_LostFocus"
+                                         KeyUp="EnterToSubmit"
                                          />
                             </Grid>
                             <!--<TextBlock x:Name="BottomText"

@@ -106,7 +106,7 @@ namespace LitKit1
         {
             if (!licenseIsValid)
             {
-                licenseIsValid = LicenseChecker.CheckValidity();
+                licenseIsValid = (bool)LicenseChecker.CheckValidity();
             }
 
             return licenseIsValid;
@@ -397,6 +397,11 @@ namespace LitKit1
                 Globals.ThisAddIn.citeVMDict[_app.ActiveWindow].Repository.AddTestCitations();
             }
             catch { MessageBox.Show("Load the Citation Tool First"); }
+        }
+
+        public bool cmAddCite_Enabled(Office.IRibbonControl control)
+        {
+            return PinciteMenu_Visible(control);
         }
 
         #region Tool Open
@@ -1041,11 +1046,21 @@ namespace LitKit1
 
         public void HyphenToEnDashbtn_Click(Office.IRibbonControl control)
         {
-            _app.UndoRecord.StartCustomRecord("Replace Hyphens with En-Dashes");
+            if (!licenseIsValid) { checkLicenseIsValid(); }
+            if (licenseIsValid) //Second check so if license is valid, the user won't have to hit the button a second time
+            {
+                try
+                {
+                    _app.UndoRecord.StartCustomRecord("Replace Hyphens with En-Dashes");
 
-            HyphenToEnDash.ReplaceWithEnDash(_app);
+                    HyphenToEnDash.ReplaceWithEnDash(_app);
 
-            _app.UndoRecord.EndCustomRecord();
+                    _app.UndoRecord.EndCustomRecord();
+                }
+                catch (Exception e)
+                { MessageBox.Show(e.Message); }
+
+            }
 
         }
         #endregion

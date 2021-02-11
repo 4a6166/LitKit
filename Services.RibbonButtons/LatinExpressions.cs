@@ -41,23 +41,30 @@ namespace Tools.Simple
         public bool Italicize(Word.Application _app, int italics)
         {
             bool result = false;
-            _app.Application.System.Cursor = WdCursorType.wdCursorWait;
-            Cursor.Current = Cursors.WaitCursor;
-            try
+            TrackChanges tc = new TrackChanges();
+            if (tc.AcceptTrackChanges(_app.ActiveDocument))
             {
-                //LatinByOpenXML(_app, italics);
 
-                LatinByOpenXMLPowerTools(_app, italics);
+                _app.Application.System.Cursor = WdCursorType.wdCursorWait;
+                Cursor.Current = Cursors.WaitCursor;
+                try
+                {
+                    //LatinByOpenXML(_app, italics);
 
-                result = true;
+                    LatinByOpenXMLPowerTools(_app, italics);
+
+                    result = true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+
+                tc.RelockCCs();
+
+                _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
+                Cursor.Current = Cursors.Default;
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-
-            _app.Application.System.Cursor = WdCursorType.wdCursorNormal;
-            Cursor.Current = Cursors.Default;
             return result;
         }
 

@@ -29,31 +29,17 @@ namespace Tools.Simple
             DictionaryLoaded = ExpressionsRepository.ReadRepository(Dicts.GetExpressionFilePath(filename, out _pulledStandardDict), abbreviations);
         }
 
-
         public bool UpdateAbbreviationsFile(string AbbreviationsList)
         {
             return Dicts.UpdatePersonalDict(filename, AbbreviationsList, pulledStandardDict);
 
         }
 
-
         public void AddSpace(Word.Application _app)
         {
-            DialogResult mb = DialogResult.Yes;
-            if (_app.ActiveDocument.TrackRevisions == true && _app.ActiveDocument.Revisions.Count > 0)
+            TrackChanges tc = new TrackChanges();
+            if (tc.AcceptTrackChanges(_app.ActiveDocument))
             {
-                mb = MessageBox.Show("This action requires that track changes be off. Do you want to accept any currently tracked changes now?.", "Accept Tracked Changes", MessageBoxButtons.YesNo);
-            }
-            if (mb == DialogResult.Yes)
-            {
-                _app.ActiveDocument.Select();
-                try
-                {
-                    _app.ActiveDocument.AcceptAllRevisions();
-                }
-                catch { }
-                _app.ActiveDocument.TrackRevisions = false;
-
                 _app.Application.System.Cursor = WdCursorType.wdCursorWait;
 
                 var layoutType = _app.ActiveWindow.View.Type;
@@ -61,18 +47,22 @@ namespace Tools.Simple
                 Regex regex = SentenceSpacingRegex();
 
                 string exceptions = "";
-                //Iterates through all the Story Ranges(header, footer, footnotes, end notes, etc. if they are present in the document.
-                foreach (Range story in _app.ActiveDocument.StoryRanges)
-                {
-                    try
-                    {
-                        DoubleSpace(story, regex);
-                    }
-                    catch (Exception e)
-                    {
-                        exceptions += Environment.NewLine + story.StoryType;
-                    }
-                }
+                //// For some reason, iterating through all the stories does not work but the wdMainTextStory catches footnotes and endnotes? Iterates through all the Story Ranges(header, footer, footnotes, end notes, etc. if they are present in the document.
+                //foreach (Range story in _app.ActiveDocument.StoryRanges)
+                //{
+                //    try
+                //    {
+                //        DoubleSpace(story, regex);
+                //    }
+                //    catch (Exception e)
+                //    {
+                //        exceptions += Environment.NewLine + story.StoryType;
+                //    }
+                //}
+
+                DoubleSpace(_app.ActiveDocument.StoryRanges[WdStoryType.wdMainTextStory], regex);
+
+                tc.RelockCCs();
 
                 _app.ActiveWindow.View.Type = layoutType;
 
@@ -91,7 +81,7 @@ namespace Tools.Simple
             XElement document = XElement.Parse(range.WordOpenXML);
             var content = document.Descendants(W.p);
 
-            OpenXmlRegex.Replace(content, regex, "$& ", null, trackRevisions: false, author: "Prelimine LitKit");
+            OpenXmlRegex.Replace(content, regex, "$& ", null, trackRevisions: true, author: "Prelimine LitKit");
 
             range.InsertXML(document.ToString());
         }
@@ -100,26 +90,34 @@ namespace Tools.Simple
         {
             string regString = ")(\\!|\\?|\\.)[\"”’]*( )(?! |\\.)";
 
-            for (int s = 0; s < abbreviations.Count; s++)
+            if (abbreviations.Count != 0)
             {
-                var sReplaced = "";
-                if (abbreviations[s].Contains("."))
+                for (int s = 0; s < abbreviations.Count; s++)
                 {
-                    sReplaced = abbreviations[s].Replace(".", @"\.");
-                }
-                else sReplaced = abbreviations[s];
+                    var sReplaced = "";
+                    if (abbreviations[s].Contains("."))
+                    {
+                        sReplaced = abbreviations[s].Replace(".", @"\.");
+                    }
+                    else sReplaced = abbreviations[s];
 
-                if (sReplaced.EndsWith(@"\."))
-                {
-                    regString = "|\\b" + sReplaced.Substring(0, sReplaced.Length - 2) + regString;
+                    if (sReplaced.EndsWith(@"\."))
+                    {
+                        regString = "|\\b" + sReplaced.Substring(0, sReplaced.Length - 2) + regString;
+                    }
+                    else regString = "|\\b" + sReplaced + regString;
                 }
-                else regString = "|\\b" + sReplaced + regString;
+                regString = "(?<!" + regString.Substring(1);
+
+                Regex regex = new Regex(regString);
+                //(?<!\bMr|\bU.S)[\?\!\.]["”’]*( )(?! |\.)
+                return regex;
             }
-            regString = "(?<!" + regString.Substring(1);
-
-            Regex regex = new Regex(regString);
-            //(?<!\bMr|\bU.S)[\?\!\.]["”’]*( )(?! |\.)
-            return regex;
+            else
+            {
+                //if dictionary is empty, just affect every ". "
+                return new Regex("(\\!|\\?|\\.)[\"”’]*( )(?! |\\.)");
+            }
         }
 
         public void RemoveSpace(Word.Application _app)
@@ -538,29 +536,5 @@ namespace Tools.Simple
 //            "P.C.",
 
 //        };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        #region Regex
-        private static Regex punctuationAfterChars = new Regex("(?<=[a-zA-Z][a-z])[.!?'\"]+");
-        private static Regex AcronymsThreeLetters = new Regex(@"\b(?:[a-z]*[A-Z][a-z]*){2,}");
-
-        
-
-
-
-
-        #endregion
     }
 }

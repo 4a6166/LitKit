@@ -190,7 +190,14 @@ namespace LitKit1.ControlsWPF.Response.ViewModels
                 insertText = ResponseStandardRepository.FillString(response.ID, response.DisplayText, Responding, RespondingIsPlural.ToString(), Propounding, DocType.ToString());
 
 
-                insertText = insertText.Replace("[X]", TextFill.FillParaNumberForX(_app.Selection));
+                if(insertText.Contains("[x]"))
+                {
+                    insertText = insertText.Replace("[x]", TextFill.FillParaNumberForX(_app.Selection));
+                }
+                if (insertText.Contains("[X]"))
+                {
+                    insertText = insertText.Replace("[X]", TextFill.FillParaNumberForX(_app.Selection));
+                }
 
                 _app.Selection.TypeText(insertText);
 

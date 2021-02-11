@@ -90,7 +90,7 @@
                     label="Edit Latin Words List"/>
           </menu>
           <menu id="SentenceSpacing" getImage="SentenceSpacing_Image"
-                screentip="Change Spacing Between Sentences" supertip="Adds or removes a double space between sentences in the document."
+                screentip="Change Spacing Between Sentences" supertip="Changes from one to two spaces between sentences or vice versa throughout the document."
                 label="Sentence Spacing">
             <button id="btnSingleSpace" onAction="btnSingleSpace_Click"
                     label="Single Space Between Sentences" />
@@ -102,7 +102,7 @@
 
           </menu>
           <button id="btnSmrtQuotes" onAction="btnSmrtQuotes_Click" getImage="btnSmrtQuotes_Image"
-                  screentip="Replace With Smart Quotes" supertip="Replaces dumb (stright) quotes and apostrophes with smart (curly) versions throughout the document"
+                  screentip="Replace With Smart Quotes" supertip="Replaces dumb (straight) quotes and apostrophes with smart (curly) versions throughout the document"
                   label="Smart Quotes" />
           <button id="btnInsertNBS" getImage="InsertNBS_Image" onAction="btnInsertNBS_Click"
                   screentip="Insert Non-Breaking Spaces" getSupertip="InsertNBS_SuperTip"
@@ -119,7 +119,7 @@
                     label="Remove Oxford Commas" />
           </menu>
           <button id="btnRemoveLineBreaks" onAction="btnRemoveLineBreaks_Click" getImage="RemoveLineBreaks_Image"
-                  screentip="Remove Line Breaks from Selection" supertip="Remove Line Breaks ( new line returns) from the current selection."
+                  screentip="Remove Line Breaks from Selection" supertip="Remove Line Breaks (new line returns) from the current selection."
                   label="Remove Line Breaks" />
           <button id="HyphenToEnDashbtn" onAction="HyphenToEnDashbtn_Click" getImage="HyphenToEnDashbtn_Image"
                   screentip="Replace Hyphens with an En-Dash (–) Between Number Ranges" supertip="Replace hyphens in the middle of number ranges with En-Dashes: #-# to #–#"
@@ -130,7 +130,7 @@
         </group>
         <group id="grpShortcuts" label="Shortcuts" getImage="grpShortcuts_Image">
           <menu id="SymbolsMenu" getImage="grpShortcuts_Image"
-                screentip="Legal Symbols" supertip="Inserts the selected legal symbol at the surrent text selection."
+                screentip="Legal Symbols" supertip="Inserts the selected legal symbol at the current text selection."
                 label="Legal Symbols" size="large">
             <button id="btnPilcrow" onAction="btnPilcrow_Click"
                     screentip="Paragraph Symbol (¶)" supertip="Inserts a Paragraph Symbol (Pilcrow): ¶"
@@ -225,7 +225,8 @@
                 onAction="btnRemovePinCite_Click"/>
       <!--</menu>-->
 
-      <menu id="AddCite" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+      <menu id="AddCite" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog"
+            getEnabled="cmAddCite_Enabled">
         <button id="AddExhibit" label="Add to to Citation List as Exhibit"
                 getImage="menubtnAddExhibt_Image"
                 onAction="menubtnAddExhibit_Click"/>
@@ -268,7 +269,8 @@
               onAction="btnRemovePinCite_Click"/>
       <!--</menu>-->
 
-      <menu id="AddCite_list" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+      <menu id="AddCite_list" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog"
+            getEnabled="cmAddCite_Enabled">
         <button id="AddExhibit_list" label="Add to to Citation List as Exhibit"
                 getImage="menubtnAddExhibt_Image"
                 onAction="menubtnAddExhibit_Click"/>
@@ -311,7 +313,8 @@
               onAction="btnRemovePinCite_Click"/>
       <!--</menu>-->
 
-      <menu id="AddCite_hyperlink" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+      <menu id="AddCite_hyperlink" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog"
+            getEnabled="cmAddCite_Enabled">
         <button id="AddExhibit_hyperlink" label="Add to to Citation List as Exhibit"
                 getImage="menubtnAddExhibt_Image"
                 onAction="menubtnAddExhibit_Click"/>
@@ -354,7 +357,8 @@
               onAction="btnRemovePinCite_Click"/>
       <!--</menu>-->
 
-      <menu id="AddCite_HeaderArea" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+      <menu id="AddCite_HeaderArea" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog"
+            getEnabled="cmAddCite_Enabled">
         <button id="AddExhibit_HeaderArea" label="Add to to Citation List as Exhibit"
                 getImage="menubtnAddExhibt_Image"
                 onAction="menubtnAddExhibit_Click"/>
@@ -397,7 +401,8 @@
               onAction="btnRemovePinCite_Click"/>
       <!--</menu>-->
 
-      <menu id="AddCite_FooterArea" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+      <menu id="AddCite_FooterArea" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog"
+            getEnabled="cmAddCite_Enabled">
         <button id="AddExhibit_FooterArea" label="Add to to Citation List as Exhibit"
                 getImage="menubtnAddExhibt_Image"
                 onAction="menubtnAddExhibit_Click"/>
@@ -440,7 +445,8 @@
               onAction="btnRemovePinCite_Click"/>
       <!--</menu>-->
 
-      <menu id="AddCite_FootNote" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+      <menu id="AddCite_FootNote" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog"
+            getEnabled="cmAddCite_Enabled">
         <button id="AddExhibit_FootNote" label="Add to to Citation List as Exhibit"
                 getImage="menubtnAddExhibt_Image"
                 onAction="menubtnAddExhibit_Click"/>
@@ -483,7 +489,8 @@
               onAction="btnRemovePinCite_Click"/>
       <!--</menu>-->
 
-      <menu id="AddCite_EndNote" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog">
+      <menu id="AddCite_EndNote" label="Add Citation" getImage="menuAddCite_Image" insertAfterMso="ParagraphDialog"
+            getEnabled="cmAddCite_Enabled">
         <button id="AddExhibit_EndNote" label="Add to to Citation List as Exhibit"
                 getImage="menubtnAddExhibt_Image"
                 onAction="menubtnAddExhibit_Click"/>
