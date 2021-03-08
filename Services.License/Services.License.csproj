@@ -102,5 +102,11 @@
       <DependentUpon>TrialForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Untitled design.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Key1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
