@@ -17,15 +17,24 @@ namespace Tools.Simple
             {
                 try
                 {
-                    selection.Range.Find.Execute(FindText: @"(?)", ReplaceWith: @"\1", MatchWildcards: true); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
+                    //selection.Range.Find.Execute(FindText: @"(?)", ReplaceWith: @"\1", MatchWildcards: true); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
 
-                    var find = selection.Range.Find;
+                    var find = selection.Find;
+                    find.ClearFormatting();
+                    find.Replacement.ClearFormatting();
 
                     find.Text = @"[^13^l^n^m]";
                     find.Replacement.Text = " ";
-
+                    find.Forward = true;
+                    find.Wrap = WdFindWrap.wdFindStop;
+                    find.Format = false;
+                    find.MatchCase = false;
+                    find.MatchWholeWord = false;
+                    find.MatchAllWordForms = false;
+                    find.MatchSoundsLike = false;
+                    
                     find.MatchWildcards = true;
-
+                    
                     find.Execute(Replace: WdReplace.wdReplaceAll);
 
                     return true;
@@ -34,27 +43,27 @@ namespace Tools.Simple
             }
             else
             {
-                selection.Application.System.Cursor = WdCursorType.wdCursorWait;
-                try
-                {
-                    selection.Application.ActiveDocument.Select();
-                    selection.Application.Selection.Find.Execute(FindText: @"(?)", ReplaceWith: @"\1", MatchWildcards: true); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
+                //selection.Application.System.Cursor = WdCursorType.wdCursorWait;
+                //try
+                //{
+                //    selection.Range.SetRange(selection.Paragraphs.First.Range.Start, selection.Paragraphs.Last.Range.End);
+                //    selection.Application.Selection.Find.Execute(FindText: @"(?)", ReplaceWith: @"\1", MatchWildcards: true); // Something needs to be replaced first or Word 2019/365 closes automatically (exit condition 0) when Replace: WdReplace.wdReplaceAll runs
 
-                    foreach (Range rng in selection.Application.ActiveDocument.StoryRanges)
-                    {
-                        rng.Find.Text = @"[^13^l^n^m]";
-                        rng.Find.Replacement.Text = @" ";
-                        rng.Find.MatchWholeWord = true;
-                        rng.Find.MatchWildcards = true;
+                //    foreach (Range rng in selection.Application.ActiveDocument.StoryRanges)
+                //    {
+                //        rng.Find.Text = @"[^13^l^n^m]";
+                //        rng.Find.Replacement.Text = @" ";
+                //        rng.Find.MatchWholeWord = true;
+                //        rng.Find.MatchWildcards = true;
 
-                        rng.Find.Execute(Replace: WdReplace.wdReplaceAll);
-                    }
+                //        rng.Find.Execute(Replace: WdReplace.wdReplaceAll);
+                //    }
 
-                    result = true;
-                }
-                catch { };
+                //    result = true;
+                //}
+                //catch { };
 
-                selection.Application.System.Cursor = WdCursorType.wdCursorNormal;
+                //selection.Application.System.Cursor = WdCursorType.wdCursorNormal;
                 return result;
 
             }
