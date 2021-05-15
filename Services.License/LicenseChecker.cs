@@ -124,20 +124,27 @@ namespace Services.License
         /// <returns></returns>
         public static string WriteKeyFile(string key)
         {
-            string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            dir += @"\Prelimine";
-            string path = dir + @"\LicenseKey.txt";
-
-            if (!Directory.Exists(dir))
+            try
             {
-                Directory.CreateDirectory(dir);
-            }
+                string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                dir += @"\Prelimine";
+                string path = dir + @"\LicenseKey.txt";
 
-            StreamWriter file = new StreamWriter(path, false);
-            file.WriteLine(key);
-            file.Close();
-            
-            return path;
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+
+                StreamWriter file = new StreamWriter(path, false);
+                file.WriteLine(key);
+                file.Close();
+
+                return path;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static string ReadLicense()
