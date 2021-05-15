@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration.Install;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
-
-namespace SetupHelper
+namespace LitKit1.Install
 {
     [RunInstaller(true)]
     public partial class Installer : System.Configuration.Install.Installer
@@ -15,7 +16,6 @@ namespace SetupHelper
         {
             InitializeComponent();
         }
-
         // <summary>
         /// To cause this method to be invoked, I added the primary project output to the 
         /// setup project's custom actions, under the "Install" folder.
@@ -28,7 +28,7 @@ namespace SetupHelper
             // Get the custom parameters from the install context.
             Parameters customParameters = new Parameters(this.Context);
 
-            WriteKeyFile(Parameters.Keys.MyCustomParameter);
+            WriteKeyFile(customParameters.Parameter);
 
 
             SaveCustomParametersInStateSaverDictionary(
@@ -96,3 +96,4 @@ namespace SetupHelper
         }
     }
 }
+

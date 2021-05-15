@@ -9,6 +9,18 @@ namespace SetupHelper
         static void Main(string[] args)
         {
             //CollectKey();
+            //Console.WriteLine("Main fired");
+            //Console.ReadLine();
+            
+            //var installer = new Installer();
+            //Console.WriteLine("Installer created");
+            //Console.ReadLine();
+
+            //Console.WriteLine(installer.Context.Parameters.Keys);
+            //Console.WriteLine("parameters created");
+            //Console.ReadLine();
+
+
         }
 
         private static void CollectKey()

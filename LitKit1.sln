@@ -45,8 +45,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AnsResControls", "AnsResCon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenXmlPowerTools", "..\Open-Xml-PowerTools-vNext\OpenXmlPowerTools\OpenXmlPowerTools.csproj", "{09910608-B8E7-4742-8C73-9949F62329BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupHelper", "Installer\SetupHelper.csproj", "{2A7FBC62-CDB9-4DEF-9F62-D3F732A5A60E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,14 +128,6 @@ Global
 		{09910608-B8E7-4742-8C73-9949F62329BA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{09910608-B8E7-4742-8C73-9949F62329BA}.Release|x86.ActiveCfg = Release|Any CPU
 		{09910608-B8E7-4742-8C73-9949F62329BA}.Release|x86.Build.0 = Release|Any CPU
-		{2A7FBC62-CDB9-4DEF-9F62-D3F732A5A60E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A7FBC62-CDB9-4DEF-9F62-D3F732A5A60E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A7FBC62-CDB9-4DEF-9F62-D3F732A5A60E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2A7FBC62-CDB9-4DEF-9F62-D3F732A5A60E}.Debug|x86.Build.0 = Debug|Any CPU
-		{2A7FBC62-CDB9-4DEF-9F62-D3F732A5A60E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A7FBC62-CDB9-4DEF-9F62-D3F732A5A60E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2A7FBC62-CDB9-4DEF-9F62-D3F732A5A60E}.Release|x86.ActiveCfg = Release|Any CPU
-		{2A7FBC62-CDB9-4DEF-9F62-D3F732A5A60E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,7 +141,6 @@ Global
 		{F7DFE3B3-C6A5-4692-8561-86AFBD093478} = {B58D369F-7874-4CB8-8E55-B49CFE95F442}
 		{413E09F6-2767-410C-B0AB-1AE86C43FBDA} = {143BB764-559A-4CD0-BC78-96CBBC80DB0C}
 		{47A33730-7802-48E8-B68A-0305AF40ABC8} = {143BB764-559A-4CD0-BC78-96CBBC80DB0C}
-		{2A7FBC62-CDB9-4DEF-9F62-D3F732A5A60E} = {B58D369F-7874-4CB8-8E55-B49CFE95F442}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56FA0FAD-A837-4C6B-8891-253E85C2A9C0}
