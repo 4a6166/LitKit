@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
- 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
+
+<!-- The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/). -->
 
 Tags: Added, Changed, Fixed, Deprecated, Removed, Security
 
@@ -18,6 +18,7 @@ First minor update with planned improvements
 - Added method to collect Pincites before reformatting (unused, to ensure they can be captured)
 
 ### Changed
+- Redactions no longer cause second window to open
 - *License verification logic rewritten [TBD]()*
 
 ## [1.0.2] - 2021-03-23
