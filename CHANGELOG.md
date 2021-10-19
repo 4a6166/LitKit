@@ -19,6 +19,7 @@ First minor update with planned improvements
 
 ### Changed
 - Redactions no longer cause second window to open
+- Redaction Tool can be installed as stand-alone program
 - *License verification logic rewritten [TBD]()*
 
 ## [1.0.2] - 2021-03-23
