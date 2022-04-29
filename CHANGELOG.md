@@ -1,15 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-<!-- The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/). -->
-
 Tags: Added, Changed, Fixed, Deprecated, Removed, Security
 
 ## UPCOMING
 - Table of Authorities
 - License verification logic -> currently in v1.0.1 as [TBD]()
 
-## [UNRELEASED]()
+## [1.0.3] - 2022-04-29
 First minor update with planned improvements
 
 ### Added
@@ -20,7 +18,9 @@ First minor update with planned improvements
 ### Changed
 - Redactions no longer cause second window to open
 - Redaction Tool can be installed as stand-alone program
-- *License verification logic rewritten [TBD]()*
+
+### Fixed
+- Typos
 
 ## [1.0.2] - 2021-03-23
 

@@ -86,7 +86,7 @@
             this.textBox1.Size = new System.Drawing.Size(621, 38);
             this.textBox1.TabIndex = 2;
             this.textBox1.TabStop = false;
-            this.textBox1.Text = "Enter the License Key provided by Prelimine, inluding all dashes.";
+            this.textBox1.Text = "Enter the License Key provided by Prelimine, including all dashes.";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
