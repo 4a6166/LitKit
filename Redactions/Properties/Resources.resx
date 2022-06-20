@@ -118,16 +118,40 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Logo_Wide_650x3741" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Logo_Wide_650x3741.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ClearAllRedactions_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ClearAllRedactions_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Logo_Wide_650x374" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Logo_Wide_650x374.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ClearAllRedactions_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ClearAllRedactions_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Logo_Wide" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Logo_Wide.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CreateHighlightedPDF_32px_PrelimEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CreateHighlightedPDF_32px_PrelimEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Key1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Key1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CreateHighlightedPDF_32px_PrelimEdit2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CreateHighlightedPDF_32px_PrelimEdit2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CreateHighlightedPDF_32px_PrelimEdit3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CreateHighlightedPDF_32px_PrelimEdit3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CreatePDF_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CreatePDF_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CreatePDF_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CreatePDF_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CreateRedactedPDF_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CreateRedactedPDF_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CreateUnredactedPDF_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CreateUnredactedPDF_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarkSelection_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarkSelection_32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Redact_Cursor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Redact Cursor.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UnmarkSelection_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnmarkSelection_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
