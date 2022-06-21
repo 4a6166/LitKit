@@ -3,9 +3,8 @@ All notable changes to this project will be documented in this file.
 
 Tags: Added, Changed, Fixed, Deprecated, Removed, Security
 
-## UPCOMING
-- Table of Authorities
-- License verification logic -> currently in v1.0.1 as [TBD]()
+## [1.1.0] - 2022-06- [TBD]()
+- Removed license calls, publishing free version for all current subscribers
 
 ## [1.0.3] - 2022-04-29
 First minor update with planned improvements
@@ -29,4 +28,3 @@ First minor update with planned improvements
 
 ## [1.0.0] - 2021-02-15
 - First Release
-- Change Log initiated retroactively on 2021-05-29
