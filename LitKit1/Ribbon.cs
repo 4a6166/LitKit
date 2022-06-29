@@ -104,12 +104,14 @@ namespace LitKit1
         #region Custom Ribbon Actions
         public bool checkLicenseIsValid()
         {
-            if (!licenseIsValid)
-            {
-                licenseIsValid = (bool)LicenseChecker.CheckValidity();
-            }
+            //if (!licenseIsValid)
+            //{
+            //    licenseIsValid = (bool)LicenseChecker.CheckValidity();
+            //}
 
+            licenseIsValid = true;
             return licenseIsValid;
+
         }
 
         public void Application_WindowSelectionChange(Selection Sel)
@@ -1285,9 +1287,11 @@ namespace LitKit1
         }
         public void CustomerSupport_Click(Office.IRibbonControl control)
         {
+            // Link removed from xml, process unreachable
+
             string link = "mailto://support@prelimine.com";
             //Process.Start("link");
-
+            throw new Exception("Support email being shut down");
             _app.ActiveDocument.FollowHyperlink(Address: link);
         }
         #endregion
@@ -1299,13 +1303,16 @@ namespace LitKit1
         public void HowTo_Click(Office.IRibbonControl control)
         {
             string link = @"https://www.prelimine.com/user-guide";
+            link = "https://www.youtube.com/channel/UC5hwoA89pQMMRqqV8EM7Kmw";
+            
             _app.ActiveDocument.FollowHyperlink(Address: link);
         }
 
         public void Support_DialogLauncherClick(Office.IRibbonControl control)
         {
-
-            MessageBox.Show(LicenseChecker.ReadLicense(), "Prelimine LitKit User License", MessageBoxButtons.OK);
+            string text = "Prelimine has unfortunately shut down and will no longer be able to provide support for LitKit. Feel free to use or distribute this version of LitKit, which contains no tracking or license checking, within your firm or practice.";
+            string title = "LitKit no longer supported";
+            MessageBox.Show(text, title, MessageBoxButtons.OK);
 
         }
 

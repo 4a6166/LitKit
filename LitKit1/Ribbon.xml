@@ -189,9 +189,9 @@
           <button id="btnHowTo" imageMso="FunctionsLogicalInsertGallery" onAction="HowTo_Click"
                   screentip="LitKit User Guide" supertip="Opens the online User Guide, which contains Prelimine's &quot;How-To&quot; library, in your browser."
                   label="User Guide" />
-          <button id="CustomerSupport" onAction="CustomerSupport_Click" getImage="CustomerSupport_Image"
+          <!--<button id="CustomerSupport" onAction="CustomerSupport_Click" getImage="CustomerSupport_Image"
                   screentip="Contact Us" supertip="Send an email to support@prelimine.com."
-                  label="Contact Us" />
+                  label="Contact Us" />-->
           <button id="TestButton1" imageMso="TipWizardHelp" onAction="Test_Button_Click" visible="false"
                   label="TestClass Button" size="large" />
           <dialogBoxLauncher>
