@@ -154,7 +154,7 @@
                     screentip="En-Dash (–)" supertip="Inserts an En-Dash: –"
                     label="En-Dash (–)" />
             <button id="btnMDash" onAction="insertMDash_Click"
-                    screentip="Em-Dash (—)" supertip="Inserts an Em-Dash: —"
+                    screentip="Em-Dash (—)" supertip="Isnserts an Em-Dash: —"
                     label="Em-Dash (—)" />
             <button id="spacedEllipsis" onAction="insertSpacedEllipses_Click"
                     screentip="Spaced Ellipsis (. . .)" supertip="Inserts an ellipsis with non-breaking spaces, as defined by the Chicago Manual of Style"
@@ -191,7 +191,7 @@
                   label="User Guide" />
           <!--<button id="CustomerSupport" onAction="CustomerSupport_Click" getImage="CustomerSupport_Image"
                   screentip="Contact Us" supertip="Send an email to support@prelimine.com."
-                  label="Contact Us" />-->
+                  label="Contact Us"s />-->
           <button id="TestButton1" imageMso="TipWizardHelp" onAction="Test_Button_Click" visible="false"
                   label="TestClass Button" size="large" />
           <dialogBoxLauncher>
