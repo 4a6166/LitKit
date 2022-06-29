@@ -47,10 +47,10 @@
             this.tbLicenseKey.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tbLicenseKey.ContextMenuStrip = this.cmLicenseKey;
             this.tbLicenseKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbLicenseKey.Location = new System.Drawing.Point(26, 288);
+            this.tbLicenseKey.Location = new System.Drawing.Point(55, 288);
             this.tbLicenseKey.MaxLength = 19;
             this.tbLicenseKey.Name = "tbLicenseKey";
-            this.tbLicenseKey.Size = new System.Drawing.Size(621, 31);
+            this.tbLicenseKey.Size = new System.Drawing.Size(592, 31);
             this.tbLicenseKey.TabIndex = 0;
             this.tbLicenseKey.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tbLicenseKey.WordWrap = false;
@@ -83,10 +83,10 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.ShortcutsEnabled = false;
-            this.textBox1.Size = new System.Drawing.Size(621, 38);
+            this.textBox1.Size = new System.Drawing.Size(633, 51);
             this.textBox1.TabIndex = 2;
             this.textBox1.TabStop = false;
-            this.textBox1.Text = "Enter the License Key provided by Prelimine, including all dashes.";
+            this.textBox1.Text = "Enter the License Key provided by Prelimine, inluding all dashes.";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -115,7 +115,7 @@
             this.tbErrorMessage.Name = "tbErrorMessage";
             this.tbErrorMessage.ReadOnly = true;
             this.tbErrorMessage.ShortcutsEnabled = false;
-            this.tbErrorMessage.Size = new System.Drawing.Size(621, 46);
+            this.tbErrorMessage.Size = new System.Drawing.Size(633, 46);
             this.tbErrorMessage.TabIndex = 4;
             this.tbErrorMessage.TabStop = false;
             this.tbErrorMessage.Text = "[ERROR MESSAGE]";
@@ -126,11 +126,10 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Image = global::Services.License.Properties.Resources.Key1;
-            this.pictureBox1.Location = new System.Drawing.Point(26, 32);
+            this.pictureBox1.Image = global::Services.License.Properties.Resources.Logo_Wide_650x3741;
+            this.pictureBox1.Location = new System.Drawing.Point(26, 11);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(621, 184);
+            this.pictureBox1.Size = new System.Drawing.Size(633, 211);
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 

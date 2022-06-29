@@ -97,8 +97,7 @@ namespace LitKit1
 
             toggleToolSelected = ToggleToolSelected.None;
 
-            _app.WindowSelectionChange += new ApplicationEvents4_WindowSelectionChangeEventHandler(Application_WindowSelectionChange); 
-            //Event handler for selecting text after clicking a button. To use: add case to Application_WindowSelectionChange, add option to ToggleToolSelected enum, and have toggle set toggleToolSelected to the new enum option 
+            _app.WindowSelectionChange += new ApplicationEvents4_WindowSelectionChangeEventHandler(Application_WindowSelectionChange); //Event handler for selecting text after clicking a button. To use: add case to Application_WindowSelectionChange, add option to ToggleToolSelected enum, and have toggle set toggleToolSelected to the new enum option 
 
         }
 
@@ -216,24 +215,17 @@ namespace LitKit1
         }
         public bool UnMarkRedaction_Enabled(Office.IRibbonControl control)
         {
-            try
-            {
-                var sel = _app.Selection;
+            var sel = _app.Selection;
 
-                if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("Redaction"))
-                {
-                    return true;
-                }
-                else if (sel.ContentControls.Count > 0 && sel.ContentControls[1].Tag != null && sel.ContentControls[1].Tag.StartsWith("Redaction"))
-                {
-                    return true;
-                }
-                else return false;
-            }
-            catch (Exception e)
+            if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Title != null && sel.ParentContentControl.Title.StartsWith("Redaction"))
             {
-                return false;
+                return true;
             }
+            else if (sel.ContentControls.Count >0 && sel.ContentControls[1].Tag != null && sel.ContentControls[1].Tag.StartsWith("Redaction"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         public bool unmarkRedact_Click(Office.IRibbonControl control)
@@ -496,27 +488,21 @@ namespace LitKit1
         }
         public bool PinciteMenu_Visible(Office.IRibbonControl control)
         {
-            try
-            {
-                var sel = _app.Selection;
+            var sel = _app.Selection;
 
-                if (
-                    (sel.ContentControls.Count < 1
-                    && sel.ParentContentControl != null
-                    && sel.ParentContentControl.Title != null
-                    && (sel.ParentContentControl.Tag.StartsWith("CITE") || sel.ParentContentControl.Tag.StartsWith("PIN")))
-                    ||
-                    (sel.ContentControls.Count > 0
-                    && sel.ContentControls[1].Tag != null
-                    && (sel.ContentControls[1].Tag.StartsWith("CITE") || sel.ContentControls[1].Tag.StartsWith("PIN")))
-                   )
-                    return false;
-                else return true; //opposite of whether it is enabled
-            }
-            catch (Exception e)
-            {
+            if (
+                (sel.ContentControls.Count < 1
+                && sel.ParentContentControl != null
+                && sel.ParentContentControl.Title != null
+                && (sel.ParentContentControl.Tag.StartsWith("CITE") || sel.ParentContentControl.Tag.StartsWith("PIN")))
+                ||
+                (sel.ContentControls.Count > 0
+                && sel.ContentControls[1].Tag != null
+                && (sel.ContentControls[1].Tag.StartsWith("CITE") || sel.ContentControls[1].Tag.StartsWith("PIN")))
+               )
                 return false;
-            }
+            else return true; //opposite of whether it is enabled
+
         }
 
         #endregion
@@ -527,25 +513,19 @@ namespace LitKit1
         }
         public bool btnAddPincite_Enabled(Office.IRibbonControl control)
         {
-            try
-            {
-                // Does not keep activate if whole cite content control is selected
-                var sel = _app.Selection;
 
-                if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Tag != null && sel.ParentContentControl.Tag.EndsWith("PIN:False"))
-                {
-                    return true;
-                }
-                else if (sel.ContentControls.Count > 0 && ((sel.ContentControls[1].Tag != null && sel.ContentControls[1].Tag.EndsWith("PIN:False")) || (sel.ParentContentControl != null && sel.ParentContentControl.Tag.EndsWith("PIN:False"))))
-                {
-                    return true;
-                }
-                else return false;
-            }
-            catch (Exception e)
+            // Does not keep activate if whole cite content control is selected
+            var sel = _app.Selection;
+
+            if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Tag != null && sel.ParentContentControl.Tag.EndsWith("PIN:False"))
             {
-                return false;
+                return true;
             }
+            else if (sel.ContentControls.Count > 0 && ((sel.ContentControls[1].Tag != null && sel.ContentControls[1].Tag.EndsWith("PIN:False")) || (sel.ParentContentControl != null && sel.ParentContentControl.Tag.EndsWith("PIN:False"))))
+            {
+                return true;
+            }
+            else return false;
         }
 
         public bool btnPinCite_Click(Office.IRibbonControl control)
@@ -589,24 +569,17 @@ namespace LitKit1
 
         public bool btnRemovePinCite_Enabled(Office.IRibbonControl control)
         {
-            try
-            {
-                var sel = _app.Selection;
+            var sel = _app.Selection;
 
-                if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Tag != null && (sel.ParentContentControl.Tag.StartsWith("PIN") || sel.ParentContentControl.Tag.EndsWith("PIN:True")))
-                {
-                    return true;
-                }
-                else if (sel.ContentControls.Count > 0 && ((sel.ContentControls[1].Tag != null && ((sel.ContentControls[1].Tag.StartsWith("PIN")) || sel.ContentControls[1].Tag.EndsWith("PIN:True")) || (sel.ParentContentControl != null && sel.ParentContentControl.Tag.EndsWith("PIN:True")))))
-                {
-                    return true;
-                }
-                else return false;
-            }
-            catch (Exception e)
+            if (sel.ContentControls.Count < 1 && sel.ParentContentControl != null && sel.ParentContentControl.Tag != null && (sel.ParentContentControl.Tag.StartsWith("PIN") || sel.ParentContentControl.Tag.EndsWith("PIN:True")))
             {
-                return false;
+                return true;
             }
+            else if (sel.ContentControls.Count > 0 && ((sel.ContentControls[1].Tag != null && ((sel.ContentControls[1].Tag.StartsWith("PIN")) || sel.ContentControls[1].Tag.EndsWith("PIN:True")) || (sel.ParentContentControl != null && sel.ParentContentControl.Tag.EndsWith("PIN:True")))))
+            {
+                return true;
+            }
+            else return false;
         }
         public bool btnRemovePinCite_Click(Office.IRibbonControl control)
         {
@@ -1244,10 +1217,7 @@ namespace LitKit1
                     return true;
                 }
             }
-            catch (Exception e)
-            {
-                return false;
-            }
+            catch { return false; }
 
         }
         #endregion
@@ -1292,18 +1262,11 @@ namespace LitKit1
 
         public bool toggleWidowControl_Pressed(Office.IRibbonControl control)
         {
-            try
+            if (_app.Selection.ParagraphFormat.WidowControl == -1)
             {
-                if (_app.Selection.ParagraphFormat.WidowControl == -1)
-                {
-                    return true;
-                }
-                else return false;
+                return true;
             }
-            catch (Exception e)
-            {
-                return false;
-            }
+            else return false;
         }
         #endregion
 

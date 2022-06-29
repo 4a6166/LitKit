@@ -646,28 +646,7 @@ namespace Tools.Citation
         }
 
         #region Pincite
-        /// <summary>
-        /// Use to collect the pincite context before reformatting citations on reload. New pincite CCs can have their contents replaced with the corresponding ones form this dictionary.
-        /// </summary>
-        /// <returns>Key = CiteCC, Value = PinciteCC</returns>
-        public Dictionary<ContentControl, ContentControl> PinCites()
-        {
-            Dictionary<ContentControl, ContentControl> result = new Dictionary<ContentControl, ContentControl>();
 
-            var cites = GetAllCitesFromDoc_Unordered();
-            foreach (ContentControl citeCC in cites)
-            {
-                foreach (ContentControl pinCC in citeCC.Range.ContentControls)
-                {
-                    if (pinCC.Tag.StartsWith("PIN"))
-                    {
-                        result.Add(citeCC, pinCC);
-                    }
-                }
-            }
-
-            return result;
-        }
         private void SetPincite(ContentControl citeCC, XmlDocument PinciteXML)
         {
             bool trackchangesOn = _app.ActiveDocument.TrackRevisions;

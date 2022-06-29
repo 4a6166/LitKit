@@ -705,7 +705,6 @@ namespace Tools.RedactionTool
 
         private static Word.Document CloneDocument(Word.Document inputDocument)
         {
-            
             object missing = Type.Missing;
             object normalTemplate = inputDocument.Application.NormalTemplate;
             object tempFile = Path.GetTempFileName();
@@ -713,7 +712,7 @@ namespace Tools.RedactionTool
             using (var sw = new StreamWriter((string)tempFile))
                 sw.Write(inputDocument.WordOpenXML);
 
-            var fileToRedact = inputDocument.Application.Documents.Add(ref tempFile, ref missing, ref missing, false);
+            var fileToRedact = inputDocument.Application.Documents.Add(ref tempFile, ref missing, ref missing, ref missing);
 
             fileToRedact.set_AttachedTemplate(ref normalTemplate);
             fileToRedact.Activate();
