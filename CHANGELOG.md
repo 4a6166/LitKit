@@ -28,3 +28,4 @@ First minor update with planned improvements
 
 ## [1.0.0] - 2021-02-15
 - First Release
+- Change Log initiated retroactively on 2021-05-29

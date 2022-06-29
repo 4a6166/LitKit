@@ -1324,6 +1324,8 @@ namespace LitKit1
         }
         public void CustomerSupport_Click(Office.IRibbonControl control)
         {
+            // Link removed from xml, process unreachable
+
             string link = "mailto://support@prelimine.com";
             //Process.Start("link");
             throw new Exception("Support email being shut down");
@@ -1338,15 +1340,16 @@ namespace LitKit1
         public void HowTo_Click(Office.IRibbonControl control)
         {
             string link = @"https://www.prelimine.com/user-guide";
-            throw new Exception("User guide no longer available at " + link);
+            link = "https://www.youtube.com/channel/UC5hwoA89pQMMRqqV8EM7Kmw";
+            
             _app.ActiveDocument.FollowHyperlink(Address: link);
         }
 
         public void Support_DialogLauncherClick(Office.IRibbonControl control)
         {
             string text = "Prelimine has unfortunately shut down and will no longer be able to provide support for LitKit. Feel free to use or distribute this version of LitKit, which contains no tracking or license checking, within your firm or practice.";
-            //MessageBox.Show(LicenseChecker.ReadLicense(), text, MessageBoxButtons.OK);
-            MessageBox.Show(text, LicenseChecker.ReadLicense(), MessageBoxButtons.OK);
+            string title = "LitKit no longer supported";
+            MessageBox.Show(text, title, MessageBoxButtons.OK);
 
         }
 
